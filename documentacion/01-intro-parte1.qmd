@@ -1,0 +1,434 @@
+---
+number-offset: -1
+---
+
+# Introducción a Python para Cálculo Numérico
+
+::: {.callout-note appearance="minimal"}
+## 🎯 Objetivos del capítulo
+
+Al finalizar este capítulo, serás capaz de:
+
+- Utilizar las bibliotecas NumPy y Matplotlib para cálculo numérico
+- Manipular vectores y matrices de forma eficiente
+- Resolver sistemas de ecuaciones lineales
+- Crear gráficos en el plano
+- Implementar funciones y scripts en Python
+- Comprender los errores numéricos y su representación
+:::
+
+Este apunte comienza con una introducción breve a Python, orientada específicamente a su uso en el contexto del Cálculo Numérico. El objetivo de este capítulo no es presentar un curso completo de programación, sino proporcionar las herramientas mínimas necesarias para comprender, implementar y experimentar con los métodos numéricos que se desarrollarán a lo largo de la materia.
+
+Python es un lenguaje de programación interpretado, de alto nivel y de propósito general, ampliamente utilizado tanto en el ámbito académico como profesional. Su sintaxis clara, junto con un ecosistema muy amplio de bibliotecas científicas, lo convierten en una herramienta especialmente adecuada para el modelado matemático, el análisis numérico y la visualización de resultados.
+
+En esta materia utilizaremos principalmente las bibliotecas:
+
+- **NumPy**, para el trabajo con vectores, matrices y operaciones algebraicas eficientes
+- **Matplotlib**, para la generación de gráficos en el plano
+
+Ocasionalmente se mencionarán otras bibliotecas estándar, pero siempre en la medida en que resulten necesarias para ilustrar conceptos matemáticos.
+
+## Entorno de trabajo
+
+Si no estás familiarizado con Python, te recomendamos utilizar **Anaconda** para este curso.
+
+::: {.callout-tip}
+## ¿Qué es Anaconda?
+
+**Anaconda** es una distribución gratuita y de código abierto de Python diseñada específicamente para la ciencia de datos, el análisis de datos y la programación científica. Incluye:
+
+- **Python preinstalado** junto con bibliotecas comunes como NumPy, pandas, matplotlib
+- **Conda**, un gestor de paquetes y entornos virtuales
+- Herramientas de desarrollo como **Jupyter Notebook**, **Spyder** y **JupyterLab**
+
+**¿Por qué usar Anaconda?**
+
+- Facilidad de instalación: todo lo necesario en un solo paquete
+- Entornos virtuales aislados para diferentes proyectos
+- Optimización para ciencia de datos
+- Compatibilidad con Windows, macOS y Linux
+
+**Instalación:** <https://www.anaconda.com/download>
+:::
+
+### Spyder: el IDE para este curso
+
+**Spyder** (Scientific Python Development Environment) es un entorno de desarrollo integrado diseñado para programación científica en Python. Características principales:
+
+- **Editor de texto avanzado** con resaltado de sintaxis y autocompletado
+- **Consola interactiva** basada en IPython
+- **Explorador de variables** para inspeccionar datos en tiempo real
+- **Herramientas de depuración** gráficas
+- **Visualización integrada** de gráficos
+
+::: {.callout-note}
+## Primeros pasos en Spyder
+
+Una vez abierto Spyder:
+
+- La **Terminal de IPython** (derecha) es donde se escriben comandos y se ven resultados
+- El **Editor** (izquierda) permite guardar secuencias de comandos (*scripts*)
+- El **Explorador de Variables** (arriba derecha) muestra las variables activas
+
+El *prompt* `In [1]:` indica donde cargar las órdenes:
+
+```python
+In [1]: 2+2
+Out[1]: 4
+```
+:::
+
+::: {.callout-warning}
+## ⚠️ Consideraciones importantes sobre Python
+
+- **Distingue mayúsculas y minúsculas**: `a` y `A` son variables distintas
+- **Comentarios**: todo después de `#` es un comentario
+- **Navegación**: usa ↑↓ para comandos anteriores, ←→ para moverse en la línea
+- **Limpiar terminal**: escribe `clear` o usa **Ctrl + L**
+- **Eliminar variables**: **Ctrl + Alt + R**
+- **Directorio de trabajo**: configúralo en `Herramientas > Preferencias > Directorio de trabajo actual`
+:::
+
+## Bibliotecas y módulos {#sec-modulos}
+
+Cuando trabajamos con algoritmos numéricos, necesitamos herramientas que no vamos a programar nosotros mismos. Los **módulos** son librerías que contienen funciones ya desarrolladas.
+
+Por ejemplo, la computadora por sí misma no puede calcular funciones trigonométricas. Para eso usamos módulos preexistentes:
+
+```{python}
+import numpy as np
+np.cos(1)
+```
+
+**NumPy** (`numpy`) es una **biblioteca** que contiene muchas funciones matemáticas programadas en **módulos** (archivos `.py`).
+
+Optamos por llamarlo `np` en lugar de `numpy` para mayor practicidad en la escritura.
+
+::: {.callout-important}
+## ¿Por qué usar siempre `import numpy as np`?
+
+Sería posible escribir `from numpy import *` para evitar el prefijo `np.`, pero esto es **desaconsejable** porque:
+
+- Los nombres en NumPy son numerosos
+- Algunos entran en conflicto con funciones integradas de Python (como `min` y `max`)
+- Seguir convenciones estándar facilita la lectura del código
+
+Para ver todas las funciones disponibles:
+
+```python
+dir(np)
+```
+:::
+
+### Ayuda y documentación
+
+Para conocer qué hace cada función, usamos el comando `help`:
+
+```{python}
+#| eval: false
+help(np.cos)
+```
+
+Durante el curso utilizaremos diferentes módulos que nos facilitarán el trabajo con matrices y vectores.
+
+::: {.callout-note}
+## El operador punto (`.`)
+
+La función del punto `"."` establece que el comando de la derecha está contenido en el directorio de la izquierda.
+
+`np.cos` significa: "*De la biblioteca* `numpy` *utilizar la función* `cos`"
+:::
+
+Para ver la importancia de esto, intentemos usar `cos` sin importar NumPy:
+
+```{python}
+#| error: true
+cos(1)  # Esto dará error
+```
+
+Python no reconoce `cos` porque no está en el espacio de nombres base. Necesitamos importar NumPy primero.
+
+### Módulo math vs NumPy
+
+Python tiene un módulo básico de matemáticas llamado `math`:
+
+```{python}
+import math
+math.cos(1)
+```
+
+::: {.callout-tip}
+## ¿Cuándo usar `math` y cuándo `numpy`?
+
+- **`math`**: funciones matemáticas básicas para números individuales
+- **`numpy`**: operaciones vectorizadas, matrices, álgebra lineal
+
+Para cálculo numérico, **siempre usaremos NumPy** porque permite operar con arrays completos de forma eficiente.
+
+Ejemplo:
+
+```{python}
+import numpy as np
+import math
+
+# Con math (solo acepta un número)
+x = 1.5
+resultado_math = math.cos(x)
+print(f"math.cos({x}) = {resultado_math}")
+
+# Con numpy (acepta arrays)
+x_array = np.array([0, np.pi/4, np.pi/2, np.pi])
+resultado_numpy = np.cos(x_array)
+print(f"np.cos(array) = {resultado_numpy}")
+```
+:::
+
+### Otras bibliotecas útiles
+
+Además de NumPy, existen otras bibliotecas que usaremos ocasionalmente:
+
+```{python}
+# Matplotlib para gráficos
+import matplotlib.pyplot as plt
+
+# SciPy para métodos científicos avanzados
+import scipy
+```
+
+## Operaciones básicas {#sec-operaciones}
+
+Python puede usarse como una calculadora avanzada. Las operaciones aritméticas básicas son:
+
+```{python}
+# Suma
+2 + 3
+```
+
+```{python}
+# Resta
+10 - 4
+```
+
+```{python}
+# Multiplicación
+5 * 6
+```
+
+```{python}
+# División
+20 / 4
+```
+
+```{python}
+# División entera (cociente)
+20 // 3
+```
+
+```{python}
+# Módulo (resto)
+20 % 3
+```
+
+```{python}
+# Potencia
+2**8
+```
+
+::: {.callout-note}
+## Orden de las operaciones
+
+Python respeta la precedencia estándar de operadores:
+
+1. Paréntesis `()`
+2. Potencias `**`
+3. Multiplicación `/`, `*`, `//`, `%`
+4. Suma/Resta `+`, `-`
+
+```{python}
+# Sin paréntesis
+2 + 3 * 4
+```
+
+```{python}
+# Con paréntesis
+(2 + 3) * 4
+```
+:::
+
+### Funciones matemáticas con NumPy
+
+NumPy proporciona funciones matemáticas comunes:
+
+```{python}
+import numpy as np
+
+# Funciones trigonométricas
+print(f"sen(π/2) = {np.sin(np.pi/2)}")
+print(f"cos(π) = {np.cos(np.pi)}")
+print(f"tan(π/4) = {np.tan(np.pi/4)}")
+```
+
+```{python}
+# Exponencial y logaritmo
+print(f"e^2 = {np.exp(2)}")
+print(f"ln(e) = {np.log(np.e)}")
+print(f"log₁₀(100) = {np.log10(100)}")
+```
+
+```{python}
+# Raíz cuadrada
+print(f"√16 = {np.sqrt(16)}")
+print(f"√2 = {np.sqrt(2)}")
+```
+
+### Constantes matemáticas
+
+NumPy incluye constantes importantes:
+
+```{python}
+# Constante pi
+print(f"π = {np.pi}")
+
+# Constante e (número de Euler)
+print(f"e = {np.e}")
+
+# Infinito
+print(f"∞ = {np.inf}")
+```
+
+::: {.callout-tip}
+## 📝 Ejercicio 1: Cálculos numéricos
+
+Calcula los siguientes valores usando Python:
+
+a) $\frac{3 + 5 \cdot 2}{4}$
+
+b) $2^{10}$
+
+c) $\sin\left(\frac{\pi}{3}\right)$
+
+d) $e^{-2}$
+
+e) $\log_{10}(1000)$
+
+<details>
+<summary>💡 Ver solución</summary>
+
+```{python}
+import numpy as np
+
+# a)
+a = (3 + 5*2) / 4
+print(f"a) {a}")
+
+# b)
+b = 2**10
+print(f"b) {b}")
+
+# c)
+c = np.sin(np.pi/3)
+print(f"c) {c}")
+
+# d)
+d = np.exp(-2)
+print(f"d) {d}")
+
+# e)
+e = np.log10(1000)
+print(f"e) {e}")
+```
+</details>
+:::
+
+### Variables
+
+Las variables nos permiten almacenar valores para usarlos más tarde:
+
+```{python}
+# Asignar un valor a una variable
+x = 5
+print(x)
+```
+
+```{python}
+# Usar la variable en cálculos
+y = 2 * x + 3
+print(y)
+```
+
+```{python}
+# Reasignar valores
+x = 10
+y = 2 * x + 3
+print(y)
+```
+
+::: {.callout-note}
+## Reglas para nombres de variables
+
+- Pueden contener letras, números y guiones bajos (`_`)
+- Deben comenzar con una letra o guión bajo (no con un número)
+- Son sensibles a mayúsculas: `variable` ≠ `Variable`
+- No pueden ser palabras reservadas de Python (`if`, `for`, `while`, etc.)
+
+**Buenos nombres:**
+```python
+velocidad = 100
+radio_circulo = 5
+valor_1 = 10
+_temporal = 20
+```
+
+**Nombres inválidos:**
+```python
+2valor = 10      # Comienza con número
+mi-variable = 5  # Contiene guión
+for = 3          # Palabra reservada
+```
+:::
+
+### Tipos de datos básicos
+
+Python tiene varios tipos de datos básicos:
+
+```{python}
+# Entero (int)
+a = 10
+print(f"{a} es de tipo {type(a)}")
+
+# Flotante (float)
+b = 3.14
+print(f"{b} es de tipo {type(b)}")
+
+# Cadena de texto (str)
+c = "Hola"
+print(f"{c} es de tipo {type(c)}")
+
+# Booleano (bool)
+d = True
+print(f"{d} es de tipo {type(d)}")
+```
+
+::: {.callout-important}
+## Conversión entre tipos
+
+Python permite convertir entre tipos de datos:
+
+```{python}
+# Convertir a entero
+x = int(3.7)
+print(f"int(3.7) = {x}")
+
+# Convertir a flotante
+y = float(5)
+print(f"float(5) = {y}")
+
+# Convertir a cadena
+z = str(123)
+print(f"str(123) = '{z}' (tipo: {type(z)})")
+```
+:::
+
+---
+
+**Continúa en la siguiente sección...**

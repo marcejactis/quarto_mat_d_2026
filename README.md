@@ -5,7 +5,7 @@ Apunte en desarrollo escrito en **Quarto**.
 ## Requisitos
 - Quarto
 - Pandoc
-- Python y Octave
+- Python / Octave / R
 
 ## Compilación
 

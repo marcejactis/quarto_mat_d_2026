@@ -1,7 +1,32 @@
 ---
-title: "Apunte de Cálculo Numérico - FIQ - UNL"
+title: "Apunte de Cálculo Numérico"
+subtitle: "FIQ – UNL"
+author:
+  - Marcelo Actis
+  - Agustín Ostrosky Umedez
 ---
 
-Este apunte está en desarrollo y forma parte de un trabajo conjunto entre Agus y Marce.
+Este apunte corresponde a la materia **Cálculo Numérico** de la
+Facultad de Ingeniería Química (UNL).
 
-Usar el menú lateral para navegar por los capítulos.
+Está orientado a estudiantes de grado y combina desarrollo teórico,
+ejemplos y experimentación computacional en Python.
+
+## Sobre este material
+
+El contenido está organizado en tres partes principales:
+
+- **Fundamentos**: Introducción a Python y herramientas computacionales
+- **Métodos Numéricos**: Técnicas para resolver ecuaciones, interpolación e integración
+- **Ecuaciones Diferenciales**: Métodos para problemas de valor inicial y diferencias finitas
+
+## Cómo usar este apunte
+
+Cada capítulo incluye:
+
+- Desarrollo teórico de los conceptos
+- Implementaciones en Python
+- Ejemplos resueltos
+- Ejercicios propuestos
+
+El código puede ser ejecutado directamente y modificado para experimentar con diferentes casos.

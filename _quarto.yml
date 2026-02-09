@@ -1,28 +1,52 @@
 project:
   type: book
+  output-dir: _book
 
 book:
   title: "Apunte de Cálculo Numérico - FIQ - UNL"
   author:
     - Marcelo Actis
-    - Agustin Ostrosky Umedez
+    - Agustín Ostrosky Umedez
+  
+  date: today
+  
   chapters:
     - index.qmd
-    - chapters/00-python.qmd
-    - chapters/01-no-lineales.qmd
-    - chapters/02-interpolacion.qmd
-    - chapters/03-integracion.qmd
-    - chapters/04-pvi.qmd
-    - chapters/05-diferencias-finitas.qmd
+    - part: "Preliminares"
+      chapters:
+        - chapters/01-intro.qmd
+    - part: "Parte I"
+      chapters:
+        - chapters/02-no-lineales.qmd
+        - chapters/03-interpolacion.qmd
+        - chapters/04-integracion.qmd
+    - part: "Parte II"
+      chapters:
+        - chapters/05-pvi.qmd
+        - chapters/06-diferencias-finitas.qmd
 
 bibliography: references.bib
 
+execute:
+  enabled: true
+  freeze: auto
+  echo: true
+  warning: false
+  message: false
+  cache: true
+  python: .venv/bin/python
+
 format:
   html:
+    theme: cosmo
     toc: true
     toc-depth: 3
     number-sections: true
-    theme: cosmo
     code-fold: true
+    code-summary: "Mostrar código"
+    code-copy: true
     smooth-scroll: true
     html-math-method: katex
+
+lang: es
+
