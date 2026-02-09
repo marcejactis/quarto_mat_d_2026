@@ -1,0 +1,102 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Apunte de Cálculo Numérico - FIQ - UNL",
+    "section": "",
+    "text": "Este apunte está en desarrollo y forma parte de un trabajo conjunto entre Agus y Marce.\nUsar el menú lateral para navegar por los capítulos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Apunte de Cálculo Numérico - FIQ - UNL</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html",
+    "href": "chapters/00-python.html",
+    "title": "2  Introducción rápida a Python",
+    "section": "",
+    "text": "2.1 Módulos estándar o paquetes",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#operaciones-básicas",
+    "href": "chapters/00-python.html#operaciones-básicas",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.2 Operaciones básicas",
+    "text": "2.2 Operaciones básicas",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#manipulación-de-vectores-y-matrices",
+    "href": "chapters/00-python.html#manipulación-de-vectores-y-matrices",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.3 Manipulación de vectores y matrices",
+    "text": "2.3 Manipulación de vectores y matrices",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#resolución-de-sistemas-lineales",
+    "href": "chapters/00-python.html#resolución-de-sistemas-lineales",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.4 Resolución de sistemas lineales",
+    "text": "2.4 Resolución de sistemas lineales",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#gráficos-en-el-plano",
+    "href": "chapters/00-python.html#gráficos-en-el-plano",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.5 Gráficos en el plano",
+    "text": "2.5 Gráficos en el plano",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#creación-de-archivos-.py",
+    "href": "chapters/00-python.html#creación-de-archivos-.py",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.6 Creación de archivos .py",
+    "text": "2.6 Creación de archivos .py",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#carga-de-archivos-.txt-y-.csv",
+    "href": "chapters/00-python.html#carga-de-archivos-.txt-y-.csv",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.7 Carga de archivos .txt y .csv",
+    "text": "2.7 Carga de archivos .txt y .csv",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#sentencias-de-control",
+    "href": "chapters/00-python.html#sentencias-de-control",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.8 Sentencias de control",
+    "text": "2.8 Sentencias de control",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/00-python.html#errores-y-representación-de-números",
+    "href": "chapters/00-python.html#errores-y-representación-de-números",
+    "title": "2  Introducción rápida a Python",
+    "section": "2.9 Errores y representación de números",
+    "text": "2.9 Errores y representación de números",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción rápida a Python</span>"
+    ]
+  }
+]

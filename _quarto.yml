@@ -8,13 +8,21 @@ book:
     - Agustin Ostrosky Umedez
   chapters:
     - index.qmd
-    - chapters/01-intro.qmd
-    - chapters/02-sistemas.qmd
-    - chapters/03-interpolacion.qmd
+    - chapters/00-python.qmd
+    - chapters/01-no-lineales.qmd
+    - chapters/02-interpolacion.qmd
+    - chapters/03-integracion.qmd
+    - chapters/04-pvi.qmd
+    - chapters/05-diferencias-finitas.qmd
+
+bibliography: references.bib
 
 format:
   html:
     toc: true
+    toc-depth: 3
     number-sections: true
     theme: cosmo
     code-fold: true
+    smooth-scroll: true
+    html-math-method: katex

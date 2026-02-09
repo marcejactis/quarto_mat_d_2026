@@ -1,7 +1,0 @@
-# Intro Python/Octave
-
-Texto introductorio del apunte.
-
-## Motivación
-
-Acá va la motivación.
