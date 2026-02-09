@@ -1,0 +1,35 @@
+# Capítulo 0
+
+## Introducción a Python para Cálculo Numérico
+
+Este apunte comienza con una introducción breve a Python, orientada específicamente a su uso en el contexto del Cálculo Numérico. El objetivo de este capítulo no es presentar un curso completo de programación, sino proporcionar las herramientas mínimas necesarias para comprender, implementar y experimentar con los métodos numéricos que se desarrollarán a lo largo de la materia.
+
+Python es un lenguaje de programación interpretado, de alto nivel y de propósito general, ampliamente utilizado tanto en el ámbito académico como profesional. Su sintaxis clara, junto con un ecosistema muy amplio de bibliotecas científicas, lo convierten en una herramienta especialmente adecuada para el modelado matemático, el análisis numérico y la visualización de resultados.
+
+En esta materia utilizaremos principalmente las bibliotecas:
+
+* **NumPy**, para el trabajo con vectores, matrices y operaciones algebraicas eficientes.
+* **Matplotlib**, para la generación de gráficos en el plano.
+
+Ocasionalmente se mencionarán otras bibliotecas estándar, pero siempre en la medida en que resulten necesarias para ilustrar conceptos matemáticos.
+
+### Alcance del capítulo
+
+A lo largo de este capítulo se introducirán nociones básicas de Python que serán utilizadas de manera recurrente en los capítulos siguientes. En particular:
+
+* se presentarán los tipos de datos más comunes y las operaciones elementales;
+* se estudiará la manipulación de vectores y matrices;
+* se mostrará cómo resolver sistemas de ecuaciones lineales mediante herramientas computacionales;
+* se introducirán sentencias de control y manejo básico de archivos;
+* se discutirán aspectos vinculados a errores numéricos y representación de números en la computadora.
+
+El lector no necesita conocimientos previos de Python para seguir este capítulo. Sin embargo, se asume familiaridad con conceptos matemáticos elementales como funciones, vectores y matrices.
+
+### Convenciones y organización
+
+El código que aparece a lo largo del apunte está pensado para ser ejecutado y modificado por el lector. Los fragmentos de código se presentarán integrados al texto, acompañados de explicaciones que destaquen los aspectos relevantes desde el punto de vista matemático y numérico.
+
+En los capítulos posteriores, el énfasis estará puesto en los métodos numéricos propiamente dichos. Por este motivo, los conceptos de Python introducidos aquí no serán retomados en detalle más adelante, sino utilizados como herramientas ya conocidas.
+
+Este capítulo cumple, entonces, un doble rol: introducir el lenguaje y establecer un marco de trabajo común para el resto del apunte.
+
