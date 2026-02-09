@@ -1,0 +1,185 @@
+---
+title: "Ejemplo de Quarto con Python y LaTeX"
+author: "Marce"
+number-sections: true
+crossref:
+ eq-prefix: ''
+date: today
+format: 
+ live-html:
+   toc: true
+   code-fold: true
+pyodide:
+  packages:
+    - matplotlib
+    - numpy
+    - seaborn
+---
+
+
+# Introducción
+
+
+Este es un ejemplo de un archivo Quarto que combina texto, código en Python, y contenido matemático usando LaTeX.
+
+
+## Ecuaciones con LaTeX
+
+Se pueden **insertar** ecuaciones *inline*, como esta: $\int_a^b f(x)\, dx$.
+
+O también centradas/destacadas:
+
+
+$$
+E = mc^2
+$${#eq-einstein}
+
+<details>
+<summary>Más detalles</summary>
+Esta es otra ecuación con sumatoria:
+
+$$
+\overline x = \frac{1}{n} \sum_{i=1}^n x_i
+$$
+</details>
+
+
+La fórmula (@eq-einstein) es muy útil.
+
+
+## Cálculos en Python
+
+Usando #| code-fold: false el código se muetra y usando '#| eval: false' no se ejecuta 
+
+```{python}
+#| code-fold: false
+#| eval: false
+# Imprimir los números del 1 al 5
+def impri(n):
+ for i in range(n):
+   print(i+1)
+
+
+impri(8)
+```
+
+```{python}
+#| code-fold: true
+#| eval: false
+# Imprimir los números del 1 al 5
+def impri(n):
+ for i in range(n):
+   print(i+1)
+
+
+impri(8)
+```
+
+## Gráficos con Python
+
+For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+#| code-fold: true
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+ subplot_kw = {'projection': 'polar'}
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+## Usar variables de python en el texto
+
+```{python}
+radius = 5
+```
+
+The radius of the circle is `{python} radius`
+
+## Python code inline
+
+Can you try creating a new function `cube` to compute cube a of number in the following cell?
+
+```{pyodide}
+def cube(number):
+    return number ** 3
+```
+
+Check if your `cube` function is working correctly by running the following examples.
+
+`
+print(cube(2))
+print(cube(3))
+print(cube(4))
+`
+```{pyodide}
+
+```
+
+## Creando imágenes inline a partir de codes con seteo de tamaño incluido
+
+```{pyodide}
+#| code-fold: false
+#| eval: false
+
+#| fig-width: 8
+#| fig-height: 4
+#| fig-dpi: 72
+import matplotlib.pyplot as plt
+import numpy as np
+ 
+x = np.random.normal(1, 1, 10000)
+plt.plot(x, '-')
+plt.show() 
+```
+
+```{pyodide}
+#| fig-width: 8
+#| fig-height: 4
+#| fig-dpi: 72
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.random.normal(1, 1, 10000)
+plt.plot(x, '-')
+plt.show() 
+```
+
+## Callout Blocks
+
+::: {.callout-tip}
+## Tip with Title
+
+This is an example of a callout with a title.
+:::
+
+::: {.callout-caution collapse="true"}
+## Expand To Learn About Collapse
+
+This is an example of a 'folded' caution callout that can be expanded by the user. You can use `collapse="true"` to collapse it by default or `collapse="false"` to make a collapsible callout that is expanded by default.
+:::
+
+::: {.panel-tabset}
+
+## Plot
+
+bla
+
+## Data
+
+algo
+
+:::
