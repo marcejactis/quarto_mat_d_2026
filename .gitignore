@@ -1,0 +1,34 @@
+# Quarto
+/.quarto/
+/_site/
+/_freeze/
+
+# Render outputs
+*.html
+*.pdf
+*.docx
+*.pptx
+
+# LaTeX auxiliares
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Python
+__pycache__/
+*.pyc
+
+# R
+.Rhistory
+.RData
+
+# OS / editor
+.DS_Store
+*.swp
+
+
+**/*.quarto_ipynb

@@ -1,0 +1,20 @@
+project:
+  type: book
+
+book:
+  title: "Apunte de Cálculo Numérico - FIQ - UNL"
+  author:
+    - Marcelo Actis
+    - Agustin Ostrosky Umedez
+  chapters:
+    - index.qmd
+    - chapters/01-intro.qmd
+    - chapters/02-sistemas.qmd
+    - chapters/03-interpolacion.qmd
+
+format:
+  html:
+    toc: true
+    number-sections: true
+    theme: cosmo
+    code-fold: true

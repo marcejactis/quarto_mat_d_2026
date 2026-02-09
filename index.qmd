@@ -1,0 +1,7 @@
+---
+title: "Apunte de Cálculo Numérico - FIQ - UNL"
+---
+
+Este apunte está en desarrollo y forma parte de un trabajo conjunto entre Agus y Marce.
+
+Usar el menú lateral para navegar por los capítulos.
