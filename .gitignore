@@ -21,8 +21,8 @@
 # Python
 __pycache__/
 *.pyc
-.venv/
 .ipynb_checkpoints/
+.jupyter_cache/
 
 # R
 .Rhistory
@@ -36,4 +36,7 @@ __pycache__/
 **/*.quarto_ipynb
 
 # Env
-.env
+.env/
+.venv/
+env/
+venv/
