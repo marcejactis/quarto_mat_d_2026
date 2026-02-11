@@ -2,6 +2,8 @@
 /.quarto/
 /_site/
 /_freeze/
+/_book/
+/index_files/
 
 # Render outputs
 *.html
