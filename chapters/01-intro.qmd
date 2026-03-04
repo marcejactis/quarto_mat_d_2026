@@ -296,7 +296,7 @@ print(f"e = {np.e}")
 print(f"∞ = {np.inf}")
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 1: Cálculos numéricos
 
 Calcula los siguientes valores usando Python:
@@ -655,7 +655,7 @@ print(f"v[1::2] = {v[1::2]}")     # Elementos impares
 print(f"v[::-1] = {v[::-1]}")     # Vector invertido
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 2: Slicing
 
 Dado el vector `v = np.array([5, 10, 15, 20, 25, 30, 35, 40, 45, 50])`, obtén:
@@ -748,7 +748,7 @@ print(v_columna)
 ```
 :::
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 3: Vectores fila y columna
 
 Dado `v = np.array([10, 20, 30])`:
@@ -1035,7 +1035,7 @@ print(f"\nDespués de poner 0 a elementos > 5:")
 print(A)
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 4: Construyendo matrices especiales
 
 Crea las siguientes matrices:
@@ -1078,7 +1078,7 @@ print(e)
 </details>
 :::
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 5: Operaciones con matrices
 
 Dadas las matrices:
@@ -1218,7 +1218,7 @@ print("Soluciones (cada columna es una solución):")
 print(X)
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 6: Resolviendo sistemas lineales
 
 Resuelve el siguiente sistema usando NumPy:
@@ -1390,7 +1390,7 @@ plt.grid(True)
 plt.show()
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 7: Graficando en el plano
 
 Grafica las siguientes funciones en el intervalo $[-2, 2]$:
@@ -1500,7 +1500,7 @@ plt.grid(True, alpha=0.3)
 plt.show()
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 8: Subplots
 
 Crea una figura con 4 subplots que muestre:
@@ -1619,7 +1619,7 @@ print(f"5² = {potencia(5)}")
 print(f"2³ = {potencia(2, 3)}")
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 11: Scripts
 
 Crea un script que:
@@ -1651,7 +1651,7 @@ print(f"Desviación estándar: {desv_std:.2f}")
 </details>
 :::
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 12: Funciones
 
 Crea una función `resolver_cuadratica(a, b, c)` que:
@@ -1804,7 +1804,7 @@ print("Primeras 5 filas:")
 print(datos_leidos[:5])
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 13: Trabajar con archivos
 
 1. Crea un vector `x` de 20 puntos entre 0 y 10
@@ -2090,7 +2090,7 @@ print(f"√2 real: {np.sqrt(2)}")
 print(f"Error: {abs(raiz - np.sqrt(2)):.2e}")
 ```
 
-::: {.callout-tip}
+::: {.callout-tip icon="false"}
 ## 📝 Ejercicio 14: Sentencias `if`, `for`, `while`
 
 **Parte A**: Escribe un programa que:

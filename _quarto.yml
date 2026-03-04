@@ -49,3 +49,5 @@ format:
 
 lang: es
 
+language:
+  callout-tip-title: ""

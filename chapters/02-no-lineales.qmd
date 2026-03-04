@@ -81,8 +81,8 @@ plt.show()
 
 Vemos en el gráfico que la gráfica corta el eje de las $d$ en un punto cercano a $d = 12$. Por lo tanto, $\hat{d} = 12 \text{ cm}$ es una primera aproximación a la solución del problema. En el caso que queramos una mejor aproximación debería realizar una nueva gráfica pero centrado más cerca de esta primera aproximación.
 
-::: {.callout-tip icon=false}
-## 📝 Desafío 1 <a name = "Desafio.1"></a>
+::: {#tip-no.lineal.1 .callout-tip icon="false"}
+## 📝 Desafío 1
 Realice nuevos gráficos a partir del código brindado para obtener una mejor aproximación de la solución del problema.
 :::
 
@@ -199,9 +199,9 @@ $$
 |p\;-p_n|\le\ldots\le|p\;-p_2|\le|p\;-p_1|\le|p\;-p_0|
 $$
 
-::: {.callout-tip icon=false}
-## 📝 Desafío 2 <a name = "Desafio.2"></a>
-Se anima a describir algorítmicamente cuál fue el método que utilizó en el [Desafío 1](@tip-desafio1).
+::: {#tip-no.lineal.2 .callout-tip icon="false"}
+## 📝 Desafío 2
+Se anima a describir algorítmicamente cuál fue el método que utilizó en el [Desafío @tip-no.lineal.1].
 :::
 
 El primer método que veremos es el *más simple* en el que podamos pensar. Éste consiste en aplicar reiteradamente una única **función real**  $\,g\!:\!\mathbb{R}\!\to\!\mathbb{R}\,$ que, dada una aproximación $p_n$ nos dice cómo calcular $p_{n+1}$. Es decir, si comenzamos con una primera aproximación $p_0$, luego
