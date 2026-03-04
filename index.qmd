@@ -1,10 +1,4 @@
----
-title: "Apunte de Cálculo Numérico"
-subtitle: "FIQ – UNL"
-author:
-  - Marcelo Actis
-  - Agustín Ostrosky Umedez
----
+# Prefacio {.unnumbered}
 
 Este apunte corresponde a la materia **Cálculo Numérico** de la
 Facultad de Ingeniería Química (UNL).
