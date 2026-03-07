@@ -13,7 +13,9 @@ book:
   
   chapters:
     - index.qmd
-    - chapters/01-intro.qmd
+    - part: "Preliminares"
+      chapters:
+        - chapters/01-intro.qmd
     - part: "Parte I"
       chapters:
         - chapters/02-no-lineales.qmd
@@ -36,7 +38,7 @@ execute:
   python: .venv/bin/python
 
 format:
-  html:
+  live-html:
     theme: cosmo
     toc: true
     toc-depth: 3

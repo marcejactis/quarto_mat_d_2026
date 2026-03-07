@@ -1,5 +1,6 @@
 ---
 number-offset: -1
+format: live-html
 ---
 
 # Sistemas no lineales
@@ -267,20 +268,16 @@ $$
 En este caso $p_n\to 0$, cuando $n \to \infty$.
 
 ### Ejemplo 3 {.unnumbered}
-Consideremos $g(x) =\cos(x)$ y $p_0 = 1$, llevemos este ejemplo a la práctica escribiéndo un código que nos permita explorar mejor la situación:
-```{python}
+Consideremos $g(x) =\cos(x)$ y $p_0 = 1$, llevemos este ejemplo a la práctica corriendo repetidamente el siguiente bloque de código:
+
+```{pyodide-python}
 import numpy as np
 
-p0 = 1
-p = np.array([[p0]]) # array donde almacenaremos los datos
+# Definimos un valor inicial
+if 'p' not in locals(): # evita que se sobreescriba el valor de p a 1
+    p = 1.0
 
-pasos = 50
-p_n = p0
-
-for i in range(1,pasos):
-  p_n = np.cos(p_n)
-  p=np.append(p,[[p_n]],axis =0)
-
+p = np.cos(p)
 print(p)
 ```
 
