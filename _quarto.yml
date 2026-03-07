@@ -13,7 +13,9 @@ book:
   
   chapters:
     - index.qmd
-    - chapters/01-intro.qmd
+    - part: "Preliminares"
+      chapters:
+        - chapters/01-intro.qmd
     - part: "Parte I"
       chapters:
         - chapters/02-no-lineales.qmd
