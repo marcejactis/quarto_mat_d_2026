@@ -39,7 +39,9 @@ execute:
 
 format:
   live-html:
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: [cosmo, styles/theme-dark.scss]
     toc: true
     toc-depth: 3
     number-sections: true

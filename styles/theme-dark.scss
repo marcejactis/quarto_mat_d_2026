@@ -1,0 +1,34 @@
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: #181818;
+$body-color: #ccc;
+$link-color: #75AADB;
+$python-output-bg: #1e2227;    // Un gris azulado oscuro para el fondo
+$python-output-text: #98c379;  // Un verde suave para el texto (estilo terminal)
+$python-output-border: #61afef; // Azul para el borde lateral
+
+// Code blocks
+$code-block-bg-alpha: -.9;
+
+/*-- scss:rules --*/
+/*-- scss:rules --*/
+// 1. Salidas de celdas estándar de Quarto
+.cell-output-display, .cell-output-stdout {
+  pre {
+    background-color: $python-output-bg;
+    color: $python-output-text;
+    border-left: 3px solid $python-output-border;
+    padding: 0.8em;
+    border-radius: 4px;
+  }
+}
+
+// 2. Salidas específicas de Quarto Live (Pyodide)
+.pyodide-output-area {
+  background-color: $python-output-bg;
+  color: $python-output-text;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 0 0 5px 5px; // Redondea solo las esquinas inferiores
+}
