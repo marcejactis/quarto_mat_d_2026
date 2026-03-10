@@ -1,0 +1,31 @@
+/*-- scss:rules --*/
+// Estilo para el contenedor del toggle
+.quarto-color-scheme-toggle {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  
+  // Texto dinámico
+  &::after {
+    font-size: 0.75rem;
+    margin-left: 8px;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+  }
+}
+
+.quarto-color-scheme-toggle i {
+  font-size: 1.2rem !important;
+}
+
+// Texto cuando el libro está en Modo Claro
+body.quarto-light .quarto-color-scheme-toggle::after {
+  content: "Modo claro";
+  color: #333;
+}
+
+// Texto cuando el libro está en Modo Oscuro
+body.quarto-dark .quarto-color-scheme-toggle::after {
+  content: "Modo oscuro";
+  color: #ebebeb;
+}
