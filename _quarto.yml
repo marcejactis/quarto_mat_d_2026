@@ -40,8 +40,8 @@ execute:
 format:
   live-html:
     theme:
-      light: cosmo
-      dark: [cosmo, styles/theme-dark.scss]
+      light: [cosmo, styles/custom-theme.scss]
+      dark: [cosmo, styles/custom-theme.scss, styles/theme-dark.scss]
     toc: true
     toc-depth: 3
     number-sections: true
@@ -50,6 +50,7 @@ format:
     code-copy: true
     smooth-scroll: true
     html-math-method: katex
+    respect-user-color-scheme: true
 
 lang: es
 
