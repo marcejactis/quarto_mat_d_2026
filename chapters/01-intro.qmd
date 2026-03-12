@@ -124,8 +124,7 @@ dir(np)
 
 Para conocer qué hace cada función, usamos el comando `help`:
 
-```{python}
-#| eval: false
+```python
 help(np.cos)
 ```
 
@@ -160,8 +159,8 @@ math.cos(1)
 ::: {.callout-tip}
 ## ¿Cuándo usar `math` y cuándo `numpy`?
 
-- **`math`**: funciones matemáticas básicas para números individuales
-- **`numpy`**: operaciones vectorizadas, matrices, álgebra lineal
+- `math`: funciones matemáticas básicas para números individuales
+- `numpy`: operaciones vectorizadas, matrices, álgebra lineal
 
 Para cálculo numérico, **siempre usaremos NumPy** porque permite operar con arrays completos de forma eficiente.
 
