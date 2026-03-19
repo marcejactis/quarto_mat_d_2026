@@ -10,7 +10,7 @@ Obviamente este tipo de ecuaciones serán *no lineales*, ya que las lineales son
 
 Para empezar motivando el problema consideremos el siguiente ejemplo.
 
-## Ejemplo: la esfera que se hunde {.unnumbered}
+## Ejemplo: la esfera que se hunde {#sec-esfera.se.hunde}
 
 Determinar cuánto se sumerge una esfera de madera de densidad $\rho = 0.638 \frac{\text{g}}{\text{cm}^3}$ de radio $r = 10$ $\text{cm}$ en agua pura.
 
@@ -1069,4 +1069,323 @@ $$
 #| exercise: ex_puntoFijo_4
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
 ```
+
+
+
+## Método de Bisección
+
+En esta sección veremos el método de bisección, que se utiliza para resolver ecuaciones de una incógnita.
+
+Toda ecuación de una incógnita puede escribirse como
+
+$$
+\qquad f(x) = 0.\qquad\qquad
+$$ {#eq-f.de.x.igual.a.cero}
+
+Si $p$ es un número tal que $f(p) = 0$ se dice que $p$ es un *cero* de $f$ o que $p$ es una raíz de la ecuación -@eq-f.de.x.igual.a.cero.
+
+Antes de ver el método, recordamos el teorema del valor intermedio (Teo), que es la base que da la idea al método de bisección.
+
+:::: {.callout-warning icon="false"}
+## Teorema del valor intermedio
+
+::: {#thm-valor.intermedio}
+Si $f: [a, b] → \mathbb{R}$ es una función continua y $d$ es un número que está entre $f(a)$ y $f(b)$ entonces existe un punto $c$ en el intervalo $[a, b]$ tal que $f(c) = d$.
+
+Un corolario inmediato de este teorema es el conocido como *lema de Bolzano* que dice lo siguiente:
+:::
+
+::: {#lem-bolzano}
+## Lema de Bolzano
+
+Si $f : [a, b] → \mathbb{R}$ es una función continua y $f(a)$ y $f(b)$ tienen signo
+opuesto $(f(a) · f(b) < 0)$, entonces existe $p ∈ [a, b]$ tal que $f(p) = 0$.
+:::
+::::
+
+La idea del método de bisección es comenzar con un intervalo $[a,b]$ tal que $f(a)$ y $f(b)$ tienen signo opuesto, es decir, tenemos localizada una raíz en el intervalo $[a,b]$.
+
+Luego, ir reduciendo sistemáticamente la longitud del intervalo donde estamos seguros que hay una raíz, hasta que tengamos una tolerancia aceptable, es decir, un intervalo tan pequeño donde se encuentra la raíz que es satisfactorio para el problema en cuestión.
+
+La manera de subdividir el intervalo consiste en tomar el punto medio del intervalo
+
+$$
+m = \frac{a+b}{2}
+$$
+
+y luego analizar las tres posibilidades que pueden darse
+
+1.   Si $f(a)$ y $f(m)$ tienen signos opuestos, entonces hay un cero en $[a, m]$.
+2.   Si $f(m)$ y $f(b)$ tienen signos opuestos, entonces hay un cero en $[m, b]$.
+3.   Si $f(m) = 0$, entonces $m$ es la solución buscada.
+
+Si ocurre el caso (3), hemos encontrado la raíz (debemos aclarar que esto no se da *casi nunca*, pero puede ocurrir).
+
+Si ocurre el caso (1) o el caso (2), entonces hemos encontrado un intervalo cuyo ancho es la mitad que el original y contiene una raíz. Para continuar el proceso, renombramos el nuevo intervalo más pequeño como $[a,\ b]$ y repetimos el procedimiento hasta que el intervalo sea tan pequeño como deseamos. Puesto que el proceso de bisección genera una sucesión de intervalos encajados, con sus correspondientes puntos medios, usaremos la siguiente notación para tener un registro de los detalles del proceso:
+
+::: {.callout-note}
+## Método de bisección
+
+*   $[a_0,\ b_0]$ es el intervalo de partida y $m_0 = \dfrac{a_0 + b_0}{2}$ es su punto medio.
+*   $[a_1,\ b_1]$ es el segundo intervalo (coincide con $[a_0,\ m_0]$ o con $[m_0,\ b_0]$) y $m_1$ es su punto medio. El intervalo $[a_1, b_1]$ es la mitad de ancho que $[a_0,\ b_0]$.
+*   ...
+*   Después de llegar al intervalo $[a_n, b_n]$, en el que también se localiza un cero, y cuyo punto medio es $m_n$, se construye el intervalo $[a_{n+1}, b_{n+1}],$ en el que también hay un cero y mide la mitad de $[a_n, b_n]$.
+:::
+
+A partir de este procedimiento resulta que
+
+$$
+a_0 ≤ a_1 ≤ \cdots ≤ a_n ≤ \cdots ≤ b_n ≤ \cdots ≤ b_1 ≤ b_0.
+$$
+
+Además, hay una raíz $p$ que satisface $a_n ≤ p ≤ b_n$.
+
+Es importante que nos detengamos un momento a pensar cómo se define el intervalo
+$[a_{n+1}, b_{n+1}]$ a partir del $[a_n, b_n]$:
+
+*   Definimos $m_n = \dfrac{a_n + b_n}{2}$.
+*   Si $f(a_n) \cdot f(m_n) < 0$ (entonces hay una raíz en el intervalo $[a_n, m_n]$).
+    *   Definimos $[a_{n+1}, b_{n+1}] = [a_n, m_n]$ (es decir, $a_{n+1} = a_n$ y $b_{n+1} = m_n$).
+*   Si no, (entonces ocurre que $f(m_n) \cdot f(b_n) < 0$).
+    *   Definimos $[a_{n+1}, b_{n+1}] = [m_n, b_n]$ (es decir, $a_{n+1} = m_n$ y $b_{n+1} = b_n$).
+*   Si no ocurre ninguna de las anteriores, resulta $f(m_n) = 0$. Entonces $m_n$ es la solución. **FIN.**
+
+Observamos que con este procedimiento, en cada paso, la longitud del intervalo se reduce a la mitad, es decir
+
+$$
+|b_{n+1} - a_{n+1}| = \frac{|b_n - a_n|}{2}.
+$$
+
+Por lo tanto, después de n pasos, la longitud del intervalo es
+
+$$
+|b_n - a_n| = \frac{|b_0 - a_0|}{2^n} = \left(\frac{1}{2}\right)^n |b_0 - a_0|.
+$$
+
+Como $m_n$ está en el centro del intervalo $[a_n, b_n]$ resulta que la distancia a la raíz $p$ es menor o igual a la mitad de la longitud del intervalo $[a_n, b_n]$, es decir
+
+$$
+|p - m_n| ≤ \frac{|b_n - a_n|}{2} = \left(\frac{1}{2}\right)^{n+1} |b_0 - a_0|.
+$$
+
+Resumimos todo lo analizado hasta ahora en el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Convergencia del método de bisección
+
+::: {#thm-convergencia.biseccion}
+Supongamos que $f : [a, b] → R$ es continua y que $f(a)$ y $f(b)$ tienen signos distintos. Sea $\{m_n\}_{n≥0}$ la sucesión de puntos medios de los intervalos generados por el método de bisección.
+Entonces existe una raíz $p$ de la ecuación $f(x) = 0$ (es decir, $f(p) = 0$) en $[a, b]$ tal que $m_n → p$, cuando $n → ∞$ y además
+$$
+|p - m_n | \le \left(\frac12\right)^{n+1} |b-a|, \qquad n=0,1,2,\dots.
+$$
+:::
+
+::::
+
+Finalizamos esta sección mostrando una implementación del método de bisección, para resolver la ecuación
+
+$$
+x\sin(x) = 1
+$$
+
+en el intervalo $[0, 2]$. Comenzamos reescribiendo la ecuación como
+
+$$
+x\sin(x) - 1 = 0.
+$$
+
+es decir, $f(x) = x \sin(x)-1$.
+
+Notemos que $f(0)=-1 < 0$ y $f(2)=2\sin(2)-1 \approx 0.81859 > 0$.
+
+Por lo tanto, hay una solución en el intervalo $[0,2]$ a la que convergerá el método de bisección.
+
+```{python}
+f = lambda x: x * np.sin(x) - 1
+
+# Intervalo inicial
+a, b = 0, 2
+
+# Parámetros
+tol = 1e-12
+max_iter = 1000
+
+# Inicializamos contador, error y punto medio del intervalo
+contador = 1
+I = abs(b-a)/2
+m = (a+b)/2
+
+while (I > tol and contador < max_iter):
+  if f(a)*f(m) < 0:
+    b = m
+  elif f(m)*f(b) < 0:
+    a = m
+  else: #(f(m) = 0)
+    break
+
+  contador += 1
+  I = I/2
+  m = a + I #Equivalente a m = (a+b)/2
+
+if (contador == max_iter):
+  print("Se alcanzo el numero maximo de iteraciones")
+else:
+  print("La solucion es", m)
+```
+
+El código del método de bisección presentado es lo que se conoce como un
+script. Es muy útil programar algunas resoluciones como scripts, pero conviene programar algunas como funciones. Cuando programemos un método de resolución de
+algún problema, que puede ser utilizado para muchos otros problemas, lo haremos usando funciones. Estas permiten la reutilización sin necesidad de cambiar nombres de variables, y las variables que se usan dentro de las funciones no afectan a las ya existentes.
+A continuación mostramos cómo se modifica el código anterior para transformarlo en una función, empleando el comando `def`.
+
+```{python}
+#| code-fold: false
+
+def bisec(f, a, b, tol = 1e-6, max_iter = 1000):
+  """
+  función para resolver una ecuación de la forma
+  f(x) = 0 mediante el método de bisección,
+  donde x es una raiz dentro del intervalo [a,b].
+  Se resuelve hasta la tolerancia tol, con un
+  maximo nro de iteraciones dado por maxiter.
+
+  f(a)f(b) debe ser < 0
+  """
+
+  if (f(a) * f(b) > 0):
+    print("f(a) y f(b) tienen el mismo signo!")
+
+  contador = 1
+  I = (b-a)/2
+  m = (a+b)/2
+
+  while (I > tol and contador < max_iter):
+    if (f(a) * f(m) < 0):
+      b = m
+    elif (f(m) * f(b) < 0):
+      a = m
+    else:
+      break
+
+    contador += 1
+    I = I/2
+    m = a + I
+
+  if contador == max_iter:
+    print("Se alcanzó el numero maximo de iteraciones")
+
+  return m
+```
+
+Probemos la función con la ecuación anterior
+```{pyodide-python}
+bisec(lambda x: x * np.sin(x) - 1, 0, 2, 1e-8, 100)
+```
+
+Vale la pena hacer algunas aclaraciones.
+
+- La primera línea dice:
+```python
+    def bisec(f, a, b, tol = 1e-6, max_iter = 1000)
+```
+Esto quiere decir que bisec es una función que toma 5 valores como argumento, y en caso de no especificarse los ultimos dos, tomará 1e-6 y 1000 como valor por defecto, respectivamente.
+- Las primeras líneas que están entre `"""` constituyen el help de la función. Así, ocurre lo siguiente:
+```python
+    help(bisec):
+
+    Help on function bisec in module __main__:
+
+    bisec(f, a, b, tol=1e-06, max_iter=1000)
+    función para resolver una ecuación de la forma
+    f(x) = 0 mediante el método de bisección,
+    donde x es una raiz dentro del intervalo [a,b].
+
+    f(a)f(b) debe ser < 0
+```
+- La última línea dice:
+```python
+    return m
+```
+Acá indicamos que como resultado de ejecutar la función, está devolverá el valor de m. Si al implementarlar colocamos
+```python
+   var = bisec(f,...)
+```
+el valor de m retornado se guardará como valor de la variable global `var`.
+- Una diferencia importante entre las funciones y los scripts es que en las funciones las variables son locales. Esto quiere decir que no interfieren con las variables que tengamos definidas. Por ejemplo, observemos lo que ocurre con las siguientes líneas:
+
+Observamos que aunque dentro de la función `bisec` la variable `f` y la  variable `I` toman otros valores, estos no afectan a nuestras variables `f` e `I`. Más aún, la variable `m` toma el valor `0.739085130393505` dentro de la función `bisec` (al finalizar), pero ese valor se olvida al finalizar la ejecución de `bisec`.
+
+Volvamos ahora al ejemplo de la esfera que se hunde (@sec-esfera.se.hunde). Una manera de resolver el
+problema es mediante un script que a su vez llama a la función `bisec`.
+
+```{python}
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = 10
+rho = 0.638
+
+def f(d):
+  return 4*r**3*rho - d**2*3*r + d**3
+
+x = np.linspace(0,2*r,100)
+y = f(x)
+
+plt.plot(x,y,"-")
+plt.grid()
+
+# Resolvemos
+p = bisec(f,0,2*r,1e-8,1000)
+print("La esfera de radio",r,"cm y densidad", rho,"g/cm3 \n")
+print("se hunde", p, "cm \n")
+```
+
+Notemos que la función `f` se define en términos de `d` en lugar de `x`, pues así lo hicimos cuando estudiamos el ejemplo al principio del capítulo. Esto no es un problema, lo importante es que `f` es una función escalar, que dado un número devuelve otro número, y que $f(0) \cdot f(2r)$ es negativo (para que funcione el método de bisección).
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 1
+
+Utilice el método de la bisección para calcular con 10 dígitos correctos todas las raíces positivas de la función $f(x) = \sin(x) + \cos(1+x^2)-1$ que son menores que 5.
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 2
+
+Se sabe que la función $f(x) = x(\ln(x + 3)-17)-1$ tiene un único cero en $(0, \infty)$. Diseñar un algoritmo de búsqueda, que comience en $[0, 1]$ y vaya duplicando el extremo derecho, hasta encontrar un intervalo donde seguramente esté el cero. A partir de ese intervalo, aplicar bisección para hallar el cero con un error relativo menor a $10^{-12}$.
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_2
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 3
+
+Un medicamento administrado a un paciente produce una concentración en la corriente sanguínea dada por $c(t) = A t e^{-t/3}$ $\frac{\text{mg}}{\text{ml}}$, $t$ horas después de inyectarle $A$ unidades. La máxima concentración segura es de $1$ $\frac{\text{mg}}{\text{ml}}$. Utilizando el método de la bisección responda los siguientes ítems.
+
+1. ¿Qué dosis deberá inyectársele al paciente para alcanzar la máxima concentración segura (sin sobrepasarla) y cuándo se presenta esta concentración?
+
+2. Una cantidad adicional del medicamento deberá administrarse al paciente después de que la concentración disminuya a $0.25$ $\frac{\text{mg}}{\text{ml}}$. Determine, con una aproximación al minuto más cercano, cuándo debe aplicarse la segunda inyección.
+
+3. Suponiendo que la concentración producida por las inyecciones consecutivas es aditiva y que $75 \%$ de la dosis inyectada originalmente se administra en la segunda inyección, ¿cuándo será el momento de aplicar la tercera inyección?
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_3
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+
 
