@@ -1387,5 +1387,464 @@ Un medicamento administrado a un paciente produce una concentración en la corri
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
 ```
 
+## El método de Newton o Newton-Raphson
+
+En esta sección aprenderemos otro método para hallar raíces de ecuaciones de la forma
+$$
+f(x) = 0.
+$$
+Es el método de Newton-Raphson, también conocido como método de Newton.
+
+La idea del método de Newton es la siguiente. Si tenemos una aproximación $p_0$ de la solución $p$, consideramos la recta tangente a la gráfica de $y=f(x)$ en el punto $(p_0,f(p_0))$.
+Luego, definimos $p_1$ como la abscisa del punto intersección entre esa recta tangente y el eje $x$, como lo muestra el siguiente gráfico.
+
+```{python}
+#| fig-align: center
+
+# Definimos la función
+def f(x):
+  return x**2 - 1
+
+# Definimos la derivada de la función
+def df(x):
+  return 2*x
+
+# Definimos el intervalo de x
+x = np.linspace(0.5, 3, 100)
+
+# Calculamos los valores de la función en el intervalo
+y = f(x)
+
+# Definimos el punto donde se calcula la recta tangente
+p0 = 2
+
+# Calculamos la recta tangente
+m = df(p0)  # Pendiente de la tangente
+b = f(p0) - m * p0  # Ordenada al origen de la tangente
+tangente = m * x + b
+
+# Calculamos el punto donde la tangente corta el eje x (p1)
+p1 = -b / m
+
+
+# Graficamos la función
+plt.plot(x, y, label='f(x) = x^2 - 1')
+
+# Graficamos la recta tangente
+plt.plot(x, tangente, label='Recta tangente en x = 2')
+
+# Marcamos el punto p0 en la curva y el eje x
+plt.plot([p0, p0], [f(p0), 0], 'k--')  # Línea punteada vertical
+plt.text(p0, -1, 'p0', ha='center')  # Etiqueta p0 en el eje x
+
+# Marcamos el punto p1 en el eje x
+plt.plot([p1, p1], [0, 0], 'ro')  # Punto rojo en p1
+plt.text(p1, -0.5, 'p1', ha='center')  # Etiqueta p1 en el eje x
+
+
+# Configura la gráfica
+plt.axhline(y=0, color='black', linewidth=0.5)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Gráfica de la función y su recta tangente')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+Para hallar la fórmula de $p_1$ en términos de $p_0$ observamos lo siguiente:
+
+La recta tangente a la gráfica de $y=f(x)$ en el punto $(p_0,f(p_0))$ tiene pendiente $m = f'(p_0)$.
+Como la recta pasa por los puntos $(p_0,f(p_0))$ y $(p_1,0)$ resulta que
+
+$$
+\frac{0 - f(p_0)}{p_1-p_0} = m = f'(p_0).
+$$
+
+Despejando $p_1$ obtenemos
+
+$$
+p_1 = p_0 - \frac{f(p_0)}{f'(p_0)}.
+$$
+
+Ahora podemos repetir este procedimiento, y obtener $p_2$ a partir de $p_1$, la fórmula resulta
+
+$$
+p_2 = p_1 - \frac{f(p_1)}{f'(p_1)}.
+$$
+
+En general,
+
+$$
+p_{n+1} = p_n - \frac{f(p_n)}{f'(p_n)}.
+$$
+
+### El método de Newton como método de punto fijo
+
+El método de Newton es un método de punto fijo, con función de iteración dada por
+
+$$
+g(x) = x - \frac{f(x)}{f'(x)}.
+$$
+
+Notar que $x = g(x)$ si y sólo si $f(x) = 0$ (siempre que $f'(x) \neq 0$).
+En otras palabras, $x$ es solución de la ecuación original $f(x) = 0$ si y sólo si $x$ es un punto fijo de $g$.
+
+
+Para comprender cómo funciona el método de Newton, analicemos $g'(x)$:
+
+$$
+\begin{align*}
+g'(x) &= 1 - \frac{f'(x) f'(x) - f(x) f''(x)}{[f'(x)]^2} \\[0.2cm]
+&= 1 - \frac{f'(x) f'(x) }{[f'(x)]^2}
++ \frac{ f(x) f''(x)}{[f'(x)]^2} \\[0.2cm]
+&= \frac{ f(x) f''(x)}{[f'(x)]^2}.
+\end{align*}
+$$
+
+Notemos que si $x=p$ es una solución de la ecuación, es decir $f(p)=0$, entonces resulta
+
+$$
+|g'(p)|
+= \frac{ |f(p)|\, |f''(p)|}{|f'(p)|^2}
+= \frac{ 0 \, |f''(p)|}{|f'(p)|^2}
+= 0.
+$$
+
+Luego, si $g'$ es una función continua, resulta que existe $\delta > 0$ tal que $|g'(x)| < 1/2$ en $[p-\delta,p+\delta]$.
+
+Para que $g'$ sea continua es suficiente que $f$ sea $C^2$ y que $f'$ no se anule en una vecindad de $x=p$.
+
+Recordando el Teorema del Punto Fijo ([Teo. @thm-punto.fijo.v2]) hemos deducido el siguiente teorema:
+
+:::: {.callout-warning icon="false"}
+## Convergencia del método de Newton
+
+::: {#thm-convergencia.met.newton}
+Sea $p$ un cero de la función $f$, es decir $$f(p) = 0.$$
+Si $f$ es $C^2$ en una vecindad de $p$, $f'(p) \neq 0$ y $p_0$ está suficientemente cerca de $p$, entonces la iteración de Newton
+$$
+p_{n+1} = p_n - \frac{f(p_n)}{f'(p_n)},
+\qquad n=0,1,2,\dots
+$$
+converge a $p$.
+:::
+
+::::
+
+::: {.callout-note}
+## 👀 Nota
+
+El método de Newton es un método de punto fijo que *siempre funciona* (si comenzamos suficientemente cerca).
+Nos da una manera de construir o elegir la función de iteración $g$ para que siempre resulte convergente.
+:::
+
+Veamos un ejemplo, volvamos a resolver la ecuación
+$$
+x = \cos(x).
+$$
+
+Resolvámosla primero con el método de punto fijo $p_{n+1} = \cos(p_n)$. Para ir contando iteraciones lo hacemos de esta manera:
+
+```{python}
+g = lambda x: np.cos(x)
+p0 = 1
+p,contador = puntofijo(g, p0, 1e-5, 1000)
+
+print("p =", p, "\n")
+print("Se alcanzó en", contador, "iteraciones \n")
+```
+
+El método de punto fijo necesitá 29 iteraciones para que la diferencia entre dos iterandos consecutivos fuera menor a $10^{-5}$.
+
+Veamos ahora qué ocurre si usamos el método de Newton.
+
+Escribimos primero la ecuación de la forma
+
+$$
+x - \cos(x) = 0.
+$$
+
+Es decir, $f(x) = x - \cos(x)$ y $f'(x) = 1 + \sin(x)$. Luego, la iteración de Newton toma la forma:
+
+$$
+p_{n+1} = p_n - \frac{p_n - \cos(p_n)}{1 + \sin(p_n)}.
+$$
+
+Probemos *iterar a mano*:
+```{pyodide-python}
+# Ejecute esta celda para definir los parámetros iniciales
+p = 1
+cont = 0
+```
+```{pyodide-python}
+p = p - (p-np.cos(p))/(1+np.sin(p))
+cont += 1
+print(np.round(p,decimals = 5))
+print(f"Iteraciones: {cont}")
+```
+
+¿Qué?  ¿Sólo cuatro iteraciones? !No se puede creer! !Guau!
+
+Sí, es así. El método de Newton es *rapidísimo*. Esto se debe a que no sólo ocurre que $|g'(x)| \le 1/2$ en un entorno de $x=p$ sino que además $g'(p) = 0$, por lo tanto, a medida que nos acercamos a la solución, el método se va *acelerando*.
+
+Para ver mejor el efecto de aceleración, veamos lo que ocurre con todos los dígitos.
+
+```{pyodide-python}
+# Ejecute esta celda para definir los parámetros iniciales
+p = 1
+cont = 0
+```
+```{pyodide-python}
+p = p - (p-np.cos(p))/(1+np.sin(p))
+cont += 1
+print(p)
+print(f"Iteraciones: {cont}")
+```
+
+Newton no deja de sorprendernos. Bastaron cinco iteraciones para que el error entre dos consecutivos sea menor que $10^{-16}$. Impresionante...
+
+Veamos lo que ocurre con el error:
+
+```{python}
+#| fig-align: center
+#| code-fold: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Utilizamos el ultimo p como nuestro estimador del valor verdadero
+p_verd = 0.7390851332151607
+p = [1]
+error = [np.abs(1-p_verd)]
+cont = 0
+for i in range(5):
+  p_n = p[-1] - (p[-1] - np.cos(p[-1]))/(1 + np.sin(p[-1]))
+  cont += 1
+  p.append(p_n)
+  error.append(np.abs(p_n-p_verd))
+
+# Datos de la tabla
+iteracion = range(len(p))  # Lista con los números de iteración
+p_n_valores = p            # Lista con los valores de pn
+errores = error            # Lista con los errores estimados
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({
+    'Iteración': iteracion,
+    'p_n': p_n_valores,
+    'Error': errores
+})
+
+# Mostrar la tabla
+tabla.style.format({
+    "p_n": "{:.16e}",
+    "Error": "{:.18f}"
+}).hide(axis="index")
+```
+
+Vemos que la cantidad de ceros después del punto decimal en el error es, en cada iteración, aproximadamente el doble que en la iteración anterior.
+
+::: {.callout-tip icon="false"}
+## ⚙️ Desafío
+Contruya la iteración del Método de Newton para resolver $x^2=2$.
+
+Compare lo obtenido con el **Ejercicio 14** del Capítulo 1.
+
+**Nota de color:** este procedimiento coincide con el *algoritmo babilónico* conocido desde el ¡siglo XVII a.C!
+
+En su forma moderna es conocido como el *método de Heron*.
+:::
+
+Antes de proseguir dejemos formalizada la función de Newton para poder utilizar cuando la necesitemos.
+
+```{python}
+#| code-fold: false
+def newton(f, df, x0, tol=1e-6, max_iter=100):
+    """
+    Metodo de Newton para encontrar la raiz de f(x) = 0.
+
+    Parámetros:
+    - f: funcion f(x)
+    - df: derivada f'(x)
+    - x0: aproximacion inicial
+    - tol: tolerancia para la convergencia
+    - max_iter: numero maximo de iteraciones
+
+    Retorna:
+    - xn: aproximacion de la raiz
+    - iteraciones: numero de iteraciones realizadas
+    """
+    xn = x0
+    for i in range(max_iter):
+        fxn = f(xn)
+        dfxn = df(xn)
+
+        if (dfxn == 0):  # Evitar division por cero
+          raise ValueError("Derivada cero. El metodo de Newton falla.")
+        else:
+          delta = - fxn / dfxn  # Paso de Newton
+
+          if (abs(delta) < tol):  # Criterio de convergencia
+            return xn + delta, i + 1
+          else:
+            xn = xn + delta
+
+    raise ValueError("El metodo de Newton no converge despues de {} iteraciones".format(max_iter))
+```
+
+Verifiquemos su funcionamiento con el siguiente ejemplo para encontrar el valor de $\sqrt{2}$, es decir queremos resolver $x^2=2$:
+
+```{python}
+f = lambda x: x**2 - 2  # Queremos encontrar sqrt(2)
+df = lambda x: 2*x      # Derivada de f(x)
+
+x0 = 1.0  # Aproximación inicial
+raiz, iteraciones = newton(f, df, x0)
+
+print(f"Raíz encontrada: {raiz:.6f} en {iteraciones} iteraciones")
+```
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo libro, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton 1
+Repitamos el Ejercicio 1 de Bisección empleando el método de Newton.
+
+Utilice el método de Newton para calcular con 10 dígitos correctos todas las raíces positivas de la función $f(x) = \sin(x) + \cos(1+x^2)-1$ que son menores que 5.
+
+¿Cuántas iteraciones fueron necesarias en cada caso? Corrobore que el error decrece cuadráticamente.
+:::
+```{pyodide-python}
+#| exercise: ex_newton_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+### Velocidad de Convergencia
+Para entender por qué es tan rápido el método de Newton, definiremos a continuación una manera de estudiar la *velocidad de convergencia* de los métodos iterativos.
+
+:::: {.callout-warning icon="false"}
+## Orden de convergencia
+
+::: {#def-orden.convergencia.newton}
+Supongamos que la sucesión $\{p_n\}$ tiende a $p$ cuando $n\to\infty$. Si existen $A>0$ y $R > 0$ tales que
+$$
+\frac{|p-p_{n+1}|}{|p-p_n|^R} \to A, \quad\text{cuando }n \to \infty,
+$$
+entonces se dice que $p_n \to p$ con orden $R$.
+
+En caso $R=1$ se dice que la convergencia es *lineal*.
+:::
+::::
+
+Para $n$ grande, resulta
+$$
+\frac{|p-p_{n+1}|}{|p-p_n|} \approx A,
+$$
+es decir
+
+$$
+|p-p_{n+1}| \approx A |p-p_n|
+$$
+
+y para que resulte convergente hace falta que $A < 1$.
+
+Veamos dos ejemplos, el caso $A=0.1$ y el caso $A = \sqrt{0.1} \approx 0.316$.
+
+|$n$ | $|p-p_n|$ con $\small  A=0.1$ | $|p-p_n|$ con $\small A=\sqrt{0.1}$ |
+|--|--|--|
+|1|0.23|0.23|
+|2|0.023|0.07273|
+|3| 0.0023|0.023|
+|4| 0.00023|0.007273|
+|5| 0.000023|0.0023|
+|6| 0.0000023|0.0007273|
+|7| 0.00000023|0.00023|
+||$\phantom{aaaaaaaaaaaaaa}$|$\phantom{aaaaaaaaaaaaaaaaa}$|
+
+Vemos que en el caso $A=0.1$ el error es en cada paso un 10% del error en el caso anterior. Se dice que *se gana un dígito por iteración*.
+
+En el caso $A= \sqrt{0.1} \approx 0.316$ *se gana un dígito cada dos iteraciones*.
+Lo importante es que en los métodos de convergencia lineal se gana un dígito cada un cierto número de iteraciones, pero esto se mantiene fijo a lo largo de toda la iteración.
+
+Veamos qué ocurre con un caso de convergencia cuadrática, es decir, con $R=2$. Para simplificar la presentación consideramos $A=1$.
+
+| n	|$|p-p_n|$|
+|--|--|
+| 0 |	$10^{-1}  =$ 0.<font color='orange'>1</font>00000000000000000000000000000000 |
+|	1	| $10^{-2}  =$ 0.0<font color='orange'>1</font>0000000000000000000000000000000 |
+|	2	| $10^{-4}  =$ 0.000<font color='orange'>1</font>00000000000000000000000000000 |
+|	3	| $10^{-8}  =$ 0.0000000<font color='orange'>1</font>0000000000000000000000000 |
+|	4	| $10^{-16} =$ 0.000000000000000<font color='orange'>1</font>0000000000000000 |
+|	5	| $10^{-32} =$ 0.0000000000000000000000000000000<font color='orange'>1</font> |
+|	6	| $10^{-64} =$ ... |
+
+Ahora que hemos comprendido lo que significa *orden de convergencia*, enunciamos el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Orden de convergencia del método de Newton
+
+::: {#thm-orden.convergencia.newton}
+Consideremos el caso en que el método de Newton genera una sucesión $\{p_n\}_{n=0}^\infty$ que converge a un cero $p$ de la función $f(x)$. Entonces:
+- Si $p$ es una raíz simple, es decir $f'(p) \neq 0$, entonces la convergencia es cuadrática, y para $n$ grande se cumple que
+$$
+| p - p_{n+1}| \approx \frac{|f''(p)|}{2 |f'(p)|} |p - p_n|^2.
+$$
+- Si $p$ es una raíz múltiple de orden $M>1$, es decir $f'(p) = f''(p) = \dots = f^{(M-1)}(p) = 0$ con $f^{(M)}(p) \neq 0$, entonces la convergencia es lineal, y para $n$ grande se cumple que
+$$
+| p - p_{n+1}| \approx \frac{M-1}{M} |p - p_n|.
+$$
+
+En palabras, concluimos lo siguiente:
+
+- El método de Newton siempre converge, si comenzamos con $p_0$ suficientemente cerca de $p$.
+- La convergencia del método de Newton es cuadrática ($R=2$, el número de dígitos exactos se duplica en cada iteración), si $f'(p)\neq 0$.
+:::
+::::
+
+Si bien no incluimos la demostración de este teorema en este apunte, vale la pena mencionar que la recta tangente a la gráfica de $y=f(x)$ que pasa por $(p_n,f(p_n))$ tiene ecuación
+$$
+y = f(p_n) + (x - p_n) f'(p_n)
+$$
+y por el teorema de Taylor
+$$
+f(x) = f(p_n) + (x - p_n) f'(p_n) + \frac{(x-p_n)^2}2 f''(z)
+$$
+para algún $z$ entre $x$ y $p_n$. Esta fórmula nos dice que la ecuación de la recta tangente nos da una aproximación de la función $f(x)$ con un error
+$$
+\frac{(x-p_n)^2}2 f''(z).
+$$
+Este error es menor a $\dfrac{M_2 (x-p_n)^2}{2}$ si $M_2$ es una cota para el valor absoluto de $f''$.
+
+Como ese error es cuadrático en términos de la distancia a $p_n$, el método de Newton resulta con convergencia cuadrática.
+
+
+### Pongámonos a prueba!!! 💪🏻
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio velocidad de convergencia (Newton) 1
+
+Considere la ecuación no lineal $e^x-x-2 = 0$ que tiene una raíz real en el intervalo $[1,2]$.
+
+1. Calcule la misma mediante el método de punto fijo, el método de bisección y el método de Newton-Raphson con un error absoluto menor a $10^{-6}$, registrando el número de iteraciones necesarias para alcanzar la solución. Además calcule el error absoluto para cada iteración.
+2. Realice una gráfica del error absoluto frente al número de iteraciones. ¿Qué puede concluir al respecto?
+
+Sugerencia: utilice una escala logarítmica en el eje $y$ para una mejor comparación de los errores.
+:::
+```{pyodide-python}
+#| exercise: ex_newton_convergencia_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
 
 
