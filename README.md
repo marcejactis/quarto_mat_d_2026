@@ -64,12 +64,33 @@ sudo dpkg -i quarto-linux-amd64.deb
 
 ## 📥 Clonar el repositorio
 
-Se recomienda usar **HTTPS** (no requiere claves SSH):
+Se recomienda usar claves **SSH** (evita autenticarse cada vez).
 
+1. **Crear clave SSH**
 ```bash
-git clone https://github.com/USUARIO/REPOSITORIO.git
-cd REPOSITORIO
+ssh-keygen -t ed25519 -C "tu_email"
 ```
+Aceptar todo con Enter.
+
+2. **Copiar la clave pública**
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+Copiar el texto.
+
+3. **Agregarla en GitHub**
+
+Ir a: https://github.com/settings/keys
+
+→ **New SSH key**
+
+4. **Clonar usando SSH**
+```bash
+git clone git@github.com:marcejactis/quarto_mat_d_2026.git
+```
+
+
+
 
 ---
 
