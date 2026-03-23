@@ -10,7 +10,7 @@ Obviamente este tipo de ecuaciones serán *no lineales*, ya que las lineales son
 
 Para empezar motivando el problema consideremos el siguiente ejemplo.
 
-## Ejemplo: la esfera que se hunde {.unnumbered}
+## Ejemplo: la esfera que se hunde {#sec-esfera.se.hunde}
 
 Determinar cuánto se sumerge una esfera de madera de densidad $\rho = 0.638 \frac{\text{g}}{\text{cm}^3}$ de radio $r = 10$ $\text{cm}$ en agua pura.
 
@@ -1069,4 +1069,1581 @@ $$
 #| exercise: ex_puntoFijo_4
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
 ```
+
+
+
+## Método de Bisección
+
+En esta sección veremos el método de bisección, que se utiliza para resolver ecuaciones de una incógnita.
+
+Toda ecuación de una incógnita puede escribirse como
+
+$$
+\qquad f(x) = 0.\qquad\qquad
+$$ {#eq-f.de.x.igual.a.cero}
+
+Si $p$ es un número tal que $f(p) = 0$ se dice que $p$ es un *cero* de $f$ o que $p$ es una raíz de la ecuación -@eq-f.de.x.igual.a.cero.
+
+Antes de ver el método, recordamos el teorema del valor intermedio (Teo), que es la base que da la idea al método de bisección.
+
+:::: {.callout-warning icon="false"}
+## Teorema del valor intermedio
+
+::: {#thm-valor.intermedio}
+Si $f: [a, b] → \mathbb{R}$ es una función continua y $d$ es un número que está entre $f(a)$ y $f(b)$ entonces existe un punto $c$ en el intervalo $[a, b]$ tal que $f(c) = d$.
+
+Un corolario inmediato de este teorema es el conocido como *lema de Bolzano* que dice lo siguiente:
+:::
+
+::: {#lem-bolzano}
+## Lema de Bolzano
+
+Si $f : [a, b] → \mathbb{R}$ es una función continua y $f(a)$ y $f(b)$ tienen signo
+opuesto $(f(a) · f(b) < 0)$, entonces existe $p ∈ [a, b]$ tal que $f(p) = 0$.
+:::
+::::
+
+La idea del método de bisección es comenzar con un intervalo $[a,b]$ tal que $f(a)$ y $f(b)$ tienen signo opuesto, es decir, tenemos localizada una raíz en el intervalo $[a,b]$.
+
+Luego, ir reduciendo sistemáticamente la longitud del intervalo donde estamos seguros que hay una raíz, hasta que tengamos una tolerancia aceptable, es decir, un intervalo tan pequeño donde se encuentra la raíz que es satisfactorio para el problema en cuestión.
+
+La manera de subdividir el intervalo consiste en tomar el punto medio del intervalo
+
+$$
+m = \frac{a+b}{2}
+$$
+
+y luego analizar las tres posibilidades que pueden darse
+
+1.   Si $f(a)$ y $f(m)$ tienen signos opuestos, entonces hay un cero en $[a, m]$.
+2.   Si $f(m)$ y $f(b)$ tienen signos opuestos, entonces hay un cero en $[m, b]$.
+3.   Si $f(m) = 0$, entonces $m$ es la solución buscada.
+
+Si ocurre el caso (3), hemos encontrado la raíz (debemos aclarar que esto no se da *casi nunca*, pero puede ocurrir).
+
+Si ocurre el caso (1) o el caso (2), entonces hemos encontrado un intervalo cuyo ancho es la mitad que el original y contiene una raíz. Para continuar el proceso, renombramos el nuevo intervalo más pequeño como $[a,\ b]$ y repetimos el procedimiento hasta que el intervalo sea tan pequeño como deseamos. Puesto que el proceso de bisección genera una sucesión de intervalos encajados, con sus correspondientes puntos medios, usaremos la siguiente notación para tener un registro de los detalles del proceso:
+
+::: {.callout-note}
+## Método de bisección
+
+*   $[a_0,\ b_0]$ es el intervalo de partida y $m_0 = \dfrac{a_0 + b_0}{2}$ es su punto medio.
+*   $[a_1,\ b_1]$ es el segundo intervalo (coincide con $[a_0,\ m_0]$ o con $[m_0,\ b_0]$) y $m_1$ es su punto medio. El intervalo $[a_1, b_1]$ es la mitad de ancho que $[a_0,\ b_0]$.
+*   ...
+*   Después de llegar al intervalo $[a_n, b_n]$, en el que también se localiza un cero, y cuyo punto medio es $m_n$, se construye el intervalo $[a_{n+1}, b_{n+1}],$ en el que también hay un cero y mide la mitad de $[a_n, b_n]$.
+:::
+
+A partir de este procedimiento resulta que
+
+$$
+a_0 ≤ a_1 ≤ \cdots ≤ a_n ≤ \cdots ≤ b_n ≤ \cdots ≤ b_1 ≤ b_0.
+$$
+
+Además, hay una raíz $p$ que satisface $a_n ≤ p ≤ b_n$.
+
+Es importante que nos detengamos un momento a pensar cómo se define el intervalo
+$[a_{n+1}, b_{n+1}]$ a partir del $[a_n, b_n]$:
+
+*   Definimos $m_n = \dfrac{a_n + b_n}{2}$.
+*   Si $f(a_n) \cdot f(m_n) < 0$ (entonces hay una raíz en el intervalo $[a_n, m_n]$).
+    *   Definimos $[a_{n+1}, b_{n+1}] = [a_n, m_n]$ (es decir, $a_{n+1} = a_n$ y $b_{n+1} = m_n$).
+*   Si no, (entonces ocurre que $f(m_n) \cdot f(b_n) < 0$).
+    *   Definimos $[a_{n+1}, b_{n+1}] = [m_n, b_n]$ (es decir, $a_{n+1} = m_n$ y $b_{n+1} = b_n$).
+*   Si no ocurre ninguna de las anteriores, resulta $f(m_n) = 0$. Entonces $m_n$ es la solución. **FIN.**
+
+Observamos que con este procedimiento, en cada paso, la longitud del intervalo se reduce a la mitad, es decir
+
+$$
+|b_{n+1} - a_{n+1}| = \frac{|b_n - a_n|}{2}.
+$$
+
+Por lo tanto, después de n pasos, la longitud del intervalo es
+
+$$
+|b_n - a_n| = \frac{|b_0 - a_0|}{2^n} = \left(\frac{1}{2}\right)^n |b_0 - a_0|.
+$$
+
+Como $m_n$ está en el centro del intervalo $[a_n, b_n]$ resulta que la distancia a la raíz $p$ es menor o igual a la mitad de la longitud del intervalo $[a_n, b_n]$, es decir
+
+$$
+|p - m_n| ≤ \frac{|b_n - a_n|}{2} = \left(\frac{1}{2}\right)^{n+1} |b_0 - a_0|.
+$$
+
+Resumimos todo lo analizado hasta ahora en el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Convergencia del método de bisección
+
+::: {#thm-convergencia.biseccion}
+Supongamos que $f : [a, b] → R$ es continua y que $f(a)$ y $f(b)$ tienen signos distintos. Sea $\{m_n\}_{n≥0}$ la sucesión de puntos medios de los intervalos generados por el método de bisección.
+Entonces existe una raíz $p$ de la ecuación $f(x) = 0$ (es decir, $f(p) = 0$) en $[a, b]$ tal que $m_n → p$, cuando $n → ∞$ y además
+$$
+|p - m_n | \le \left(\frac12\right)^{n+1} |b-a|, \qquad n=0,1,2,\dots.
+$$
+:::
+
+::::
+
+Finalizamos esta sección mostrando una implementación del método de bisección, para resolver la ecuación
+
+$$
+x\sin(x) = 1
+$$
+
+en el intervalo $[0, 2]$. Comenzamos reescribiendo la ecuación como
+
+$$
+x\sin(x) - 1 = 0.
+$$
+
+es decir, $f(x) = x \sin(x)-1$.
+
+Notemos que $f(0)=-1 < 0$ y $f(2)=2\sin(2)-1 \approx 0.81859 > 0$.
+
+Por lo tanto, hay una solución en el intervalo $[0,2]$ a la que convergerá el método de bisección.
+
+```{python}
+f = lambda x: x * np.sin(x) - 1
+
+# Intervalo inicial
+a, b = 0, 2
+
+# Parámetros
+tol = 1e-12
+max_iter = 1000
+
+# Inicializamos contador, error y punto medio del intervalo
+contador = 1
+I = abs(b-a)/2
+m = (a+b)/2
+
+while (I > tol and contador < max_iter):
+  if f(a)*f(m) < 0:
+    b = m
+  elif f(m)*f(b) < 0:
+    a = m
+  else: #(f(m) = 0)
+    break
+
+  contador += 1
+  I = I/2
+  m = a + I #Equivalente a m = (a+b)/2
+
+if (contador == max_iter):
+  print("Se alcanzo el numero maximo de iteraciones")
+else:
+  print("La solucion es", m)
+```
+
+El código del método de bisección presentado es lo que se conoce como un
+script. Es muy útil programar algunas resoluciones como scripts, pero conviene programar algunas como funciones. Cuando programemos un método de resolución de
+algún problema, que puede ser utilizado para muchos otros problemas, lo haremos usando funciones. Estas permiten la reutilización sin necesidad de cambiar nombres de variables, y las variables que se usan dentro de las funciones no afectan a las ya existentes.
+A continuación mostramos cómo se modifica el código anterior para transformarlo en una función, empleando el comando `def`.
+
+```{python}
+#| code-fold: false
+
+def bisec(f, a, b, tol = 1e-6, max_iter = 1000):
+  """
+  función para resolver una ecuación de la forma
+  f(x) = 0 mediante el método de bisección,
+  donde x es una raiz dentro del intervalo [a,b].
+  Se resuelve hasta la tolerancia tol, con un
+  maximo nro de iteraciones dado por maxiter.
+
+  f(a)f(b) debe ser < 0
+  """
+
+  if (f(a) * f(b) > 0):
+    print("f(a) y f(b) tienen el mismo signo!")
+
+  contador = 1
+  I = (b-a)/2
+  m = (a+b)/2
+
+  while (I > tol and contador < max_iter):
+    if (f(a) * f(m) < 0):
+      b = m
+    elif (f(m) * f(b) < 0):
+      a = m
+    else:
+      break
+
+    contador += 1
+    I = I/2
+    m = a + I
+
+  if contador == max_iter:
+    print("Se alcanzó el numero maximo de iteraciones")
+
+  return m
+```
+
+Probemos la función con la ecuación anterior
+```{pyodide-python}
+bisec(lambda x: x * np.sin(x) - 1, 0, 2, 1e-8, 100)
+```
+
+Vale la pena hacer algunas aclaraciones.
+
+- La primera línea dice:
+```python
+    def bisec(f, a, b, tol = 1e-6, max_iter = 1000)
+```
+Esto quiere decir que bisec es una función que toma 5 valores como argumento, y en caso de no especificarse los ultimos dos, tomará 1e-6 y 1000 como valor por defecto, respectivamente.
+- Las primeras líneas que están entre `"""` constituyen el help de la función. Así, ocurre lo siguiente:
+```python
+    help(bisec):
+
+    Help on function bisec in module __main__:
+
+    bisec(f, a, b, tol=1e-06, max_iter=1000)
+    función para resolver una ecuación de la forma
+    f(x) = 0 mediante el método de bisección,
+    donde x es una raiz dentro del intervalo [a,b].
+
+    f(a)f(b) debe ser < 0
+```
+- La última línea dice:
+```python
+    return m
+```
+Acá indicamos que como resultado de ejecutar la función, está devolverá el valor de m. Si al implementarlar colocamos
+```python
+   var = bisec(f,...)
+```
+el valor de m retornado se guardará como valor de la variable global `var`.
+- Una diferencia importante entre las funciones y los scripts es que en las funciones las variables son locales. Esto quiere decir que no interfieren con las variables que tengamos definidas. Por ejemplo, observemos lo que ocurre con las siguientes líneas:
+
+Observamos que aunque dentro de la función `bisec` la variable `f` y la  variable `I` toman otros valores, estos no afectan a nuestras variables `f` e `I`. Más aún, la variable `m` toma el valor `0.739085130393505` dentro de la función `bisec` (al finalizar), pero ese valor se olvida al finalizar la ejecución de `bisec`.
+
+Volvamos ahora al ejemplo de la esfera que se hunde (@sec-esfera.se.hunde). Una manera de resolver el
+problema es mediante un script que a su vez llama a la función `bisec`.
+
+```{python}
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = 10
+rho = 0.638
+
+def f(d):
+  return 4*r**3*rho - d**2*3*r + d**3
+
+x = np.linspace(0,2*r,100)
+y = f(x)
+
+plt.plot(x,y,"-")
+plt.grid()
+
+# Resolvemos
+p = bisec(f,0,2*r,1e-8,1000)
+print("La esfera de radio",r,"cm y densidad", rho,"g/cm3 \n")
+print("se hunde", p, "cm \n")
+```
+
+Notemos que la función `f` se define en términos de `d` en lugar de `x`, pues así lo hicimos cuando estudiamos el ejemplo al principio del capítulo. Esto no es un problema, lo importante es que `f` es una función escalar, que dado un número devuelve otro número, y que $f(0) \cdot f(2r)$ es negativo (para que funcione el método de bisección).
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 1
+
+Utilice el método de la bisección para calcular con 10 dígitos correctos todas las raíces positivas de la función $f(x) = \sin(x) + \cos(1+x^2)-1$ que son menores que 5.
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 2
+
+Se sabe que la función $f(x) = x(\ln(x + 3)-17)-1$ tiene un único cero en $(0, \infty)$. Diseñar un algoritmo de búsqueda, que comience en $[0, 1]$ y vaya duplicando el extremo derecho, hasta encontrar un intervalo donde seguramente esté el cero. A partir de ese intervalo, aplicar bisección para hallar el cero con un error relativo menor a $10^{-12}$.
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_2
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Bisección 3
+
+Un medicamento administrado a un paciente produce una concentración en la corriente sanguínea dada por $c(t) = A t e^{-t/3}$ $\frac{\text{mg}}{\text{ml}}$, $t$ horas después de inyectarle $A$ unidades. La máxima concentración segura es de $1$ $\frac{\text{mg}}{\text{ml}}$. Utilizando el método de la bisección responda los siguientes ítems.
+
+1. ¿Qué dosis deberá inyectársele al paciente para alcanzar la máxima concentración segura (sin sobrepasarla) y cuándo se presenta esta concentración?
+
+2. Una cantidad adicional del medicamento deberá administrarse al paciente después de que la concentración disminuya a $0.25$ $\frac{\text{mg}}{\text{ml}}$. Determine, con una aproximación al minuto más cercano, cuándo debe aplicarse la segunda inyección.
+
+3. Suponiendo que la concentración producida por las inyecciones consecutivas es aditiva y que $75 \%$ de la dosis inyectada originalmente se administra en la segunda inyección, ¿cuándo será el momento de aplicar la tercera inyección?
+:::
+```{pyodide-python}
+#| exercise: ex_biseccion_3
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+## El método de Newton o Newton-Raphson
+
+En esta sección aprenderemos otro método para hallar raíces de ecuaciones de la forma
+$$
+f(x) = 0.
+$$
+Es el método de Newton-Raphson, también conocido como método de Newton.
+
+La idea del método de Newton es la siguiente. Si tenemos una aproximación $p_0$ de la solución $p$, consideramos la recta tangente a la gráfica de $y=f(x)$ en el punto $(p_0,f(p_0))$.
+Luego, definimos $p_1$ como la abscisa del punto intersección entre esa recta tangente y el eje $x$, como lo muestra el siguiente gráfico.
+
+```{python}
+#| fig-align: center
+
+# Definimos la función
+def f(x):
+  return x**2 - 1
+
+# Definimos la derivada de la función
+def df(x):
+  return 2*x
+
+# Definimos el intervalo de x
+x = np.linspace(0.5, 3, 100)
+
+# Calculamos los valores de la función en el intervalo
+y = f(x)
+
+# Definimos el punto donde se calcula la recta tangente
+p0 = 2
+
+# Calculamos la recta tangente
+m = df(p0)  # Pendiente de la tangente
+b = f(p0) - m * p0  # Ordenada al origen de la tangente
+tangente = m * x + b
+
+# Calculamos el punto donde la tangente corta el eje x (p1)
+p1 = -b / m
+
+
+# Graficamos la función
+plt.plot(x, y, label='f(x) = x^2 - 1')
+
+# Graficamos la recta tangente
+plt.plot(x, tangente, label='Recta tangente en x = 2')
+
+# Marcamos el punto p0 en la curva y el eje x
+plt.plot([p0, p0], [f(p0), 0], 'k--')  # Línea punteada vertical
+plt.text(p0, -1, 'p0', ha='center')  # Etiqueta p0 en el eje x
+
+# Marcamos el punto p1 en el eje x
+plt.plot([p1, p1], [0, 0], 'ro')  # Punto rojo en p1
+plt.text(p1, -0.5, 'p1', ha='center')  # Etiqueta p1 en el eje x
+
+
+# Configura la gráfica
+plt.axhline(y=0, color='black', linewidth=0.5)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Gráfica de la función y su recta tangente')
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+Para hallar la fórmula de $p_1$ en términos de $p_0$ observamos lo siguiente:
+
+La recta tangente a la gráfica de $y=f(x)$ en el punto $(p_0,f(p_0))$ tiene pendiente $m = f'(p_0)$.
+Como la recta pasa por los puntos $(p_0,f(p_0))$ y $(p_1,0)$ resulta que
+
+$$
+\frac{0 - f(p_0)}{p_1-p_0} = m = f'(p_0).
+$$
+
+Despejando $p_1$ obtenemos
+
+$$
+p_1 = p_0 - \frac{f(p_0)}{f'(p_0)}.
+$$
+
+Ahora podemos repetir este procedimiento, y obtener $p_2$ a partir de $p_1$, la fórmula resulta
+
+$$
+p_2 = p_1 - \frac{f(p_1)}{f'(p_1)}.
+$$
+
+En general,
+
+$$
+p_{n+1} = p_n - \frac{f(p_n)}{f'(p_n)}.
+$$
+
+### El método de Newton como método de punto fijo
+
+El método de Newton es un método de punto fijo, con función de iteración dada por
+
+$$
+g(x) = x - \frac{f(x)}{f'(x)}.
+$$
+
+Notar que $x = g(x)$ si y sólo si $f(x) = 0$ (siempre que $f'(x) \neq 0$).
+En otras palabras, $x$ es solución de la ecuación original $f(x) = 0$ si y sólo si $x$ es un punto fijo de $g$.
+
+
+Para comprender cómo funciona el método de Newton, analicemos $g'(x)$:
+
+$$
+\begin{align*}
+g'(x) &= 1 - \frac{f'(x) f'(x) - f(x) f''(x)}{[f'(x)]^2} \\[0.2cm]
+&= 1 - \frac{f'(x) f'(x) }{[f'(x)]^2}
++ \frac{ f(x) f''(x)}{[f'(x)]^2} \\[0.2cm]
+&= \frac{ f(x) f''(x)}{[f'(x)]^2}.
+\end{align*}
+$$
+
+Notemos que si $x=p$ es una solución de la ecuación, es decir $f(p)=0$, entonces resulta
+
+$$
+|g'(p)|
+= \frac{ |f(p)|\, |f''(p)|}{|f'(p)|^2}
+= \frac{ 0 \, |f''(p)|}{|f'(p)|^2}
+= 0.
+$$
+
+Luego, si $g'$ es una función continua, resulta que existe $\delta > 0$ tal que $|g'(x)| < 1/2$ en $[p-\delta,p+\delta]$.
+
+Para que $g'$ sea continua es suficiente que $f$ sea $C^2$ y que $f'$ no se anule en una vecindad de $x=p$.
+
+Recordando el Teorema del Punto Fijo ([Teo. @thm-punto.fijo.v2]) hemos deducido el siguiente teorema:
+
+:::: {.callout-warning icon="false"}
+## Convergencia del método de Newton
+
+::: {#thm-convergencia.met.newton}
+Sea $p$ un cero de la función $f$, es decir $$f(p) = 0.$$
+Si $f$ es $C^2$ en una vecindad de $p$, $f'(p) \neq 0$ y $p_0$ está suficientemente cerca de $p$, entonces la iteración de Newton
+$$
+p_{n+1} = p_n - \frac{f(p_n)}{f'(p_n)},
+\qquad n=0,1,2,\dots
+$$
+converge a $p$.
+:::
+
+::::
+
+::: {.callout-note}
+## 👀 Nota
+
+El método de Newton es un método de punto fijo que *siempre funciona* (si comenzamos suficientemente cerca).
+Nos da una manera de construir o elegir la función de iteración $g$ para que siempre resulte convergente.
+:::
+
+Veamos un ejemplo, volvamos a resolver la ecuación
+$$
+x = \cos(x).
+$$
+
+Resolvámosla primero con el método de punto fijo $p_{n+1} = \cos(p_n)$. Para ir contando iteraciones lo hacemos de esta manera:
+
+```{python}
+g = lambda x: np.cos(x)
+p0 = 1
+p,contador = puntofijo(g, p0, 1e-5, 1000)
+
+print("p =", p, "\n")
+print("Se alcanzó en", contador, "iteraciones \n")
+```
+
+El método de punto fijo necesitá 29 iteraciones para que la diferencia entre dos iterandos consecutivos fuera menor a $10^{-5}$.
+
+Veamos ahora qué ocurre si usamos el método de Newton.
+
+Escribimos primero la ecuación de la forma
+
+$$
+x - \cos(x) = 0.
+$$
+
+Es decir, $f(x) = x - \cos(x)$ y $f'(x) = 1 + \sin(x)$. Luego, la iteración de Newton toma la forma:
+
+$$
+p_{n+1} = p_n - \frac{p_n - \cos(p_n)}{1 + \sin(p_n)}.
+$$
+
+Probemos *iterar a mano*:
+```{pyodide-python}
+# Ejecute esta celda para definir los parámetros iniciales
+p = 1
+cont = 0
+```
+```{pyodide-python}
+p = p - (p-np.cos(p))/(1+np.sin(p))
+cont += 1
+print(np.round(p,decimals = 5))
+print(f"Iteraciones: {cont}")
+```
+
+¿Qué?  ¿Sólo cuatro iteraciones? !No se puede creer! !Guau!
+
+Sí, es así. El método de Newton es *rapidísimo*. Esto se debe a que no sólo ocurre que $|g'(x)| \le 1/2$ en un entorno de $x=p$ sino que además $g'(p) = 0$, por lo tanto, a medida que nos acercamos a la solución, el método se va *acelerando*.
+
+Para ver mejor el efecto de aceleración, veamos lo que ocurre con todos los dígitos.
+
+```{pyodide-python}
+# Ejecute esta celda para definir los parámetros iniciales
+p = 1
+cont = 0
+```
+```{pyodide-python}
+p = p - (p-np.cos(p))/(1+np.sin(p))
+cont += 1
+print(p)
+print(f"Iteraciones: {cont}")
+```
+
+Newton no deja de sorprendernos. Bastaron cinco iteraciones para que el error entre dos consecutivos sea menor que $10^{-16}$. Impresionante...
+
+Veamos lo que ocurre con el error:
+
+```{python}
+#| fig-align: center
+#| code-fold: true
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Utilizamos el ultimo p como nuestro estimador del valor verdadero
+p_verd = 0.7390851332151607
+p = [1]
+error = [np.abs(1-p_verd)]
+cont = 0
+for i in range(5):
+  p_n = p[-1] - (p[-1] - np.cos(p[-1]))/(1 + np.sin(p[-1]))
+  cont += 1
+  p.append(p_n)
+  error.append(np.abs(p_n-p_verd))
+
+# Datos de la tabla
+iteracion = range(len(p))  # Lista con los números de iteración
+p_n_valores = p            # Lista con los valores de pn
+errores = error            # Lista con los errores estimados
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({
+    'Iteración': iteracion,
+    'p_n': p_n_valores,
+    'Error': errores
+})
+
+# Mostrar la tabla
+tabla.style.format({
+    "p_n": "{:.16e}",
+    "Error": "{:.18f}"
+}).hide(axis="index")
+```
+
+Vemos que la cantidad de ceros después del punto decimal en el error es, en cada iteración, aproximadamente el doble que en la iteración anterior.
+
+::: {.callout-tip icon="false"}
+## ⚙️ Desafío
+Contruya la iteración del Método de Newton para resolver $x^2=2$.
+
+Compare lo obtenido con el **Ejercicio 14** del Capítulo 1.
+
+**Nota de color:** este procedimiento coincide con el *algoritmo babilónico* conocido desde el ¡siglo XVII a.C!
+
+En su forma moderna es conocido como el *método de Heron*.
+:::
+
+Antes de proseguir dejemos formalizada la función de Newton para poder utilizar cuando la necesitemos.
+
+```{python}
+#| code-fold: false
+def newton(f, df, x0, tol=1e-6, max_iter=100):
+    """
+    Metodo de Newton para encontrar la raiz de f(x) = 0.
+
+    Parámetros:
+    - f: funcion f(x)
+    - df: derivada f'(x)
+    - x0: aproximacion inicial
+    - tol: tolerancia para la convergencia
+    - max_iter: numero maximo de iteraciones
+
+    Retorna:
+    - xn: aproximacion de la raiz
+    - iteraciones: numero de iteraciones realizadas
+    """
+    xn = x0
+    for i in range(max_iter):
+        fxn = f(xn)
+        dfxn = df(xn)
+
+        if (dfxn == 0):  # Evitar division por cero
+          raise ValueError("Derivada cero. El metodo de Newton falla.")
+        else:
+          delta = - fxn / dfxn  # Paso de Newton
+
+          if (abs(delta) < tol):  # Criterio de convergencia
+            return xn + delta, i + 1
+          else:
+            xn = xn + delta
+
+    raise ValueError("El metodo de Newton no converge despues de {} iteraciones".format(max_iter))
+```
+
+Verifiquemos su funcionamiento con el siguiente ejemplo para encontrar el valor de $\sqrt{2}$, es decir queremos resolver $x^2=2$:
+
+```{python}
+f = lambda x: x**2 - 2  # Queremos encontrar sqrt(2)
+df = lambda x: 2*x      # Derivada de f(x)
+
+x0 = 1.0  # Aproximación inicial
+raiz, iteraciones = newton(f, df, x0)
+
+print(f"Raíz encontrada: {raiz:.6f} en {iteraciones} iteraciones")
+```
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo libro, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton 1
+Repitamos el Ejercicio 1 de Bisección empleando el método de Newton.
+
+Utilice el método de Newton para calcular con 10 dígitos correctos todas las raíces positivas de la función $f(x) = \sin(x) + \cos(1+x^2)-1$ que son menores que 5.
+
+¿Cuántas iteraciones fueron necesarias en cada caso? Corrobore que el error decrece cuadráticamente.
+:::
+```{pyodide-python}
+#| exercise: ex_newton_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+### Velocidad de Convergencia
+Para entender por qué es tan rápido el método de Newton, definiremos a continuación una manera de estudiar la *velocidad de convergencia* de los métodos iterativos.
+
+:::: {.callout-warning icon="false"}
+## Orden de convergencia
+
+::: {#def-orden.convergencia.newton}
+Supongamos que la sucesión $\{p_n\}$ tiende a $p$ cuando $n\to\infty$. Si existen $A>0$ y $R > 0$ tales que
+$$
+\frac{|p-p_{n+1}|}{|p-p_n|^R} \to A, \quad\text{cuando }n \to \infty,
+$$
+entonces se dice que $p_n \to p$ con orden $R$.
+
+En caso $R=1$ se dice que la convergencia es *lineal*.
+:::
+::::
+
+Para $n$ grande, resulta
+$$
+\frac{|p-p_{n+1}|}{|p-p_n|} \approx A,
+$$
+es decir
+
+$$
+|p-p_{n+1}| \approx A |p-p_n|
+$$
+
+y para que resulte convergente hace falta que $A < 1$.
+
+Veamos dos ejemplos, el caso $A=0.1$ y el caso $A = \sqrt{0.1} \approx 0.316$.
+
+|$n$ | $|p-p_n|$ con $\small  A=0.1$ | $|p-p_n|$ con $\small A=\sqrt{0.1}$ |
+|--|--|--|
+|1|0.23|0.23|
+|2|0.023|0.07273|
+|3| 0.0023|0.023|
+|4| 0.00023|0.007273|
+|5| 0.000023|0.0023|
+|6| 0.0000023|0.0007273|
+|7| 0.00000023|0.00023|
+||$\phantom{aaaaaaaaaaaaaa}$|$\phantom{aaaaaaaaaaaaaaaaa}$|
+
+Vemos que en el caso $A=0.1$ el error es en cada paso un 10% del error en el caso anterior. Se dice que *se gana un dígito por iteración*.
+
+En el caso $A= \sqrt{0.1} \approx 0.316$ *se gana un dígito cada dos iteraciones*.
+Lo importante es que en los métodos de convergencia lineal se gana un dígito cada un cierto número de iteraciones, pero esto se mantiene fijo a lo largo de toda la iteración.
+
+Veamos qué ocurre con un caso de convergencia cuadrática, es decir, con $R=2$. Para simplificar la presentación consideramos $A=1$.
+
+| n	|$|p-p_n|$|
+|--|--|
+| 0 |	$10^{-1}  =$ 0.<font color='orange'>1</font>00000000000000000000000000000000 |
+|	1	| $10^{-2}  =$ 0.0<font color='orange'>1</font>0000000000000000000000000000000 |
+|	2	| $10^{-4}  =$ 0.000<font color='orange'>1</font>00000000000000000000000000000 |
+|	3	| $10^{-8}  =$ 0.0000000<font color='orange'>1</font>0000000000000000000000000 |
+|	4	| $10^{-16} =$ 0.000000000000000<font color='orange'>1</font>0000000000000000 |
+|	5	| $10^{-32} =$ 0.0000000000000000000000000000000<font color='orange'>1</font> |
+|	6	| $10^{-64} =$ ... |
+
+Ahora que hemos comprendido lo que significa *orden de convergencia*, enunciamos el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Orden de convergencia del método de Newton
+
+::: {#thm-orden.convergencia.newton}
+Consideremos el caso en que el método de Newton genera una sucesión $\{p_n\}_{n=0}^\infty$ que converge a un cero $p$ de la función $f(x)$. Entonces:
+- Si $p$ es una raíz simple, es decir $f'(p) \neq 0$, entonces la convergencia es cuadrática, y para $n$ grande se cumple que
+$$
+| p - p_{n+1}| \approx \frac{|f''(p)|}{2 |f'(p)|} |p - p_n|^2.
+$$
+- Si $p$ es una raíz múltiple de orden $M>1$, es decir $f'(p) = f''(p) = \dots = f^{(M-1)}(p) = 0$ con $f^{(M)}(p) \neq 0$, entonces la convergencia es lineal, y para $n$ grande se cumple que
+$$
+| p - p_{n+1}| \approx \frac{M-1}{M} |p - p_n|.
+$$
+
+En palabras, concluimos lo siguiente:
+
+- El método de Newton siempre converge, si comenzamos con $p_0$ suficientemente cerca de $p$.
+- La convergencia del método de Newton es cuadrática ($R=2$, el número de dígitos exactos se duplica en cada iteración), si $f'(p)\neq 0$.
+:::
+::::
+
+Si bien no incluimos la demostración de este teorema en este apunte, vale la pena mencionar que la recta tangente a la gráfica de $y=f(x)$ que pasa por $(p_n,f(p_n))$ tiene ecuación
+$$
+y = f(p_n) + (x - p_n) f'(p_n)
+$$
+y por el teorema de Taylor
+$$
+f(x) = f(p_n) + (x - p_n) f'(p_n) + \frac{(x-p_n)^2}2 f''(z)
+$$
+para algún $z$ entre $x$ y $p_n$. Esta fórmula nos dice que la ecuación de la recta tangente nos da una aproximación de la función $f(x)$ con un error
+$$
+\frac{(x-p_n)^2}2 f''(z).
+$$
+Este error es menor a $\dfrac{M_2 (x-p_n)^2}{2}$ si $M_2$ es una cota para el valor absoluto de $f''$.
+
+Como ese error es cuadrático en términos de la distancia a $p_n$, el método de Newton resulta con convergencia cuadrática.
+
+
+### Pongámonos a prueba!!! 💪🏻
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio velocidad de convergencia (Newton) 1
+
+Considere la ecuación no lineal $e^x-x-2 = 0$ que tiene una raíz real en el intervalo $[1,2]$.
+
+1. Calcule la misma mediante el método de punto fijo, el método de bisección y el método de Newton-Raphson con un error absoluto menor a $10^{-6}$, registrando el número de iteraciones necesarias para alcanzar la solución. Además calcule el error absoluto para cada iteración.
+2. Realice una gráfica del error absoluto frente al número de iteraciones. ¿Qué puede concluir al respecto?
+
+Sugerencia: utilice una escala logarítmica en el eje $y$ para una mejor comparación de los errores.
+:::
+```{pyodide-python}
+#| exercise: ex_newton_convergencia_1
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+
+## El método de la secante
+En el caso en que uno no pueda calcular la derivada de $f$, se puede reemplazar la pendiente de la recta tangente por la pendiente de una recta *secante*, es decir, una recta que pase por dos puntos de la gráfica de $y=f(x)$. La idea es comenzar entonces con $p_0$ y $p_1$ cercanos a $p$, y definir $p_2$ como la abscisa del punto intersección entre el eje $x$ y la recta que pasa por $(p_0,f(p_0))$ y por $(p_1,f(p_1))$, como muestra la siguiente figura:
+```{python}
+#| code-fold: true
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Definimos la función
+def f(x):
+  return x**2 - 1
+
+# Definimos el intervalo de x
+x = np.linspace(0.5, 3.2, 100)
+
+# Calculamos los valores de la función en el intervalo
+y = f(x)
+
+# Definimos los dos puntos iniciales para la secante
+p0 = 2
+p1 = 3
+
+# Calculamos la recta secante
+m = (f(p1) - f(p0)) / (p1 - p0)  # Pendiente de la secante
+b = f(p0) - m * p0  # Ordenada al origen de la secante
+secante = m * x + b
+
+# Calculamos el punto donde la secante corta el eje x (p2)
+p2 = -b / m
+
+# Graficamos la función
+plt.plot(x, y, label='f(x) = x^2 - 1')
+
+# Graficamos la recta secante
+plt.plot(x, secante, label='Recta secante')
+
+# Marcamos los puntos p0 y p1 en la curva
+plt.plot([p0, p0], [f(p0), 0], 'k--')  # Línea punteada vertical para p0
+plt.plot([p1, p1], [f(p1), 0], 'k--')  # Línea punteada vertical para p1
+plt.text(p0, -1, 'p0', ha='center')  # Etiqueta p0 en el eje x
+plt.text(p1, -1, 'p1', ha='center')  # Etiqueta p1 en el eje x
+
+
+# Marcamos el punto p2 en el eje x
+plt.plot([p2, p2], [0, 0], 'ro')  # Punto rojo en p2
+plt.text(p2, -0.5, 'p2', ha='center')  # Etiqueta p2 en el eje x
+
+# Configura la gráfica
+plt.axhline(y=0, color='black', linewidth=0.5)  # Eje x
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Gráfica de la función y su recta secante')
+plt.legend()  # Muestra la leyenda
+plt.grid(True)  # Activa la cuadrícula
+plt.show()  # Muestra la gráfica
+```
+
+Para obtener la fórmula de $p_2$ en términos de $p_0$ y $p_1$ observamos primero que la pendiente de la recta secante es
+$$
+m = \frac{f(p_1)-f(p_0)}{p_1-p_0}.
+$$
+Luego, usando que $(p_1,f(p_1))$ y $(p_2,0)$ pertenecen a esa recta, resulta
+$$
+\frac{f(p_1) - 0}{p_1 - p_2}  = m.
+$$
+En consecuencia,
+$$
+\frac{f(p_1) - 0}{p_1 - p_2} = \frac{f(p_1)-f(p_0)}{p_1-p_0}
+$$
+y despejando $p_2 $ obtenemos
+$$
+p_2 = p_1 - f(p_1) \frac{p_1-p_0}{f(p_1)-f(p_0)}.
+$$
+En general, teniendo $p_{n-1}$ y $p_n$, obtenemos $p_{n+1}$ a partir de la siguiente fórmula:
+$$
+p_{n+1} = p_n - f(p_n) \frac{p_n-p_{n-1}}{f(p_n)-f(p_{n-1})}.
+$$
+El resultado de convergencia para el método de la secante se enuncia a continuación:
+
+:::: {.callout-warning icon="false"}
+## Convergencia del método de la secante
+
+::: {#thm-convergencia.secante}
+Sea $p$ un cero de la función $f$, es decir
+$f(p) = 0.$
+
+Si $f$ es $C^2$ en una vecindad de $p$, $f'(p) \neq 0$ y $p_0$, $p_1$ están suficientemente cerca de $p$, entonces la iteración del método de la secante
+$$
+p_{n+1} = p_n - f(p_n) \frac{p_n-p_{n-1}}{f(p_n)-f(p_{n-1})}, \qquad n=1,2,\dots
+$$
+converge a $p$. El orden del método es $R = \frac{1+\sqrt5}2 \approx 1.61803\dots$ (número de oro o razón áurea).
+:::
+::::
+
+A continuación presentamos el código para el método de la secante:
+```{python}
+#| code-fold: false
+import numpy as np
+
+def secante(f, p0, p1, tol, maxiter):
+  """
+  Metodo de la secante para ecuaciones no lineales.
+
+  Args:
+    f: funcion escalar. Ecuacion a resolver f(x) = 0.
+    p0, p1: aproximaciones iniciales.
+    tol: tolerancia para el error absoluto.
+    maxiter: maximo numero de iteraciones permitido.
+
+  Returns:
+    p: aproximacion de la raiz.
+    residuo: valor de la funcion en la aproximacion de la raiz.
+  """
+  contador = 1
+  f0 = f(p0)
+  f1 = f(p1)
+  p = p1 - f1 * (p1 - p0) / (f1 - f0)
+
+  while (abs(p - p1) > tol) and (contador <= maxiter):
+    p0 = p1
+    f0 = f1
+    p1 = p
+    f1 = f(p)
+    p = p1 - f1 * (p1 - p0) / (f1 - f0)
+    contador += 1
+
+  if (contador > maxiter):
+    print("Se supero el maximo de iteraciones")
+
+  residuo = f(p)
+  return p, residuo
+```
+
+Vale la pena notar aquí que `p0` y `p1` almacenan a $p_{n-1}$ y $p_n$, respectivamente.
+
+Otra cosa a tener en cuenta es que en la fórmula del cálculo de `p` (correspondiente a $p_{n+1}$) no se usa `f(p0)` ni `f(p1)` sino `f0` y `f1`. Esto se hace así para evitarle a la computadora el trabajo de calcular $f(p_n)$ varias veces para cada $p_n$.
+
+### Pongámonos a prueba!!! 💪🏻
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Secante 1
+Repitamos el Ejercicio 1 de Bisección y Newton, pero ahora con el método de la secante.
+
+Utilice el método de la secante para calcular con $10$ cifras significativas correctas todas las raíces positivas de la función $f(x) = \sin(x) + \cos(1+x^2)-1$ que son menores que $5$.
+
+¿Cuántas iteraciones fueron necesarias en cada caso? Compárelas con los resultados obtenidos mediante los otros métodos. ¿Qué método le
+parece más conveniente y por qué? Piense en algunas ventajas y desventajas de los mismos.
+:::
+
+## Métodos iterativos para sistemas de ecuaciones
+Consideremos el siguiente sistema de dos ecuaciones no lineales con dos incógnitas:
+
+$$\qquad
+\begin{align*}
+x^2 - 2x - y + 0.5 &= 0, \\
+x^2 + 4 y^2 - 4 &= 0.
+\end{align*}\qquad\qquad
+$$ {#eq-probl.punto.fijo.vectorial}
+
+En términos geométricos, la primera ecuación representa una parábola y la segunda una elipse.
+Resolver este sistema significa hallar la intersección de las curvas.
+
+El siguiente script permite graficar las curvas para encontrar aproximadamente las soluciones del sistema.
+
+```{python}
+#| label: fig-curvas.de.nivel
+#| fig-align: center
+
+# Script: curvas de nivel
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define las funciones z1 y z2
+def z1(x, y):
+  return x**2 - 2*x - y + 0.5
+
+def z2(x, y):
+  return x**2 + 4*y**2 - 4
+
+# Crea la malla de puntos
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-2, 2, 50)
+X, Y = np.meshgrid(x, y)
+
+# Grafica las curvas de nivel
+plt.contour(X, Y, z1(X, Y), [0.], colors='b') # Nivel 0
+plt.contour(X, Y, z2(X, Y), [0.], colors='r') # Nivel 0
+
+# Agrega la cuadrícula y etiquetas
+plt.grid(True)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Curvas de Nivel')
+
+# Guarda la gráfica (Opcional)
+# plt.savefig('curvasdenivel.png')
+# plt.savefig('curvasdenivel.eps')
+
+# Muestra la gráfica (en terminales)
+plt.show()
+```
+
+Con ayuda del comando `help` investigue qué hacen las instrucciones `np.meshgrid` y `plt.contour` para entender qué está graficando y cómo haría para graficar curvas en otro problema.
+
+Vemos a partir del gráfico que hay dos soluciones. Aunque dependiendo de la posición relativa de la parábola con respecto a la elipse se ve claramente que podría haber 1, 2, 3 o 4 soluciones, o hasta ninguna solución.
+
+Para otros sistemas de ecuaciones puede ocurrir que haya un número $n$ a priori desconocido de soluciones, o también infinitas.
+
+Esto muestra que los sistemas **no lineales** de ecuaciones presentan en general un comportamiento mucho más complejo que los sistema **lineales**.Recordemos que para sistemas lineales había sólo tres opciones:
+
+- Existe una única solución.
+- No hay solución.
+- Hay infinitas soluciones.
+
+### Método de punto fijo para sistema de ecuaciones
+El gráfico nos permite tener una primera aproximación de cada solución, pero quisiéramos hallarlas con más precisión. La primera opción es fabricarnos un método de punto fijo. Para ello, podemos despejar un $x$ de la primera ecuación y un $y$ de la segunda, por ejemplo:
+
+$$
+x = \frac{x^2-y+0.5}2, \qquad y = \frac{-x^2-4y^2+8y+4}8.
+$$
+
+Ahora reescribimos estas dos ecuaciones como una ecuación vectorial
+
+$$
+\begin{bmatrix}x\\y \end{bmatrix}
+=
+\begin{bmatrix} \dfrac{x^2-y+0.5}2 \\ \dfrac{-x^2-4y^2+8y+4}8 \end{bmatrix}.
+$$
+
+Tomando la función $G:\mathbb{R}^2 \to \mathbb{R}^2$ dada por
+
+$$
+G\left(\begin{bmatrix}x\\y \end{bmatrix}\right)
+= \begin{bmatrix} g_1(x,y) \\ g_2(x,y) \end{bmatrix} =
+\begin{bmatrix} \dfrac{x^2-y+0.5}2 \\ \dfrac{-x^2-4y^2+8y+4}8 \end{bmatrix},
+$$
+
+la solución al [Problema @eq-probl.punto.fijo.vectorial] se reduce a encontrar un punto fijo $\mathbf{p}=[p_1,p_2]^T\in\mathbb{R}^2$ de la función $G$, es decir,
+
+$$
+\mathbf{p}=G(\mathbf{p})
+$$
+o en coordenadas
+$$
+\begin{bmatrix}p_1\\p_2 \end{bmatrix}
+= \begin{bmatrix} \frac{p_1^2-p_2+0.5}2 \\ \frac{-p_1^2-4p_2^2+8p_2+4}8 \end{bmatrix}.
+$$
+
+Esto sugiere que podríamos repetir la estrategia del método de punto fijo unidimensional pero en varias variables.
+
+Observando la [Figura @fig-curvas.de.nivel] (curvas de nivel) tomemos como una aproximación inicial de una de las soluciones el punto  $\mathbf{p}_0 = [ 0, 1]^T$. Luego, iteremos sucesivamente la función $G$ haciendo $\mathbf{p}_{n}=G(\mathbf{p}_{n-1})$ como muestra el siguiente código:
+
+```{python}
+G = lambda x,y: np.array([
+  [(x**2 - y + 0.5)/2],
+  [(-x**2 - 4*y**2 + 8*y + 4)/8]
+])
+
+p = np.array([[0],[1]])
+
+print("p_0 =\n",p,"\n")
+
+for i in range(9):
+  p = G(p[0,0],p[1,0])
+  print(f"p_{i+1} =\n",p,"\n")
+```
+
+Veamos ahora qué ocurre cuando comenzamos con $\mathbf{p}_0=[2, 0]^T$ que está cerca de la otra solución.
+
+```{python}
+p = np.array([[2],[0]])
+
+print("p_0 =\n",p,"\n")
+
+for i in range(9):
+  p = G(p[0,0],p[1,0])
+  print(f"p_{i+1} =\n",p,"\n")
+```
+
+Vemos que en este caso la iteración ¡no converge!
+
+Veamos qué ocurre si comenzamos más cerca, por ejemplo, a partir de $\mathbf{p}_0 = [ 1.9, 0.31 ]^T$:
+
+```{python}
+p = np.array([[1.9],[0.31]])
+
+print("p_0 =\n",p,"\n")
+
+for i in range(9):
+  p = G(p[0,0],p[1,0])
+  print(f"p_{i+1} =\n",p,"\n")
+```
+
+No parece converger al menos en tan pocas iteraciones. Démosle más pasos y veamos qué ocurre:
+
+```{python}
+p = np.array([[1.9],[0.31]])
+
+print("p_0 =\n",p,"\n")
+
+for i in range(25):
+  p = G(p[0,0],p[1,0])
+  if i>9:
+    print(f"p_{i+1} =\n",p,"\n")
+```
+
+En este caso la iteración converge a la primera solución que ya habíamos encontrado.
+
+Parece que el punto que queremos hallar, no es un *punto de atracción* de esa iteración de punto fijo.
+
+En el caso unidimensional (una ecuación con una incógnita), hemos visto que la iteración de punto fijo $p_{n+1} = g(p_n)$ converge *localmente* al punto fijo $p$ si $|g'(p)| < 1$.
+Se dice que un método converge *localmente* si lo hace cuando comenzamos suficientemente cerca.
+
+En el caso de sistemas de ecuaciones, el rol de la derivada $g'$ lo juega la matriz Jacobiana de la función $\mathbf{G}$. Recordemos que si $\mathbf{G}:\mathbb{R}^2 \to \mathbb{R}^2$ viene dada por
+
+$$
+\mathbf{G}\left(\begin{bmatrix}x_1 \\ x_2 \end{bmatrix}\right)
+= \begin{bmatrix}g_1(x_1,x_2) \\ g_2(x_1,x_2) \end{bmatrix},
+$$
+
+su matriz Jacobiana o su *diferencial* es la matriz
+
+$$
+D\mathbf{G}\left(\begin{bmatrix}x_1 \\ x_2 \end{bmatrix}\right)
+ = \begin{bmatrix}\frac{\partial g_1}{\partial x_1}(x_1,x_2) & \frac{\partial g_1}{\partial x_2}(x_1,x_2) \\
+ \frac{\partial g_2}{\partial x_1}(x_1,x_2) & \frac{\partial g_2}{\partial x_2}(x_1,x_2)\end{bmatrix}= \begin{bmatrix} \nabla^T g_1(x_1,x_2) \\ \nabla^T g_2(x_1,x_2) \end{bmatrix}
+$$
+
+Para recordar, la primera fila de $D\mathbf{G}$ tiene todas las derivadas de $g_1$ y la segunda fila de tiene todas las derivadas de $g_2$.
+
+En general, si $\mathbf{G}:\mathbb{R}^N \to \mathbb{R}^N$ y
+
+$$
+\mathbf{G}(\mathbf{x})
+= \begin{bmatrix}g_1(\mathbf{x}) \\ g_2(\mathbf{x}) \\ \vdots \\ g_N(\mathbf{x})\end{bmatrix},
+\qquad\text{con } \mathbf{x}=\begin{bmatrix}x_1 \\ x_2 \\ \vdots \\ x_N \end{bmatrix},
+$$
+
+su matriz Jacobiana o su *diferencial* es la matriz
+
+$$
+D\mathbf{G}(\mathbf{x})
+ = \begin{bmatrix}\frac{\partial g_1}{\partial x_1}(\mathbf{x}) & \frac{\partial g_1}{\partial x_2}(\mathbf{x}) & \dots & \frac{\partial g_1}{\partial x_N}(\mathbf{x}) \\
+   \frac{\partial g_2}{\partial x_1}(\mathbf{x}) & \frac{\partial g_2}{\partial x_2}(\mathbf{x}) & \dots & \frac{\partial g_2}{\partial x_N}(\mathbf{x}) \\
+   \vdots & \vdots & & \vdots \\
+   \frac{\partial g_N}{\partial x_1}(\mathbf{x}) & \frac{\partial g_N}{\partial x_2}(\mathbf{x}) & \dots & \frac{\partial g_N}{\partial x_N}(\mathbf{x})
+   \end{bmatrix}= \begin{bmatrix} \nabla^T g_1(\mathbf{x}) \\ \nabla^T g_2(\mathbf{x}) \\ \vdots\\ \nabla^T g_N(\mathbf{x})\end{bmatrix}
+$$
+
+De esta forma el teorema de punto fijo en $\mathbb{R}^N$ dice lo siguiente:
+
+:::: {.callout-warning icon="false"}
+## Convergencia del punto fijo vectorial
+
+::: {#thm-convergencia.punto.fijo.vec}
+Sea $\mathbf{p}\in\mathbb{R}^N$ un punto fijo de $\mathbf{G}: \mathbb{R}^N \to \mathbb{R}^N$, es decir $\mathbf{p} = \mathbf{G}(\mathbf{p}).$
+
+Si $\mathbf{G}$ es $C^1$ en un entorno de $\mathbf{p}$ y
+$$
+\big\| D\mathbf{G}(\mathbf{p}) \big\|_1 < 1, \qquad \text{con }\big\| D\mathbf{G}(\mathbf{p}) \big\|_1 = \max\limits_{1\le i\le N} \sum_{j=1}^N \left| \frac{\partial g_i}{\partial x_j} (\mathbf{p}) \right|
+$$
+
+entonces la iteración de punto fijo
+$$
+\mathbf{p}_{n+1} = \mathbf{G}(\mathbf{p}_n)
+$$
+
+converge localmente. Es decir, hay un entorno alrededor de $\mathbf{p}$ tal que si $\mathbf{p}_0$ está en ese entorno, resulta que $\mathbf{p}_n \to \mathbf{p}$.
+:::
+::::
+
+En general es difícil de verificar que $\big\|D\mathbf{G}(\mathbf{p})\big\|_1 < 1$, sobre todo porque no se conoce $\mathbf{p}$. El teorema recién enunciado es de carácter teórico.
+
+Ahora pensemos, si estamos dispuestos a calcular todas esas derivadas, ¿por qué no usamos un método de Newton?
+
+### Método de Newton para sistemas de ecuaciones
+Consideremos ahora un sistema de ecuaciones no lineales, escrito de la siguiente manera:
+
+$$
+\begin{gather*}
+f_1(x_1,x_2,\dots,x_N) = 0 \\
+f_2(x_1,x_2,\dots,x_N) = 0 \\
+\vdots  \\
+f_N(x_1,x_2,\dots,x_N) = 0,
+\end{gather*}
+$$
+con $f_1$, $f_2$, $\dots$, $f_N$, funciones escalares.
+Si definimos la función vectorial $\mathbf{F}:\mathbb{R}^N \to \mathbb{R}^N$ de la siguiente manera:
+
+$$
+\mathbf{F}(\mathbf{x}) =
+\begin{bmatrix}
+f_1(\mathbf{x}) \\
+f_2(\mathbf{x}) \\
+\vdots \\
+f_N(\mathbf{x})
+\end{bmatrix}
+,
+\qquad\text{con }
+\mathbf{x} = \begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_N
+\end{bmatrix}
+$$
+
+El sistema de ecuaciones puede escribirse de manera compacta como
+
+$$
+\mathbf{F}(\mathbf{x}) = \mathbf{0},
+$$
+
+donde $\mathbf{0}=[0,0,\ldots,0]^T\in\mathbb{R}^N$.
+
+Supongamos que tenemos $\mathbf{p}_0$ cercano a $\mathbf{p}$, una solución de ese sistema de ecuaciones, es decir, $\mathbf{F}(\mathbf{p}) = 0$.
+
+Entonces, tal como lo hicimos para una ecuación escalar, consideramos la aproximación lineal a $\mathbf{F}$ alrededor de $\mathbf{p}_0$, que está dada por la fórmula
+
+$$
+\ell(\mathbf{x}) = \mathbf{F}(\mathbf{p}_0) + D\mathbf{F}(\mathbf{p}_0) (\mathbf{x} - \mathbf{p}_0),
+$$
+
+notando que $D\mathbf{F}(\mathbf{p}_0)$ es una matriz de $N\times N$, la matriz Jacobiana de $\mathbf{F}$ en $\mathbf{p}_0$, y $D\mathbf{F}(\mathbf{p}_0) (\mathbf{x} - \mathbf{p}_0)$ es el producto matricial de la matriz $D\mathbf{F}(\mathbf{p}_0)$ de $N\times N$ por el vector $\mathbf{x} - \mathbf{p}_0$ de $N\times 1$.
+
+A continuación, definimos $\mathbf{p}_1$ como el punto de $\mathbb{R}^N$ para el que $\ell(\mathbf{x}) = \mathbf{0}$, es decir, planteamos el problema
+
+Hallar $\mathbf{p}_1$ tal que:
+$$
+\quad
+\mathbf{F}(\mathbf{p}_0) + D\mathbf{F}(\mathbf{p}_0) (\mathbf{p}_1 - \mathbf{p}_0) = \mathbf{0}.
+$$
+
+Si llamamos $\delta \mathbf{p} = (\mathbf{p}_1 - \mathbf{p}_0)\in\mathbb{R}^N$ resulta que $\delta \mathbf{p}$ es la solución al siguiente sistema *lineal* de $N$ ecuaciones con $N$ incógnitas:
+
+$$
+D\mathbf{F}(\mathbf{p}_0) \delta \mathbf{p} = - \mathbf{F}(\mathbf{p}_0).
+$$
+
+que ya está escrito en forma matricial.
+Observemos nuevamente que
+
+- $D\mathbf{F}(\mathbf{p}_0)$ es una matriz de $N\times N$.
+- $\mathbf{F}(\mathbf{p}_0)$ es un vector columna de $N$ componentes, o una matriz de $N\times 1$.
+- $\delta \mathbf{p}$ es un vector columna de $N$ componentes, y es la incógnita que nos dirá cómo elegir $\mathbf{p}_1$. De la relación $\delta \mathbf{p} = (\mathbf{p}_1 - \mathbf{p}_0)$ obtenemos $\mathbf{p}_1 := \mathbf{p}_0 + \delta \mathbf{p}.$
+
+Este razonamiento nos condujo a una manera de definir $\mathbf{p}_1$ a partir de $\mathbf{p}_0$. Análogamente podemos encontrar la manera de definir $\mathbf{p}_{n+1}$ a partir de $\mathbf{p}_n$. La resumimos a continuación.
+
+::: {.callout-note appearance="simple"}
+1. Dado $\mathbf{p}_n$, sea $\delta \mathbf{p}$ la solución al sistema lineal de ecuaciones
+$$
+\underbrace{D\mathbf{F}(\mathbf{p}_n)}_{\text{conocido}} \underbrace{\delta \mathbf{p}}_{\text{incógnita}}
+= - \underbrace{\mathbf{F}(\mathbf{p}_n)}_{\text{conocido}}.
+$$
+
+2. Definir $\mathbf{p}_{n+1} = \mathbf{p}_n + \delta \mathbf{p}$.
+:::
+
+A continuación mostramos una implementación del método de Newton para sistemas de ecuaciones no lineales (o *Newton vectorial*).
+
+```{python}
+#| code-fold: false
+
+def newtonvec(F, Fprima, p0, tol=1e-6, maxiter=100):
+  """
+  Metodo de Newton para sistemas de ecuaciones.
+
+  Args:
+    F: funcion que recibe un vector columna y devuelve un vector columna.
+    Fprima: función que recibe un vector columna y devuelve la matriz Jacobiana de F.
+    p0: aproximacion inicial (vector columna).
+    tol: tolerancia para el error absoluto.
+    maxiter: maximo numero de iteraciones permitido.
+
+  Returns:
+    p: Solucion aproximada.
+    residuo: Residuo de la solucion.
+  """
+  contador = 1
+  deltap = np.linalg.solve(Fprima(p0), -F(p0))
+  p = p0 + deltap
+
+  while (np.max(abs(deltap)) > tol) and (contador <= maxiter):
+    deltap = np.linalg.solve(Fprima(p), -F(p))
+    p = p + deltap
+    contador += 1
+
+  if (contador > maxiter):
+    print("Se supero el maximo de iteraciones")
+
+  residuo = F(p)
+  return p, residuo
+```
+
+Veamos cómo se utiliza esta función para hallar la solución del siguiente sistema de ecuaciones:
+
+$$
+\begin{align*}
+x^2 y + x y^3 &= 9 \\
+3 x^2 y - y^3 &= 4.
+\end{align*}
+$$
+
+Primero las escribimos con lado derecho igual a cero:
+
+$$
+\begin{align*}
+x^2 y + x y^3 - 9 &= 0 \\
+3 x^2 y - y^3 - 4 &= 0.
+\end{align*}
+$$
+
+Luego, definimos $\mathbf{F}:\mathbb{R}^2 \to \mathbb{R}^2$,
+
+$$
+\mathbf{F}\left(\begin{bmatrix}
+x \\
+y
+\end{bmatrix}\right) = \begin{bmatrix}
+x^2 y + x y^3 -9  \\
+3 x^2 y - y^3 - 4
+\end{bmatrix}
+$$
+
+y el sistema es equivalente a resolver $\mathbf{F}(\mathbf{x}) = \mathbf{0}$. El Jacobiano de $\mathbf{F}$ es
+
+$$
+D\mathbf{F}(\mathbf{x}) = \begin{bmatrix}
+2x y + y^3 & x^2+3x y^2 \\6x y  & 3x^2-3y^2
+\end{bmatrix}
+$$
+
+Comenzaremos con la aproximación inicial $\mathbf{p}_0 = \begin{bmatrix} 1\\ 1\end{bmatrix}$.
+
+Como debemos ingresar varias funciones (tanto las componentes de $\mathbf{F}$ como las componentes de su matriz jacobiana $D\mathbf{F}$), nos resulta conveniente armar un script con todo lo que necesitamos:
+
+```{python}
+# pruebanewtonvec.py
+# prueba Newton vectorial
+
+import numpy as np
+
+# Define las funciones z1 y z2 como funciones lambda
+f1 = lambda x, y: x**2 * y + x * y**3 - 9
+f2 = lambda x, y: 3 * x**2 * y - y**3 - 4
+
+# Define la función F
+F = lambda x: np.array([
+  [f1(x[0,0], x[1,0])],
+  [f2(x[0,0], x[1,0])]
+]) # Matriz 2x1 (vector columna)
+
+# Define las derivadas parciales de z1 y z2 como funciones lambda
+df1x = lambda x, y: 2 * x * y + y**3
+df1y = lambda x, y: x**2 + 3 * x * y**2
+df2x = lambda x, y: 6 * x * y
+df2y = lambda x, y: 3 * x**2 - 3 * y**2
+
+# Define el Jacobiano de F
+DF = lambda x: np.array([
+  [df1x(x[0,0], x[1,0]), df1y(x[0,0], x[1,0])],
+  [df2x(x[0,0], x[1,0]), df2y(x[0,0], x[1,0])]
+]) # Matriz 2x2
+
+# Define la aproximacion inicial
+p0 = np.array([[1], [1]]) # Matriz 2x1 (vector columna)
+
+# Define la tolerancia y el maximo de iteraciones
+tol = 1e-12
+maxiter = 150
+
+# Llama a la funcion newtonvec
+p, residuo = newtonvec(F, DF, p0, tol, maxiter)
+
+# Imprime la solucion y el residuo
+print("Solución p es\n", p ,"\n")
+print("El residuo f(p) es\n", residuo ,"\n")
+```
+
+::: {.callout-note icon="false"}
+## 👀 Comentarios finales
+- El método de Newton **siempre converge**, si comenzamos con $\mathbf{p}_0$ suficientemente cerca de $\mathbf{p}$ y $D\mathbf{F}(\mathbf{x})$ es una matriz invertible en un entorno de $\mathbf{p}$.
+- La convergencia del método de Newton vectorial es cuadrática ($R=2$), es decir, el número de dígitos exactos se duplica en cada iteración, si $D\mathbf{F}(\mathbf{p})$ es invertible.
+- Existen métodos que recuperan la idea de la secante en varias variables conocidos como *métodos quasi-Newton*, que no abordaremos en esta materia.
+- Los métodos quasi-Newton son utilizados principalmente cuando se desea *optimizar* en varias variables (v.g. método BFGS), donde para encontrar los ceros del gradiente utilizando el método de Newton debemos acceder a su *matriz hessiana* (derivada segunda), la cuál puede ser compleja de obtener.  
+:::
+
+### Pongámonos a prueba!!! 💪🏻
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 1
+
+::: {}
+Encuentre con ocho dígitos decimales correctos los valores de $x < 0$ e $y < 0$ tales que
+
+$$
+\begin{align*}
+  1.5x^2 + 2y - y^2 + \cos(x) &= 0.5,\\
+  2x + y^2 &= 6.
+\end{align*}
+$$
+
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 2
+
+::: {}
+Utilizar el método de Newton para hallar todas las soluciones de los siguientes sistemas con una precisión de $10^{-6}$. Graficarlas sobre las curvas para verificar.
+
+1. $x^2 + xy^3 = 9, \quad 3x^2y - y^3 = 4,$ para $(x, y) ∈ [−4, 4] \times [−4, 4].$
+
+2. $3w^2 - z^2 = 0, \quad 3wz^2 - w^3 = 1,$ para $(w, z) ∈ [0, 3] \times [0, 2].$
+
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 3
+
+::: {}
+Determine los parámetros positivos $a$ y $b$ (con error menor a $10^{-5}$) de manera que la gráfica de la función
+
+$$
+z(t) = tan^{-1}(t - a) + ln(bt)
+$$
+
+pase exactamente por los puntos indicados en la siguiente tabla:
+
+||||
+|-|-|-|
+|**t**|1|2|
+|**z**|-0.035|0.94|
+
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 4
+
+::: {}
+Considere la función $C(x, y) = y \sin(x) + x \sin(y^2),$ para $1 < x < 3, 1 < y < 3.$
+
+Calcule con 9 dígitos decimales correctos los valores de $x$ e $y$ que maximizan $C$.
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 5
+
+::: {}
+Después de una tormenta, se mide la concentración de una determinada bacteria en un área de natación:
+
+||||
+|-|-|-|
+|**t** ($\text{hs}$)|4|24|
+|**c** ($\text{UFC/}100\text{mL}$)|1590|560|
+
+El tiempo se mide en horas transcurridas después de finalizar la tormenta, y la unidad UFC es una unidad formadora de colonia. Se sabe que la concentración tiene la forma $c(t) = b e^{-kt}$, para algunas constantes $b$ y $k$ positivas.
+
+1. Determine los valores de $b$ y de $k$.
+
+2. Utilice el modelo para estimar la concentración al final de la tormenta.
+
+3. Utilice el modelo para determinar el tiempo en el que la concentración será 200 $\text{UFC/}100\text{mL}$.
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio Newton Vectorial 6
+
+::: {}
+Resolver el siguiente sistema de ecuaciones
+
+$$
+\begin{align*}
+ 6x - 2 \cos(yz) &= 1,\\
+ 9y + \sqrt{x^2 + \sin(z) + 1.06} + 0.9 &= 0,\\
+ 60z + 3e^{-xy} &= 3 - 10 \pi.
+\end{align*}
+$$
+
+con una precisión para el error absoluto de $10^{-6}$, utilizando el método de Newton.
+:::
+::::
+
+
+## Ejercicios Adicionales ✍
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en este capítulo. Como verás, no hay un método único para resolver la mayoría de estos ejercicios.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Adicional 1
+
+La concentración de un contaminante $c = c(t)$ (medida en $\frac{\text{g}}{\text{m}^{3}}$) en un lago satisface la siguiente ecuación diferencial ordinaria,
+
+$$
+V \frac{dc}{dt} = W - Qc - kV \sqrt c ,
+$$
+
+donde $W$ es el caudal másico de entrada de agua limpia (en $\frac{\text{g}}{\text{año}}$), $Q$ es el caudal volumétrico de salida de agua (en $\frac{\text{m}^{3}}{\text{año}}$), $V$ es el volumen del lago (en $\text{m}^{3}$) y $k$ un parámetro.
+
+1. La concentración $c(t)$ llegará a un valor estable o estado de equilibrio en el que no cambia más con el tiempo y que denotamos por $c_E$. Determinar la ecuación no lineal $f(c_E) = 0$ que se debe resolver para hallar el valor de $c_E$.
+
+2. Se sabe que $W = 10^6 \frac{\text{g}}{\text{año}}$, $Q = 10^5 \frac{\text{m}^{3}}{\text{año}}$, $V = 10^6 \text{m}^{3}$, y $k = 0.25 \frac{\sqrt{\text{g}}}{\sqrt{\text{m}^3}\times\text{año}}$. Graficar la función $f$ del ítem 1 en un intervalo adecuado para obtener un valor estimado de la concentración de equilibrio $c_E$.
+
+3. Calcule con $10$ dígitos exactos el valor de $c_E$ utilizando el método de bisección. ¿Cuántas iteraciones fueron necesarias?
+:::
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Adicional 2
+
+Se sabe que una reacción química reversible $2A + B ↔ C$ se caracteriza por la relación de equilibrio
+
+$$
+K = \frac{C_c}{C^2_a C_b} = \frac{C_{c,0} + x}{(C_{a,0} - 2x)^2(C_{b,0} - x)}.
+$$
+
+En estas ecuaciones $C_a$, $C_b$ y $C_c$ representan las concentraciones de los compuestos $A$, $B$ y $C$, respectivamente, el subíndice 0 indica la concentración inicial de cada compuesto y $x$ es el número de moles de $C$ que se producen.
+
+1. Si $K = 0.016$ y $C_{a,0} = 42$, $C_{b,0} = 28$ y $C_{c,0} = 4$, calcule (con 10 dígitos correctos) el número de moles $x$ del compuesto $C$ que se producen.
+
+2. Encuentre un valor de $C_{a,0}$ entre $31$ y $50$ a partir del cuál se producen la mayor cantidad de moles del compuesto $C$. Escriba también ese valor del máximo. De su resultado con $5$ decimales correctos. Considere el resto de las constantes como en el ítem 1.
+
+3. ¿Cuál es la máxima cantidad de moles que se pueden producir a partir de cualquier concentración inicial $C_{a,0}$ mayor a $31$?
+:::
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Adicional 3
+
+Se desea diseñar un tanque esférico como el de la figura para almacenamiento
+de agua. El volumen del líquido que puede contener es
+$$
+V = \pi h^2 \frac{(3R-h)}{3},
+$$
+
+donde $V$ es el volumen en pies al cubo, $h$ es la profundidad del agua en el tanque en pies y $R$ es el radio del tanque en pies.
+
+Si $R = 3$ $\text{m}$, ¿a qué profundidad debe llenarse el tanque de modo que contenga $30$ $\text{m}^3$?
+
+![Ejercicio 3 - Adicionales](images/02_nolineales_adicionales_ej3.png){fig-align="center"}
+:::
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Adicional 4
+
+La energía térmica total de un dispositivo está dada por
+
+$$
+E(t) = \left(\left(t + \frac{1}{3}\right)^3 +\frac{1}{3}\right)e^{−t}
+$$
+
+para cada instante de tiempo $t$.
+
+1. Determinar los momentos en los que la energía del dispositivo es igual a $1.5$.
+
+2. Determinar la máxima energía del sistema y en qué tiempo ocurre.
+
+3. Determinar el instante de tiempo en donde se da la máxima tasa de crecimiento instantánea de la energía.
+:::
+
+::: {.callout-tip icon="false"}
+## 📝 Ejercicio Adicional 5
+
+Una soga de longitud $L$ se encuentra atada a dos postes a una altura $h$, con sus centros separados entre sí una cierta distancia $2a$, como muestra la figura. Considerando un sistema de coordenadas cartesianas en el cual el eje $x$ se sitúa paralelo al suelo y el eje y se encuentra exactamente a igual distancia de ambos postes, se puede describir cada punto de la soga mediante la siguiente ecuación:
+$$
+y(x) = \frac{1}{\gamma} (\cosh (\gamma x) - \cosh (\gamma a)) + h,
+$$
+
+donde $x$, $y$ y $a$ están en metros, y $\gamma$ es un parámetro cuyo valor es
+positivo y cumple la siguiente ecuación
+
+$$
+L = \frac{2}{\gamma} \sinh (\gamma a).
+$$
+
+1. Si $L = 8$ $\text{m}$, $a = 3$ $\text{m}$ y $h = 2.5$  $\text{m}$, grafique los puntos de la soga y determine a qué altura se encuentra el punto más bajo de la misma.
+
+2. ¿A partir de qué distancia de separación entre postes la soga comienza a tocar el suelo? Calcule la distancia con un error menor a $1$ $\text{mm}$. Considere nuevamente $L = 8$ $\text{m}$ y $h = 2.5$ $\text{m}$.
+
+![Ejercicio 6 - Adicionales](images/02_nolineales_adicionales_ej6.png){fig-align="center"}
+:::
 
