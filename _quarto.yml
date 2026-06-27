@@ -50,6 +50,8 @@ format:
     code-copy: true
     smooth-scroll: true
     html-math-method: katex
+    include-in-body:
+      - text: {{< include macros.qmd >}}
     respect-user-color-scheme: true
 
 lang: es
