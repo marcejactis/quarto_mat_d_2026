@@ -270,14 +270,16 @@ $$
 En este caso $p_n\to 0$, cuando $n \to \infty$.
 
 ### Ejemplo 3 {.unnumbered}
-Consideremos $g(x) =\cos(x)$ y $p_0 = 1$, llevemos este ejemplo a la práctica corriendo repetidamente el siguiente bloque de código:
+Consideremos $g(x) =\cos(x)$ y $p_0 = 1$, llevemos este ejemplo a la práctica haciendo uso de los siguientes bloques de código.
 
+Primero, definamos manualmente un valor inicial para `p` y ejecutemos el bloque:
 ```{pyodide-python}
 # Escriba un valor inicial y ejecute el bloque una vez
 p = 
 print(p)
 ```
 
+Luego, ejecute repetidamente el siguiente bloque y observe cómo varía el output:
 ```{pyodide-python}
 import numpy as np
 
@@ -288,6 +290,18 @@ print(p)
 ```
 
 Vemos que la iteración converge a $p = 0.73908513$.
+
+Lo que acabamos de realizar es una simulación manual de un bucle for donde la variable `p`, dado un valor inicial, redefine su valor iterativamente con una función dada (en este caso, $\cos(x)$). De aquí en más, trabajaremos directamente con bucles `for` como sigue:
+```{python}
+import numpy as np
+
+p = 1     # Valor inicial
+n = 100   # Número de iteraciones
+for i in range(n):  # Iteramos n veces
+  p = np.cos(p)     # En cada iteración, redefinimos p en función de su valor actual
+
+print(p)
+```
 
 Nos preguntamos entonces,
 
@@ -447,18 +461,15 @@ $$
 
 Veamos qué ocurre al iterar $p_{n+1} = e^{-p_n}$ comenzando con $p_0 = 0.1$.
 
-```{pyodide-python}
-# Escriba un valor inicial y ejecute el bloque una vez
-p = 
-print(p)
-```
-
-```{pyodide-python}
+```{python}
 import numpy as np
 
+p = 0.1
 g = lambda x: np.exp(-x)
 
-p = g(p)
+for i in range(100):
+  p = g(p)
+
 print(p)
 ```
 
@@ -514,18 +525,15 @@ p_{n+1} = p^5_n + p^2_n - p^3_n - 1
 $$
 comenzando con $p_0 = 1$.
 
-```{pyodide-python}
-# Escriba un valor inicial y ejecute el bloque una vez
-p = 
-print(p)
-```
-
-```{pyodide-python}
+```{python}
 import numpy as np
 
+p = 1
 g = lambda x: x**5 + x**2 - x**3 - 1
 
-p = g(p)
+for i in range(100):
+  p = g(p)
+
 print(p)
 ```
 
@@ -983,7 +991,6 @@ Note que la hipótesis $|g'(p)| ≤ 1/2$ no siempre será satisfecha y por esto 
 
 Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Punto Fijo 1
@@ -996,11 +1003,6 @@ $$
 1. Grafique la función $f$ en un intervalo adecuado con el objetivo de encontrar un valor aproximado de la solución positiva de la ecuación $f(x) = 0$.
 2. Utilice un método de punto fijo para hallar dicha solución con 10 dígitos decimales correctos. ¿Cuántas iteraciones fueron necesarias?
 :::
-
-```{pyodide-python}
-#| exercise: ex_puntoFijo_1
-# Use esta celda sólo en caso de no disponer de Spyder en este momento
-```
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Punto Fijo 2
@@ -1016,11 +1018,6 @@ $$
 4. Grafique la función $g'_1$ en un intervalo adecuado para mostrar que la convergencia o no convergencia a cada uno de los puntos fijos se condice con la teoría.
 5. En caso de no haber podido hallar todas las soluciones de la ecuación utilizando $g_1$, reescriba la ecuación de otra manera $x = g_2(x)$ y repita los pasos de los dos items anteriores.
 :::
-
-```{pyodide-python}
-#| exercise: ex_puntoFijo_2
-# Use esta celda sólo en caso de no disponer de Spyder en este momento
-```
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Punto Fijo 3
@@ -1038,11 +1035,6 @@ $10^{-12}$.
 3. Utilice la función de punto fijo para obtener $p$ con error absoluto menor a $10^{-12}$, empezando desde $p_0 = 0.5$.
 Compare lo obtenido con la estimación teórica del inciso anterior. Explique por qué no se contradicen estos resultados.
 :::
-
-```{pyodide-python}
-#| exercise: ex_puntoFijo_3
-# Use esta celda sólo en caso de no disponer de Spyder en este momento
-```
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Punto Fijo 4
@@ -1066,7 +1058,6 @@ $$
 :::
 
 ```{pyodide-python}
-#| exercise: ex_puntoFijo_4
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
 ```
 
