@@ -198,14 +198,10 @@ import scipy
 
 Python puede usarse como una calculadora avanzada. Las operaciones aritméticas básicas son:
 
+::: {.grid-2col}
 ```{python}
 # Suma
 2 + 3
-```
-
-```{python}
-# Resta
-10 - 4
 ```
 
 ```{python}
@@ -214,13 +210,18 @@ Python puede usarse como una calculadora avanzada. Las operaciones aritméticas 
 ```
 
 ```{python}
-# División
-20 / 4
+# División entera (cociente)
+20 // 3
 ```
 
 ```{python}
-# División entera (cociente)
-20 // 3
+# Resta
+10 - 4
+```
+
+```{python}
+# División
+20 / 4
 ```
 
 ```{python}
@@ -233,7 +234,10 @@ Python puede usarse como una calculadora avanzada. Las operaciones aritméticas 
 2**8
 ```
 
-::: {.callout-note}
+:::
+
+
+::::: {.callout-note}
 ## Orden de las operaciones
 
 Python respeta la precedencia estándar de operadores:
@@ -243,6 +247,7 @@ Python respeta la precedencia estándar de operadores:
 3. Multiplicación `/`, `*`, `//`, `%`
 4. Suma/Resta `+`, `-`
 
+::: {.grid-2col}
 ```{python}
 # Sin paréntesis
 2 + 3 * 4
@@ -253,6 +258,7 @@ Python respeta la precedencia estándar de operadores:
 (2 + 3) * 4
 ```
 :::
+::::
 
 ### Funciones matemáticas con NumPy
 
@@ -343,6 +349,7 @@ print(f"e) {e}")
 
 Las variables nos permiten almacenar valores para usarlos más tarde:
 
+::: {.grid-2col}
 ```{python}
 # Asignar un valor a una variable
 x = 5
@@ -361,8 +368,9 @@ x = 10
 y = 2 * x + 3
 print(y)
 ```
+:::
 
-::: {.callout-note}
+::::: {.callout-note}
 ## Reglas para nombres de variables
 
 - Pueden contener letras, números y guiones bajos (`_`)
@@ -370,14 +378,19 @@ print(y)
 - Son sensibles a mayúsculas: `variable` ≠ `Variable`
 - No pueden ser palabras reservadas de Python (`if`, `for`, `while`, etc.)
 
+:::: {.grid-2col}
+::: {}
 **Buenos nombres:**
+
 ```python
 velocidad = 100
 radio_circulo = 5
 valor_1 = 10
 _temporal = 20
 ```
+:::
 
+::: {}
 **Nombres inválidos:**
 ```python
 2valor = 10      # Comienza con número
@@ -385,6 +398,8 @@ mi-variable = 5  # Contiene guión
 for = 3          # Palabra reservada
 ```
 :::
+::::
+:::::
 
 ### Tipos de datos básicos
 
@@ -440,7 +455,7 @@ En cálculo numérico, los vectores y matrices son estructuras fundamentales. Nu
 Un vector en NumPy es un array unidimensional. Hay varias formas de crearlo:
 
 #### Creación directa con `array()`
-
+::: {.grid-2col}
 ```{python}
 import numpy as np
 
@@ -451,11 +466,14 @@ print(f"Tipo: {type(v)}")
 ```
 
 ```{python}
+import numpy as np
+
 # Vector de flotantes
 v_float = np.array([1.5, 2.7, 3.2])
 print(v_float)
 print(f"Dtype: {v_float.dtype}")
 ```
+:::
 
 ::: {.callout-note}
 ## Listas vs NumPy arrays
@@ -556,12 +574,14 @@ print(f"arange(0, 10, 2): {a}")
 print(f"Tipo: {type(a)}")
 ```
 
-::: {.callout-tip}
+:::: {.callout-tip}
 ## ¿Qué diferencia hay entre `range()` y `arange()`?
 
 - **`range()`**: función de Python, genera enteros, retorna un iterador
 - **`arange()`**: función de NumPy, puede generar flotantes, retorna un array
 
+::: {.grid-2col}
+::: {}
 **Sintaxis de `range(inicio, fin, paso)`:**
 - `inicio`: primer valor (inclusivo)
 - `fin`: valor final (exclusivo)
@@ -572,7 +592,9 @@ print(f"Tipo: {type(a)}")
 r = range(0, 5, 1)
 print(list(r))
 ```
+:::
 
+::: {}
 **Sintaxis de `arange(inicio, fin, paso)`:**
 - Similar a `range()` pero acepta flotantes
 
@@ -582,6 +604,8 @@ a = np.arange(0, 2, 0.3)
 print(a)
 ```
 :::
+:::
+::::
 
 ```{python}
 # Ejemplos de arange
@@ -892,7 +916,7 @@ print(A[:2, 1:])
 ```
 
 #### Manipulando matrices
-
+::: {.grid-2col}
 ```{python}
 # Modificar elementos
 A = np.array([[1, 2, 3],
@@ -918,9 +942,10 @@ A[:, 0] = [10, 20]
 print("Después de modificar columna 0:")
 print(A)
 ```
+:::
 
 #### Operaciones con matrices
-
+::: {.grid-2col}
 ```{python}
 A = np.array([[1, 2],
               [3, 4]])
@@ -948,6 +973,7 @@ print(2 * A)
 print("\nA²:")
 print(A ** 2)  # Elemento a elemento, no potencia matricial
 ```
+:::
 
 ::: {.callout-warning}
 ## Producto matricial vs producto elemento a elemento
@@ -1135,6 +1161,7 @@ print(verif)
 ---
 
 **Continúa en la siguiente parte...**
+
 ## Resolución de sistemas lineales {#sec-sistemas-lineales}
 
 NumPy y SciPy proporcionan herramientas eficientes para resolver sistemas de ecuaciones lineales de la forma $Ax = b$.

@@ -1,0 +1,7 @@
+/*-- scss:rules --*/
+// Estilo para 2 columnas
+.grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Crea 2 columnas iguales */
+  gap: 16px; /* Espacio opcional entre los elementos */
+}

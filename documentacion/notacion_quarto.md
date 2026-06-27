@@ -52,6 +52,24 @@ Texto del enunciado
 donde entorno es el tipo de entorno, que puede ser `thm` para teoremas, `cor` para corolarios, `prp` para proposiciones, `def` para definiciones, `exm` para ejemplos, `exr` para ejercicios, `sol` o `rem` para observaciones. Junto al entorno hay que añadir una etiqueta con un identificador único para poder referenciarlo en el texto del documento.
 
 
+## Texto a 2 columnas
+Se implementó una clase estilada con CSS llamada `grid-2col` que debe utilizarse de la siguiente forma:
+
+```
+:::: {.grid-2col}
+::: {}
+**Buenos nombres:**
+
+*bloque de código*
+:::
+
+::: {}
+**Nombres inválidos:**
+
+*bloque de código*
+:::
+::::
+```
 
 
 
@@ -63,3 +81,5 @@ https://aprendeconalf.es/quarto-textos-cientificos/#entornos-matem%C3%A1ticos
 https://r-wasm.github.io/quarto-live/getting_started/editor.html
 
 https://www.datanovia.com/es/guide/tools/quarto/figures.html
+
+https://getbootstrap.com/docs/5.1/layout/css-grid/

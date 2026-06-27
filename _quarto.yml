@@ -40,8 +40,8 @@ execute:
 format:
   live-html:
     theme:
-      light: [cosmo, styles/custom-theme.scss]
-      dark: [cosmo, styles/custom-theme.scss, styles/theme-dark.scss]
+      light: [cosmo, styles/quick-tools.scss, styles/custom-theme.scss]
+      dark:  [cosmo, styles/quick-tools.scss, styles/custom-theme.scss, styles/theme-dark.scss]
     toc: true
     toc-depth: 3
     number-sections: true
