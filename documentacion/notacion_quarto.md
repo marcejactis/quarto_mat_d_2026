@@ -71,6 +71,18 @@ Se implementó una clase estilada con CSS llamada `grid-2col` que debe utilizars
 ::::
 ```
 
+## Cómo centrar un div? La eterna pregunta
+Con spans:
+```
+[**¿qué hace falta para poder asegurar que $g$ tiene un punto fijo en un intervalo $[a, b]$?**]{style="display: block; text-align: center;"}
+```
+
+Con divs:
+```
+::: {style="text-align: center;"}
+**¿cómo podría esto ayudarnos a resolver una ecuación no lineal como $f(x)=0$?**
+:::
+```
 
 
 # Referencias
