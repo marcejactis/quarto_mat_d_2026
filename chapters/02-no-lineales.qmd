@@ -1,6 +1,7 @@
 ---
 number-offset: -1
 ---
+{{< include ../_macros.qmd >}}
 
 # Sistemas no lineales
 El objetivo de este capítulo es conocer métodos numéricos para aproximar soluciones de ecuaciones donde resulta difícil o hasta imposible encontrar la solución por los métodos algebraicos y analíticos clásicos. Dicho llanamente,

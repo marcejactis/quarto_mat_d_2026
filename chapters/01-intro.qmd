@@ -1,6 +1,7 @@
 ---
 number-offset: -1
 ---
+{{< include ../_macros.qmd >}}
 
 # Introducción a Python para Cálculo Numérico
 
