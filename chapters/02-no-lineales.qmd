@@ -1341,8 +1341,10 @@ Notemos que la función `f` se define en términos de `d` en lugar de `x`, pues 
 ### Pongámonos a prueba!!! 💪🏻
 
 Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Bisección 1
@@ -1706,7 +1708,7 @@ Intentá hallar la solución a los siguientes problemas con los conocimientos ad
 
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
 
-Podés resolver utilizando celdas de código en este mismo libro, o corriendo python de manera local.
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Newton 1
@@ -1822,8 +1824,10 @@ Como ese error es cuadrático en términos de la distancia a $p_n$, el método d
 
 ### Pongámonos a prueba!!! 💪🏻
 Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio velocidad de convergencia (Newton) 1
@@ -1984,7 +1988,7 @@ Intentá hallar la solución a los siguientes problemas con los conocimientos ad
 
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
 
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 ::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Secante 1
@@ -2440,7 +2444,7 @@ Intentá hallar la solución a los siguientes problemas con los conocimientos ad
 
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
 
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 :::: {.callout-tip icon="false"}
 ## 📝 Ejercicio Newton Vectorial 1
