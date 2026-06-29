@@ -1,1 +1,396 @@
-# Interpolación
+---
+title: "Aproximación e interpolación polinomial"
+---
+{{< include ../_macros.qmd >}}
+
+Antes de comenzar importemos las librerias que necesitaremos para este capítulo.
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+```
+
+## Intro {#sec:intro}
+
+Consideremos la situación en que se conocen los valores de una función en algunos puntos. Esos puntos pueden provenir de mediciones experimentales y por lo tanto podrían contener errores. Se desea hallar una función *sencilla* que coincida en esos puntos, o que la gráfica pase cerca.
+
+Consideremos el caso en que queremos calcular la integral de una función sobre la que no conocemos la *primitiva*, por ejemplo
+$$
+\int_0^1 e^{-x^2} \dd x.
+$$
+En este caso, lo que se hace, es aproximar la función por funciones sencillas que se sepan integrar,  y luego se integran esas funciones sencillas.
+
+Para los matemáticos, las funciones más sencillas son los polinomios. Algunas razones por las que se consideran sencillas son las siguientes:
+
+1.   **Son fáciles de representar, pues basta un número finito de coeficientes.**
+
+En python, un vector `p` de $n$ componentes representa el siguiente polinomio de grado $n-1$:
+$$
+p(x) = \texttt{p}_1 x^{n-1} + \texttt{p}_2 x^{n-2} + \dots + \texttt{p}_{n-1} x + \texttt{p}_n.
+$$
+Así, `p = [6 -3 0 1]` representa el polinomio
+$$
+p(x) = 6 x^3 - 3 x^2 + 0 x + 1 = 6 x^3 - 3 x^2 + 1.
+$$
+
+Para evaluar un polinomio en un cierto $x$ se utiliza la función `polyval`. Así, para graficar el polinomio dado en Python, sobre el intervalo $[-3,3]$, hacemos:
+
+```{python}
+#| fig-align: center
+
+# Definir el polinomio
+p = np.array([6, -3, 0, 1])  # Coeficientes del polinomio
+
+# Crear un rango de valores para x
+x = np.linspace(-3, 3, 300)
+
+# Evaluar el polinomio en los puntos de x
+y = np.polyval(p, x)
+
+# Graficar
+plt.plot(x, y, label="Polinomio $6x^3 - 3x^2 + 0x + 1$")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Gráfico del polinomio")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+2. **Son fáciles de integrar, y la integral de un polinomio es otro polinomio**
+$$
+\begin{align*}
+\int 6 x^3 - 3 x^2 + 0 x + 1 \dd x &= 6 \frac{x^4}4 -3 \frac{x^3}3 + 0 \frac{x^2}2 + 1 x + c \\
+&= \frac64 x^4 -\frac33 x^3 + \frac02 x^2 + 1 x + c
+\end{align*}
+$$
+para cualquier constante $c$.
+En general:
+$$
+\int p_1 x^{n-1}  + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \dd x
+$$
+$$
+=  \frac{p_1}n x^{n}  + \frac{p_2}{n-1} x^{n-1} + \dots + \frac{p_{n-1}}2 x^2 + p_n x + C.
+$$
+
+3.  **Son fáciles de derivar, y la derivada de un polinomio es otro polinomio**
+$$
+\frac{d}{dx} \left(6 x^3 - 3 x^2 + 0 x + 1\right)  = 6 \cdot 3 \, x^2 -3\cdot 2\, x + 0 ,
+$$
+En general
+$$
+\frac{d}{dx} \left(p_1 x^{n-1}  + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \right)
+$$
+$$
+=  (n-1)p_1 x^{n-2}  + (n-2)p_2 x^{n-3} + \dots + 3p_{n-3} x^2 + 2p_{n-2} x + p_{n-1}.
+$$
+
+::: {.callout-tip icon="false"}
+## ⚙️ Desafío
+
+¿Se anima a escribir una función que dado como entrada un vector que representa a un polinomio devuelva el vector que representa al polinomio  integrado?
+¿Y otra que devuelva el polinomio derivado?
+:::
+
+## Interpolación polinomial {#sec:interp.pol}
+Dados dos puntos en el plano, pasa por ellos una única recta.
+
+Si los dos puntos tienen diferente abscisa, entonces hay una única recta de ecuación
+$$
+y = ax+b
+$$
+cuya gráfica pasa por los puntos.
+
+Si tengo tres puntos con diferente abscisa, por ejemplo
+$$
+(1,8) \qquad (-1,9) \qquad (2,15),
+$$
+veremos que pasa por ellos una única parábola de ecuación
+$$
+y = a x^2 + b x + c.
+$$
+Veamos cómo se calcula dicha parábola. Para que la misma pase por los puntos debe cumplir
+$$
+\begin{align*}
+&(1,8) \text{ está sobre la parábola } & &\iff & & 8 = a 1^2 + b 1 + c \\
+&(-1,9) \text{ está sobre la parábola }& & \iff & & 9 = a (-1)^2 + b (-1) + c \\
+&(2,15) \text{ está sobre la parábola } & &\iff & & 15 = a 2^2 + b 2 + c .
+\end{align*}
+$$
+
+Nos queda entonces un sistema de 3 ecuaciones con 3 incógnitas (las incógnitas son $a$, $b$, $c$)
+$$
+\begin{align*}
+1^2 a + 1 b + c &= 8 \\
+(-1)^2 a + (-1) b + c &= 9\\
+2^2 a + 2 b + c &=15 .
+\end{align*}
+$$
+
+En forma matricial, el sistema se escribe como
+
+$$
+\begin{bmatrix}
+1^2 & 1 & 1 \\
+(-1)^2 & (-1) & 1 \\
+2^2 & 2 & 1
+\end{bmatrix}
+\begin{bmatrix}
+a \\ b \\ c
+\end{bmatrix}
+=
+\begin{bmatrix}
+8 \\ 9 \\ 15
+\end{bmatrix}
+$$
+
+Notamos que el lado derecho de la ecuación es el vector de ordenadas de los puntos (coordenadas $y$) y las columnas de la matriz son potencias de las abscisas de los puntos (coordenadas $x$). Para resolverlo en Python hacemos así:
+
+```{python}
+# Definir los datos
+X = np.array([1, -1, 2])
+Y = np.array([8, 9, 15])
+
+# Construir la matriz directamente
+matriz = np.array([X**2, X, np.ones_like(X)]).T
+
+# Resolver el sistema de ecuaciones por mínimos cuadrados
+p = np.linalg.solve(matriz, Y)
+
+# Mostrar resultados
+print("Matriz:")
+print(matriz)
+print("Coeficientes del polinomio:")
+print(p)
+```
+
+Así, $a=2.5$, $b = -0.5$ y $c = 6$.
+
+Para graficar el polinomio en el intervalo $[-2,3]$ y los puntos dados hacemos lo siguiente:
+```{python}
+#| fig-align: center
+
+# Crear un rango de valores
+xx = np.linspace(-2, 3, 200)
+
+# Evaluar el polinomio ajustado en los puntos
+yy = np.polyval(p, xx)
+
+# Graficar
+plt.plot(xx, yy, label="Ajuste polinómico")
+plt.plot(X, Y, '*', label="Datos originales")  # Graficar los puntos de los datos
+plt.xlabel("x")
+plt.ylabel("y")
+plt.title("Ajuste Polinómico")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+Ahora nos preguntamos qué ocurre cuando tenemos $n$ puntos. La respuesta está en el siguiente teorema.
+
+:::: {.callout-warning title="Existencia del polinomio interpolante"}
+
+::: {#thm-existencia.pol.interp}
+Dados $n$ puntos
+$$
+(x_1,y_1) \quad (x_2,y_2) \quad \dots \quad (x_n,y_n)
+$$
+con abscisas todas distintas, existe un único polinomio $p$ de grado $n-1$ cuya gráfica pasa por los puntos, es decir
+$$
+p(x_i) = y_i , \quad i=1,2,\dots,n.
+$$
+:::
+
+::::
+
+Para demostrar este teorema recordamos que el Teorema Fundamental del álgebra dice:
+
+>[***"Un polinomio de grado $n-1$ tiene exactamente $n-1$ ceros en el conjunto de los números complejos."***]{style="display: block; text-align: center;"}
+
+Sin entrar en detalles sobre lo que son los números complejos, deducimos de ese enunciado que
+
+>[**Un polinomio de grado $n-1$ tiene a lo sumo $n-1$ ceros reales.**]{style="display: block; text-align: center;"}
+
+Esto implica a su vez que:
+
+::: {.callout style="text-align: center;"}
+Si $p(x) = p_1 x^{n-1} + p_2 x^{n-2} + \dots + p_{n-1} x + p_n$ cumple
+$$
+p(x_i) = 0, \qquad i=1,2,\dots,n,
+$$
+con todos los $x_i$ distintos; es decir, tiene $n$ ceros, entonces:
+$$
+p_1 = p_2 = \dots = p_{n-1} = p_n = 0.
+$$
+:::
+
+Ahora sí, estamos en condiciones de demostrar el teorema.
+
+### Demostración del @thm-existencia.pol.interp
+Queremos hallar el polinomio, así  que proponemos
+$$
+p(x) = p_1 x^{n-1} + p_2 x^{n-2} + \dots + p_{n-1} x + p_n.
+$$
+El mismo debe cumplir las siguiente $n$ ecuaciones
+$$
+\begin{align*}
+p(x_1) &= y_1 \\
+p(x_2) &= y_2 \\
+& \vdots \\
+p(x_n) &= y_n.
+\end{align*}
+$$
+
+Es decir
+$$
+\begin{align*}
+p_1 x_1^{n-1} + p_2 x_1^{n-2} + \dots + p_{n-1} x_1 + p_n &= y_1 \\
+p_1 x_2^{n-1} + p_2 x_2^{n-2} + \dots + p_{n-1} x_2 + p_n &= y_2 \\
+& \vdots \\
+p_1 x_n^{n-1} + p_2 x_n^{n-2} + \dots + p_{n-1} x_n + p_n &= y_n.
+\end{align*}
+$$
+
+Recordando que las abscisas $x_1, x_2, \dots, x_n$ son conocidas y las ordenadas $y_1, y_2, \dots, y_n$ también, las incógnitas son los coeficientes $p_1, p_2, \dots, p_n$ del polinomio. Para encontrarlos debemos resolver ese sistema de ecuaciones que en forma matricial se escribe
+$$
+\begin{bmatrix}
+x_1^{n-1} & x_1^{n-2} & \dots &  x_1  & 1  \\
+x_2^{n-1} & x_2^{n-2} & \dots &  x_2  & 1  \\
+\vdots & \vdots & & \vdots & \vdots \\
+x_n^{n-1} & x_n^{n-2} & \dots &  x_n  & 1  \\
+\end{bmatrix}
+\begin{bmatrix}
+p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+y_1 \\ y_2 \\ \vdots \\ y_{n-1} \\ y_n
+\end{bmatrix}.\qquad
+$$ {#eq-matriz.demostracion.existencia.pol.interp}
+
+Observamos nuevamente que el lado derecho del sistema de ecuaciones es el vector de ordenadas de los puntos (coordenadas $y$) y las columnas de la matriz son potencias de las abscisas de los puntos (coordenadas $x$). Esta matriz se conoce como matriz de Vandermonde correspondiente a $x_1, x_2, \dots, x_n$.
+
+Este sistema de ecuaciones tiene solución única si la matriz es invertible, lo cual puede verificarse demostrando que el problema homogéneo tiene como única solución a la trivial.
+
+Plantear el sistema homogéneo
+$$
+\begin{bmatrix}
+x_1^{n-1} & x_1^{n-2} & \dots &  x_1  & 1  \\
+x_2^{n-1} & x_2^{n-2} & \dots &  x_2  & 1  \\
+\vdots & \vdots & & \vdots & \vdots \\
+x_n^{n-1} & x_n^{n-2} & \dots &  x_n  & 1  \\
+\end{bmatrix}
+\begin{bmatrix}
+p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\ 0 \\ \vdots \\ 0
+\end{bmatrix}
+$$
+
+equivale a buscar el polinomio que satisface $p(x_i) = 0$, $i=1,2,\dots,n$.
+
+Por lo que hemos dicho antes de comenzar la demostración, esto implica que $p_1 = p_2 = \dots = p_{n-1} = p_n = 0$; es decir, la única solución es la trivial.
+
+Por lo tanto, el sistema @eq-matriz.demostracion.existencia.pol.interp tiene solución única, o lo que es lo mismo, existe un único polinomio cuya gráfica pasa por los $n$ puntos dados.
+
+En Python, para hallar el polinomio de grado $n-1$ que pasa por $n$ puntos, se utiliza la función `polyfit`.
+
+Por ejemplo, para hallar el polinomio de grado 4 cuya gráfica pasa por
+$$
+(1,2)\quad (2,-1) \quad (4.5,3) \quad (5.5,0) \quad (10,3.3)
+$$
+
+hacemos lo siguiente:
+```{python}
+# Definir los datos
+X = np.array([1, 2, 4.5, 5.5, 10])  # Numpy no necesita la transposición
+Y = np.array([2, -1, 3, 0, 3.3])
+
+# Ajuste polinómico de grado 4
+p = np.polyfit(X, Y, 4)
+
+print("Coeficientes del polinomio:", p)
+```
+
+Ahora grafiquemos el polinomio en el intervalo $[0,11]$ y veamos si realmente *interpola* los datos.
+```{python}
+#| fig-align: center
+#| code-fold: true
+
+# Crear un rango de valores para xx
+xx = np.linspace(0, 11, 200)
+
+# Evaluar el polinomio ajustado en los puntos de xx
+yy = np.polyval(p, xx)
+
+# Graficar
+plt.plot(xx, yy, label="Ajuste polinómico")
+plt.plot(X, Y, '*', label="Datos originales")  # Graficar los datos como puntos
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.legend()
+plt.title("Ajuste Polinómico")
+plt.grid(True)
+plt.show()
+```
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio de interpolación polinomial 1
+
+::: {}
+Consideremos los siguientes puntos
+
+$$
+(1, 1.54), (2, 1.5), (3, 1.42), (5, 0.66).
+$$
+
+1. Calcular el polinomio $p(x)$ de grado $3$ cuya gráfica pasa por esos puntos.
+
+2. Graficar los puntos y el polinomio en el intervalo $[0, 6]$.
+
+3. Calcular $p(4)$, $p'(4)$ y $\int^4_1{p(x)}\,dx$.
+
+:::
+::::
+
+:::: {.callout-tip icon="false"}
+## 📝 Ejercicio de interpolación polinomial 2
+
+::: {}
+Un biólogo realiza un experimento de reproducción de mosquitos y toma las siguientes mediciones
+
+|Semana|Cantidad|
+|-|-|
+|0|432|
+|1|599|
+|2|1012|
+|3|1909|
+|4|2977|
+|5|4190|
+|6|5961|
+
+1. Determinar el polinomio $p_6$ de grado igual que 6 que interpola los datos de la tabla.
+
+2. Graficar la curva interpolada junto a los datos experimentales.
+
+:::
+::::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+```
+
+
+
