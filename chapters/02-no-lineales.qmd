@@ -399,8 +399,7 @@ Si $p_n → p$ cuando $n → ∞$, entonces $p$ es un punto fijo de $g$; es deci
 
 ::::
 
-El [Teorema @thm-condicion.punto.fijo] nos dice que el método de punto fijo con una función $g$
-converge a un $p$ tal que $p = g(p)$. Entonces,
+El @thm-condicion.punto.fijo nos dice que el método de punto fijo con una función $g$ converge a un $p$ tal que $p = g(p)$. Entonces,
 
 <!-- Forma 1 de centrar texto (div) -->
 > ::: {style="text-align: center;"}
@@ -455,7 +454,7 @@ Consideremos ahora la función $g(x) = e^{-x}$ en el intervalo $[0, 1]$.
 
 ¿Tiene un punto fijo?
 
-Sí, pues cumple las hipótesis del [Teorema @thm-existe.punto.fijo], ya que
+Sí, pues cumple las hipótesis del @thm-existe.punto.fijo, ya que
 $$
 g(0) = 1 > 0 \quad \text{ y }\quad g(1) = e^{-1} ≈ 0.3679 < 1.
 $$
@@ -808,10 +807,10 @@ $$
 
 ::::
 
-**Demostración del teorema del punto fijo (**[Teo. @thm-punto.fijo]**)**
+**Demostración del teorema del punto fijo (@thm-punto.fijo)**
 
 Si $p_0 ∈ [p − δ,\ p + δ]$, entonces $|p - p_0| ≤ δ$. Ahora bien,
-por el teorema del valor medio ([Teo. @thm-valor.medio]), existe $z_1$ entre $p$ y $p_0$ tal que
+por el teorema del valor medio (@thm-valor.medio), existe $z_1$ entre $p$ y $p_0$ tal que
 $$
 p - p_1 = g(p) - g(p_0) = g'(z_1)(p - p_0),
 $$
@@ -859,7 +858,7 @@ Sea $g$ una función $C^1$ en un intervalo $[a, b]$ que cumple $g(x) ∈ [a, b]$
 - Existe un único punto fijo $p$ en ese intervalo.
 - Comenzando a partir de cualquier $p_0 ∈ [a, b]$, la iteración de punto fijo $p_{n+1} = g(p_n)$ converge $p$ y más áun,
 $$
-\qquad|p - p_n| ≤ K^n |p - p_0|.\qquad\qquad
+|p - p_n| ≤ K^n |p - p_0|.
 $$ {#eq-punto.fijo.v2}
 :::
 ::::
@@ -924,7 +923,7 @@ $$
 $$
 y luego
 $$
-\qquad| p - p_{n+1} | \le |p_{n+1} - p_n|.\qquad\qquad
+| p - p_{n+1} | \le |p_{n+1} - p_n|.
 $$ {#eq-punto.fijo.criterio.parada}
 
 En base a esta observación, si se quiere calcular una aproximación de $p$ con un error absoluto menor a $\texttt{tol}$, se detienen las iteraciones del método de punto fijo cuando
@@ -1073,12 +1072,12 @@ En esta sección veremos el método de bisección, que se utiliza para resolver 
 Toda ecuación de una incógnita puede escribirse como
 
 $$
-\qquad f(x) = 0.\qquad\qquad
+f(x) = 0.
 $$ {#eq-f.de.x.igual.a.cero}
 
-Si $p$ es un número tal que $f(p) = 0$ se dice que $p$ es un *cero* de $f$ o que $p$ es una raíz de la ecuación -@eq-f.de.x.igual.a.cero.
+Si $p$ es un número tal que $f(p) = 0$ se dice que $p$ es un *cero* de $f$ o que $p$ es una raíz de -@eq-f.de.x.igual.a.cero.
 
-Antes de ver el método, recordamos el teorema del valor intermedio (Teo), que es la base que da la idea al método de bisección.
+Antes de ver el método, recordamos el teorema del valor intermedio (@thm-valor.intermedio), que es la base que da la idea al método de bisección.
 
 :::: {.callout-warning icon="false"}
 ## Teorema del valor intermedio
@@ -1509,7 +1508,7 @@ Luego, si $g'$ es una función continua, resulta que existe $\delta > 0$ tal que
 
 Para que $g'$ sea continua es suficiente que $f$ sea $C^2$ y que $f'$ no se anule en una vecindad de $x=p$.
 
-Recordando el Teorema del Punto Fijo ([Teo. @thm-punto.fijo.v2]) hemos deducido el siguiente teorema:
+Recordando el Teorema del Punto Fijo (@thm-punto.fijo.v2) hemos deducido el siguiente teorema:
 
 :::: {.callout-warning icon="false"}
 ## Convergencia del método de Newton
@@ -2000,11 +1999,11 @@ parece más conveniente y por qué? Piense en algunas ventajas y desventajas de 
 ## Métodos iterativos para sistemas de ecuaciones
 Consideremos el siguiente sistema de dos ecuaciones no lineales con dos incógnitas:
 
-$$\qquad
+$$
 \begin{align*}
 x^2 - 2x - y + 0.5 &= 0, \\
 x^2 + 4 y^2 - 4 &= 0.
-\end{align*}\qquad\qquad
+\end{align*}
 $$ {#eq-probl.punto.fijo.vectorial}
 
 En términos geométricos, la primera ecuación representa una parábola y la segunda una elipse.
@@ -2086,7 +2085,7 @@ G\left(\begin{bmatrix}x\\y \end{bmatrix}\right)
 \begin{bmatrix} \dfrac{x^2-y+0.5}2 \\ \dfrac{-x^2-4y^2+8y+4}8 \end{bmatrix},
 $$
 
-la solución al [Problema @eq-probl.punto.fijo.vectorial] se reduce a encontrar un punto fijo $\mathbf{p}=[p_1,p_2]^T\in\mathbb{R}^2$ de la función $G$, es decir,
+la solución al Problema -@eq-probl.punto.fijo.vectorial se reduce a encontrar un punto fijo $\mathbf{p}=[p_1,p_2]^T\in\mathbb{R}^2$ de la función $G$, es decir,
 
 $$
 \mathbf{p}=G(\mathbf{p})
@@ -2099,7 +2098,7 @@ $$
 
 Esto sugiere que podríamos repetir la estrategia del método de punto fijo unidimensional pero en varias variables.
 
-Observando la [Figura @fig-curvas.de.nivel] (curvas de nivel) tomemos como una aproximación inicial de una de las soluciones el punto  $\mathbf{p}_0 = [ 0, 1]^T$. Luego, iteremos sucesivamente la función $G$ haciendo $\mathbf{p}_{n}=G(\mathbf{p}_{n-1})$ como muestra el siguiente código:
+Observando la @fig-curvas.de.nivel (curvas de nivel) tomemos como una aproximación inicial de una de las soluciones el punto  $\mathbf{p}_0 = [ 0, 1]^T$. Luego, iteremos sucesivamente la función $G$ haciendo $\mathbf{p}_{n}=G(\mathbf{p}_{n-1})$ como muestra el siguiente código:
 
 ```{python}
 G = lambda x,y: np.array([
