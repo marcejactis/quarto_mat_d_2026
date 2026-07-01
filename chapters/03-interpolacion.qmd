@@ -206,15 +206,15 @@ $$
 
 Para demostrar este teorema recordamos que el Teorema Fundamental del álgebra dice:
 
->[***"Un polinomio de grado $n-1$ tiene exactamente $n-1$ ceros en el conjunto de los números complejos."***]{style="display: block; text-align: center;"}
+>[***"Un polinomio de grado $n-1$ tiene exactamente $n-1$ ceros en el conjunto de los números complejos."***]{.center}
 
 Sin entrar en detalles sobre lo que son los números complejos, deducimos de ese enunciado que
 
->[**Un polinomio de grado $n-1$ tiene a lo sumo $n-1$ ceros reales.**]{style="display: block; text-align: center;"}
+>[**Un polinomio de grado $n-1$ tiene a lo sumo $n-1$ ceros reales.**]{.center}
 
 Esto implica a su vez que:
 
-::: {.callout style="text-align: center;"}
+::: {.callout .center}
 Si $p(x) = p_1 x^{n-1} + p_2 x^{n-2} + \dots + p_{n-1} x + p_n$ cumple
 $$
 p(x_i) = 0, \qquad i=1,2,\dots,n,
@@ -294,7 +294,7 @@ equivale a buscar el polinomio que satisface $p(x_i) = 0$, $i=1,2,\dots,n$.
 
 Por lo que hemos dicho antes de comenzar la demostración, esto implica que $p_1 = p_2 = \dots = p_{n-1} = p_n = 0$; es decir, la única solución es la trivial.
 
-Por lo tanto, el sistema @eq-matriz.demostracion.existencia.pol.interp tiene solución única, o lo que es lo mismo, existe un único polinomio cuya gráfica pasa por los $n$ puntos dados.
+Por lo tanto, el sistema en -@eq-matriz.demostracion.existencia.pol.interp tiene solución única, o lo que es lo mismo, existe un único polinomio cuya gráfica pasa por los $n$ puntos dados.
 
 En Python, para hallar el polinomio de grado $n-1$ que pasa por $n$ puntos, se utiliza la función `polyfit`.
 
@@ -346,7 +346,7 @@ Recordá que si bien estás buscando un resultado en particular, herramientas co
 
 Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
 
-:::: {.callout-tip icon="false"}
+:::: {.callout-tip icon="false" collapse="false"}
 ## 📝 Ejercicio de interpolación polinomial 1
 
 ::: {}
@@ -363,12 +363,19 @@ $$
 3. Calcular $p(4)$, $p'(4)$ y $\int^4_1{p(x)}\,dx$.
 
 :::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
 ::::
 
-:::: {.callout-tip icon="false"}
+:::: {.callout-tip icon="false" collapse="true"}
 ## 📝 Ejercicio de interpolación polinomial 2
 
-::: {}
+::: {#ej-mosquitos}
 Un biólogo realiza un experimento de reproducción de mosquitos y toma las siguientes mediciones
 
 |Semana|Cantidad|
@@ -386,11 +393,327 @@ Un biólogo realiza un experimento de reproducción de mosquitos y toma las sigu
 2. Graficar la curva interpolada junto a los datos experimentales.
 
 :::
-::::
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+## Aproximación por cuadrados mínimos {#sec-aprox.cuad.minimos}
+
+En la sección anterior vimos cómo calcular un **polinomio interpolador** de una lista de puntos.
+Es decir, buscábamos el polinomio cuya gráfica pasa exactamente por todos los puntos dados. Volveremos a esto en la sección siguiente, lo que será útil para obtener fórmulas de integración numérica en el capítulo próximo.
+
+Ahora nos enfocaremos en el cálculo de un polinomio de grado bajo que pase *cerca* de una lista dada de puntos. Algo similar a los que muestra la siguiente gráfica:
+
+![Interpolación por mínimos cuadrados](images/plot_cuadrados_minimos.png){#fig-cuadrados.minimos}
+
+Consideremos el caso en que tenemos $n$ puntos
+$$
+(x_1,y_1)\quad (x_2,y_2)\quad \dots \quad(x_n,y_n)
+$$
+con $n$ grande, como en la gráfica, y buscamos un polinomio de grado menor o igual a 2, cuya gráfica pase lo más cerca posible de esos puntos.
+
+Debemos definir en qué sentido el polinomio pasa cerca de los puntos.
+La manera más usual es lo que se conoce como la aproximación por cuadrados mínimos, que consiste en lo siguiente.
+
+Queremos hallar el polinomio $p(x)$ que minimice la suma de la distancia entre $p(x_i)$ y $y_i$ al cuadrado, es decir, que minimice la siguiente expresión
+$$
+\big(p(x_1) - y_1\big)^2 + \big(p(x_2) - y_2\big)^2 + \dots + \big(p(x_n) - y_n\big)^2
+= \sum_{i=1}^n \big(p(x_i) - y_i\big)^2.
+$$
+Geométricamente, estamos mirando la distancia *vertical* entre el punto *dato* $(x_i,y_i)$ y el punto de la gráfica con la misma abscisa $(x_i,p(x_i))$. Lo que se quiere minimizar es la suma de esas distancias al cuadrado. En notación más compacta, queremos minimizar la norma euclídea o magnitud de este vector
+$$
+\begin{bmatrix}
+p(x_1) \\ p(x_2) \\ \vdots \\ p(x_n)
+\end{bmatrix}
+-
+\begin{bmatrix}
+y_1 \\ y_2 \\ \vdots \\ y_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+p_1 x_1^2 + p_2 x_1 + p_3  \\ p_1 x_2^2 + p_2 x_2 + p_3  \\ \vdots
+\\ p_1 x_n^2 + p_2 x_n + p_3  
+\end{bmatrix}
+-
+\begin{bmatrix}
+y_1 \\ y_2 \\ \vdots \\ y_n
+\end{bmatrix}
+$$
+Observamos que
+$$
+\begin{bmatrix}
+p_1 x_1^2 + p_2 x_1 + p_3  \\ p_1 x_2^2 + p_2 x_2 + p_3  \\ \vdots
+\\ p_1 x_n^2 + p_2 x_n + p_3  
+\end{bmatrix}
+=
+\underbrace{
+\begin{bmatrix}
+ x_1^2 & x_1 & 1   \\
+ x_2^2 & x_2 & 1   \\
+ \vdots  \\
+ x_n^2 & x_n & 1  
+\end{bmatrix}}_{M}
+\underbrace{
+\begin{bmatrix}
+p_1 \\ p_2 \\ p_3
+\end{bmatrix}}_{\boldsymbol{p}}
+$$
+y planteamos el siguiente problema:
+
+Hallar el vector $\boldsymbol{p}$ que minimice la norma de $M \boldsymbol{p} - \boldsymbol{y}$, es decir, que minimice
+$$
+\| M \boldsymbol{p} - \boldsymbol{y} \| = \left( \sum_{i=1}^n \big[(M\boldsymbol{p})_i - y_i]^2\right)^{1/2}
+$$
+
+Para resolver este problema, recordemos que $M \boldsymbol{p}$ es una combinación lineal de las columnas de $M$
+$$
+M \boldsymbol{p} = p_1 \text{col}_1(M) + p_2 \text{col}_2(M) + p_3 \text{col}_3(M),
+$$
+y por lo tanto, el problema consiste en encontrar el elemento del *espacio columna* de $M$ que está lo más cerca posible de $\boldsymbol{y}$.
+
+Recordando un poco de geometría, vemos que $M\boldsymbol{p}$ es el elemento de dicho espacio más cercano a $\boldsymbol{y}$ si y sólo si el *error* $\boldsymbol{y} - M \boldsymbol{p}$  es perpendicular al espacio generado por las columnas de $M$. Es decir, si $\boldsymbol{y}-M\boldsymbol{p}$ es perpendicular a cada columna de $M$. Más precisamente, si se cumple que
+$$
+\begin{align*}
+\text{col}_1(M) \cdot (\boldsymbol{y} - M \boldsymbol{p}) &= 0 \\
+\text{col}_2(M) \cdot (\boldsymbol{y} - M \boldsymbol{p}) &= 0 \\
+\text{col}_3(M) \cdot (\boldsymbol{y} - M \boldsymbol{p}) &= 0 .
+\end{align*}
+$$
+
+Recordando que si $u$, $v$ son vectores columna, entonces $u \cdot v = u^T v$ resulta que $M\boldsymbol{p}$ debe cumplir
+$$
+\begin{align*}
+\text{col}_1(M)^T (\boldsymbol{y} - M \boldsymbol{p}) &= 0 \\
+\text{col}_2(M)^T (\boldsymbol{y} - M \boldsymbol{p}) &= 0 \\
+\text{col}_3(M)^T (\boldsymbol{y} - M \boldsymbol{p}) &= 0 .
+\end{align*}
+$$
+
+O, en notación mós compacta
+$$
+\begin{bmatrix}
+\text{col}_1(M)^T \\
+\text{col}_2(M)^T \\
+\text{col}_3(M)^T
+\end{bmatrix}
+(\boldsymbol{y} - M \boldsymbol{p})
+= \begin{bmatrix} 0\\0\\0 \end{bmatrix}
+\qquad\iff\qquad
+M^T (\boldsymbol{y} - M \boldsymbol{p})
+= \begin{bmatrix} 0\\0\\0 \end{bmatrix}
+$$
+A su vez, esta última expresión, equivale a
+$$
+M^T M \boldsymbol{p} = M^T \boldsymbol{y}.
+$$
+Es decir, el vector $\boldsymbol{p}$ (de tres componentes) debe ser la solución al sistema de ecuaciones
+$$
+\big( M^T M\big) \boldsymbol{p} = M^T \boldsymbol{y}.
+$$
+
+En Python, si `X`, `Y` son vectores que tienen las abscisas y las ordenadas de los puntos, el cálculo del polinomio $p$ se haría de la siguiente manera
+```{python}
+#| fig-align: center
+
+# Datos (puntos dados)
+X = np.array([0.5,0.75,0.9,1.12,
+              1.3,1.35,1.7,1.95,
+              2.05,2.35,2.7,2.93,
+              3.14,3.4,3.6,3.85,
+              4.3,4.55,4.87,4.9,
+              5.2,5.28,5.5,5.7,5.9])
+Y = np.array([1.13, 0.87, 1.20, 0.83, 1.24,
+              1.09, 1.75, 2.26, 1.73, 3.1,
+              3.38, 4.8, 5.93, 6.17, 6.55,
+              9.56, 10.46, 14.28, 15.34, 18.29,
+              18.89, 17.09, 24.63, 26.10, 23.3])
+
+# Paso 1: armado de la matriz M
+M = np.array([X**2, X, np.ones_like(X)]).T
+
+# Paso 2: armamos la matriz del sistema
+A = M.T @ M
+
+# Paso 3: armamos el lado derecho del sistema
+b = M.T @ Y
+
+# Paso 4: hallamos los coeficientes del polinomio que aproximan en el sentido de mínimos cuadrados
+p = np.linalg.solve(A, b)
+
+# Generamos el intervalo para xx, por ejemplo, [0, 6]
+xx = np.linspace(0, 6, 200)
+
+# Evaluamos el polinomio en los puntos xx
+yy = np.polyval(p, xx)
+
+# Graficamos los puntos originales y la curva ajustada
+plt.scatter(X, Y, color='red', label="Puntos dados")  # Puntos originales
+plt.plot(xx, yy, label="Polinomio ajustado")  # Curva ajustada
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.title("Ajuste polinómico por mínimos cuadrados")
+plt.legend()
+plt.grid(True)
+plt.show()
 ```
 
+Los Pasos $1$ al $4$ del procedimiento anterior pueden resumirse haciendo uso del comando `polyfit`, i.e.
+
+::: {.center}
+`p = np.polyfit(X,Y,2)`
+:::
+
+Sin embargo es importante entender cómo se resuelve un sistema en el sentido de mínimos cuadrados, pues hay ocasiones en que se requiere aproximar datos que provengan de funciones no polinómicas, como ser
+
+$$
+p(x) = a 3^x + b 2^x + c.
+$$
+
+Aunque en este caso no podremos usar el comando `np.polyfit` (¿por qué?), podemos repitir los pasos anteriores pero sustituyendo la matriz $M$ por una de la forma
+
+[`M = np.array([ 3**X,  2**X,  np.ones_like(X)]).T`]{.center}
+
+y aún así obtener el resultado deseado.
+
+En las ejercicios veremos casos como este y algunos aún más complejos.
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Problema de mínimos cuadrados 1
+
+::: {}
+Continuemos con la interpolación de los datos de mosquitos del [Ejercicio de interpolación polinomial 2](#ej-mosquitos){.quarto-xref}.
+
+1. Determinar la función lineal $p_1$ que mejor aproxima en el sentido de cuadrados mínimos los datos dados (modelo lineal).
+
+2. Determinar el polinomio $p_2$ de grado $\le 2$ que mejor aproxima en el sentido de cuadrados mínimos los datos dados (modelo cuadrático).
+
+3. Graficar los datos y la evolución de los $3$ modelos calculados durante las $6$ semanas. Determinar el error cuadrático en cada caso. ¿cuál de los modelos le parece que es más apropiado y por qué?
+
+4. Predecir cuál será la cantidad de mosquitos al cabo de $10$ semanas según los diferentes modelos propuestos.
+¿Sigue pensando que el modelo más apropiado es el que eligió en el item anterior?
+
+5. Si se sabe que la medición a las $10$ semanas es de $14900$ mosquitos, calcule el error relativo de cada una de sus predicciones y verifique si el modelo que consideró más apropiado es el que da la mejor predicción.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Problema de mínimos cuadrados 2
+
+::: {}
+Se calculó la energía térmica total E de una barra y los datos se reportan en el archivo `datos_energia.txt` (ver [Datos para el TP2](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13093){target="_blank"} en el aula virtual).
+
+1. Grafique la energía térmica total de la barra $E(t_i)$ en cada uno de los instantes de tiempo $t_i$ dados.
+
+2. Calcule el polinomio $p(t)$ de grado 8 que aproxima los puntos $(t_i, E(t_i))$ en el sentido de cuadrados mínimos.
+
+    Grafique dicho polinomio junto a los datos y calcule el error cuadrático correspondiente al ajuste.
+
+3. Utilice el ajuste realizado en el item anterior para calcular la máxima tasa de cambio instantánea de la energía total en la barra y diga en qué momento ocurre con 5 cifras significativas de precisión.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Problema de mínimos cuadrados 3
+
+::: {}
+Considere las mediciones dadas en el archivo `datos_poblacion.txt` (ver [Datos para el TP2](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13093){target="_blank"} en el aula virtual), que corresponden a la evolución de un cierta población en el intervalo $[0, 15]$.
+
+1. ¿Cuál es el grado polinomial más pequeño para el cuál el ajuste por cuadrados mínimos le parece razonable?
+
+2. Según su modelo, ¿cuál es la tasa de crecimiento más grande alcanzada y en qué momento ocurre?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Problema de mínimos cuadrados 4
+
+::: {}
+En el archivo `datos_censos_argentina.txt`  (ver [Datos para el TP2](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13093){target="_blank"} en el aula virtual) se encuentra la población total de Argentina para diferentes años según el INDEC.
+
+1. Determinar los ajustes lineal y cuadrático en el sentido de mínimos cuadrados para los datos y graficar.
+
+2. Calcular el error cuadrático de ambos ajustes. ¿Alguno de los ajustes le parece razonable? ¿Por qué?
+
+3. Determinar la población predecida para este año con ambos ajustes. Buscar la población estimada de hoy en la página de INDEC y calcular el error relativo porcentual de ambas predicciones.
+
+4. Teniendo en cuenta los resultados del item anterior, decida si en efecto alguno de los dos modelos le parece razonable. En caso afirmativo, utilícelo para determinar cuántos años faltan para que lleguemos a ser 50 millones de argentinos.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Problema de mínimos cuadrados 5
+
+::: {}
+Considerar los datos $(x_i, y_i)$, para $i = 1, . . . , 21$ dados en el archivo `datos_erf.txt`.  (ver [Datos para el TP2](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13093){target="_blank"} en el aula virtual)
+
+1. Considere el polinomio $p_3$ de grado ≤ 3 que mejor aproxima en el sentido de cuadrados mínimos los datos dados. Calcule el error cuadrático y utilice el modelo para predecir el valor en $x = 11$.
+
+2. Considere el polinomio $p_5$ de grado $\le 5$ que mejor aproxima en el sentido de cuadrados mínimos los datos dados. Calcule el error cuadrático y utilice el modelo para predecir el valor en $x = 11$.
+
+3. Determine la función de la forma $$g(x) = c_1 x e^{-x^2} + c_2 \arctan(x) + c_3 \frac{x}{x^2+1}$$ que mejor aproxima en el sentido de cuadrados mínimos los datos dados. Calcule el error cuadrático y utilice el modelo para predecir el valor en $x = 11$.
+
+4. ¿Cuál de los $3$ modelos le parece más apropiado y por qué?
+
+5. Considere la función $g$ determinada en el item (c). Halle el valor de $x$ (con $6$ cifras significativas correcta) tal que $g(x) = 0.26$.
+
+[💡 **Sugerencia:** No aproxime los valores de $c_1$, $c_2$ y $c_3$ calculados en el ítem 3. Use dichos valores con toda la precisión calculada.]{.callout}
+
+6. Suponga que en el ítem 3 sólo puede usar $2$ de las $3$ funciones que componen el modelo. ¿Cuál de ellas descartaría y por qué?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
 
 
