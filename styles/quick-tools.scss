@@ -25,6 +25,10 @@ div.tippy-content mjx-labels,
 div.tippy-content mjx-label {
     display: none !important;
 }
+// Fuerza la desaparición de barras de scroll vertical en la previsualización
+.tippy-content {
+  overflow-y: hidden !important;
+}
 
 // Centrar un bloque
 .center {
