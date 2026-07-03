@@ -59,18 +59,18 @@ plt.show()
 
 2. **Son fáciles de integrar, y la integral de un polinomio es otro polinomio**
 $$
-\begin{align*}
+\begin{split}
 \int 6 x^3 - 3 x^2 + 0 x + 1 \dd x &= 6 \frac{x^4}4 -3 \frac{x^3}3 + 0 \frac{x^2}2 + 1 x + c \\
 &= \frac64 x^4 -\frac33 x^3 + \frac02 x^2 + 1 x + c
-\end{align*}
+\end{split}
 $$
 para cualquier constante $c$.
 En general:
 $$
-\int p_1 x^{n-1}  + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \dd x
-$$
-$$
+\begin{multline}
+\int p_1 x^{n-1}  + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \dd x \\
 =  \frac{p_1}n x^{n}  + \frac{p_2}{n-1} x^{n-1} + \dots + \frac{p_{n-1}}2 x^2 + p_n x + C.
+\end{multline}
 $$
 
 3.  **Son fáciles de derivar, y la derivada de un polinomio es otro polinomio**
@@ -79,10 +79,10 @@ $$
 $$
 En general
 $$
-\frac{d}{dx} \left(p_1 x^{n-1}  + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \right)
-$$
-$$
-=  (n-1)p_1 x^{n-2}  + (n-2)p_2 x^{n-3} + \dots + 3p_{n-3} x^2 + 2p_{n-2} x + p_{n-1}.
+\begin{multline}
+\frac{d}{dx} \left(p_1 x^{n-1} + p_2 x^{n-2} + \dots + p_{n-1} x + p_n \right) \\
+= (n-1)p_1 x^{n-2} + (n-2)p_2 x^{n-3} + \dots + 3p_{n-3} x^2 + 2p_{n-2} x + p_{n-1}.
+\end{multline}
 $$
 
 ::: {.callout-tip icon="false"}
@@ -715,5 +715,324 @@ Considerar los datos $(x_i, y_i)$, para $i = 1, . . . , 21$ dados en el archivo 
 
 ```
 ::::
+
+
+## Interpolación de funciones {#sec-interp.de.funciones}
+
+Volvemos ahora a la idea del polinomio interpolador, es decir, el polinomio cuya gráfica pasa exactamente por una lista de puntos.
+
+Pero consideramos ahora que esos puntos coinciden con puntos de la gráfica $y=f(x)$ de una función $f$ dada.
+
+Hagamos un poco de matemática experimental. Para ello, a continuación incluimos una función de Python `pruebapolyfit` que dada una función $f$, un intervalo $[a,b]$ y un número $n$ de puntos calcula el polinomio interpolante en $n$ puntos **equidistantes**. La idea es tratar de *medir el error* entre la función y el polinomio hallado.
+
+```{python}
+def pruebapolyfit(f, a, b, n, graf):
+    """
+    Interpola la función f en n puntos equiespaciados en el intervalo [a, b].
+
+    Argumentos:
+    f -- función a interpolar
+    a, b -- extremos del intervalo
+    n -- número de puntos equiespaciados
+    graf -- 1 si deseamos graficar, 0 si no lo deseamos
+
+    Retorna:
+    p -- coeficientes del polinomio interpolante en formato numpy
+    maximo_error -- máximo error entre la función y el polinomio
+    """
+    # Puntos equiespaciados en [a, b]
+    X = np.linspace(a, b, n)
+    # Evaluación de f en los puntos
+    Y = f(X)
+    # Obtención del polinomio interpolante
+    p = np.polyfit(X, Y, n - 1)
+
+    # Puntos adicionales para graficar
+    xx = np.linspace(a, b, 200)
+    # Evaluación de la función y del polinomio
+    fxx = f(xx)
+    pxx = np.polyval(p, xx)
+    # Cálculo del error absoluto
+    error = np.abs(fxx - pxx)
+    maximo_error = np.max(error)
+
+    if graf == 1:
+      # Gráfico 1: Función original y polinomio interpolante
+      plt.figure(1, figsize=(6,4))
+      plt.plot(xx, fxx, label="Función original", linewidth=2)
+      plt.plot(xx, pxx, label="Polinomio interpolante", linewidth=2)
+      plt.scatter(X, Y, color='red', label="Puntos de interpolación")
+      plt.legend()
+      plt.xlabel("x")
+      plt.ylabel("y")
+      plt.title("Interpolación polinómica")
+      plt.grid(True)
+      plt.show()
+
+      # Gráfico 2: Error absoluto
+      plt.figure(2, figsize=(6,4))
+      plt.plot(xx, error, label="Error absoluto", linewidth=2)
+      plt.xlabel("x")
+      plt.ylabel("Error")
+      plt.title("Error de interpolación")
+      plt.grid(True)
+
+    return p, maximo_error
+```
+
+
+### Ejemplo 2.2 {#sec-ejemplo.sinx}
+
+```python
+# Definimos la función a interpolar
+f = lambda x: np.sin(x)
+# Intervalo y
+a, b = 0, 7
+# Número de puntos
+n = 2
+# Activamos la opción para que grafique
+graf = 1
+# Llamada a la función
+p,max_error=pruebapolyfit(f,a,b,n,graf)
+```
+```{python}
+#| echo: false
+#| fig-align: center
+#| layout-ncol: 2
+
+# Definimos la función a interpolar
+f = lambda x: np.sin(x)
+# Intervalo y
+a, b = 0, 7
+# Número de puntos
+n = 2
+# Activamos la opción para que grafique
+graf = 1
+# Llamada a la función
+p,max_error=pruebapolyfit(f,a,b,n,graf)
+```
+
+Ahora hagamos diferentes pruebas a la medida que incrementamos la cantidad de puntos, es decir $n$, y veamos cómo se comporta el error. Variemos $n$ entre 2 y 10:
+```{python}
+# Número de puntos
+n = 2
+# Desactivamos la opción para que grafique
+graf = 0
+# Llamada a la función
+p, max_error = pruebapolyfit(f,a,b,n,graf)
+
+print("Máximo error para n =",n, "es", max_error)
+```
+
+::: {.aside}
+Asegurese de obtener los siguientes resultados:
+```{python}
+#| echo: false
+
+# @title Tabla errores de interpolación $f(x)=\sin(x)$ {"vertical-output":true}
+import numpy as np
+import pandas as pd
+
+max_error_list = []
+
+for n in range(2, 11):
+  _, max_error = pruebapolyfit(lambda x: np.sin(x), 0, 7, n, 0)
+  max_error_list.append(max_error)
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({'n': range(2, 11), 'Máximo error': max_error_list})
+
+# Mostrar la tabla
+display(tabla.style.format({"Máximo error": "{:.8e}"}).hide(axis="index"))
+```
+:::
+
+Vemos en este ejemplo que el error **tiende a cero** a medida que aumentamos el número $n$ de puntos.
+
+
+### Ejemplo 2.3
+
+Consideremos  ahora $f = e^{-x^2}$ y veamos qué ocurre cuando realizamos el mismo experimento en el intervalo $[-1,3]$ con $n$ variando nuevamente entre $2$ y $10$:
+
+```{python}
+# Definimos la función a interpolar
+f = lambda x: np.exp(-x**2)
+# Intervalo y
+a, b = -1, 3
+# Número de puntos
+n = 20
+# Desctivamos la opción para que grafique
+graf = 0
+# Llamada a la función
+p, max_error = pruebapolyfit(f,a,b,n,graf)
+
+print("Máximo error para n =",n, "es", max_error)
+```
+
+::: {.aside}
+Nuevamente, variando $n$ entre $2$ y $10$, asegúrese de obtener los siguientes resultados:
+```{python}
+#| echo: false
+
+# @title Tabla errores de interpolación $f(x)=e^{-x^2}$ {"vertical-output":true}
+import numpy as np
+import pandas as pd
+
+max_error_list = []
+
+for n in range(2, 11):
+  _, max_error = pruebapolyfit(lambda x: np.exp(-x**2), -1, 3, n, 0)
+  max_error_list.append(max_error)
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({'n': range(2, 11), 'Máximo error': max_error_list})
+
+# Mostrar la tabla
+display(tabla.style.format({"Máximo error": "{:.8e}"}).hide(axis="index"))
+```
+:::
+
+Aquí también parece ser que el error **tiende a cero**, aunque da la impresión de que esto ocurre más *lentamente* que en el ejemplo anterior.
+
+Veamos un último ejemplo.
+
+
+### Ejemplo 2.4
+
+Consideremos la función $f(x) = \frac{1}{1+x^2}$ sobre el intervalo $[-5,5]$.
+
+```{python}
+# Definimos la función a interpolar
+f = lambda x: 1/(1+x**2)
+# Intervalo y
+a, b = -5, 5
+# Número de puntos
+n = 30
+# Desctivamos la opción para que grafique
+graf = 0
+# Llamada a la función
+p, max_error = pruebapolyfit(f,a,b,n,graf)
+
+print("Máximo error para n =",n, "es", max_error)
+```
+Varian $n$ entre 2 y 10 nuevamente.
+
+::: {.aside}
+Deberíamos obtener los siguientes resultados:
+```{python}
+#| echo: false
+
+# @title Tabla errores de interpolación $f(x) = \frac{1}{1+x^2}$ {"vertical-output":true,"display-mode":"form"}
+import numpy as np
+import pandas as pd
+
+max_error_list = []
+
+for n in range(2, 11):
+  _, max_error = pruebapolyfit(lambda x: 1/(1+x**2), -5, 5, n, 0)
+  max_error_list.append(max_error)
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({'n': range(2, 11), 'Máximo error': max_error_list})
+
+# Mostrar la tabla
+display(tabla.style.format({"Máximo error": "{:.8e}"}).hide(axis="index"))
+```
+:::
+
+Aquí hay algo raro. Veamos qué ocurre si seguimos con $n$ entre 11 y 17:
+```{python}
+# Número de puntos
+n = 11
+# Llamada a la función
+p, max_error = pruebapolyfit(f,a,b,n,graf)
+
+print("Máximo error para n =",n, "es", max_error)
+```
+
+::: {.aside}
+```{python}
+#| echo: false
+
+# @title Tabla errores de interpolación $f(x) = \frac{1}{1+x^2}$ (continuación) {"vertical-output":true}
+import numpy as np
+import pandas as pd
+
+max_error_list = []
+
+for n in range(11, 18):
+  _, max_error = pruebapolyfit(lambda x: 1/(1+x**2), -5, 5, n, 0)
+  max_error_list.append(max_error)
+
+# Crear un DataFrame de pandas
+tabla = pd.DataFrame({'n': range(11, 18), 'Máximo error': max_error_list})
+
+# Mostrar la tabla
+display(tabla.style.format({"Máximo error": "{:.8e}"}).hide(axis="index"))
+```
+:::
+
+Aquí se ve que la cosa no anda tan bien. El error no parece tender a cero. Para entender qué está ocurriendo debemos ver un poco de teoría.
+
+El teorema del error de interpolación dice lo siguiente.
+
+:::: {.callout-warning icon=false title="Teorema del error de interpolación"}
+
+::: {#thm-error.interp.polinomial}
+Sea $f$ una función definida en el intervalo $[a,b]$. Si $x_1,\dots,x_n$ son todos puntos distintos en el intervalo $[a,b]$, entonces existe un único polinomio $p(x)$ de grado menor o igual a $n-1$ cuya gráfica pasa por los puntos $(x_i,f(x_i))$ para $i=0,1,\dots,n$. Es decir, existe un único polinomio $p(x)= p_1x^{n-1} + \dots + p_{n-1}x + p_n$ de grado menor o igual a $n$ tal que
+$$
+p(x_i) = f(x_i), \qquad i=1,2,\dots,n.
+$$
+Además, si $f$ es $C^{n}$ en el intervalo $[a,b]$, se cumple que para cada $x\in[a,b]$
+$$
+|f(x) - p(x)| \le \frac{M_n}{n!} |x-x_1|\,|x-x_2|\dots |x-x_n|,
+$$
+donde
+$$
+M_n = \max_{\xi\,\in\,[a,b]} |f^n(\xi)|.
+$$
+:::
+::::
+
+A su vez podemos obtener los siguientes corolarios.
+
+::: {#cor-error.interp.particion.arbitraria}
+Si no se sabe dónde están los puntos $x_i$, entonces, para cada $x \in [a,b]$ sólo sabemos que $|x-x_i|\le |b-a|$. Del teorema anterior concluimos que:
+$$
+\max_{x\in[a,b]} |f(x)-p(x)| \le \frac{M_{n}}{n!} |b-a|^n.
+$$
+:::
+
+::: {#cor-error.interp.equiespaciados}
+Si los puntos $x_i$ están **equiespaciados** y $x_1=a$, $x_n=b$, es decir
+$$
+x_i = a + (i-1) \Delta x, \qquad\text{con}\quad \Delta x = \frac{b-a}{n-1},
+$$
+entonces resulta (pensemos que $x \in [x_1,x_2]$)
+$$
+|x-x_1|\,|x-x_2|\dots |x-x_n|
+\le \Delta x \, \Delta x \, 2\Delta x \, 3\Delta x \, \dots (n-1) \Delta x
+= (n-1)! \Delta x^n
+$$
+Luego,
+$$
+\Delta x^n = \frac{|b-a|^n}{(n-1)^n}
+$$
+Entonces,
+$$
+|x-x_1|\,|x-x_2|\dots |x-x_n| \le (n-1)! \frac{|b-a|^n}{(n-1)^n}
+$$
+Por lo tanto, del teorema anterior obtenemos
+$$
+\max_{x\in[a,b]} |f(x)-p(x)| \le \underbrace{\frac{M_n}{n} \frac{|b-a|^n}{(n-1)^n}}_{\text{cota del error}}.
+$$
+:::
+
+::: {.callout-tip icon="false"}
+## ⚙️ Desafío
+¿En qué sentido estos resultados podrían explicar lo que ocurrió en los diferentes experimentos?
+:::
+
+
 
 
