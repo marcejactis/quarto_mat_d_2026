@@ -49,7 +49,7 @@ format:
     code-summary: "Mostrar código"
     code-copy: true
     smooth-scroll: true
-    html-math-method: katex
+    # html-math-method: katex
     respect-user-color-scheme: true
 
 lang: es

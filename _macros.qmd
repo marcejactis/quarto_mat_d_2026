@@ -1,4 +1,6 @@
 ::: {.content-hidden}
+# Paquetes
+\usepackage{amsmath}
 # Definiciones
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
