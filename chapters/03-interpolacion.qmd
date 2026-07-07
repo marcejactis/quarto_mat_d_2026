@@ -266,7 +266,7 @@ p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
 =
 \begin{bmatrix}
 y_1 \\ y_2 \\ \vdots \\ y_{n-1} \\ y_n
-\end{bmatrix}.\qquad
+\end{bmatrix}.
 $$ {#eq-matriz.demostracion.existencia.pol.interp}
 
 Observamos nuevamente que el lado derecho del sistema de ecuaciones es el vector de ordenadas de los puntos (coordenadas $y$) y las columnas de la matriz son potencias de las abscisas de los puntos (coordenadas $x$). Esta matriz se conoce como matriz de Vandermonde correspondiente a $x_1, x_2, \dots, x_n$.
@@ -344,7 +344,7 @@ Intentá hallar la solución a los siguientes problemas con los conocimientos ad
 
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
 
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 :::: {.callout-tip icon="false" collapse="false"}
 ## 📝 Ejercicio de interpolación polinomial 1
@@ -589,7 +589,7 @@ Intentá hallar la solución a los siguientes problemas con los conocimientos ad
 
 Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
 
-Podés resolver utilizando celdas de código en este mismo colab, o corriendo python de manera local.
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
 
 :::: {.callout-tip icon="false" collapse="false"}
 ## 📝 Problema de mínimos cuadrados 1
@@ -1033,6 +1033,209 @@ $$
 ¿En qué sentido estos resultados podrían explicar lo que ocurrió en los diferentes experimentos?
 :::
 
+## Interpolación polinomial a trozos {#sec-interp.pol.a.trozos}
+Vimos en la sección anterior que la cota del error para un polinomio $p$ que interpola a una función $f$ en $n$ puntos equiespaciados sobre el intervalo $[a,b]$ es
+$$
+|f(x) - p(x)| \le M_n \frac{|b-a|^n}{n(n-1)^n},
+$$
+con $M_n = \max_{\xi\in[a,b]} |f^n(\xi)|$.
 
+También vimos que en algunos casos $M_n$ puede ser muy grande para $n$ grande. En este caso, no sirve de mucho aumentar excesivamente el número de puntos de interpolación.
+
+> [**¿Qué se puede hacer para asegurar que el error tiende a cero?**]{.center}
+
+Una cosa que se puede hacer es utilizar interpolación polinomial *a trozos*.
+
+La idea es fijar el grado polinomial $n-1$ e interpolar con ese grado (fijo) sobre $L$ sub-intervalos.
+Más precisamente. Consideremos un intervalo $[a,b]$ y un número entero positivo $L$.
+Subdividamos el intervalo $[a,b]$ en $L$ sub-intervalos de longitud $h = \frac{|b-a|}L$.
+
+Llamemos $y_1$, $y_2$, $\dots$, $y_{L+1}$ a los extremos de esos sub-intervalos, es decir
+$$
+y_1 = a, \quad y_2 = a+h, \quad y_3 = a+2h, \quad\dots\quad
+y_L = a+(L-1)h = b-h, \quad y_{L+1} = a+Lh = b.
+$$
+Luego, interpolemos en cada sub-intervalo con un polinomio de grado $n-1$.
+
+En el gráfico a continuación se muestra un ejemplo para $n=2$. Es decir, en cada sub-intervalo $[y_i,y_{i+1}]$ se interpola con una función lineal (polinomio de grado $n-1=1$) que coincide en los extremos de ese sub-intervalo.
+
+![Interpolación polinomial lineal a trozos](images/inter_pol_lineal_a_atrozos.png){fig-align="center" width="70%"}
+
+En el caso $n=3$ consideramos, en cada sub-intervalo, el polinomio de grado 2 que interpola en los extremos y en el punto medio de ese sub-intervalo.
+
+![Interpolación polinomial cuadrática a trozos](images/inter_pol_cuad_a_trozos.png){fig-align="center" width="70%"}
+
+Así, se puede realizar para cualquier grado polinomial.
+
+Luego, por el [teorema del error de interpolación](#thm-error.interp.polinomial){.quarto-xref}, si fijamos $n$ (no demasiado grande) y miramos el error en un sub-intervalo, resulta que
+$$
+|f(x) - p(x)| \le \frac{M_n}{n(n-1)^n}  \left(\frac{ |b-a|}L\right)^n.
+$$
+Notemos que hemos cambiado $|b-a|$ por $\frac{|b-a|}L$, ya que estamos considerando un sub-intervalo, que tiene longitud $h = \frac{|b-a|}L$.
+
+Resumimos esta observación en el siguiente teorema.
+
+:::: {.callout-warning icon="false" title="Error de interpolación a trozos"}
+
+::: {#thm-error.interp.polinomial.a.trozos}
+Sea $f$ es una función $C^n$ y $M_n$ es una cota para $|f^{(n)}|$
+sobre el intervalo $[a,b]$.
+
+Si $p$ es el polinomio a trozos de grado $\le n-1$ sobre una partición de tamaño $h = \frac{|b-a|}L$, que interpola a $f$ en $(L+1)+(n-2)L$ puntos equiespaciados, entonces
+$$
+|f(x) - p(x)| \le \frac{M_n}{n(n-1)^n}  \left(\frac{ |b-a|}L\right)^n = \frac{M_n}{n(n-1)^n}  h^n,
+$$
+para todo punto $x \in [a,b]$, con $M_n = \max_{\xi\in[a,b]} |f^n(\xi)|$.
+:::
+
+::::
+
+Observemos que $n$ está fijo, y que podemos tomar $L$ grande. Si hacemos tender $L$ a infinito, resulta que
+$$
+|f(x) - p(x)| \le \frac{M_n}{n(n-1)^n}  \left(\frac{ |b-a|}L\right)^n
+ = \frac{M_n |b-a|^n}{n(n-1)^n} \frac1{L^n} \to 0,
+$$
+cuando $L\to\infty$.
+
+Esto quiere decir que sin importar como se comporten las derivadas de nuestra función siempre que aumentemos la cantidad de subintervalos el error de interpolación a trozos tenderá a cero.
+
+::: {.callout-note}
+## Comentarios finales
+
+1. Existen diferentes estrategias para elegir los puntos de interpolación que también permiten hacer tender el error a cero sin requerir la interpolación a trozos. Por ejemplo, para funciones *absolutamente continuas* estos puntos son conocidos como *nodos de Chebyshev*.
+2. También pueden agregarse condiciones de regularidad sobre cómo se *pegan* los trozos entre sí, dando lugar por ejemplo a los muy conocidos *splines cúbicos*, polinomios cúbicos que no sólo pasan por los puntos (interpolan) sino también que los trozos se pegan con igual derivada primera y segunda, dando como resultado una función $C^1$.
+3. Y muuuuucho más ...
+
+- **Polinomios de Lagrange**: no muy utilizados en la práctica, pero muy útiles en
+contextos teóricos.
+
+- **Polinomios de Hermite cúbicos**: similar a los splines cúbicos, pero además de los
+valores de las funciones, también se toman en cuenta las derivadas en los puntos de
+interpolación.
+
+- **Polinomios de Bézier**: se utilizan principalmente en gráficos y diseño asistido por
+computadora. Su forma se puede controlar mediante puntos de control.
+
+- **Polinomios de B-Spline**: son una generalización de los splines cúbicos y se usan en modelado de estructuras con suvidades múltiples y en la resolución de ecuaciones
+diferenciales.
+:::
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Problema de interpolación polinomial a trozos 1
+
+::: {}
+Queremos aproximar la función $\sin(x)$ en el intervalo $[0,π]$ utilizando una partición con puntos equidistantes.
+
+1. Obtenga una condición sobre la cantidad de elementos de la partición para que sea posible obtener una interpolación lineal a trozos. Repita lo mismo para interpolaciones cuadráticas y cúbicas a trozos.
+
+2. Escoge un número de elementos para la partición que cumpla con las 3 condiciones obtenidas en el ítem anterior.
+
+3. Realiza una interpolación lineal a trozos.
+
+4. Realiza una interpolación cuadrática a trozos.
+
+5. Realiza una interpolación cúbica a trozos.
+
+6. Grafica la función $\sin(x)$ junto con las tres interpolaciones en el intervalo $[0,π]$.
+
+7. Calcula y compara los errores de interpolación en el punto $x=\frac{π}{8}$ para cada método.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Ejercicios Adicionales ✍
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en este capítulo. Como verás, no hay un método único para resolver la mayoría de estos ejercicios.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Adicional 1
+
+::: {}
+Con el fin de diseñar un proceso industrial en una planta productora de alimentos, un equipo de investigación realizó estudios de velocidad de una reacción enzimática. Para ello, colocó en un reactor una cierta cantidad de sustancia $S$ la cual, en presencia de una enzima, es transformada en productos de interés.
+
+Se observa que la velocidad $r$ a la que se lleva a cabo esa transformación depende de la concentración $c_S$ a la cual se encuentra la sustancia en el reactor. Se realizaron distintas experiencias variando $c_S$ y midiendo $r$ en
+cada caso.
+
+Los resultados se muestran en la siguiente tabla, en la cual $r$ se mide en $\frac{\text{mmol}}{\text{L}\times\text{min}}$ y $c_S$ en $\frac{\text{mmol}}{\text{L}}$:
+
+|$c_S$|1|2|3|5|7|10|15|20
+|-|-|-|-|-|-|-|-|-|
+|$r$|0.15|0.33|0.3|0.35|0.38|0.42|0.43|0.45|
+
+Los investigadores pretenden describir la variación de $r$ respecto de $c_S$ utilizando el siguiente modelo, en el cual $r_m$ y $K_m$ son dos parámetros especpíficos del mismo:
+
+$$
+r = \frac{r_m c_S}{K_m + c_S}
+$$
+
+Con el objetivo de hallar los parámetros $r_m$ y $K_m$, se proponen dos linealizaciones de dicho modelo:
+
+*   $\frac{1}{r}=\frac{1}{r_m}+ \frac{K_m}{c_S r_m}$, donde $\frac{1}{r}$ es una función lineal de $\frac{1}{c_S}$.
+
+*   $r = r_m - K_m \frac{r}{c_S}$, donde $r$ es una función lineal de $\frac{r}{c_S}$.
+
+En base a esto resuelva los siguientes ítems:
+
+1. Para cada propuesta, calcule los valores de los parámetros utilizando un ajuste lineal por cuadrados mínimos y represente gráficamente la evolución de $r$ frente a $c_S$.
+
+2. A través de una experiencia adicional se sabe que, a concentraciones elevadas de $S$, la velocidad de reacción $r$ es de aproximadamente $0.53 \frac{\text{mmol}}{\text{L}\times\text{min}}$ . En base a esta información, ¿qué valores de $r_m$ y $K_m$ considera más adecuados?
+
+3. Con los valores de $r_m$ y $K_m$ elegidos en el inciso anterior, determine la ***concentración de saturación***, esto es, el valor de $c_S$ a partir del cual la velocidad de reacción $r$ prácticamente no varía. Para ello, considere
+que esto ocurre cuando $\dfrac{dr}{dc_S}$ es igual a $0.001 \text{min}^{-1}$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 2
+
+::: {}
+Se ha registrado la velocidad (en $km/h$) de un objeto cada 12 minutos durante 5 horas. Los datos están guardados en el archivo `datos_velocidades.txt` (ver [Datos para el TP2](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13093){target="_blank"} en el aula virtual).
+
+1. Determine la función de la forma $v(t) = c_1 \sin(2t) + c_2 t^2 + c_3 2^t + c_4$ que mejor aproxima a los datos en el sentido de cuadrados mínimos. (Escriba el valor de $c_1$, $c_2$, $c_3$ y $c_4$ con $4$ dígitos). Utilice el modelo para predecir el valor de la velocidad a las $6$ horas.
+
+2. Hallar el polinomio $p_6$ de grado menor o igual que 6 que aproxima a los datos en el sentido de los cuadrados mínimos. Utilice este modelo para predecir el valor de la velocidad a las $6$ horas.
+
+3. Calcule el error cuadrático de ambos ajustes. ¿Qué ajuste le parece más apropiado y por qué?
+
+4. Utilice el modelo que le parezca más apropiado para calcular la distancia recorrida por el objeto durante las primeras $6$ horas.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
 
 
