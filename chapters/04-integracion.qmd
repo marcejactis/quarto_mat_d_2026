@@ -1,1 +1,175 @@
-# Integración
+---
+title: "Integración numérica o cuadratura"
+---
+{{< include ../_macros.qmd >}}
+
+El objetivo de este capítulo es hallar fórmulas que permitan calcular integrales (aproximadas) pero de cualquier función. Cuando decimos *aproximadas* queremos decir con tanta precisión como se desee.
+
+Queremos calcular por ejemplo
+$$
+\int_0^A e^{-x^2} \, dx \qquad\text{o} \qquad
+\int_6^5 \frac{t^3}{e^t-1} \dd t
+$$
+que no tienen una expresión analítica.
+
+Integrales difíciles de resolver analíticamente suelen aparecer al calcular el área de superficies de revolución.
+
+Recordamos que el área de la superficie de revolución que se obtiene al girar el gráfico de $y = f(x)$ alrededor del eje $x$, para $a \le x \le b$ es
+$$
+\int_a^b 2\pi f(x) \sqrt{1+f'(x)^2} \dd x.
+$$
+Rara vez el integrando de esta expresión se podrá integrar analíticamente, y son muy útiles los métodos numéricos. Estos no nos dan una fórmula cerrada para el resultado, pero permiten calcular la integral con tanta precisión como se desee.
+
+
+## Fórmulas de Newton-Côtes {#sec:for.new.cotes}
+
+Supongamos que se desea calcular la integral
+$$
+\int_a^b f(x) \dd x
+$$
+para una función dada $f$.
+
+La idea de las fórmulas de Newton-Côtes es interpolar la función $f$ en $n$ puntos equiespaciados con un polinomio de grado $\le n-1$ e integrar el polinomio.
+
+Por ejemplo, para $n=1$ tomamos el punto medio, y el polinomio de grado cero que interpola en ese punto es la función constante $p_1(x) = f(\frac{a+b}2)$. Resulta
+$$
+\int_a^b f(x) \, dx \approx \int_a^b p_1(x) \dd x = \int_a^b f(\frac{a+b}2) \dd x
+= \underbrace{(b-a)f(\frac{a+b}2)}_{Q_1(f;a,b)}.
+$$
+Esta fórmula se conoce como *Regla del rectángulo*, porque estamos calculando el área del rectángulo con base $(b-a)$ y altura $f(\frac{a+b}2)$.
+
+Para $n=2$ podemos escribir el polinomio $p_2$ que interpola a $f$ en $x=a$ y en $x=b$ de la siguiente manera:
+$$
+p_2(x) = \frac{b-x}{b-a} f(a) + \frac{x-a}{b-a} f(b).
+$$
+Luego,
+$$
+\int_a^b f(x) \, dx \approx \int_a^b p_2(x) \dd x
+= \dots = \underbrace{ (b-a) \left( \frac12 f(a) + \frac12 f(b) \right)}_{Q_2(f;a,b)}.
+$$
+Esta fórmula se conoce como *Regla del trapecio*, porque estamos calculando el área del trapecio con bases $f(a)$, $f(b)$ y altura $(b-a)$.
+
+Para $n=3$ podemos escribir el polinomio $p_3$ que interpola a $f$ en $x=a$, $x=m=\frac{a+b}2$ y en $x=b$ de la siguiente manera:
+$$
+p_3(x) = \frac{(b-x)(m-x)}{(b-a)(m-a)} f(a) + \frac{(b-x)(a-x)}{(b-m)(a-m)} f(m)
++ \frac{(x-a)(x-m)}{(b-a)(b-m)} f(b).
+$$
+Luego,
+$$
+\int_a^b f(x) \, dx \approx \int_a^b p_3(x) \dd x
+= \dots = \underbrace{(b-a) \left( \frac16 f(a) + \frac46 f(m) + \frac16 f(b) \right)}_{Q_3(f;a,b)}.
+$$
+Esta fórmula se conoce como *Regla de Simpson*.
+
+Las operaciones que no escribimos y que irían en $\cdots$ son muy laboriosas.
+Lo importante de entender aquí son dos cosas:
+
+1. Las fórmulas de integración numérica consisten en evaluar $f$ en distintos puntos del intervalo, multiplicar esos valores por otros números, sumar, y finalmente multiplicar por la longitud del intervalo.
+
+2. Las fórmulas deberían ser exactas cuando se la aplicamos a un polinomio $p$ de grado $\le n-1$, es decir:
+
+    $$
+    \int_a^b p(x) \dd x = Q_n (p,a,b)
+    $$
+
+    ¿Por qué? Porque si interpolamos un polinomio de grado $\le n-1$ en $n$ puntos, obtenemos el mismo polinomio original. Entonces integrar ese polinomio nos da la integral de la función de partida.
+
+:::: {.callout-warning title="Fórmula de integración numérica o de cuadratura"}
+
+::: {#def-formula.int.num.o.cuad}
+Una **fórmula de integración numérica o de cuadratura** consiste de $n$ puntos $x_1$, $x_2$, $\dots$, $x_n$ en el intervalo y $n$ *pesos* $w_1$, $w_2$, $\dots$, $w_n$ de modo que
+$$
+\int_a^b f(x) \, dx \approx (b-a) \sum_{i=1}^n w_i f(x_i) =: Q_n(f;a,b).
+$$
+:::
+
+::::
+
+Para hallar los $w_i$ correspondientes a la fórmula de Newton-Côtes de $n$ puntos, consideramos el intervalo $[0,1]$ y recordamos que debería cumplirse que para todo polinomio de grado $\le n-1$
+$$
+\int_a^b p(x) \, dx = Q_n (p;a,b) = \sum_{i=1}^n w_i p(x_i).
+$$
+
+En particular debería cumplirse para $p_0(x) = 1$, para $p_1(x) = x$, para $p_2(x) = x^2$, $\dots$, y para $p_{n-1}(x) = x^{n-1}$.
+
+Luego
+$$
+\begin{align*}
+p_0(x) &= 1 & \int_0^1 1\, dx = 1 &= w_1 + w_2 + \dots + w_n\\
+p_1(x) &= x & \int_0^1 x\, dx = \frac12 &= w_1 x_1 + w_2 x_2 + \dots + w_n x_n\\
+p_2(x) &= x^2 & \int_0^1 x^2\, dx = \frac13 &= w_1 x_1^2 + w_2 x_2^2 + \dots + w_n x_n^2\\
+&\vdots \\
+p_{n-1}(x) &= x^{n-1} & \int_0^1 x^{n-1}\, dx = \frac1n &= w_1 x_1^{n-1} + w_2 x_2^{n-1} + \dots + w_n x_n^{n-1}.
+\end{align*}
+$$
+
+Tomando los puntos $x_1,\dots,x_n$ equiespaciados en $[0,1]$, es decir, $x_1 = 0$, $x_2 = 1/(n-1)$, $x_3 = 2/(n-1)$ $\dots$, $x_n = 1$ (`x=np.linspace(0,1,n)`), sólo nos queda determinar los pesos $w_i$ de la fórmula. Entonces vemos que los pesos $w_i$ son las soluciones del siguiente sistema de ecuaciones
+$$
+\begin{align*}
+  w_1 + w_2 + \dots + w_n &= 1\\
+w_1 x_1 + w_2 x_2 + \dots + w_n x_n &= \frac12\\
+ w_1 x_1^2 + w_2 x_2^2 + \dots + w_n x_n^2 &= \frac13\\
+&\,\,\vdots \\
+w_1 x_1^{n-1} + w_2 x_2^{n-1} + \dots + w_n x_n^{n-1}&= \frac1n.
+\end{align*}
+$$
+
+En forma matricial
+$$
+\begin{bmatrix}
+1 & 1 &  \dots & 1 \\
+x_1 & x_2 & \dots & x_n \\
+x_1^2 & x_2^2 & \dots & x_n^2 \\
+&\vdots \\
+x_1^{n-1} & x_2^{n-1} & \dots & x_n^{n-1}
+\end{bmatrix}
+\begin{bmatrix}
+w_1 \\ w_2 \\ \vdots \\ w_n
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 \\ \frac12 \\ \vdots \\ \frac1n
+\end{bmatrix}
+$$
+
+Por lo tanto, los pesos de la fórmula de Newton-Côtes se encuentran resolviendo ese sistema.
+
+Existen otras maneras de hallar los pesos que son más precisas si $n$ es grande, pero para $n\le 10$ (que es lo que utilizaremos nosotros), esta manera es práctica.
+
+El siguiente código calcula, dado un entero positivo $n$, los pesos $w_i$ tomando las abscisas $x_i$ equiespaciadas en el intervalo $[0,1]$.
+```{python}
+#| code-fold: false
+
+import numpy as np
+
+def pesosNC(n):
+    # Calcula los pesos de la fórmula de Newton-Cotes de n puntos
+    x = np.linspace(0, 1, n)
+    A = np.ones((n, n))
+    for i in range(1, n):
+        A[i, :] = A[i-1, :] * x
+    b = 1 / np.arange(1, n+1)
+    w = np.linalg.solve(A, b)
+    return w
+```
+
+El siguiente código calcula la integral aproximada de una función $f$ utilizando la fórmula de Newton-Côtes de $n$ puntos. Las abscisas se calculan tomando $n$ puntos equiespaciados en el intervalo $[a,b]$ (usando `np.linspace`).
+```{python}
+#| code-fold: false
+
+import numpy as np
+
+def integralNC(f,a,b,n):
+    w = pesosNC(n)
+    x = np.linspace(a,b,n)
+    y = f(x)
+    Q = (b - a)*np.sum(y * w)
+    return Q
+```
+
+::: {#des-int.newton.cotes .callout-tip icon="false"}
+## 📝 Desafío 1
+Compruebe su funcionamiento integrando $f(x)=\sin(x)$ en el $[0,\pi]$ tanto analíticamente como numéricamente usando `integralNC` para diferentes $n$.
+:::
+
+
