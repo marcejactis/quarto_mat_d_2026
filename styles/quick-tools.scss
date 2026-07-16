@@ -35,3 +35,8 @@ div.tippy-content mjx-label {
     display: block;
     text-align: center;
 }
+
+// Achicar matemática en línea
+.math.inline .MathJax {
+  font-size: 95% !important;
+}
