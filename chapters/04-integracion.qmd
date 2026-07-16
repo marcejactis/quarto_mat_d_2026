@@ -422,7 +422,7 @@ Consideremos las fórmulas del trapecio compuesta $Q_2^L(f,a,b)$ y de Simpson co
 
     [$f(x) = \sin(\pi x)$, en $[a,b]=[0,5]$]{.center}
 
-    | | |Regla de los trapecios | | |Regla de Simpson compuesta | | |
+    | | |Trapecios | | |Simpson compuesta | | |
     |---|---|---|---|---|---|---|---|
     |$h$|$L$|$Q_2^L(f,0,5)$|$E^{\text{trap}}_L$|$\frac{E^{\text{trap}}_{L/2}}{E^{\text{trap}}_{L}}$|$Q_3^L(f,0,5)$|$E^{\text{simp}}_L$|$\frac{E^{\text{simp}}_{L/2}}{E^{\text{simp}}_{L}}$|
     |1/2||||$-$|||$-$|
@@ -540,7 +540,7 @@ Se registra la concentración química $c$ $(\frac{\text{mg}}{\text{m}^{3}})$ a 
 ||||||||||
 |-----------|----|----|----|----|----|----|----|----|
 | $t$ (min) | 0  | 10 | 20 | 30 | 35 | 40 | 45 | 50 |
-| $c$ (mg/m\$^{3}$) | 10 | 35 | 55 | 52 | 40 | 37 | 32 | 34 |
+| $c$ ($mg/m^{3}$) | 10 | 35 | 55 | 52 | 40 | 37 | 32 | 34 |
 
 Tenga  en  cuenta  que  la  cantidad  de  masa  que  entra  o  sale  de  un  reactor  en  un período específico está dada por:
 $$
@@ -569,7 +569,7 @@ Se mide la concentración química de la salida de un reactor perfectamente agit
 ||||||||||
 |-----------|----|----|----|----|----|----|----|----|
 | $t$ (min) | 0  | 1 | 4 | 6 | 8 | 12 | 16 | 20 |
-| $c$ (mg/m\$^{3}$) | 12 | 22 | 32 | 45 | 58 | 75 | 70 | 48 |
+| $c$ ($mg/m^{3}$) | 12 | 22 | 32 | 45 | 58 | 75 | 70 | 48 |
 
 Para una tasa de flujo constante $Q = 0.3$ $\frac{\text{m}^{3}}{\text{s}}$, calcule la masa del producto
 químico, en gramos, que sale del reactor entre $t = 0$ y $t = 20$ min.
@@ -593,14 +593,160 @@ $m = \int_{0}^{L}\rho(x)A_{c}(x) \dd x$. Donde $m$ representa la masa, $\rho$ la
 
 |||||||||
 |----------|----|----|----|----|----|----|----|
-| $x (cm)$ | 0 | 200 | 400 | 600 | 800 | 1000 | 1200 |
-| $\rho(x) (g/cm^{3})$ | 4 | 3.95 | 3.89 | 3.80 | 3.60 | 3.41 | 3.30 |
-| $A_{c}(x) (cm^{2})$ | 100 | 103 | 106 | 110 | 120 | 133 | 149.6 |
+| $x$ ($cm$) | 0 | 200 | 400 | 600 | 800 | 1000 | 1200 |
+| $\rho(x)$ ($g/cm^{3}$) | 4 | 3.95 | 3.89 | 3.80 | 3.60 | 3.41 | 3.30 |
+| $A_{c}(x)$ ($cm^{2}$) | 100 | 103 | 106 | 110 | 120 | 133 | 149.6 |
 
 1. Calcule la masa total de la barra y detalle que fórmula de cuadratura utilizó.
 
 2. Determine la precisión del cálculo del item anterior.
 :::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Cómo estimar integrales con la precisión deseada {#sec-est.int.con.pre.des}
+
+Consideremos el caso en que queremos estimar la siguiente integral
+$$
+\int_0^4 \sqrt{ 1+(1-\sin(x))^2 } \dd x,
+$$
+con un error menor a $10^{-12}$.
+
+Podríamos comenzar a derivar la función para determinar, dado un $n$, cuál es el $L$ necesario, en base a la cota -@eq-cota.error.cuadratura.compuesta para tener un error menor que $10^{-12}$. Pero esto no parece ser muy práctico.
+
+En lugar de eso, procedemos como sigue:
+
+1. Definimos la función a integrar
+```{python}
+g = lambda x: np.sqrt(1+(1-np.sin(x))**2)
+```
+2. Elegimos un $n$ bajo, (probamos primero con 2 o 3)
+y un $L$ no muy grande, por ejemplo 10
+```{python}
+n = 2; L = 10;
+```
+3. Calculamos la integral con el método compuesto:
+```{python}
+I = intNCcompuesta(g, 0, 4, L, n)
+print(I)
+```
+4. A partir de ahí vamos duplicando $L$ y volviendo a calcular hasta que veamos que se tiene repetición de los dígitos que queremos tener:
+```{python}
+ListaI = np.array([[I]])
+
+for i in range(6):
+    L = 2*L
+    I = intNCcompuesta(g, 0, 4, L, n)
+    ListaI = np.append(ListaI,np.array([[I]]),axis=0)
+
+print(ListaI)
+```
+5. Si notamos que tarda mucho en converger, entonces aumentamos $n$ y comenzamos de nuevo con L bajo:
+```{python}
+n = 3; L = 5;
+
+ListaI = np.array([[0]])
+
+for i in range(12):
+    L = 2*L
+    I = intNCcompuesta(g, 0, 4, L, n)
+    ListaI = np.append(ListaI,np.array([[I]]),axis=0)
+
+np.set_printoptions(precision=16)
+print(ListaI)
+```
+
+Esta manera de calcular integrales nos ayuda a comprender que el método de integración compuesta converge cuando dejamos $n$ fijo y hacemos crecer $L$, y también que converge más rápido si $n$ es más grande (con mayor orden).
+
+::: {.callout-important}
+## Importante 👀
+En este método es que $L$ tiene que ir duplicándose, y no incrementando de a uno. Si se incrementa de a uno, entonces parece que converge porque la solución cambia poco, pero aún se está lejos de la precisión deseada.
+:::
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Integrales funciones complicadas 1
+
+::: {}
+Calcular, con un error absoluto menor a $10^{-3}$, el área de las superficies de revolución que se obtienen al girar la gráfica de $y = f(x)$ alrededor del eje $x$, para $x$ en el intervalo indicado.
+
+1. $f(x) = 2 + \cos(\pi x)$, $x \in [0,2]$.
+
+2. $f(x) = x(x-1)(x-2)+2$, $x \in [0,3]$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Integrales funciones complicadas 2
+
+::: {}
+Calcular el área de la superficie de revolución que se obtiene al girar el gráfico de
+$$
+f(x) = 1+x+\cos(x),\qquad x \in [0,4],
+$$
+alrededor del eje $x$. Dar el resultado con 12 dígitos exactos.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Integrales funciones complicadas 3
+
+::: {}
+La cúpula de una torre tiene la forma de una superficie de revolución que se obtiene al girar el gráfico de la función $y=f(x)$ alrededor del eje $x$, donde
+$$
+f(x) = 3(x+0.5)\sin^4\left(\frac{x-2.7}{2}\right), \ \ \ x\in [0, 2.4].
+$$
+
+::: {layout-ncol=3}
+![Cúpula 1](images/04_integracion_funcionescomplicadas_ej3_1.jpg){width=200 height=200}
+
+![Cúpula 2](images/04_integracion_funcionescomplicadas_ej3_2.jpg){width=200 height=200}
+
+![Cúpula 3](images/04_integracion_funcionescomplicadas_ej3_3.jpg){width=200 height=200}
+
+![Cúpula 4](images/04_integracion_funcionescomplicadas_ej3_4.jpg){width=200 height=200}
+
+![Cúpula 5](images/04_integracion_funcionescomplicadas_ej3_5.jpg){width=200 height=200}
+
+![Cúpula 6](images/04_integracion_funcionescomplicadas_ej3_6.jpg){width=200 height=200}
+:::
+
+1. Determine a qué tipo de cúpula corresponde entre las ilustradas en la Figura 1. Explique cómo lo hizo.
+
+2. Calcule el área de la cúpula con 6 dígitos exactos si la variable $x$ está expresada en metros. Explique cómo lo hizo.
+
+3. Si con un litro de pintura para exteriores se cubren $7$ $\text{m}^{2}$, ¿Cuánta pintura se necesita para pintar la cúpula si se quiere darle 3 manos?
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
