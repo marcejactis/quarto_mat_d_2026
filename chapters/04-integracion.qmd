@@ -814,7 +814,10 @@ Los datos se encuentran en el archivo `Energias_renovables.txt`(ver [Datos para 
 ::: {}
 La energía térmica total de un cable en cada instante de tiempo se puede calcular como $E(t) =A\int_0^L c\rho u(x,t) \dd x$, donde $A$ denota el área de la sección transversal, $c$ denota del calor específico, $\rho$ la densidad de masa, $u(x,t)$ la temperatura a tiempo $t$ en la posición $x$ del cable que tiene longitud $L$.
 
-Suponga que $L=20$ $\text{cm}$, que $A = 0.15$ $\text{cm}^{2}$, $c = 0.092$ $\frac{\text{cal}}{\text{g}\text{ºC}}$, $\rho = 8.94$ $\frac{\text{g}}{\text{cm}^{3}}$ y que la distribución de la temperatura (en $\text{ºC}$) está dada por $u(x,t)=x(40-x)+(t+1)^2e^{-t}$.
+Suponga que $L=20$ $\text{cm}$, que $A = 0.15$ $\text{cm}^{2}$, $c = 0.092$ $\frac{\text{cal}}{\text{g}\text{ºC}}$, $\rho = 8.94$ $\frac{\text{g}}{\text{cm}^{3}}$ y que la distribución de la temperatura (en $\text{ºC}$) está dada por
+$$
+u(x,t)=x(40-x)+(t+1)^2e^{-t}
+$$
 
 1. Determinar la energía total inicial en el dispositivo.
 
@@ -858,7 +861,7 @@ Considere un dispositivo como el del ejercicio anterior, pero suponga que $L=1$,
 ::: {}
 La energía térmica total de una placa circular de radio $R=1$ en estado estacionario viene dada por
 $$
-E = c\rho\int_{-\pi}^{\pi}\int_0^R  u(r,\theta)r \dd r \dd \theta,
+E = c\rho\int_{-\pi}^{\pi}\int_0^R  u(r,\theta)\, r \dd r \dd \theta,
 $$
 donde $c$ denota del calor específico, $\rho$ la densidad de masa, $u(r,\theta)$ la temperatura de equilibrio en cada punto $(r,\theta)$ de la placa, para $0<r\le R$ y $-\pi\le\theta\le \pi$.
 
