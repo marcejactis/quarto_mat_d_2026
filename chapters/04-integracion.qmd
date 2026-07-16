@@ -302,5 +302,64 @@ Recordemos que $Q_n(f,a,b)$ denota la fórmula de Newton-Cotes de $n$ puntos en 
 ::::
 
 
+## Fórmulas de Newton-Côtes compuestas {#sec-for.new.cotes.comp}
+La idea principal de estas fórmulas es integrar en lugar del interpolante polinomial de todo el intervalo un interpolante polinomial a trozos.
+
+Particionamos el intervalo $[a,b]$ en $L$ sub-intervalos de longitud $h = \dfrac{b-a}L$. Definimos
+$$
+z_1 = a, \quad z_2 = a+h, \quad z_3 = a+2h, \quad\dots\quad
+z_L = a+(L-1)h = b-h, \quad z_{L+1} = a+Lh = b,
+$$
+y observamos que
+$$
+\int_a^b f(x) \dd x = \int_{z_1}^{z_2} f(x) \dd x + \int_{z_2}^{z_3} f(x) \dd x + \dots
++ \int_{z_{L}}^{z_{L+1}} f(x) \dd x
+= \sum_{i=1}^L \int_{z_i}^{z_{i+1}} f(x) \dd x.
+$$
+Luego, aproximamos cada integral con una fórmula de Newton-Côtes con $n$ fijo, es decir
+$$
+\int_{z_i}^{z_{i+1}} f(x) \dd x
+\approx Q_n(f,z_i,z_{i+1})
+$$
+y resulta
+$$
+\int_a^b f(x) \dd x
+\approx \sum_{i=1}^L Q_n(f,z_i,z_{i+1})=:Q_n^L(f;a,b).
+$$
+
+Para calcular una integral con este método, podemos usar el siguiente código:
+```{python}
+def NCcompuesta(f,a,b,L,n):
+    " function Q = NCcompuesta(f,a,b,L,n)"
+    " aproxima la integral de f sobre [a,b]"
+    " utilizando la formula de Newton-Cotes compuesta"
+    " de n puntos, subdividiendo en L subintervalos"
+    y = np.linspace(a, b, L + 1)
+    Q = 0
+    for i in range(L):
+        Q = Q + integralNC(f, y[i], y[i + 1], n)
+    return Q
+```
+
+Esta implementación es muy ineficiente, pues cada vez que se llama a `integralNC` se calculan los pesos de Newton-Côtes, y estos son los mismos en todos los sub-intervalos. La siguiente, es una implementación un poco más eficiente:
+```{python}
+def intNCcompuesta(f, a, b, L, n):
+    z = np.linspace(a, b, L + 1)
+    h = (b - a) / L
+    w = pesosNC(n)
+    Q = 0
+    for i in range(L):
+        x = np.linspace(z[i], z[i + 1], n)
+        y = f(x)
+        Q += h * np.sum(y * w)
+    return Q
+```
+
+::: {.callout}
+## Observación
+La fórmula compuesta correspondiente a $n=2$ se llama *fórmula del trapecio compuesta* y la correspondiente a $n=3$ se llama *fórmula de Simpson compuesta*.
+:::
+
+
 
 
