@@ -626,20 +626,28 @@ En lugar de eso, procedemos como sigue:
 
 1. Definimos la función a integrar
 ```{python}
+#| code-fold: false
+
 g = lambda x: np.sqrt(1+(1-np.sin(x))**2)
 ```
 2. Elegimos un $n$ bajo, (probamos primero con 2 o 3)
 y un $L$ no muy grande, por ejemplo 10
 ```{python}
-n = 2; L = 10;
+#| code-fold: false
+
+n = 2; L = 10
 ```
 3. Calculamos la integral con el método compuesto:
 ```{python}
+#| code-fold: false
+
 I = intNCcompuesta(g, 0, 4, L, n)
 print(I)
 ```
 4. A partir de ahí vamos duplicando $L$ y volviendo a calcular hasta que veamos que se tiene repetición de los dígitos que queremos tener:
 ```{python}
+#| code-fold: false
+
 ListaI = np.array([[I]])
 
 for i in range(6):
@@ -651,7 +659,9 @@ print(ListaI)
 ```
 5. Si notamos que tarda mucho en converger, entonces aumentamos $n$ y comenzamos de nuevo con L bajo:
 ```{python}
-n = 3; L = 5;
+#| code-fold: false
+
+n = 3; L = 5
 
 ListaI = np.array([[0]])
 
@@ -747,6 +757,7 @@ $$
 2. Calcule el área de la cúpula con 6 dígitos exactos si la variable $x$ está expresada en metros. Explique cómo lo hizo.
 
 3. Si con un litro de pintura para exteriores se cubren $7$ $\text{m}^{2}$, ¿Cuánta pintura se necesita para pintar la cúpula si se quiere darle 3 manos?
+:::
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
@@ -777,7 +788,7 @@ Los datos se encuentran en el archivo `Energias_renovables.txt`(ver [Datos para 
 | Tiempo | Eólica | Fotovoltaica | Bioenergías | Hidráulica | % demanda cubierta |
 |---|---|---|---|---|---|
 | 0 | 923.13 | 0 | 99.25 | 181.64 | 7.67 |
-| \vdots | \vdots | \vdots | \vdots | \vdots | \vdots |
+| $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
 
 1. Realice un gráfico que muestre la evolución de la potencia eléctrica total generada por fuentes renovables a lo largo del día, así como también la evolución de la demanda. Determine los horarios en los cuales se registraron las demandas máxima y mínima, y en qué horario se generó mayor electricidad por fuentes renovables.
 
