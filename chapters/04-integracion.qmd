@@ -172,4 +172,135 @@ def integralNC(f,a,b,n):
 Compruebe su funcionamiento integrando $f(x)=\sin(x)$ en el $[0,\pi]$ tanto analíticamente como numéricamente usando `integralNC` para diferentes $n$.
 :::
 
+## Análisis del error para las fórmulas de Newton-Côtes {#sec-an.error.for.new.cotes}
+Dada una función suave $f$ en el intervalo $[a,b]$, ¿Qué error se comete al calcular la integral con la fórmula de Newton-Côtes de $n$ puntos?
+
+Para saber esto, recordemos que
+
+$$
+Q_n(f;a,b) = \int_a^b p_n(x) \dd x
+$$
+
+con $p_n$ el polinomio de grado $\le n-1$ que interpola a $f$ en $n$ puntos.
+Este polinomio satisface, según el Corolario 2.7 del capítulo anterior
+
+$$
+\max_{x\in[a,b]} |f(x)-p_n(x)| \le \frac{M_n}{n} \frac{|b-a|^n}{(n-1)^n},
+$$
+
+con $M_n = \max_{\xi\in[a,b]} |f^n(\xi)|$.
+
+Por lo tanto
+
+
+\begin{align*}
+\left| \int_a^b f(x) \dd x - Q_n(f;a,b) \right|
+&= \left| \int_a^b f(x) \dd x - \int_a^b p_n(x) \dd x \right|
+\\
+&= \left| \int_a^b f(x) -p_n(x) \dd x  \right|
+\le \int_a^b |f(x) -p_n(x)| \dd x
+\\
+&\le |b-a| \frac{M_n}{n} \frac{|b-a|^n}{(n-1)^n}
+= \frac{M_n}{n} \frac{|b-a|^{n+1}}{(n-1)^n}
+\end{align*}
+
+Hemos demostrado entonces el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Error de Cuadratura
+
+::: {#thm-error.cuadratura}
+Si $f$ es una función $C^{n}$ en $[a,b]$, entonces
+$$
+\left|\int_a^b f(x) \,dx - Q_n(f;a,b) \right|
+\le \frac{M_{n} |b-a|^{n+1}}{n (n-1)^n},
+$$
+con $M_n = \max_{\xi\in[a,b]} |f^n(\xi)|$.
+:::
+
+::::
+
+Esta cota del error entre la integral exacta y la aproximada tiene el mismo problema que la cota del error de interpolación. Hay muchas funciones para las que ese término **no** tiende a cero (cuando $M_n \to \infty$ rápidamente.) Este problema se resuelve utilizando las fórmulas de Newton-Côtes compuestas que veremos en la siguiente sección.
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Error Newton-Côtes 1
+
+::: {}
+Para cada una las siguientes funciones $f$, calcule a mano la integral de $f$, $I(f,0,5) = \int_0^5 f(x) \dd x$, las aproximaciones dadas por la regla del trapecio $Q_2(f,0,5)$ y de Simpson $Q_3(f,0,5)$, y los errores asociados a ambas aproximaciones. Explique los resultados.
+
+$$
+f(x) = -2x + 1.
+$$
+$$
+f(x) = 3.5 x^2 + 2 x - 56.
+$$
+$$
+f(x) = -1.5 x^3 - x^2 + 7.6.
+$$
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Error Newton-Côtes 2
+
+::: {}
+Recordemos que $Q_n(f,a,b)$ denota la fórmula de Newton-Cotes de $n$ puntos en el intervalo $[a,b]$.
+
+1. Completar los siguientes cuadros y verificar si el error entre $\int_a^b f(x) \dd x$ y $Q_n(f,a,b)$ tiende a cero a medida que $n$ crece.
+
+    $f(x) = \sin(\pi x)$, en $[a,b]= [0,5]$
+
+    | $n$ | $\int_{0}^5 f(x)dx - Q_n(f,0,5)$ |
+    |:--:|:--:|
+    | 2 |  |
+    | 3 |  |
+    | $\vdots$ |  |
+    | 12 |  |
+    | 13 |  |
+
+    <br>
+    $f(x) = \frac{1}{1+x^2}$, en $[a,b]= [-5,5]$
+
+    | $n$ | $\int_{-5}^5 f(x)dx - Q_n(f,-5,5)$ |
+    |:--:|:--:|
+    | 2 |  |
+    | 3 |  |
+    | $\vdots$ |  |
+    | 12 |  |
+    | 13 |  |
+
+*Sugerencia: Para analizar tablas de errores lo más importante son los dos primeros dígitos significativos del error y su magnitud, no hace falta escribir tantos dígitos.*
+
+2. Para cada una de las funciones del item anterior, realizar el gráfico de $f$ y de los polinomios interpolantes en $n$ puntos equidistribuidos del intervalo $[a,b]$, para los valores de $n$ en la tabla. Relacionar los resultados del item anterior con los gráficos obtenidos.
+
+3. ¿Es cierto que $\lim_{n\to\infty} Q_n(f,a,b) =  \int_a^b f(x) \dd x$, para toda función $f$?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+
 
