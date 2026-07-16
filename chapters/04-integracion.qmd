@@ -758,6 +758,167 @@ $$
 ::::
 
 
+## Ejercicios Adicionales ✍
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Adicional 1
+
+::: {}
+La Compañía Administradora del Mercado Mayorista Eléctrico (CAMMESA) informó, para el día 16 de septiembre de 2020, los valores de potencia eléctrica generada a través de diferentes fuentes de energía renovable. Las mediciones se realizaron cada 15 minutos a lo largo de todo el día. Además, para cada medición se informó qué porcentaje de la demanda de potencia eléctrica del país se logró cubrir con dichas fuentes renovables.
+
+Los datos se encuentran en el archivo `Energias_renovables.txt`(ver [Datos para el TP3](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13098){target="_blank"} en el aula virtual), donde la energía eléctrica generada se mide en MW y el tiempo en horas. Se organizan de la siguiente manera:
+
+| Tiempo | Eólica | Fotovoltaica | Bioenergías | Hidráulica | % demanda cubierta |
+|---|---|---|---|---|---|
+| 0 | 923.13 | 0 | 99.25 | 181.64 | 7.67 |
+| \vdots | \vdots | \vdots | \vdots | \vdots | \vdots |
+
+1. Realice un gráfico que muestre la evolución de la potencia eléctrica total generada por fuentes renovables a lo largo del día, así como también la evolución de la demanda. Determine los horarios en los cuales se registraron las demandas máxima y mínima, y en qué horario se generó mayor electricidad por fuentes renovables.
+
+2. Calcule la energía eléctrica total (en MWh) generada en todo el día a través de fuentes renovables, así como también la demanda total. ¿Qué porcentaje de la demanda total logró cubrirse por medio de energías renovables?
+
+3. Realice un segundo gráfico donde se muestre la evolución de la potencia eléctrica generada para cada tipo de fuente renovable. ¿En qué horario se registró la mayor potencia fotovoltaica?
+
+4. Calcule el porcentaje de energía eléctrica renovable total que fue generada a partir de energía eólica.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 2
+
+::: {}
+La energía térmica total de un cable en cada instante de tiempo se puede calcular como $E(t) =A\int_0^L c\rho u(x,t) \dd x$, donde $A$ denota el área de la sección transversal, $c$ denota del calor específico, $\rho$ la densidad de masa, $u(x,t)$ la temperatura a tiempo $t$ en la posición $x$ del cable que tiene longitud $L$.
+
+Suponga que $L=20$ $\text{cm}$, que $A = 0.15$ $\text{cm}^{2}$, $c = 0.092$ $\frac{\text{cal}}{\text{g}\text{ºC}}$, $\rho = 8.94$ $\frac{\text{g}}{\text{cm}^{3}}$ y que la distribución de la temperatura (en $\text{ºC}$) está dada por $u(x,t)=x(40-x)+(t+1)^2e^{-t}$.
+
+1. Determinar la energía total inicial en el dispositivo.
+
+2. Determinar el momento en el que el cable tiene la máxima energía térmica total.
+
+3. Determinar si la energía total del dispositivo llega a un estado de equilibrio y en caso afirmativo diga cuál es dicho valor.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 3
+
+::: {}
+Considere un dispositivo como el del ejercicio anterior, pero suponga que $L=1$, $A = 0.01$, $c = 1$, $\rho = 1$ y que la distribución de la temperatura $u$ sólo se conoce en $41$ puntos equidistribuidos a lo largo del dispositivo, medidos cada $0.005$ segundos durante los dos primeros segundos y se encuentran en el archivo `datos_temperatura.txt` (ver [Datos para el TP3](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13098){target="_blank"} en el aula virtual).
+
+1. Determinar la energía total del dispositivo a tiempo $t = 1$.
+
+2. Determinar la máxima y la mínima energía total alcanzada en el dispositivo y en qué momento ocurren.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 4
+
+::: {}
+La energía térmica total de una placa circular de radio $R=1$ en estado estacionario viene dada por
+$$
+E = c\rho\int_{-\pi}^{\pi}\int_0^R  u(r,\theta)r \dd r \dd \theta,
+$$
+donde $c$ denota del calor específico, $\rho$ la densidad de masa, $u(r,\theta)$ la temperatura de equilibrio en cada punto $(r,\theta)$ de la placa, para $0<r\le R$ y $-\pi\le\theta\le \pi$.
+
+Sabiendo que la temperatura de equilibrio está dada por
+$$
+u(r,\theta) = 10+ r^3\cos(3\theta) + 2r^2\sin(2\theta),
+$$
+determine la energía total $E$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 5
+
+::: {}
+En una planta industrial se decide determinar la cantidad diaria de producto que se pierde a través de una corriente de desecho. Para ello, se toman muestras de dicha corriente cada una hora y se realizan análisis para determinar la concentración del producto ($c$). La masa ($m$) del producto se halla a través de:
+$$
+m= \int_{t_{1}}^{t_{2}} Q(t)\cdot c(t) \dd t
+$$
+donde $Q(t)$ es el caudal volumétrico de la corriente de desecho, el cual se asume constante es igual a 30 $\frac{\text{m}^{3}}{\text{h}}$.
+
+En condiciones normales de operación, la concentración del producto en la corriente oscila entre 10 y 15 $\text{ppm}$ (1 $\text{ppm}$ = 1 $\frac{\text{g}}{\text{m}^{3}}$) y presenta variaciones pequeñas respecto al tiempo. En la segunda columna del archivo `datos_muestreo.txt`(ver [Datos para el TP3](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13098){target="_blank"} en el aula virtual) se detallan las mediciones de concentración realizadas para estas condiciones.
+
+En determinados casos, por el contrario, ocurren fallas en las etapas de separación del producto, lo que provoca que su concentración en la corriente de desecho aumente bruscamente hasta valores del orden de las 50 $\text{ppm}$. Las fallas pueden detectarse rápidamente, pero el sistema se normaliza recién al cabo de varias horas. En la tercera columna del archivo `datos_muestreo.txt` se da una serie de medidas llevadas a cabo durante uno de estos eventos.
+
+Debido a que el costo de los análisis es elevado, se evalúa la posibilidad de tomar muestras a intervalos mayores de tiempo. Teniendo en cuenta que se desea calcular la masa diaria de producto perdido como desecho con una precisión de 0,1 $\text{kg}$:
+
+1. Para las condiciones normales de operación, determinar en base a los datos suministrados si es posible tomar muestras cada 2 horas y cada 4 horas, conservando la precisión deseada en el cálculo de la masa.
+
+2. Determinar si es posible tomar muestras a intervalos regulares de 2 horas cuando se produce una falla en las etapas de separación. ¿Qué ocurre en este caso?
+
+3. Proponga una solución al problema ocurrido en la situación del Item 2. Para ello, seleccione 12 puntos de muestreo tales que el cálculo de la masa a partir de dichos datos conserve la precisión deseada.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 6
+
+::: {}
+Un jardinero decide delimitar un terreno de la siguiente manera: coloca dos estacas en el suelo, separadas entre sí a una distancia de 7.2 $\text{m}$, ata los extremos de una cuerda de 12 $\text{m}$ de longitud a las estacas y finalmente, apoyando un palo sobre la cuerda tensa, traza el perímetro del terreno.
+
+1. ¿Qué figura geométrica describe el perímetro? Determine sus ecuaciones paramétricas.
+
+2. Calcule cuántos metros de alambre son necesarios para cercar el terreno. Exprese el resultado con una tolerancia de 1 $\text{cm}$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
 
 
 
