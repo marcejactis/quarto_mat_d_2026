@@ -490,4 +490,128 @@ Consideremos las fórmulas del trapecio compuesta $Q_2^L(f,a,b)$ y de Simpson co
 ::::
 
 
+## Integración compuesta para una serie de datos
+
+En ocaciones podemos tener una serie de datos discretos en lugar de una función contínua para integrar. En estos casos, no podremos realizar el procedimiento anterior de aumentar la cantidad de subintervalos para relizar la integración compuesta.
+
+Sin embargo, podemos usar los datos para realizar una estimación de la integral definida. Más precisamente, si tenemos una serie de datos $(x_1,y_1) , (x_2,y_2,),...,(x_N,y_N)$, con $x_1<x_2<...<x_N$, podemos usar estos puntos para realizar una interpolación a trozos e integrar de forma compuesta.
+
+A continuación, se presenta el código que realiza el método de trapecios para una serie de datos:
+```{python}
+def trapcomp(x,y):
+    L=len(x)-1
+    deltax=np.diff(x) #calcula la diferencia entre cada par de datos sucesivos
+    Q=0
+    for i in range(0,L):
+        Q+=0.5*deltax[i]*(y[i]+y[i+1])
+    return Q
+```
+
+Podemos observar que el lazo recorre de a pares de datos para realizar un trapecio entre cada par. Por este motivo, los datos no tienen que estar necesariamente igualmente espaciados.
+
+Se presenta ahora el código para el método de Simpson. En este caso, es necesario que la cantidad de datos sea **impar** (¿por qué?). El código se realiza de manera básica, usando la fórmula de Simpson vista anteriormente. Por lo tanto también hay que tener en cuenta que los datos deben estar igualmente espaciados ($x_{i+1}-x_i=h$ fijo).
+
+```{python}
+def simpsoncomp(x,y):
+    L=len(x)-1
+    if L%2:
+        raise ValueError("Atencion: Tiene que dar una cantidad impar de datos.")
+        Q=np.nan
+        return Q
+    h = (x[-1]-x[0])/(L/2)
+    Q = h/6 * (y[0] + 4*sum(y[1:-1:2]) + 2*sum(y[2:-2:2]) + y[-1])
+    return Q
+```
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Fórmulas de Newton-Côtes compuestas 1
+
+::: {}
+Se registra la concentración química $c$ $(\frac{\text{mg}}{\text{m}^{3}})$ a la salida de un reactor perfectamente agitado y se reporta en la siguiente tabla:
+
+||||||||||
+|-----------|----|----|----|----|----|----|----|----|
+| $t$ (min) | 0  | 10 | 20 | 30 | 35 | 40 | 45 | 50 |
+| $c$ (mg/m\$^{3}$) | 10 | 35 | 55 | 52 | 40 | 37 | 32 | 34 |
+
+Tenga  en  cuenta  que  la  cantidad  de  masa  que  entra  o  sale  de  un  reactor  en  un período específico está dada por:
+$$
+m= \int_{t_{1}}^{t_{2}}Q(t)\cdot c(t) \dd t
+$$
+donde $t_{1}$ y $t_{2}$ son el tiempo inicial y final respectivamente, $c$ representa la función de concentración química y $Q$ es la tasa de flujo.
+
+Calcule la cantidad de masa del producto químico suponiendo que la tasa de flujo es $Q = 4$ $\frac{\text{m}^{3}}{\text{min}}$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Fórmulas de Newton-Côtes compuestas 2
+
+::: {}
+Se mide la concentración química de la salida de un reactor perfectamente agitado:
+
+||||||||||
+|-----------|----|----|----|----|----|----|----|----|
+| $t$ (min) | 0  | 1 | 4 | 6 | 8 | 12 | 16 | 20 |
+| $c$ (mg/m\$^{3}$) | 12 | 22 | 32 | 45 | 58 | 75 | 70 | 48 |
+
+Para una tasa de flujo constante $Q = 0.3$ $\frac{\text{m}^{3}}{\text{s}}$, calcule la masa del producto
+químico, en gramos, que sale del reactor entre $t = 0$ y $t = 20$ min.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Fórmulas de Newton-Côtes compuestas 3
+
+::: {}
+La masa total de una barra de densidad variable está dada por:
+$m = \int_{0}^{L}\rho(x)A_{c}(x) \dd x$. Donde $m$ representa la masa, $\rho$ la densidad, $A_{c}$ el área de la sección transversal, $x$ representa la distancia a lo largo de la barra y $L$ la longitud total de la barra. Se midieron los siguientes datos para una barra de 12 metros de longitud.
+
+|||||||||
+|----------|----|----|----|----|----|----|----|
+| $x (cm)$ | 0 | 200 | 400 | 600 | 800 | 1000 | 1200 |
+| $\rho(x) (g/cm^{3})$ | 4 | 3.95 | 3.89 | 3.80 | 3.60 | 3.41 | 3.30 |
+| $A_{c}(x) (cm^{2})$ | 100 | 103 | 106 | 110 | 120 | 133 | 149.6 |
+
+1. Calcule la masa total de la barra y detalle que fórmula de cuadratura utilizó.
+
+2. Determine la precisión del cálculo del item anterior.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+
+
 
