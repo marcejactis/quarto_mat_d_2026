@@ -172,7 +172,7 @@ def integralNC(f,a,b,n):
 Compruebe su funcionamiento integrando $f(x)=\sin(x)$ en el $[0,\pi]$ tanto analíticamente como numéricamente usando `integralNC` para diferentes $n$.
 :::
 
-## Análisis del error para las fórmulas de Newton-Côtes {#sec-an.error.for.new.cotes}
+### Análisis del error para las fórmulas de Newton-Côtes {#sec-an.error.for.new.cotes}
 Dada una función suave $f$ en el intervalo $[a,b]$, ¿Qué error se comete al calcular la integral con la fórmula de Newton-Côtes de $n$ puntos?
 
 Para saber esto, recordemos que
@@ -360,6 +360,134 @@ def intNCcompuesta(f, a, b, L, n):
 La fórmula compuesta correspondiente a $n=2$ se llama *fórmula del trapecio compuesta* y la correspondiente a $n=3$ se llama *fórmula de Simpson compuesta*.
 :::
 
+### Análisis del error para las fórmulas de Newton-Côtes compuestas {#sec-an.error.for.new.cotes.comp}
+Observemos lo siguiente:
+
+\begin{align*}
+\left| \int_a^b f(x) \, dx - Q_n^L(f,a,b) \right|
+&= \left| \sum_{i=1}^L \int_{z_i}^{z_{i+1}}  f(x) \, dx
+- \sum_{i=1}^L Q_n(f,z_i,z_{i+1}) \right|
+\\
+&\le \sum_{i=1}^L \left|  \int_{z_i}^{z_{i+1}}  f(x) \, dx
+-  Q_n(f,z_i,z_{i+1}) \right|
+\\
+&\le \sum_{i=1}^L \frac{M_n}{n} \frac{\left(\frac{|b-a|}L\right)^{n+1}}{(n-1)^n}
+= L \frac{M_n}{n} \frac{\left(\frac{|b-a|}L\right)^{n+1}}{(n-1)^n}
+= \frac{M_n}{n} \frac{|b-a|^{n+1}}{(n-1)^n}
+\frac1{L^{n}}.
+\end{align*}
+
+Aquí hemos usado, en cada sub-intervalo $[z_i,z_{i+1}]$ la estimación del error dada por el @thm-error.cuadratura.
+
+Hemos entonces demostrado el siguiente teorema.
+
+:::: {.callout-warning icon="false"}
+## Cota del error en cuadratura compuesta
+
+::: {#thm-cota.error.cuadratura.compuesta}
+Si $f$ es una función $C^n$ en $[a,b]$, entonces
+$$
+\left|\int_a^b f(x) dx - Q_n^L(f;a,b) \right|
+\le \frac{M_n |b-a|^{n+1}}{n (n-1)^n} \frac{1}{L^{n}}
+$$ {#eq-cota.error.cuadratura.compuesta}
+con $M_n = \max_{\xi\in[a,b]} |f^n(\xi)|$.
+:::
+
+::::
+
+::: {.callout}
+## Observación
+Observemos que si $f \in C^n$, entonces $M_n$ es un número finito, y el lado derecho de la fórmula anterior tiende a cero cuando $L \to \infty$.
+Es decir, el error tiende a cero a medida que tomamos $L$ cada vez más grande. Además, cuando mayor sea $n$, más rápido tenderá a cero el error.
+
+Pero ¡Cuidado! El error no tiende a cero si dejamos $L$ fijo y hacemos tender $n$ a infinito. ¿Por qué? Pensar.
+:::
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Error Newton-Côtes compuestas 1
+
+::: {}
+Consideremos las fórmulas del trapecio compuesta $Q_2^L(f,a,b)$ y de Simpson compuesta $Q_3^L(f,a,b)$ con parámetro de discretización $h=\frac{b-a}{L}$ en el intervalo $[a,b]$, para aproximar $\int_{a}^b f(x) dx$. Denotemos por $E^{\text{trap}}_L=\left|\int_{a}^b f(x) \dd x - Q_2^L(f,a,b)\right|$ y $E^{\text{simp}}_L=\left|\int_{a}^b f(x) \dd x - Q_3^L(f,a,b)\right|$ a los respectivos errores de aproximación.
+
+1. Completar las siguientes tablas y verificar si el error tiende a cero. En caso afirmativo, determinar en qué factor se reduce el error cuando se duplica la cantidad de subintervalos.
+
+    [$f(x) = \sin(\pi x)$, en $[a,b]=[0,5]$]{.center}
+
+    | | |Regla de los trapecios | | |Regla de Simpson compuesta | | |
+    |---|---|---|---|---|---|---|---|
+    |$h$|$L$|$Q_2^L(f,0,5)$|$E^{\text{trap}}_L$|$\frac{E^{\text{trap}}_{L/2}}{E^{\text{trap}}_{L}}$|$Q_3^L(f,0,5)$|$E^{\text{simp}}_L$|$\frac{E^{\text{simp}}_{L/2}}{E^{\text{simp}}_{L}}$|
+    |1/2||||$-$|||$-$|
+    |1/4||||||||
+    |1/8||||||||
+    |1/16||||||||
+    |1/32||||||||
+    |1/64||||||||
+    |1/128||||||||
+    |1/256||||||||
+    |1/1024||||||||
+    |1/2048||||||||
+    |1/4096||||||||
+
+    <br>
+    [$f(x) = \frac{1}{1+x^2}$, en $[a,b]=[-5,5]$]{.center}
+
+    | | |Regla de los trapecios | | |Regla de Simpson compuesta | | |
+    |---|---|---|---|---|---|---|---|
+    |$h$|$L$|$Q_2^L(f,-5,5)$|$E^{\text{trap}}_L$|$\frac{E^{\text{trap}}_{L/2}}{E^{\text{trap}}_{L}}$|$Q_3^L(f,-5,5)$|$E^{\text{simp}}_L$|$\frac{E^{\text{simp}}_{L/2}}{E^{\text{simp}}_{L}}$|
+    |1/2||||$-$|||$-$|
+    |1/4||||||||
+    |1/8||||||||
+    |1/16||||||||
+    |1/32||||||||
+    |1/64||||||||
+    |1/128||||||||
+    |1/256||||||||
+    |1/1024||||||||
+    |1/2048||||||||
+    |1/4096||||||||
+
+    <br>
+    [$f(x) = |x|^{3/2}$, en $[a,b]= [0,5]$]{.center}
+
+    | | |Regla de los trapecios | | |Regla de Simpson compuesta | | |
+    |---|---|---|---|---|---|---|---|
+    |$h$|$L$|$Q_2^L(f,0,5)$|$E^{\text{trap}}_L$|$\frac{E^{\text{trap}}_{L/2}}{E^{\text{trap}}_{L}}$|$Q_3^L(f,0,5)$|$E^{\text{simp}}_L$|$\frac{E^{\text{simp}}_{L/2}}{E^{\text{simp}}_{L}}$|
+    |1/2||||$-$|||$-$|
+    |1/4||||||||
+    |1/8||||||||
+    |1/16||||||||
+    |1/32||||||||
+    |1/64||||||||
+    |1/128||||||||
+    |1/256||||||||
+    |1/1024||||||||
+    |1/2048||||||||
+    |1/4096||||||||
+
+2. ¿Es cierto en general que $\lim_{L\to\infty} Q_2^L(f,a,b) =  \int_a^b f(x) \dd x$, para toda función $f$? En caso afirmativo ¿Con qué orden $k$ tiende a cero el error? Es decir, determinar el valor de $k$ tal que $E^{\text{trap}}_L = \bigO(h^{k})$.
+
+3. ¿Es cierto en general que $\lim_{L\to\infty} Q_3^L(f,a,b) =  \int_a^b f(x) \dd x$, para toda función $f$? En caso afirmativo ¿Con qué orden $k$ tiende a cero el error? Es decir, determinar el valor de $k$ tal que $E^{\text{simp}}_L = \bigO(h^{k})$.
+
+4. Para cada una de las tres funciones del item 1: Mirando los valores de la tabla, determinar cuántos subintervalos (y cuántas evaluaciones de $f$) se necesitan para calcular la integral con $7$ dígitos de precisión con la regla de los trapecios. ¿Y con la regla de Simpson compuesta?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
 
 
 
