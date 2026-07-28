@@ -437,6 +437,180 @@ La radiación y(t) de cierta partícula a tiempo $t$ está gobernada por la ecua
 ::::
 
 
+## PVI para sistemas de ecuaciones y ecuaciones de orden superior {#sec-PVI.para.sistemas}
+
+Consideremos ahora un *sistema* de ecuaciones diferenciales ordinarias. Por ejemplo, un modelo de predador presa:
+$$
+\left\{
+\begin{aligned}
+x_1' &= 0.5 x_1 + 0.2 x_1 x_2 \\
+x_2' &= 0.8 x_2 - 0.8 x_1 x_2
+\end{aligned}
+\right.
+\qquad
+\begin{aligned}
+x_1(0) &= 500\\
+x_2(0) &= 10000
+\end{aligned}
+$$
+
+Para resolverlo numéricamente, primero lo transformamos en una ecuación diferencial ordinaria *vectorial*. Definimos
+$$
+x(t) = \begin{bmatrix} x_1(t) \\ x_2(t) \end{bmatrix}
+\qquad
+x' =  \begin{bmatrix} x_1' \\ x_2' \end{bmatrix} = \begin{bmatrix} 0.5 x_1 + 0.2 x_1 x_2 \\ 0.8 x_2 - 0.8 x_1 x_2 \end{bmatrix}
+\qquad
+x(0) =  \begin{bmatrix} x_1(0) \\ x_2(0) \end{bmatrix}  =  \begin{bmatrix} 500 \\ 10000 \end{bmatrix}
+$$
+
+El PVI entonces resulta:
+$$
+\begin{cases}
+\begin{aligned}
+  x' &= \begin{bmatrix}
+    0.5 x_1 + 0.2 x_1 x_2 \\
+    0.8 x_2 - 0.8 x_1 x_2
+  \end{bmatrix}
+  \\
+  x(0) &= \begin{bmatrix}
+    500 \\
+    10000
+  \end{bmatrix}
+\end{aligned}
+\end{cases}
+$$
+
+Un PVI para un sistema de ecuaciones diferenciales ordinarias es un problema de la forma:
+$$
+\begin{cases}
+\begin{aligned}
+  y' &= f(t,y) \qquad T_0 \le t \le T_f \\
+  y(T_0) &= y_0
+\end{aligned}
+\end{cases}
+$$ {#eq-pvi.sistema.ecuaciones}
+
+donde $y_0 \in \mathbb{R}^n$ ($y_0$ es un vector) y $f:[T_0,T_f]\times\mathbb{R}^n \to \mathbb{R}^n$, es decir, $f$ es una función vectorial de dos variables, la primera ($t$) es escalar, y la segunda ($y$) es vectorial.
+
+Con respecto a la existencia y unicidad de soluciones de -@eq-pvi.sistema.ecuaciones, tenemos el siguiente teorema:
+
+:::: {.callout-warning icon="false"}
+## Existencia y unicidad de soluciones
+
+::: {#thm-PVI.para.sistemas.v2}
+Si $f:[T_0,T_f]\times\mathbb{R}^n \to \mathbb{R}^n$ es continua de sus dos variables $(t,y)$ y $\frac{\partial f_i} {\partial y_j}$ es continua, con $\left| \frac{\partial f_i}{\partial y_j} \right| \le M$, entonces el problema -@eq-pvi.sistema.ecuaciones tiene solución única.
+:::
+::::
+
+### Ejemplo (Péndulo ideal)
+Si consideramos un péndulo de brazo rígido de longitud $\ell$,
+donde no hay fricción ni resistencia del aire, el ángulo $\varphi(t)$
+que forma el péndulo con la vertical satisface la siguiente ecuación
+diferencial:
+$$
+\varphi''(t) = - \frac g\ell \sin \varphi(t)
+$$
+
+donde $g$ denota la constante de aceleración gravitacional. Esta es una ecuación diferencial ordinaria de orden dos, pues aparecen derivadas segundas de la incógnita $\varphi$.
+
+![Péndulo Simple](images/pvi_ejemplo_pendulo_simple.png){fig-align="center" width=300px}
+
+Este problema resulta un PVI cuando se complementa con dos condiciones iniciales:
+$$
+\varphi(0) = \varphi_0,\qquad
+\varphi'(0) = v_0,
+$$
+
+donde $\varphi_0$ denota el desplazamiento angular inicial (dato) y $v_0$ la velocidad angular inicial (dato).
+
+Para resolver este PVI en la computadora, primero lo transformamos en un *sistema* de ecuaciones diferenciales de *primer* orden, de la siguiente manera:
+
+Definimos
+$$
+\begin{aligned}
+  y_1 &= \varphi
+  \\
+  y_2 &= \varphi'
+\end{aligned}
+$$
+
+de manera que
+$$
+\begin{aligned}
+  y_1' &= \varphi' = y_2
+  \\
+  y_2' &= \varphi'' = -\frac g\ell \sin \varphi = -\frac g\ell \sin y_1,
+\end{aligned}
+$$
+
+y
+$$
+y_1(0) = \varphi(0) = \varphi_0, \qquad y_2(0) = \varphi'(0) = v_0.
+$$
+
+Ahora reescribimos las ecuaciones en términos de $y_1$, $y_2$ sin usar $\varphi$, $\varphi'$:
+$$
+\begin{cases}
+\begin{aligned}
+  y_1' &= y_2
+  \\
+  y_2' &= -\frac gL \sin y_1,
+\end{aligned}
+\end{cases}
+\qquad
+\begin{cases}
+\begin{aligned}
+  y_1(0) = \varphi_0,\\
+  y_2(0) = v_0.
+\end{aligned}
+\end{cases}
+$$
+
+Si llamamos $y = \begin{bmatrix}y_1\\y_2\end{bmatrix}$ resulta
+$$
+y' = \begin{bmatrix} y_2 \\ -\frac gL \sin y_1 \end{bmatrix}
+\qquad
+y(0) = \begin{bmatrix} \varphi_0 \\ v_0 \end{bmatrix}.
+$$
+
+Presentamos a continuación una modificación del código de la función `euler1` que sirve también para resolver PVI para sistemas de ecuaciones diferenciales.
+La función está diseñada con el siguiente formato:
+$$
+\texttt{[t,y] = euler(f, [T0 TF], y0, L)}
+$$
+
+$\textbf{Entradas:}$
+
+* `f=f(t,y)`: Es una función que recibe dos argumentos, `t` es un escalar, `y` es un vector *columna* de `n` componentes; y retorna un vector columna de `n` componentes, siendo `n=length(y0)`. Por ejemplo: `f = @(t,y) [-t*y(2) ; t*(y(1)-y(2))]`;
+* `[T0 TF]`: Es un vector de dos componentes que indican el intervalo donde se desea conocer la solución.
+* `y0`: Es un vector columna que indica el *dato inicial*.
+* `L`: Es un número que indica la cantidad de sub-intervalos en que se divide el intervalo `[T0 TF]` para resolver por el método de Euler.
+
+$\textbf{Salidas:}$
+
+* `t`: Debe ser un vector columna de `L+1` componentes.
+* `y`: Debe ser una matriz de `L+1` filas y `n` columnas. La `i`-ésima fila debe contener el estado `y` a tiempo `t(i)`.
+
+```{python}
+#| code-fold: false
+
+def euler(f, inter, y0, L):
+  """
+  Método de Euler para resolver
+  y’ = f(t,y) en [t0,TF]
+  y(t0) = y0
+  Usando L pasos
+  y0 puede ser vectorial o escalar
+  """
+  t = np.linspace(inter[0], inter[1], L + 1)
+  h = (inter[1] - inter[0]) / L
+  # reservamos lugar en memoria para y
+  y = np.zeros((len(y0), L + 1))
+  y[:, 0] = y0
+  for n in range(L):
+    y[:, n + 1] = y[:, n] + h * f(t[n], y[:, n])
+  return t, y.T
+```
 
 
 
