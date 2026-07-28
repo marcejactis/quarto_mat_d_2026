@@ -266,7 +266,7 @@ Una herramienta muy utilizada para estimar y acotar el error en los métodos num
 :::: {.callout-warning icon="false"}
 ## Teorema de Taylor
 
-::: {#thm-PVI.para.sistemas.v1}
+::: {#thm-teorema.taylor}
 Sea $y \in C^{n+1}(I)$, donde $I$ es un intervalo que contiene a $t_0$. Entonces, para cada $t \in I$ existe $x$ entre $t_0$ y $t$ tal que
 $$
 y(t) = y(t_0) + (t-t_0) y'(t_0) + \frac{(t-t_0)^2}{2!} y''(t_0) + \dots +
@@ -611,6 +611,459 @@ def euler(f, inter, y0, L):
     y[:, n + 1] = y[:, n] + h * f(t[n], y[:, n])
   return t, y.T
 ```
+
+
+## Métodos de Runge-Kutta {#sec-metodos.de.RK}
+
+Hemos visto el método de Euler, que resulta de orden uno, y en cada paso realiza una evaluación de la función $f$. Nos preguntamos: ¿Se podrá definir un método que utilizando dos evaluaciones de $f$ en cada paso resulte de orden 2? La respuesta es positiva, veamos cómo puede lograrse.
+
+Proponemos un método como el siguiente:
+$$
+\begin{cases}
+  \begin{aligned}
+    k_1 &= h f(t_n,\ Y_n) \\
+    k_2 &= h f(t_n+\alpha h ,\ Y_n + \alpha k_1) \\
+    Y_{n+1} &= Y_n + a k_1 + b k_2
+  \end{aligned}
+\end{cases}
+$$
+
+¿Se pueden elegir $\alpha$, $a$, $b$ para que el error local sea $O(h^3)$?
+
+Veamos, sea $y(t)$ la solución del PVI siguiente:
+$$
+\left\{
+  \begin{aligned} y' &= f(t,y), \qquad t_n  \le t \le T_f  , \\
+    y(t_n ) &= Y_n.
+  \end{aligned}
+\right.
+$$
+
+El error local de truncamiento es entonces $\varepsilon_n = y(t_{n+1})-Y_{n+1}$.
+
+Por el [Teorema de Taylor](#thm-teorema.taylor){.quarto-xref},
+$$
+y(t_{n+1}) = y(t_n) + h y'(t_n) + \frac{h^2}2 y''(t_n) + \frac{h^3}{3!} y'''(x),
+$$
+
+pero
+$$
+\begin{align*}
+  y'(t_n) &= f(t_n,y(t_n)) = f(t_n,Y_n) = f^n \\
+  y''(t_n) &= \frac{d}{dt}y'(t)_{|t=t_n} = \frac{d}{dt} f(t,y(t))_{|t=t_n}
+  = \left[f_t(t,y(t)) + f_y(t,y(t)) y'(t) \right]_{|t=t_n} \\
+  &= \left[f_t(t,y(t)) + f_y(t,y(t)) f(t,y(t)) \right]_{|t=t_n}
+  = f_t^n + f_y^n f^n.
+\end{align*}
+$$
+
+Luego, como $y(t_n) = Y_n$,
+$$
+y(t_{n+1}) = Y_n + h f^n + \frac{h^2}2 \left(  f_t^n + f_y^n f^n \right) +  \frac{h^3}{3!} y'''(x).
+$$
+
+Por otro lado
+$$
+Y_{n+1} = Y_n + a k_1 + b k_2
+$$
+
+con
+$$
+\begin{align*}
+k_1 &= h f^n \\
+k_2 &= h f(t_n + \alpha h, Y_n + \alpha k_1 ) \\
+    &= h \left[ f(t_n,Y_n) + \alpha h f_t(t_n,Y_n) + \alpha k_1 f_y(t_n,Y_n) + O(h^2) \right] \\
+    &= h f^n + \alpha h^2 f_t^n + \alpha h \underbrace{k_1}_{h f^n} f_y^n + O(h^3) \\
+    &= h f^n + \alpha h^2 f_t^n + \alpha h^2 f^n f_y^n + O(h^3).
+\end{align*}
+$$
+
+Por lo tanto
+$$
+Y_{n+1} = Y_n + (a+b) h f^n + b \alpha h^2 \left( f_t^n + f^n f_y^n \right) + O(h^3).
+$$
+
+De esta manera,
+$$
+Y_{n+1} - y(t_{n+1}) = Y_n - Y_n + [(a+b)-1] h f^n + \big[ b\alpha( f_t^n + f^n f_y^n ) - \frac12 (f_t^n + f f_y^n )\big] h^2 + O(h^3),
+$$
+
+y será $\varepsilon_n = |Y_{n+1} - y(t_{n+1})| = O(h^3)$ si
+$$
+\begin{align*}
+a+b &= 1 \\
+b \alpha &= \frac12
+\end{align*}
+$$
+
+Elegimos la solución *simétrica*
+$$
+a = \frac12, \quad b = \frac12, \quad \alpha = 1, %\quad \beta = 1,
+$$
+
+y obtenemos el método de $\textbf{Runge-Kuta de orden 2}$:
+
+Dados $t_n$ e $Y_n$, calcular $Y_{n+1}$ a partir de las siguientes fórmulas
+$$
+(RK2)
+\begin{cases}
+  \begin{aligned}
+    k_1 &= h f(t_n,Y_n) \\
+    k_2 &= h f(t_n+ h , Y_n +  k_1) \\
+    Y_{n+1} &= Y_n + \frac12 k_1 + \frac12 k_2
+  \end{aligned}
+\end{cases}
+$$
+
+Para este método vale el siguiente resultado:
+
+:::: {.callout-warning icon="false"}
+## Runge-Kutta de orden 2
+
+::: {#thm-rk2}
+Si todas las soluciones tienen derivada de orden 3 acotada uniformemente por una constante $M_3$, entonces el método de Runge-Kutta de orden 2 produce una sucesión $(t_n,Y_n)$ que cumple
+$$
+\max\limits_{1 \le n \le L+1} |y(t_n) - Y_n| \le C h^2,
+$$
+
+donde $h = \frac{T_f-T_0}L$ y $C$ depende de $M_3$ y de la longitud del intervalo $[T_0,T_f]$, es decir $(T_f-T_0)$.
+:::
+::::
+
+De manera análoga, pero con cuentas más engorrosas puede deducirse el método de $\textbf{Runge-Kutta de orden cuatro}$:
+
+Dados $t_n$ e $Y_n$, calcular $t_{n+1}$ e $Y_{n+1}$ a partir de las siguientes fórmulas:
+
+$$
+(RK4)
+\begin{cases}
+  \begin{aligned}
+    k_1 &= h f(t_n,Y_n) \\
+    k_2 &= h f(t_n+ \frac h2 , Y_n + \frac {k_1}2) \\
+    k_3 &= h f(t_n+ \frac h2 , Y_n + \frac {k_2}2) \\
+    k_4 &= h f(t_n+ h , Y_n + k_3) \\
+    Y_{n+1} &= Y_n + \frac{ k_1 + 2 k_2 + 2 k_3 + k_4}6
+  \end{aligned}
+\end{cases}
+$$
+
+Cabe aclarar aquí que el método de Runge-Kutta de orden cuatro
+convergerá con ese orden cuando las derivadas de hasta orden cinco de
+$y$ (y cuatro de $f$) están acotadas. Más precisamente, para este método vale el siguiente resultado:
+
+:::: {.callout-warning icon="false"}
+## Runge-Kutta de orden 4
+
+::: {#thm-rk4}
+Si todas las soluciones tienen derivada de orden 5 acotada uniformemente por una constante $M_5$, entonces el método de Runge-Kutta de orden 2 produce una sucesión $(t_n,Y_n)$ que cumple
+$$
+\max\limits_{1 \le n \le L+1} |y(t_n) - Y_n| \le C h^4,
+$$
+
+donde $h = \frac{T_f-T_0}L$ y $C$ depende de $M_4$ y de la longitud del intervalo $[T_0,T_f]$, es decir $(T_f-T_0)$.
+:::
+::::
+
+
+La pregunta que cabe hacerse es la siguiente: ¿Cuál es la ganancia de usar un método de orden superior si es computacionalmente más costoso en cada paso de tiempo? Para ver la ganancia, consideremos el caso en que las cotas del error de Euler, RK2 y RK4 son $h$, $h^2$ y $h^4$ respectivamente, es decir, $C=1$ en todos los casos. Recordemos que la parte más costosa desde el punto de vista computacional es la evaluación de $f(t,y)$, por lo que interpretamos que Euler, RK2 y RK4 cuestan 1, 2 y 4 "operaciones" por paso de tiempo.
+
+En la siguiente tabla mostramos el costo y el error de cada método para diferentes $L$ pensando en el intervalo $[0,1]$:
+
+| | Euler | | Runge-Kutta 2 | | Runge-Kutta 4 | |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **$L$** | **costo** | **error** | **costo** | **error** | **costo** | **error** |
+| 10 | 10 | 0.1 | 20 | 0.01 | 40 | 0.0001 |
+| 20 | 20 | 0.05 | 40 | 0.0025 | 80 | 0.00000625 |
+| 40 | 40 | 0.025 | 80 | 0.000625 | 160 | 0.00000039 |
+| 80 | 80 | 0.0125 | 160 | 0.000156 | 320 | 0.000000024 |
+| 100 | 100 | 0.01 | 200 | 0.0001 | 400 | 0.00000001 = $1 \times 10^{-8}$ |
+
+
+Vale la pena observar cuál es el error de cada método correspondiente a un costo de 40 evaluaciones y también al que corresponde a 80 evaluaciones.
+
+[¡¡Los métodos de orden superior son mucho más eficientes!!]{.center}
+
+Claro, cada vez que duplicamos $L$, el error por el método de Euler se reduce a la mitad, en cambio el error por el método RK2 se reduce por 4 y el error por RK4 se reduce por 16.
+
+A continuación se definen las funciones `rk2` y `rk4` en las cuales se implementan los métodos de Runge-Kutta de orden 2 y 4 respectivamente.
+
+```{python}
+#| code-fold: false
+
+def rk2(f, inter, y0, L):
+  """
+  Método de Runge Kutta de orden 2 para resolver
+  y’ = f(t,y) en [t0,TF]
+  y(t0) = y0
+  Usando L pasos
+  y0 puede ser vectorial o escalar
+  """
+  t = np.linspace(inter[0], inter[1], L + 1)
+  h = (inter[1] - inter[0]) / L
+  # reservamos lugar en memoria para y
+  y = np.zeros((len(y0), L + 1))
+  y[:, 0] = y0
+  for n in range(L):
+      k1=h*f(t[n], y[:, n])
+      k2=h*f(t[n+1], y[:, n]+k1)
+      y[:, n + 1] = y[:, n] + 0.5 * (k1+k2)
+  return t, y.T
+```
+
+```{python}
+#| code-fold: false
+
+def rk4(f, inter, y0, L):
+  """
+  Método de Runge Kutta de orden 4 para resolver
+  y’ = f(t,y) en [t0,TF]
+  y(t0) = y0
+  Usando L pasos
+  y0 puede ser vectorial o escalar
+  """
+  t = np.linspace(inter[0], inter[1], L + 1)
+  h = (inter[1] - inter[0]) / L
+  # reservamos lugar en memoria para y
+  y = np.zeros((len(y0), L + 1))
+  y[:, 0] = y0
+  for n in range(L):
+      k1=h*f(t[n], y[:, n])
+      k2=h*f(t[n]+h/2, y[:, n]+k1/2)
+      k3=h*f(t[n]+h/2, y[:, n]+k2/2)
+      k4=h*f(t[n+1], y[:, n]+k3)
+      y[:, n + 1] = y[:, n] + (k1+2*k2+2*k3+k4)/6
+  return t, y.T
+```
+
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Runge-Kutta 1
+
+::: {}
+La trayectoria de una partícula que inicialmente se encuentra en el punto $(-1, 1)$ y se mueve en el plano está dada por la curva $\left(x_1(t), x_2(t)\right)$, donde las funciones $x_1$ y $x_2$ son la solución del siguiente sistema
+de ecuaciones diferenciales:
+
+$$
+\begin{cases}
+  \begin{aligned}
+    x_1'(t) &= -t x_2(t) , \\
+    x_2'(t) &= t x_1(t) - t x_2(t).
+  \end{aligned}
+\end{cases}
+$$
+
+1. Grafique la trayectoria de la partícula durante los primeros 20 segundos.
+
+2. Utilice el método de Runge-Kutta 4 con paso h = 0.1 para determinar la posición de la partícula y su rapidez a los tres segundos.
+
+3. ¿Cuántos dígitos correctos tienen los resultados del item anterior? Explique cómo lo determinó.
+
+4. Recuerde que la longitud de la trayectoria de la partícula durante los $T$ primeros segundos está dada por $\int^T_0 \sqrt{x'_1(t)^2 + x'_2(t)^2} \dd t$. Calcule la distancia recorrida por la partícula durante los primeros tres segundos. Explique cómo lo hizo.
+
+5. Determine el instante de tiempo a partir del cual la partícula está siempre a una distancia menor a 0.01 del origen de coordenadas.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Runge-Kutta 2
+
+::: {}
+Considere siguiente PVI de orden 3:
+$$
+\begin{cases}
+  \begin{aligned}
+    y'''+4y''+5y'+2y &= -4 \sin(t)-2 \cos(t), \\
+    y(0) &= 1, \\
+    y'(0) &= 0, \\
+    y''(0) &= -1
+  \end{aligned}
+\end{cases}
+$$
+
+1. Reescriba el problema como un sistema de EDO de primer orden, con sus respectivos valores iniciales.
+
+2. Grafique la solución y obtenga el valor de la variable de estado y en $t = 2.5$, con 6 dígitos exactos.
+
+3. Indique cuántas veces se anula la función $y'(t)$ en el intervalo $[0, 15]$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Runge-Kutta 3
+
+::: {}
+Una paracaidista de masa $m$ salta desde un helicóptero suspendido a una altura inicial de 45 km. Supóngase que cae verticalmente con una velocidad inicial cero y que solo actáan sobre ella la fuerza de la gravedad y una fuerza hacia arriba $F_R$ debida a la resistencia del aire (en Newtons, y con el eje coordenado dirigido hacia abajo, de tal manera que la velocidad $v$ es positiva durante su descenso al piso).
+
+Si no se abre el paracaídas, teniendo en cuenta la Ley de Newton $F = ma$, se sabe que la velocidad debe satisfacer:
+$$
+m \frac{dv}{dt} = mg - F_R
+$$
+
+donde $g = 9.8 m/s^2$. Suponga que la masa de la paracaidista es de $60 kg$ y que $F_R$ está dada en términos de la velocidad $v$ como
+$$
+F_R = 0.0096(100v + 10v^2 + v^3).
+$$
+
+1. Determinar el problema a valores iniciales que modela esta situación en donde la única variable de estado sea la velocidad $v$.
+
+2. Determine (con tres dígitos decimales exactos) la velocidad en $m/s$ y la aceleración en $m/s^2$ de la paracaidista a los 5 segundos. Explique cómo lo hizo.
+
+3. Determine la distancia recorrida por la paracaidista durante los primeros 10 segundos. ¿Cuál es la precisión de su cálculo? Explique brevemente cómo lo hizo
+
+4. La velocidad de un objeto que cae con resistencia del aire no aumenta indefinidamente sino que, a medida que transcurre el tiempo, se aproxima a una cantidad límite finita. Esta velocidad que denotamos por $v_T$ se denomina velocidad terminal o velocidad límite del objeto, y se produce cuando la fuerza de la gravedad y la resistencia del aire se equilibran, de modo que la aceleración es igual a cero. Determine con un error menor a $10^{4}$ la velocidad terminal vT del paracaidista y el tiempo que tarda en alcanzarla. Explique cómo lo hizo.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Runge-Kutta 4 (Sistema masa-resorte)
+
+::: {}
+Considere un objeto de masa m moviéndose en un plano horizontal, sujeto a un resorte amurado a una pared y sometido a una fuerza externa $F$ y a un sistema de amortiguamiento.
+
+La fuerza total $f_T$ que actúa sobre el objeto está dada por
+$$
+f_T = -cv - kx + F
+$$
+
+donde $x$ representa el desplazamiento del objeto desde la posición de equilibrio en metros, $v$ su velocidad, $k$ la constante elástica del resorte y $c$ el coeficiente de amortiguamiento.
+
+1. Utilice la segunda ley de Newton para escribir un PVI que permita encontrar el desplazamiento $x$ a los $t$ segundos. Escriba de manera general las condiciones iniciales que se necesitan.
+
+2. Resuelva el sistema considerando $m = 20 kg$, $k = 20 N/m$, $c = 10 N · s/m$, y sin fuerza externa, partiendo
+del reposo a 1 metro hacia la derecha de la posición de equilibrio.
+
+3. Determine la máxima velocidad alcanzada por el sistema y en qué tiempo ocurre.
+
+4. Determine el desplazamiento máximo del objeto después de pasar por primera vez por la posición de equilibrio.
+
+5. Responda a los dos items anteriores suponiendo que el coeficiente de amortiguamiento es el doble.
+
+![Sistema masa-resorte](images/pvi_sistema_masa_resorte.png){fig-align="center" width="300px"}
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Runge-Kutta 5
+
+::: {}
+Se carga un reactor con una sustancia $A$ diluida en agua. En determinadas condiciones, dicha sustancia reacciona para formar un producto deseado $B$. A su vez, el producto $B$ continúa reaccionando para formar una sustancia no deseada $C$, de acuerdo al siguiente esquema:
+$$
+A \xrightarrow{r_1} B \xrightarrow{r_2} C 
+$$
+
+donde $r_1$ es la velocidad de la primera etapa y $r_2$ es la velocidad de la segunda etapa de reacción. Ambas velocidades dependen de las concentraciones de las sustancias y de la temperatura de trabajo, según:
+$$
+r_1 = A_1 e^{-\frac{E_1}{RT}} c_A, \quad r_2 = A_2 e^{-\frac{E_2}{RT}} c_B
+$$
+
+donde $c_A$ y $c_B$ son las concentraciones de $A$ y $B$, $T$ es la temperatura del reactor, $A_1$ y $A_2$ son dos parámetros que valen $0.5\, min^{-1}$ y $0.3\, min^{-1}$, respectivamente, $E_1$ y $E_2$ valen $1000 \,cal/mol$ y $1500\, cal/mol$ y $R$ es la constante de los gases, cuyo valor es de $1.9872\, cal\, mol^{-1}\, K^{-1}$. En estas condiciones, las concentraciones de $A$ y $B$ varían según:
+$$
+\frac{dc_A}{dt} = -r_1, \quad \frac{dc_B}{dt} = r_1 - r_2
+$$
+
+Al llevarse a cabo, las reacciones liberan energía en forma de calor. Considerando que el reactor está aislado del ambiente, la temperatura varía de acuerdo a:
+$$
+\frac{dT}{dt} = \frac{1}{c_v}(r_1 \Delta H_1 + r_2 \Delta H_2)
+$$
+
+donde $c_v$ es la capacidad calorífica del sistema, cuyo valor es $18\, cal\, L^{-1}\, K^{-1}$ y $\Delta H_1$ y $\Delta H_2$ son los calores de reacción, que valen $2000 cal/mol$ y $1200 cal/mol$ respectivamente.
+
+El reactor se llena con agua a una temperatura de $298 K$ y se agrega sustancia A que se mezcla rápidamente a fin de tener una concentración inicial de $0.5 mol/L$. En base a esta información:
+
+1. Determine, con un error menor a $10^{-6} mol/L$, las concentraciones que alcanzan $A$ y $B$ luego de media hora de reacción.
+
+2. Al cabo de un cierto tiempo de reacción se agrega un inhibidor que detiene las reacciones. Si se desea maximizar la producción de $B$, ¿en qué momento debe agregarse dicho inhibidor?¿Cuál es la temperatura del reactor en ese momento?
+
+3. Si la reacción continuara indefinidamente, ¿cuál es la mayor temperatura que podría alcanzar el reactor?
+
+4. Si quisiera mejorar la producción de $B$, ¿debería utilizar agua más fría o más caliente al inicio de la reacción? Suponga que puede decidir nuevamente en qué momento agregar el inhibidor.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Runge-Kutta 6
+
+::: {}
+Luego del accidente sufrido en un circo chileno en julio de 2018, donde el hombre bala salió despedido del cañón con demasiada potencia cayendo muchos metros después de la red de seguridad, la Comisión Internacional del Circo decidió diseñar un nuevo traje reglamentario, con un sistema de frenado inteligente. El mismo consiste en una fuerza de resistencia proporcional a la velocidad del individuo que se activa cuando éste supera los 10 metros de altura. Más exactamente, llamando $\vec{r} = (x1, x2)$ a la posición del hombre bala en un plano vertical, la fuerza resultante que actúa sobre el sujeto es
+
+$$
+\vec{F}
+\begin{cases}
+  \begin{aligned}
+    m \vec{g}, \quad &\text{si}\, x_2 <10, \\
+    m \vec{g} - 20 \vec{v}, \quad &\text{si}\, x_2 \ge 10.
+  \end{aligned}
+\end{cases}
+$$
+
+donde $\vec{v} = \frac{d\vec{r}}{dt(t)}$ es el vector velocidad y $\vec{g} = (0, -g)$, siendo $g = 9.8 m/s^2$ la constante de aceleración gravitacional.
+
+1. Utilizando la segunda Ley de Newton $\vec{F} = m \vec{a}$, escriba el problema a valores iniciales correspondiente para las variables de estado $x_1(t)$ y $x_2(t)$, considerando un sujeto de masa $m$ que sale desde el origen con
+velocidad inicial $\vec{v_0} = (v_0 cos θ_0, v_0 sen θ_0)$. Escriba el PVI como un sistema de primer orden.
+
+2. Encuentre la altura máxima que alcanza el hombre bala, si consideramos que los datos son $m = 75$, $v_0 = 22$ y $θ_0 = π/3$.
+
+3. Determine la distancia horizontal recorrida por el hombre bala desde que sale despedido del cañón hasta que toca la red de seguridad, que tiene 2 metros de altura.
+
+4. ¿Cuánto tiempo permanece en el aire antes de hacer contacto con la red?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
 
 
 
