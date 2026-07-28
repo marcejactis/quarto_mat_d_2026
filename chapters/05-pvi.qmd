@@ -576,15 +576,15 @@ $$
 Presentamos a continuación una modificación del código de la función `euler1` que sirve también para resolver PVI para sistemas de ecuaciones diferenciales.
 La función está diseñada con el siguiente formato:
 $$
-\texttt{[t,y] = euler(f, [T0 TF], y0, L)}
+\texttt{t, y = euler(f, [T0, TF], y0, L)}
 $$
 
 $\textbf{Entradas:}$
 
-* `f=f(t,y)`: Es una función que recibe dos argumentos, `t` es un escalar, `y` es un vector *columna* de `n` componentes; y retorna un vector columna de `n` componentes, siendo `n=length(y0)`. Por ejemplo: `f = @(t,y) [-t*y(2) ; t*(y(1)-y(2))]`;
-* `[T0 TF]`: Es un vector de dos componentes que indican el intervalo donde se desea conocer la solución.
+* `f=f(t,y)`: Es una función que recibe dos argumentos, `t` es un escalar, `y` es un vector *columna* de `n` componentes; y retorna un vector columna de `n` componentes, siendo `n=len(y0)`. Por ejemplo: `f = lambda t,y: np.array([-t * y[1], t * (y[0]-y[1])])`.
+* `[T0, TF]`: Es un vector de dos componentes que indican el intervalo donde se desea conocer la solución.
 * `y0`: Es un vector columna que indica el *dato inicial*.
-* `L`: Es un número que indica la cantidad de sub-intervalos en que se divide el intervalo `[T0 TF]` para resolver por el método de Euler.
+* `L`: Es un número que indica la cantidad de sub-intervalos en que se divide el intervalo `[T0, TF]` para resolver por el método de Euler.
 
 $\textbf{Salidas:}$
 
