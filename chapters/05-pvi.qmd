@@ -34,3 +34,46 @@ En este caso, el valor inicial es $3$ y la función pendiente es $f(t,y) = -2y$ 
 La ecuación diferencial $y' = -2 y$ tiene una *familia* de soluciones, son todas las funciones de la forma $y(t) = c e^{-2t}$, con $c$ cualquier constante. La condición inicial $y(0) = 3$ nos dice que queremos hallar la única función de esa familia que en $t=0$ vale 3. Utilizamos la condición inicial para despejar $c$ y nos da que $c=3$. Luego, la solución del PVI es $y(t) = 3 e^{-2t}$.
 
 
+## Existencia y estabilidad de soluciones {#sec-existencia.y.estabilidad}
+
+Vimos un ejemplo muy sencillo donde hallar la solución fue muy fácil. En general, esto no es tan fácil, como tampoco es obvio que haya solución del problema. A continuación enunciamos una propiedad que nos afirma la existencia de una solución para (PVI).
+
+Si $f$ es una función continua de sus dos variables ($y$ y $t$) y además $\frac{\partial f}{\partial y}$ existe y está acotada, entonces el problema a valores iniciales (PVI) tiene una única solución.
+
+Más aún, si $L \le \frac{\partial f}{\partial y} \le U$ para todo $(y,t)$, resulta lo siguiente:
+
+Si $y$, $\tilde y$ son soluciones de $y' = f(t,y)$ con $y(T_0 )=y_0$ y $\tilde y(T_0 ) = \tilde y_0$, entonces,
+
+$$
+|y_0 - \tilde y_0| e^{L(t-T_0 )} \le | y(t) - \tilde y(t) | \le |y_0 - \tilde y_0| e^{U(t-T_0 )}, \qquad \text{para }t \in [T_0  , T_f ].
+$$
+
+En palabras, el resultado anterior nos dice que las soluciones del mismo problema, con diferentes condiciones iniciales, *se alejan* al menos tan rápido como $e^{Lt}$ y no más rápido que $e^{Ut}$ por la diferencia entre las condiciones iniciales.
+
+En el ejemplo anterior, $f(t,y) = -2y$, luego $\frac{\partial f}{\partial y} = -2$, y por lo tanto $L=U=-2$. En este caso, tenemos que soluciones del mismo PVI con dos condiciones iniciales diferentes se acercan como $e^{-2t}$ por el *error inicial*. Más precisamente, observemos las soluciones con $y_0 = 3$ y con $\tilde y_0 = 3.1$. En este caso,
+$$
+y(t) = 3 e^{-2t}, \quad\text{y} \quad \tilde y(t) = 3.1 e^{-2t},
+$$
+
+por lo que
+$$
+|y(t) - \tilde y(t)| = |3 e^{-2t} - 3.1 e^{-2t}| = |3 - 3.1| e^{-2t} = 0.1 e^{-2t}.
+$$
+
+:::: {.callout-note}
+## Un ejemplo importante.
+
+::: {#nota-sol.no.se.alejan}
+Si estamos en un caso en que $\frac{\partial f}{\partial y}\le 0$ entonces $U=0$ y tenemos que
+$$
+|y(t)-\tilde y(t)| \le | y_0 - \tilde y_0 |,  \qquad \text{para }t \in [T_0  , T_f ].
+$$
+
+Es decir, las soluciones *no se alejan*.
+:::
+::::
+
+
+
+
+
