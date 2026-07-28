@@ -1,4 +1,12 @@
 /*-- scss:rules --*/
+// Fuerza a que el contenedor del título y el botón se apilen verticalmente
+.sidebar-title {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 10px; // Espacio de separación vertical entre el título y el botón
+}
+
 // Estilo para el contenedor del toggle
 .quarto-color-scheme-toggle {
   display: flex;

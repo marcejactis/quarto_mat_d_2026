@@ -17,11 +17,21 @@ a.quarto-xref[href*="#eq-"] > span::after {
 
 // Evita superposición de la etiqueta en la ecuación referenciada
 // Implementación para motor KaTeX
-div.tippy-content .katex-display .tag {
-    display: none !important;
-}
-// Implementación para motor MathJax (descomentar en caso de cambiar el motor)
-// div.tippy-content mjx-labels,
-// div.tippy-content mjx-label {
+// div.tippy-content .katex-display .tag {
 //     display: none !important;
 // }
+// Implementación para motor MathJax (descomentar en caso de cambiar el motor)
+div.tippy-content mjx-labels,
+div.tippy-content mjx-label {
+    display: none !important;
+}
+// Fuerza la desaparición de barras de scroll vertical en la previsualización
+.tippy-content {
+  overflow-y: hidden !important;
+}
+
+// Centrar un bloque
+.center {
+    display: block;
+    text-align: center;
+}

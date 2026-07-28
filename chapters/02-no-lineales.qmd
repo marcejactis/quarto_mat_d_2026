@@ -306,7 +306,7 @@ print(p)
 
 Nos preguntamos entonces,
 
-> ::: {style="text-align: center;"}
+> ::: {.center}
 > **¿a qué converge una iteración de la forma $p_{n+1} = g(p_n)$?**
 > :::
 
@@ -402,7 +402,7 @@ Si $p_n → p$ cuando $n → ∞$, entonces $p$ es un punto fijo de $g$; es deci
 El @thm-condicion.punto.fijo nos dice que el método de punto fijo con una función $g$ converge a un $p$ tal que $p = g(p)$. Entonces,
 
 <!-- Forma 1 de centrar texto (div) -->
-> ::: {style="text-align: center;"}
+> ::: {.center}
 > **¿cómo podría esto ayudarnos a resolver una ecuación no lineal como $f(x)=0$?**
 > :::
 
@@ -423,7 +423,7 @@ $$
 Ahora nos preguntamos,
 
 <!-- Forma 2 de centrar texto (span) -->
-> [**¿qué hace falta para poder asegurar que $g$ tiene un punto fijo en un intervalo $[a, b]$?**]{style="display: block; text-align: center;"}
+> [**¿qué hace falta para poder asegurar que $g$ tiene un punto fijo en un intervalo $[a, b]$?**]{.center}
 
 El teorema siguiente da una respuesta a esta pregunta.
 

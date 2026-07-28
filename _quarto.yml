@@ -39,6 +39,10 @@ execute:
 
 format:
   live-html:
+    grid:
+      sidebar-width: 225px
+      margin-width: 225px
+      body-width: 850px
     theme:
       light: [cosmo, styles/quick-tools.scss, styles/custom-theme.scss]
       dark:  [cosmo, styles/quick-tools.scss, styles/custom-theme.scss, styles/theme-dark.scss]
@@ -49,7 +53,7 @@ format:
     code-summary: "Mostrar código"
     code-copy: true
     smooth-scroll: true
-    html-math-method: katex
+    # html-math-method: katex
     respect-user-color-scheme: true
 
 lang: es
