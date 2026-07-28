@@ -1,1 +1,36 @@
-# Problemas a valores iniciales
+---
+title: "Problemas a valores iniciales"
+---
+{{< include ../_macros.qmd >}}
+
+El objetivo en un problema a valores iniciales (PVI) es encontrar una función $y(t)$ dado su valor en un instante inicial $t=0$ y una receta $f(t,y)$ para su pendiente:
+
+$$
+\text{(PVI)} \left\{
+  \begin{aligned} y' &= f(t,y), \qquad T_0  \le t \le T_f  , \\
+    y(T_0 ) &= y_0.
+  \end{aligned}
+\right.
+$$
+
+En algunas aplicaciones se desea graficar una aproximación a $y(t)$ sobre un intervalo de interés $[T_0, T_f]$ para descubrir propiedades cualitativas de la solución. En otras, puede ser importante conocer una estimación precisa del valor $y(t)$ para un tiempo $t=T_f$ prefijado.
+
+Los datos conocidos de (PVI) son: el *valor inicial* $y_0$ y la *función pendiente* $f(t,y)$ que nos dice cuál tiene que ser la pendiente de la solución $y(t)$ en cada instante de tiempo, dependiendo de cuanto vale $y$. Más precisamente:
+
+Se llama *solución de* (PVI) a una función $y(t)$ definida sobre el intervalo $[T_0, T_f]$ que satisface:
+$$
+y(T_0 ) = y_0, \qquad y'(t) = f(t, y(t)), \quad \text{para todo $t \in [T_0 ,T_f ]$.}
+$$
+
+Consideremos por ejemplo el PVI
+$$
+\left\{ \begin{aligned} y' &=  -2 y, \quad 0 \le t < \infty, \\
+y(0) &= 3.
+\end{aligned}
+\right.
+$$
+
+En este caso, el valor inicial es $3$ y la función pendiente es $f(t,y) = -2y$ (es una función de dos variables que en realidad depende de una sola).
+La ecuación diferencial $y' = -2 y$ tiene una *familia* de soluciones, son todas las funciones de la forma $y(t) = c e^{-2t}$, con $c$ cualquier constante. La condición inicial $y(0) = 3$ nos dice que queremos hallar la única función de esa familia que en $t=0$ vale 3. Utilizamos la condición inicial para despejar $c$ y nos da que $c=3$. Luego, la solución del PVI es $y(t) = 3 e^{-2t}$.
+
+
