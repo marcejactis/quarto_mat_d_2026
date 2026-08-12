@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write # Permiso crucial para que la acción pueda escribir y actualizar la rama gh-pages
 
+# Fuerza a que todas las acciones se ejecuten bajo el motor de Node 24 de manera inmediata
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
