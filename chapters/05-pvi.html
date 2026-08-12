@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>5&nbsp; Problemas a valores iniciales – Apunte de Cálculo Numérico</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/06-diferencias-finitas.html" rel="next">
+<link href="../chapters/04-integracion.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-6a59748c55ec1a6818b05d9630b85713.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-20aec94cf2230619e57bb2a03c4acc19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-6a59748c55ec1a6818b05d9630b85713.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const queryPrefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const darkModeDefault = queryPrefersDark.matches;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    queryPrefersDark.addEventListener("change", e => {
+      if(window.localStorage.getItem("quarto-color-scheme") !== null)
+        return;
+      const alternate = e.matches
+      toggleColorMode(alternate);
+      localAlternateSentinel = e.matches ? 'alternate' : 'default'; // this is used alongside local storage!
+      toggleGiscusIfUsed(alternate, darkModeDefault);
+    });
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/05-pvi.html">Parte II</a></li><li class="breadcrumb-item"><a href="../chapters/05-pvi.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas a valores iniciales</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Apunte de Cálculo Numérico</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Alternar modo oscuro"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Preliminares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción a Python para Cálculo Numérico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02-no-lineales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Sistemas no lineales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03-interpolacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aproximación e interpolación polinomial</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04-integracion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Integración numérica o cuadratura</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/05-pvi.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas a valores iniciales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/06-diferencias-finitas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Diferencias finitas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-existencia.y.estabilidad" id="toc-sec-existencia.y.estabilidad" class="nav-link active" data-scroll-target="#sec-existencia.y.estabilidad"><span class="header-section-number">5.1</span> Existencia y estabilidad de soluciones</a></li>
+  <li><a href="#sec-metodo.de.euler" id="toc-sec-metodo.de.euler" class="nav-link" data-scroll-target="#sec-metodo.de.euler"><span class="header-section-number">5.2</span> Método de Euler</a>
+  <ul class="collapse">
+  <li><a href="#pongámonos-a-prueba" id="toc-pongámonos-a-prueba" class="nav-link" data-scroll-target="#pongámonos-a-prueba"><span class="header-section-number">5.2.1</span> Pongámonos a prueba!!! 💪🏻</a></li>
+  </ul></li>
+  <li><a href="#sec-PVI.para.sistemas" id="toc-sec-PVI.para.sistemas" class="nav-link" data-scroll-target="#sec-PVI.para.sistemas"><span class="header-section-number">5.3</span> PVI para sistemas de ecuaciones y ecuaciones de orden superior</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-péndulo-ideal" id="toc-ejemplo-péndulo-ideal" class="nav-link" data-scroll-target="#ejemplo-péndulo-ideal"><span class="header-section-number">5.3.1</span> Ejemplo (Péndulo ideal)</a></li>
+  </ul></li>
+  <li><a href="#sec-metodos.de.RK" id="toc-sec-metodos.de.RK" class="nav-link" data-scroll-target="#sec-metodos.de.RK"><span class="header-section-number">5.4</span> Métodos de Runge-Kutta</a>
+  <ul class="collapse">
+  <li><a href="#pongámonos-a-prueba-1" id="toc-pongámonos-a-prueba-1" class="nav-link" data-scroll-target="#pongámonos-a-prueba-1"><span class="header-section-number">5.4.1</span> Pongámonos a prueba!!! 💪🏻</a></li>
+  </ul></li>
+  <li><a href="#sec-como.calcular.soluciones" id="toc-sec-como.calcular.soluciones" class="nav-link" data-scroll-target="#sec-como.calcular.soluciones"><span class="header-section-number">5.5</span> Cómo calcular soluciones con una precisión deseada</a></li>
+  <li><a href="#sec-estabilidad.de.métodos.numéricos" id="toc-sec-estabilidad.de.métodos.numéricos" class="nav-link" data-scroll-target="#sec-estabilidad.de.métodos.numéricos"><span class="header-section-number">5.6</span> Estabilidad de métodos numéricos</a>
+  <ul class="collapse">
+  <li><a href="#método-retro-euler-o-euler-implícito" id="toc-método-retro-euler-o-euler-implícito" class="nav-link" data-scroll-target="#método-retro-euler-o-euler-implícito"><span class="header-section-number">5.6.1</span> Método Retro-Euler o Euler implícito</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-adicionales" id="toc-ejercicios-adicionales" class="nav-link" data-scroll-target="#ejercicios-adicionales"><span class="header-section-number">5.7</span> Ejercicios Adicionales ✍</a></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía"><span class="header-section-number">5.8</span> Bibliografía</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/05-pvi.html">Parte II</a></li><li class="breadcrumb-item"><a href="../chapters/05-pvi.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas a valores iniciales</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Problemas a valores iniciales</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El objetivo en un problema a valores iniciales (PVI) es encontrar una función <span class="math inline">\(y(t)\)</span> dado su valor en un instante inicial <span class="math inline">\(t=0\)</span> y una receta <span class="math inline">\(f(t,y)\)</span> para su pendiente:</p>
+<p><span class="math display">\[
+\text{(PVI)} \left\{
+  \begin{aligned} y' &amp;= f(t,y), \qquad T_0  \le t \le T_f  , \\
+    y(T_0 ) &amp;= y_0.
+  \end{aligned}
+\right.
+\]</span></p>
+<p>En algunas aplicaciones se desea graficar una aproximación a <span class="math inline">\(y(t)\)</span> sobre un intervalo de interés <span class="math inline">\([T_0, T_f]\)</span> para descubrir propiedades cualitativas de la solución. En otras, puede ser importante conocer una estimación precisa del valor <span class="math inline">\(y(t)\)</span> para un tiempo <span class="math inline">\(t=T_f\)</span> prefijado.</p>
+<p>Los datos conocidos de (PVI) son: el <em>valor inicial</em> <span class="math inline">\(y_0\)</span> y la <em>función pendiente</em> <span class="math inline">\(f(t,y)\)</span> que nos dice cuál tiene que ser la pendiente de la solución <span class="math inline">\(y(t)\)</span> en cada instante de tiempo, dependiendo de cuanto vale <span class="math inline">\(y\)</span>. Más precisamente:</p>
+<p>Se llama <em>solución de</em> (PVI) a una función <span class="math inline">\(y(t)\)</span> definida sobre el intervalo <span class="math inline">\([T_0, T_f]\)</span> que satisface: <span class="math display">\[
+y(T_0 ) = y_0, \qquad y'(t) = f(t, y(t)), \quad \text{para todo $t \in [T_0 ,T_f ]$.}
+\]</span></p>
+<p>Consideremos por ejemplo el PVI <span class="math display">\[
+\left\{ \begin{aligned} y' &amp;=  -2 y, \quad 0 \le t &lt; \infty, \\
+y(0) &amp;= 3.
+\end{aligned}
+\right.
+\]</span></p>
+<p>En este caso, el valor inicial es <span class="math inline">\(3\)</span> y la función pendiente es <span class="math inline">\(f(t,y) = -2y\)</span> (es una función de dos variables que en realidad depende de una sola). La ecuación diferencial <span class="math inline">\(y' = -2 y\)</span> tiene una <em>familia</em> de soluciones, son todas las funciones de la forma <span class="math inline">\(y(t) = c e^{-2t}\)</span>, con <span class="math inline">\(c\)</span> cualquier constante. La condición inicial <span class="math inline">\(y(0) = 3\)</span> nos dice que queremos hallar la única función de esa familia que en <span class="math inline">\(t=0\)</span> vale 3. Utilizamos la condición inicial para despejar <span class="math inline">\(c\)</span> y nos da que <span class="math inline">\(c=3\)</span>. Luego, la solución del PVI es <span class="math inline">\(y(t) = 3 e^{-2t}\)</span>.</p>
+<section id="sec-existencia.y.estabilidad" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="sec-existencia.y.estabilidad"><span class="header-section-number">5.1</span> Existencia y estabilidad de soluciones</h2>
+<p>Vimos un ejemplo muy sencillo donde hallar la solución fue muy fácil. En general, esto no es tan fácil, como tampoco es obvio que haya solución del problema. A continuación enunciamos una propiedad que nos afirma la existencia de una solución para (PVI).</p>
+<p>Si <span class="math inline">\(f\)</span> es una función continua de sus dos variables (<span class="math inline">\(y\)</span> y <span class="math inline">\(t\)</span>) y además <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> existe y está acotada, entonces el problema a valores iniciales (PVI) tiene una única solución.</p>
+<p>Más aún, si <span class="math inline">\(L \le \frac{\partial f}{\partial y} \le U\)</span> para todo <span class="math inline">\((y,t)\)</span>, resulta lo siguiente:</p>
+<p>Si <span class="math inline">\(y\)</span>, <span class="math inline">\(\tilde y\)</span> son soluciones de <span class="math inline">\(y' = f(t,y)\)</span> con <span class="math inline">\(y(T_0 )=y_0\)</span> y <span class="math inline">\(\tilde y(T_0 ) = \tilde y_0\)</span>, entonces,</p>
+<p><span class="math display">\[
+|y_0 - \tilde y_0| e^{L(t-T_0 )} \le | y(t) - \tilde y(t) | \le |y_0 - \tilde y_0| e^{U(t-T_0 )}, \qquad \text{para }t \in [T_0  , T_f ].
+\]</span></p>
+<p>En palabras, el resultado anterior nos dice que las soluciones del mismo problema, con diferentes condiciones iniciales, <em>se alejan</em> al menos tan rápido como <span class="math inline">\(e^{Lt}\)</span> y no más rápido que <span class="math inline">\(e^{Ut}\)</span> por la diferencia entre las condiciones iniciales.</p>
+<p>En el ejemplo anterior, <span class="math inline">\(f(t,y) = -2y\)</span>, luego <span class="math inline">\(\frac{\partial f}{\partial y} = -2\)</span>, y por lo tanto <span class="math inline">\(L=U=-2\)</span>. En este caso, tenemos que soluciones del mismo PVI con dos condiciones iniciales diferentes se acercan como <span class="math inline">\(e^{-2t}\)</span> por el <em>error inicial</em>. Más precisamente, observemos las soluciones con <span class="math inline">\(y_0 = 3\)</span> y con <span class="math inline">\(\tilde y_0 = 3.1\)</span>. En este caso, <span class="math display">\[
+y(t) = 3 e^{-2t}, \quad\text{y} \quad \tilde y(t) = 3.1 e^{-2t},
+\]</span></p>
+<p>por lo que <span class="math display">\[
+|y(t) - \tilde y(t)| = |3 e^{-2t} - 3.1 e^{-2t}| = |3 - 3.1| e^{-2t} = 0.1 e^{-2t}.
+\]</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Un ejemplo importante.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="nota-sol.no.se.alejan">
+<p>Si estamos en un caso en que <span class="math inline">\(\frac{\partial f}{\partial y}\le 0\)</span> entonces <span class="math inline">\(U=0\)</span> y tenemos que <span class="math display">\[
+|y(t)-\tilde y(t)| \le | y_0 - \tilde y_0 |,  \qquad \text{para }t \in [T_0  , T_f ].
+\]</span></p>
+<p>Es decir, las soluciones <em>no se alejan</em>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-metodo.de.euler" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="sec-metodo.de.euler"><span class="header-section-number">5.2</span> Método de Euler</h2>
+<p>Los métodos que desarrollaremos en el curso producen una sucesión de instantes de tiempo <span class="math inline">\(t_1, t_2, \cdots\)</span>, y valores aproximados <span class="math inline">\(Y_1, Y_2, \cdots\)</span>, que se espera sean aproximados a <span class="math inline">\(y(t_1), y(t_2), \cdots\)</span>.</p>
+<p>Todo lo que tenemos a disposición es la <em>función pendiente</em> <span class="math inline">\(f(t,y)\)</span>, que puede evaluarse cuando sea necesario.</p>
+<p>Recordando que la definición de derivada es <span class="math display">\[
+y'(t) = \lim_{h \to 0} \frac{y(t+h) - y(t)}h,
+\]</span></p>
+<p>resulta, para <span class="math inline">\(h&gt;0\)</span> pequeño, <span class="math display">\[
+\frac{y(t+h) - y(t)}h \approx y'(t).
+\]</span></p>
+<p>Si <span class="math inline">\(y\)</span> es solución de (PVI) entonces, para un parámetro <span class="math inline">\(h&gt;0\)</span> pequeño, <span class="math display">\[
+\frac{y(t+h) - y(t)}h \approx y'(t) = f(t,y(t)),
+\]</span></p>
+<p>es decir <span class="math display">\[
+y(t+h) \approx y(t) + h f(t,y(t)).
+\]</span></p>
+<p>En palabras, conocido (o aproximado) el valor de <span class="math inline">\(y(t)\)</span>, el valor de <span class="math inline">\(y(t+h)\)</span> es aproximadamente <span class="math inline">\(y(t) + h f(t,y(t))\)</span>.</p>
+<p>El <strong>método de Euler</strong> se basa en esta idea y consiste en lo siguiente:</p>
+<ul>
+<li>Particionar el intervalo <span class="math inline">\([T_0,T_f]\)</span> en <span class="math inline">\(L\)</span> subintervalos de longitud <span class="math inline">\(h = (T_f-T_0)/L\)</span>.</li>
+<li>Definir <span class="math inline">\(t_i = T_0 + (i-1)\, h\)</span>, <span class="math inline">\(i=1,2,\dots L+1\)</span>.</li>
+<li>Definir <span class="math inline">\(Y_1 = y_0\)</span> (<span class="math inline">\(Y_1 = y(t_1) = y({ T_0})\)</span>).</li>
+<li>Para <span class="math inline">\(i=1,2,\dots,L\)</span>, definir <span class="math inline">\(Y_{i+1} = Y_i + h f(t_i, Y_i)\)</span>.</li>
+</ul>
+<p>Es decir: <span class="math display">\[
+\begin{aligned}
+  t_1 &amp;= T_0 &amp; &amp; Y_1=y_0 \\
+  t_2 &amp;= T_0 + h &amp; &amp; Y_2=Y_1 + h \, f(t_1,Y_1) \\
+  t_3 &amp;= T_0 + 2h &amp; &amp; Y_3=Y_2 + h \, f(t_2,Y_2) \\
+  t_4 &amp;= T_0 + 3h &amp; &amp; Y_4=Y_3 + h \, f(t_3,Y_3) \\
+  &amp;\vdots &amp; &amp;\quad \vdots \\
+  t_{L+1} &amp;= T_0 + Lh = T_f &amp; &amp; Y_{L+1}=Y_L + h \, f(t_L,Y_L)
+\end{aligned}
+\]</span></p>
+<p>De esta manera se obtienen <span class="math inline">\(L+1\)</span> números <span class="math inline">\(Y_1, Y_2, Y_3, \cdots, Y_{L+1}\)</span> que se espera aproximen a <span class="math inline">\(y(t_1), y(t_2), y(t_3), \cdots, y(t_{L+1})\)</span>.</p>
+<div id="5e6e0f28" class="cell" title="Solución por el método de Euler a distintos L" data-execution_count="2">
+<details class="code-fold">
+<summary>Mostrar código</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> t, y: <span class="op">-</span><span class="dv">2</span><span class="op">*</span>y</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Definimos el intervalo</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>inter <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">4</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Cantidad de divisiones</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>L1 <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>L2 <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>t1 <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L1 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>h1 <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L1</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>t2 <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L2 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>h2 <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L2</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> np.zeros(L1 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> np.zeros(L2 <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>y1[<span class="dv">0</span>], y2[<span class="dv">0</span>] <span class="op">=</span> y0, y0</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#implementamos el método</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L1):</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  y1[n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y1[n] <span class="op">+</span> h1 <span class="op">*</span> f(t1[n], y1[n])</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L2):</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  y2[n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y2[n] <span class="op">+</span> h2 <span class="op">*</span> f(t2[n], y2[n])</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos la solución exacta</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>y_exacta <span class="op">=</span> <span class="kw">lambda</span> t: <span class="dv">3</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span> t)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficamos las soluciones en dos gráficos distintos, uno al lado del otro</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico 1: Solución con L = 20</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>t_fina <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>])</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>ax1.plot(t1, y1, label<span class="op">=</span><span class="st">'Euler (L=10)'</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>ax1.plot(t_fina, y_exacta(t_fina), label<span class="op">=</span><span class="st">'Solución exacta'</span>)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'Solución con L = 10'</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>ax1.set_xlabel(<span class="st">'t'</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'y(t)'</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>ax1.legend()</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico 2: Solución con L = 40</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>ax2.plot(t2, y2, label<span class="op">=</span><span class="st">'Euler (L=20)'</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>ax2.plot(t_fina, y_exacta(t_fina), label<span class="op">=</span><span class="st">'Solución exacta'</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Solución con L = 20'</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'t'</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'y(t)'</span>)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>ax2.legend()</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustar el espaciado entre los gráficos</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar los gráficos</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="05-pvi_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="758" height="374"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>En las gráficas podemos observar la solución obtenida y la exacta para el ejemplo que venimos trabajando, con <span class="math inline">\(L=10\)</span> y <span class="math inline">\(L=20\)</span> sobre el intervalo <span class="math inline">\([0,4]\)</span>. Vemos en particular como al duplicar la cantidad de intervalos, la solución obtenida se aproxima más a la exacta.</p>
+<p>A continuación se define la función <code>euler1</code> que tiene una implementación del método de Euler.</p>
+<div id="24483747" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> euler1(f, inter, y0, L):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Euler para resolver</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">  y’ = f(t,y) en [t0,TF]</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">  y(t0) = y0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Usando L pasos</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reservamos lugar en memoria para y</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> np.zeros(L <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  y[<span class="dv">0</span>] <span class="op">=</span> y0</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    y[n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y[n] <span class="op">+</span> h <span class="op">*</span> f(t[n], y[n])</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> t, y</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Es claro que en cada paso se comete un error, pequeño si <span class="math inline">\(h\)</span> es pequeño, pero estos errores de alguna manera se <em>acumulan</em>, y para llegar a $T_f $ la cantidad de pasos será mayor cuanto menor sea <span class="math inline">\(h\)</span>.</p>
+<p>Para entender un poco mejor el error cometido, necesitamos definir algunas cantidades:</p>
+<p><strong>Error global:</strong> Se llama error global al máximo error entre <span class="math inline">\(y(t_n)\)</span> y <span class="math inline">\(Y_n\)</span>, es decir, <span class="math display">\[
+g_n = | y(t_n) - Y_n|, \qquad \text{error global} = \max\limits_{1\le n \le L+1} g_n = \max\limits_{1\le n \le L+1} |y(t_n)-Y_n|.
+\]</span></p>
+<p><strong>Error local de truncamiento:</strong> Llamamos <span class="math inline">\(y_j\)</span> a las soluciones de <span class="math inline">\(y'= f(t,y)\)</span> que pasan por <span class="math inline">\((t_j,Y_j)\)</span>, más precisamente, comienzan en <span class="math inline">\(t_j\)</span> y cumplen la condición inicial <span class="math inline">\(y_j(t_j) = Y_j\)</span>, es decir, <span class="math display">\[
+\left\{
+  \begin{aligned} y_j' &amp;= f(t,y_j), \qquad t_j \le t \le T_f , \\
+    y_{j}(t_j) &amp;= Y_j.
+  \end{aligned}
+\right.
+\]</span></p>
+<p>Notemos que, bajo esta definición, <span class="math inline">\(y(t) = y_1(t)\)</span>. Entonces <span class="math display">\[
+\text{error local de truncamiento} = \varepsilon_j = |y_j(t_{j+1}) - Y_{j+1}|,
+\]</span></p>
+<p>es decir, el error local de truncamiento <span class="math inline">\(\varepsilon_j\)</span> es el error que se comete en el paso <span class="math inline">\(j\)</span>, suponiendo que no había error acumulado. Notar que el error global es <span class="math inline">\(g_j = |y_1(t_j) - Y_j|\)</span> (siempre compara con <span class="math inline">\(y(t) = y_1(t)\)</span>).</p>
+<p>Ahora sí estamos en condiciones de hacer el análisis del error global. Para fijar ideas, supongamos que <span class="math inline">\(\frac{\partial f}{\partial y} \le 0\)</span> de manera que las <em>trayectorias no se alejan</em> (ver <a href="#nota-sol.no.se.alejan" class="quarto-xref">Nota</a>), más precisamente, si <span class="math inline">\(t \ge t_{j+1}\)</span>, <span class="math display">\[
+| y_j(t) - y_{j+1}(t) | \le |y_j(t_{j+1}) - y_{j+1}(t_{j+1})|
+= |y_j(t_{j+1}) - Y_{j+1}| = \varepsilon_j.
+\]</span></p>
+<p>Entonces <span class="math display">\[
+\begin{aligned}
+g_n &amp;= |Y_n - y(t_n)| = |Y_n - y_1(t_n)| \\
+&amp;\le |Y_n - y_{n-1}(t_n)| + |y_{n-1}(t_n) - y_{n-2}(t_n)|
++ \dots + |y_2(t_n) - y_1(t_n)| \\
+&amp;\le \varepsilon_{n-1} + \varepsilon_{n-2} + \dots + \varepsilon_1 = \sum_{j=1}^{n-1} \varepsilon_j.
+\end{aligned}
+\]</span></p>
+<p>Por lo tanto, el máximo error global puede acotarse por <span id="eq-maximo.error.global"><span class="math display">\[
+\max\limits_{1\le n \le L+1} g_n \le \max\limits_{1\le n \le L+1} \sum_{j=1}^{n-1} \varepsilon_j
+= \sum_{j=1}^{L} \varepsilon_j
+\le L \max\limits_{1\le j \le L} \varepsilon_j.
+\tag{5.1}\]</span></span></p>
+<p>Hasta aquí , el análisis que hemos hecho es independiente del método, si es Euler o algún otro. Veamos cómo se puede acotar <span class="math inline">\(\varepsilon_j\)</span> para el método de Euler.</p>
+<p>Una herramienta muy utilizada para estimar y acotar el error en los métodos numéricos es el Teorema de Taylor, que enunciamos a continuación:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Teorema de Taylor
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-teorema.taylor" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 5.1</strong></span> Sea <span class="math inline">\(y \in C^{n+1}(I)\)</span>, donde <span class="math inline">\(I\)</span> es un intervalo que contiene a <span class="math inline">\(t_0\)</span>. Entonces, para cada <span class="math inline">\(t \in I\)</span> existe <span class="math inline">\(x\)</span> entre <span class="math inline">\(t_0\)</span> y <span class="math inline">\(t\)</span> tal que <span class="math display">\[
+y(t) = y(t_0) + (t-t_0) y'(t_0) + \frac{(t-t_0)^2}{2!} y''(t_0) + \dots +
+  \frac{(t-t_0)^n}{n!} y^{(n)}(t_0) + \frac{(t-t_0)^{n+1}}{(n+1)!} y^{(n+1)}(x).
+\]</span></p>
+</div>
+</div>
+</div>
+<p>Usando el teorema de Taylor y considerando que <span class="math inline">\(h = \frac{T_f-T_0}L\)</span> y que <span class="math inline">\(t_{j+1} = t_j+h\)</span>, tenemos <span class="math display">\[
+y_j(t_{j+1}) = y_j(t_j) + h y_j'(t_j) + \frac{h^2}2 y_j''(\xi_j)
+=\underbrace{ Y_j + h f(t_j,Y_j) }_{Y_{j+1}} + \frac{h^2}2 y_j''(x_j)
+\]</span></p>
+<p>para algún <span class="math inline">\(x_j\)</span>, con <span class="math inline">\(t_j &lt; x_j &lt; t_{j+1}\)</span>. Por lo tanto, <span class="math display">\[
+\varepsilon_j = | y_j(t_{j+1}) - Y_{j+1} | = | y_j(t_{j+1}) -
+[ Y_j + h f(t_j,Y_j)] | = \frac{h^2}2 |y_j''(x_j)|
+\]</span></p>
+<p>y si existe <span class="math inline">\(M&gt;0\)</span> tal que <span class="math inline">\(\max\limits_{T_0\le t \le T_f} |y_j''(t)| \le M\)</span>, <span class="math inline">\(j=1,\dots,L\)</span>, entonces <span class="math display">\[
+\varepsilon_j \le \frac{M h^2}2, \quad j=1,2,\dots,L.
+\]</span></p>
+<p>Finalmente, acotamos el error global usando <a href="#eq-maximo.error.global" class="quarto-xref"><span>5.1</span></a>: <span class="math display">\[
+\max\limits_{1\le n \le L} |Y_n - y(t_n)| \le L \max\limits_{1\le j \le L} \varepsilon_j
+\le L \frac{M h^2}2 = \underbrace{Lh}_{T_f-T_0} \frac{Mh}2 = \frac{M (T_f-T_0)}2 h .
+\]</span></p>
+<div class="callout callout-style-simple callout-none no-icon">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Concluimos entonces que si todas las soluciones de la EDO tienen derivada segunda acotada uniformemente por <span class="math inline">\(M\)</span>, el método de Euler produce una solución con máximo error acotado por <span class="math inline">\(\frac{M (T_f-T_0)}2 h = \text{Const.} \times h\)</span>. Se dice que el método de Euler es de orden uno (la potencia de <span class="math inline">\(h\)</span>).</p>
+<p>La demostración que hemos visto es muy simple, y analizando el caso <span class="math inline">\(\frac{\partial f}{\partial y} \le 0\)</span>, permite entender la idea general que si un método produce en un paso un error de orden <span class="math inline">\(h^{k+1}\)</span> entonces el error global será de orden <span class="math inline">\(h^k\)</span>.</p>
+</div>
+</div>
+</div>
+<section id="pongámonos-a-prueba" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="pongámonos-a-prueba"><span class="header-section-number">5.2.1</span> Pongámonos a prueba!!! 💪🏻</h3>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Euler 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el método de Euler para resolver el siguiente PVI:</p>
+<p><span class="math display">\[
+\text{} \left\{
+  \begin{aligned} y' &amp;= -y, \qquad 0  \le t \le 1  , \\
+    y(0 ) &amp;= 1.
+  \end{aligned}
+\right.
+\]</span></p>
+<ol type="1">
+<li><p>Obtenga el valor <span class="math inline">\(y(1)\)</span> con una precisión de 4 dígitos decimales. (Si se empieza con <span class="math inline">\(L = 10\)</span>, indique cuántas duplicaciones de <span class="math inline">\(L\)</span> son necesarias para llegar a la precisión deseada).</p></li>
+<li><p>¿Cuánto vale <span class="math inline">\(y(t)\)</span> para <span class="math inline">\(t = 0.687\)</span>? De su resultado con 3 decimales exactos.</p></li>
+<li><p>Sabiendo que este PVI tiene solución exacta <span class="math inline">\(y(t) = e^{−t}\)</span>, complete la siguiente tabla:</p></li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>L</th>
+<th>h</th>
+<th><span class="math inline">\(E_L\)</span></th>
+<th><span class="math inline">\(\frac{E_{L/2}}{E_L}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10</td>
+<td>0.1</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>0.05</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>0.025</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td>0.0125</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>160</td>
+<td>0.00625</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>320</td>
+<td>0.003125</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>640</td>
+<td>0.0015625</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1280</td>
+<td>0.00078125</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Aquí, el error global con <span class="math inline">\(L\)</span> pasos es <span class="math inline">\(E_L = \max\limits_{1≤i≤L+1}|y(t_i)-Y_i|\)</span>. Si el método está bien implementado, debería ocurrir que el error global se divide aproximadamente a la mitad cuando se duplica la cantidad de pasos.</p>
+<p><em>Sugerencia: para armar una tabla a partir de vectores, explore la función <code>DataFrame</code> de la librería <code>pandas</code>.</em></p>
+</div>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Euler 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el PVI <span class="math display">\[
+\text{} \left\{
+  \begin{aligned} y' &amp;= f(t,y) = -\cos(2\pi t^2) - t y , \qquad 0  \le t \le 4  , \\
+    y(0 ) &amp;= 2.
+  \end{aligned}
+\right.
+\]</span></p>
+<ol type="1">
+<li><p>Resuelva con el método de Euler. Utilice diferentes valores de <span class="math inline">\(L\)</span> (por ejemplo: 10, 20, 40, 80, 160, <span class="math inline">\(\cdots\)</span> ) y grafique las aproximaciones de la solución que se van obteniendo. Determine un valor de <span class="math inline">\(L\)</span> para el que la aproximación obtenida visualmente coincide con la solución del problema.</p></li>
+<li><p>Calcule el máximo y el mínimo de la solución del PVI en el intervalo <span class="math inline">\([0, 4]\)</span>. Obtenga los valores de <span class="math inline">\(t\)</span> donde éstos se alcanzan.</p></li>
+<li><p>Encuentre el valor aproximado de <span class="math inline">\(t\)</span> para el cual <span class="math inline">\(y(t) = 1\)</span>.</p></li>
+<li><p>Calcule ahora las tres soluciones de la misma ecuación diferencial pero con condición inicial <span class="math inline">\(y(0) = 1\)</span>, <span class="math inline">\(y(0) = 0\)</span> y <span class="math inline">\(y(0) = -1\)</span>, respectivamente. Grafíquelas todas sobre el mismo par de ejes y diga que ocurre a medida que el tiempo <span class="math inline">\(t\)</span> avanza. ¿Se acercan o se alejan las trayectorias? ¿Cómo se relaciona esto con <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> ?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Euler 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el PVI <span class="math display">\[
+\text{} \left\{
+  \begin{aligned} y' &amp;= f(t,y) = y(1-y)(1+y) , \qquad 0  \le t \le 2  , \\
+    y(0 ) &amp;= y_0.
+  \end{aligned}
+\right.
+\]</span></p>
+<ol type="1">
+<li><p>Utilice el método de Euler con <span class="math inline">\(L = 10000\)</span> pasos para resolver el PVI con <span class="math inline">\(y_0 = -1.4, -1.3, -1.2, \cdots , 1.3, 1.4\)</span>. Superponga todas las soluciones en un gráfico y explique el comportamiento cualitativo de las soluciones.</p></li>
+<li><p>Divida el plano <span class="math inline">\((t, y)\)</span> en zonas donde <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> tenga distinto signo. Utilice estas zonas para justificar, mediante la teoría, lo observado anteriormente.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Euler 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>La radiación y(t) de cierta partícula a tiempo <span class="math inline">\(t\)</span> está gobernada por la ecuación diferencial <span class="math inline">\(y' = 1 - t^2 \sin (y)\)</span>. La medición del estado inicial (a tiempo <span class="math inline">\(t=0\)</span>) indica que <span class="math inline">\(y(0) = 1.57\)</span>,</p>
+<ol type="1">
+<li><p>Encuentre el estado de la radiación y a tiempo <span class="math inline">\(t = 5\)</span>, con error absoluto menor a <span class="math inline">\(10^{-6}\)</span>.</p></li>
+<li><p>Encuentre el o los instantes en que la radiación toma el valor <span class="math inline">\(2\)</span>.</p></li>
+<li><p>A partir del tiempo <span class="math inline">\(t = 5\)</span>, la radiación cambia abruptamente de comportamiento, observándose que la ecuación diferencial que la gobierna ahora es <span class="math inline">\(y' = 1 + y\)</span>. ¿Cuanto valdrá la radiación a tiempo <span class="math inline">\(t = 10\)</span>?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-PVI.para.sistemas" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="sec-PVI.para.sistemas"><span class="header-section-number">5.3</span> PVI para sistemas de ecuaciones y ecuaciones de orden superior</h2>
+<p>Consideremos ahora un <em>sistema</em> de ecuaciones diferenciales ordinarias. Por ejemplo, un modelo de predador presa: <span class="math display">\[
+\left\{
+\begin{aligned}
+x_1' &amp;= 0.5 x_1 + 0.2 x_1 x_2 \\
+x_2' &amp;= 0.8 x_2 - 0.8 x_1 x_2
+\end{aligned}
+\right.
+\qquad
+\begin{aligned}
+x_1(0) &amp;= 500\\
+x_2(0) &amp;= 10000
+\end{aligned}
+\]</span></p>
+<p>Para resolverlo numéricamente, primero lo transformamos en una ecuación diferencial ordinaria <em>vectorial</em>. Definimos <span class="math display">\[
+x(t) = \begin{bmatrix} x_1(t) \\ x_2(t) \end{bmatrix}
+\qquad
+x' =  \begin{bmatrix} x_1' \\ x_2' \end{bmatrix} = \begin{bmatrix} 0.5 x_1 + 0.2 x_1 x_2 \\ 0.8 x_2 - 0.8 x_1 x_2 \end{bmatrix}
+\qquad
+x(0) =  \begin{bmatrix} x_1(0) \\ x_2(0) \end{bmatrix}  =  \begin{bmatrix} 500 \\ 10000 \end{bmatrix}
+\]</span></p>
+<p>El PVI entonces resulta: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+  x' &amp;= \begin{bmatrix}
+    0.5 x_1 + 0.2 x_1 x_2 \\
+    0.8 x_2 - 0.8 x_1 x_2
+  \end{bmatrix}
+  \\
+  x(0) &amp;= \begin{bmatrix}
+    500 \\
+    10000
+  \end{bmatrix}
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Un PVI para un sistema de ecuaciones diferenciales ordinarias es un problema de la forma: <span id="eq-pvi.sistema.ecuaciones"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+  y' &amp;= f(t,y) \qquad T_0 \le t \le T_f \\
+  y(T_0) &amp;= y_0
+\end{aligned}
+\end{cases}
+\tag{5.2}\]</span></span></p>
+<p>donde <span class="math inline">\(y_0 \in \mathbb{R}^n\)</span> (<span class="math inline">\(y_0\)</span> es un vector) y <span class="math inline">\(f:[T_0,T_f]\times\mathbb{R}^n \to \mathbb{R}^n\)</span>, es decir, <span class="math inline">\(f\)</span> es una función vectorial de dos variables, la primera (<span class="math inline">\(t\)</span>) es escalar, y la segunda (<span class="math inline">\(y\)</span>) es vectorial.</p>
+<p>Con respecto a la existencia y unicidad de soluciones de <a href="#eq-pvi.sistema.ecuaciones" class="quarto-xref"><span>5.2</span></a>, tenemos el siguiente teorema:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Existencia y unicidad de soluciones
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-PVI.para.sistemas.v2" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 5.2</strong></span> Si <span class="math inline">\(f:[T_0,T_f]\times\mathbb{R}^n \to \mathbb{R}^n\)</span> es continua de sus dos variables <span class="math inline">\((t,y)\)</span> y <span class="math inline">\(\frac{\partial f_i} {\partial y_j}\)</span> es continua, con <span class="math inline">\(\left| \frac{\partial f_i}{\partial y_j} \right| \le M\)</span>, entonces el problema <a href="#eq-pvi.sistema.ecuaciones" class="quarto-xref"><span>5.2</span></a> tiene solución única.</p>
+</div>
+</div>
+</div>
+<section id="ejemplo-péndulo-ideal" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="ejemplo-péndulo-ideal"><span class="header-section-number">5.3.1</span> Ejemplo (Péndulo ideal)</h3>
+<p>Si consideramos un péndulo de brazo rígido de longitud <span class="math inline">\(\ell\)</span>, donde no hay fricción ni resistencia del aire, el ángulo <span class="math inline">\(\varphi(t)\)</span> que forma el péndulo con la vertical satisface la siguiente ecuación diferencial: <span class="math display">\[
+\varphi''(t) = - \frac g\ell \sin \varphi(t)
+\]</span></p>
+<p>donde <span class="math inline">\(g\)</span> denota la constante de aceleración gravitacional. Esta es una ecuación diferencial ordinaria de orden dos, pues aparecen derivadas segundas de la incógnita <span class="math inline">\(\varphi\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pvi_ejemplo_pendulo_simple.png" class="img-fluid figure-img" width="300"></p>
+<figcaption>Péndulo Simple</figcaption>
+</figure>
+</div>
+<p>Este problema resulta un PVI cuando se complementa con dos condiciones iniciales: <span class="math display">\[
+\varphi(0) = \varphi_0,\qquad
+\varphi'(0) = v_0,
+\]</span></p>
+<p>donde <span class="math inline">\(\varphi_0\)</span> denota el desplazamiento angular inicial (dato) y <span class="math inline">\(v_0\)</span> la velocidad angular inicial (dato).</p>
+<p>Para resolver este PVI en la computadora, primero lo transformamos en un <em>sistema</em> de ecuaciones diferenciales de <em>primer</em> orden, de la siguiente manera:</p>
+<p>Definimos <span class="math display">\[
+\begin{aligned}
+  y_1 &amp;= \varphi
+  \\
+  y_2 &amp;= \varphi'
+\end{aligned}
+\]</span></p>
+<p>de manera que <span class="math display">\[
+\begin{aligned}
+  y_1' &amp;= \varphi' = y_2
+  \\
+  y_2' &amp;= \varphi'' = -\frac g\ell \sin \varphi = -\frac g\ell \sin y_1,
+\end{aligned}
+\]</span></p>
+<p>y <span class="math display">\[
+y_1(0) = \varphi(0) = \varphi_0, \qquad y_2(0) = \varphi'(0) = v_0.
+\]</span></p>
+<p>Ahora reescribimos las ecuaciones en términos de <span class="math inline">\(y_1\)</span>, <span class="math inline">\(y_2\)</span> sin usar <span class="math inline">\(\varphi\)</span>, <span class="math inline">\(\varphi'\)</span>: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+  y_1' &amp;= y_2
+  \\
+  y_2' &amp;= -\frac gL \sin y_1,
+\end{aligned}
+\end{cases}
+\qquad
+\begin{cases}
+\begin{aligned}
+  y_1(0) = \varphi_0,\\
+  y_2(0) = v_0.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Si llamamos <span class="math inline">\(y = \begin{bmatrix}y_1\\y_2\end{bmatrix}\)</span> resulta <span class="math display">\[
+y' = \begin{bmatrix} y_2 \\ -\frac gL \sin y_1 \end{bmatrix}
+\qquad
+y(0) = \begin{bmatrix} \varphi_0 \\ v_0 \end{bmatrix}.
+\]</span></p>
+<p>Presentamos a continuación una modificación del código de la función <code>euler1</code> que sirve también para resolver PVI para sistemas de ecuaciones diferenciales. La función está diseñada con el siguiente formato: <span class="math display">\[
+\texttt{t, y = euler(f, [T0, TF], y0, L)}
+\]</span></p>
+<p><span class="math inline">\(\textbf{Entradas:}\)</span></p>
+<ul>
+<li><code>f=f(t,y)</code>: Es una función que recibe dos argumentos, <code>t</code> es un escalar, <code>y</code> es un vector <em>columna</em> de <code>n</code> componentes; y retorna un vector columna de <code>n</code> componentes, siendo <code>n=len(y0)</code>. Por ejemplo: <code>f = lambda t,y: np.array([-t * y[1], t * (y[0]-y[1])])</code>.</li>
+<li><code>[T0, TF]</code>: Es un vector de dos componentes que indican el intervalo donde se desea conocer la solución.</li>
+<li><code>y0</code>: Es un vector columna que indica el <em>dato inicial</em>.</li>
+<li><code>L</code>: Es un número que indica la cantidad de sub-intervalos en que se divide el intervalo <code>[T0, TF]</code> para resolver por el método de Euler.</li>
+</ul>
+<p><span class="math inline">\(\textbf{Salidas:}\)</span></p>
+<ul>
+<li><code>t</code>: Debe ser un vector columna de <code>L+1</code> componentes.</li>
+<li><code>y</code>: Debe ser una matriz de <code>L+1</code> filas y <code>n</code> columnas. La <code>i</code>-ésima fila debe contener el estado <code>y</code> a tiempo <code>t(i)</code>.</li>
+</ul>
+<div id="e0234b8a" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> euler(f, inter, y0, L):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Euler para resolver</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">  y’ = f(t,y) en [t0,TF]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">  y(t0) = y0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Usando L pasos</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">  y0 puede ser vectorial o escalar</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reservamos lugar en memoria para y</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> np.zeros((<span class="bu">len</span>(y0), L <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  y[:, <span class="dv">0</span>] <span class="op">=</span> y0</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L):</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    y[:, n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y[:, n] <span class="op">+</span> h <span class="op">*</span> f(t[n], y[:, n])</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> t, y.T</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="sec-metodos.de.RK" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="sec-metodos.de.RK"><span class="header-section-number">5.4</span> Métodos de Runge-Kutta</h2>
+<p>Hemos visto el método de Euler, que resulta de orden uno, y en cada paso realiza una evaluación de la función <span class="math inline">\(f\)</span>. Nos preguntamos: ¿Se podrá definir un método que utilizando dos evaluaciones de <span class="math inline">\(f\)</span> en cada paso resulte de orden 2? La respuesta es positiva, veamos cómo puede lograrse.</p>
+<p>Proponemos un método como el siguiente: <span class="math display">\[
+\begin{cases}
+  \begin{aligned}
+    k_1 &amp;= h f(t_n,\ Y_n) \\
+    k_2 &amp;= h f(t_n+\alpha h ,\ Y_n + \alpha k_1) \\
+    Y_{n+1} &amp;= Y_n + a k_1 + b k_2
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>¿Se pueden elegir <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> para que el error local sea <span class="math inline">\(O(h^3)\)</span>?</p>
+<p>Veamos, sea <span class="math inline">\(y(t)\)</span> la solución del PVI siguiente: <span class="math display">\[
+\left\{
+  \begin{aligned} y' &amp;= f(t,y), \qquad t_n  \le t \le T_f  , \\
+    y(t_n ) &amp;= Y_n.
+  \end{aligned}
+\right.
+\]</span></p>
+<p>El error local de truncamiento es entonces <span class="math inline">\(\varepsilon_n = y(t_{n+1})-Y_{n+1}\)</span>.</p>
+<p>Por el <a href="#thm-teorema.taylor" class="quarto-xref">Teorema de Taylor</a>, <span class="math display">\[
+y(t_{n+1}) = y(t_n) + h y'(t_n) + \frac{h^2}2 y''(t_n) + \frac{h^3}{3!} y'''(x),
+\]</span></p>
+<p>pero <span class="math display">\[
+\begin{align*}
+  y'(t_n) &amp;= f(t_n,y(t_n)) = f(t_n,Y_n) = f^n \\
+  y''(t_n) &amp;= \frac{d}{dt}y'(t)_{|t=t_n} = \frac{d}{dt} f(t,y(t))_{|t=t_n}
+  = \left[f_t(t,y(t)) + f_y(t,y(t)) y'(t) \right]_{|t=t_n} \\
+  &amp;= \left[f_t(t,y(t)) + f_y(t,y(t)) f(t,y(t)) \right]_{|t=t_n}
+  = f_t^n + f_y^n f^n.
+\end{align*}
+\]</span></p>
+<p>Luego, como <span class="math inline">\(y(t_n) = Y_n\)</span>, <span class="math display">\[
+y(t_{n+1}) = Y_n + h f^n + \frac{h^2}2 \left(  f_t^n + f_y^n f^n \right) +  \frac{h^3}{3!} y'''(x).
+\]</span></p>
+<p>Por otro lado <span class="math display">\[
+Y_{n+1} = Y_n + a k_1 + b k_2
+\]</span></p>
+<p>con <span class="math display">\[
+\begin{align*}
+k_1 &amp;= h f^n \\
+k_2 &amp;= h f(t_n + \alpha h, Y_n + \alpha k_1 ) \\
+    &amp;= h \left[ f(t_n,Y_n) + \alpha h f_t(t_n,Y_n) + \alpha k_1 f_y(t_n,Y_n) + O(h^2) \right] \\
+    &amp;= h f^n + \alpha h^2 f_t^n + \alpha h \underbrace{k_1}_{h f^n} f_y^n + O(h^3) \\
+    &amp;= h f^n + \alpha h^2 f_t^n + \alpha h^2 f^n f_y^n + O(h^3).
+\end{align*}
+\]</span></p>
+<p>Por lo tanto <span class="math display">\[
+Y_{n+1} = Y_n + (a+b) h f^n + b \alpha h^2 \left( f_t^n + f^n f_y^n \right) + O(h^3).
+\]</span></p>
+<p>De esta manera, <span class="math display">\[
+Y_{n+1} - y(t_{n+1}) = Y_n - Y_n + [(a+b)-1] h f^n + \big[ b\alpha( f_t^n + f^n f_y^n ) - \frac12 (f_t^n + f f_y^n )\big] h^2 + O(h^3),
+\]</span></p>
+<p>y será <span class="math inline">\(\varepsilon_n = |Y_{n+1} - y(t_{n+1})| = O(h^3)\)</span> si <span class="math display">\[
+\begin{align*}
+a+b &amp;= 1 \\
+b \alpha &amp;= \frac12
+\end{align*}
+\]</span></p>
+<p>Elegimos la solución <em>simétrica</em> <span class="math display">\[
+a = \frac12, \quad b = \frac12, \quad \alpha = 1, %\quad \beta = 1,
+\]</span></p>
+<p>y obtenemos el método de <span class="math inline">\(\textbf{Runge-Kuta de orden 2}\)</span>:</p>
+<p>Dados <span class="math inline">\(t_n\)</span> e <span class="math inline">\(Y_n\)</span>, calcular <span class="math inline">\(Y_{n+1}\)</span> a partir de las siguientes fórmulas <span class="math display">\[
+(RK2)
+\begin{cases}
+  \begin{aligned}
+    k_1 &amp;= h f(t_n,Y_n) \\
+    k_2 &amp;= h f(t_n+ h , Y_n +  k_1) \\
+    Y_{n+1} &amp;= Y_n + \frac12 k_1 + \frac12 k_2
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>Para este método vale el siguiente resultado:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Runge-Kutta de orden 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-rk2" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 5.3</strong></span> Si todas las soluciones tienen derivada de orden 3 acotada uniformemente por una constante <span class="math inline">\(M_3\)</span>, entonces el método de Runge-Kutta de orden 2 produce una sucesión <span class="math inline">\((t_n,Y_n)\)</span> que cumple <span class="math display">\[
+\max\limits_{1 \le n \le L+1} |y(t_n) - Y_n| \le C h^2,
+\]</span></p>
+<p>donde <span class="math inline">\(h = \frac{T_f-T_0}L\)</span> y <span class="math inline">\(C\)</span> depende de <span class="math inline">\(M_3\)</span> y de la longitud del intervalo <span class="math inline">\([T_0,T_f]\)</span>, es decir <span class="math inline">\((T_f-T_0)\)</span>.</p>
+</div>
+</div>
+</div>
+<p>De manera análoga, pero con cuentas más engorrosas puede deducirse el método de <span class="math inline">\(\textbf{Runge-Kutta de orden cuatro}\)</span>:</p>
+<p>Dados <span class="math inline">\(t_n\)</span> e <span class="math inline">\(Y_n\)</span>, calcular <span class="math inline">\(t_{n+1}\)</span> e <span class="math inline">\(Y_{n+1}\)</span> a partir de las siguientes fórmulas:</p>
+<p><span class="math display">\[
+(RK4)
+\begin{cases}
+  \begin{aligned}
+    k_1 &amp;= h f(t_n,Y_n) \\
+    k_2 &amp;= h f(t_n+ \frac h2 , Y_n + \frac {k_1}2) \\
+    k_3 &amp;= h f(t_n+ \frac h2 , Y_n + \frac {k_2}2) \\
+    k_4 &amp;= h f(t_n+ h , Y_n + k_3) \\
+    Y_{n+1} &amp;= Y_n + \frac{ k_1 + 2 k_2 + 2 k_3 + k_4}6
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>Cabe aclarar aquí que el método de Runge-Kutta de orden cuatro convergerá con ese orden cuando las derivadas de hasta orden cinco de <span class="math inline">\(y\)</span> (y cuatro de <span class="math inline">\(f\)</span>) están acotadas. Más precisamente, para este método vale el siguiente resultado:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Runge-Kutta de orden 4
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-rk4" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 5.4</strong></span> Si todas las soluciones tienen derivada de orden 5 acotada uniformemente por una constante <span class="math inline">\(M_5\)</span>, entonces el método de Runge-Kutta de orden 2 produce una sucesión <span class="math inline">\((t_n,Y_n)\)</span> que cumple <span class="math display">\[
+\max\limits_{1 \le n \le L+1} |y(t_n) - Y_n| \le C h^4,
+\]</span></p>
+<p>donde <span class="math inline">\(h = \frac{T_f-T_0}L\)</span> y <span class="math inline">\(C\)</span> depende de <span class="math inline">\(M_4\)</span> y de la longitud del intervalo <span class="math inline">\([T_0,T_f]\)</span>, es decir <span class="math inline">\((T_f-T_0)\)</span>.</p>
+</div>
+</div>
+</div>
+<p>La pregunta que cabe hacerse es la siguiente: ¿Cuál es la ganancia de usar un método de orden superior si es computacionalmente más costoso en cada paso de tiempo? Para ver la ganancia, consideremos el caso en que las cotas del error de Euler, RK2 y RK4 son <span class="math inline">\(h\)</span>, <span class="math inline">\(h^2\)</span> y <span class="math inline">\(h^4\)</span> respectivamente, es decir, <span class="math inline">\(C=1\)</span> en todos los casos. Recordemos que la parte más costosa desde el punto de vista computacional es la evaluación de <span class="math inline">\(f(t,y)\)</span>, por lo que interpretamos que Euler, RK2 y RK4 cuestan 1, 2 y 4 “operaciones” por paso de tiempo.</p>
+<p>En la siguiente tabla mostramos el costo y el error de cada método para diferentes <span class="math inline">\(L\)</span> pensando en el intervalo <span class="math inline">\([0,1]\)</span>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Euler</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Runge-Kutta 2</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Runge-Kutta 4</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong><span class="math inline">\(L\)</span></strong></td>
+<td style="text-align: center;"><strong>costo</strong></td>
+<td style="text-align: center;"><strong>error</strong></td>
+<td style="text-align: center;"><strong>costo</strong></td>
+<td style="text-align: center;"><strong>error</strong></td>
+<td style="text-align: center;"><strong>costo</strong></td>
+<td style="text-align: center;"><strong>error</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">0.1</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0.0001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">0.05</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0.0025</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0.00000625</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">40</td>
+<td style="text-align: center;">0.025</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0.000625</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">0.00000039</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;">0.0125</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">0.000156</td>
+<td style="text-align: center;">320</td>
+<td style="text-align: center;">0.000000024</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">200</td>
+<td style="text-align: center;">0.0001</td>
+<td style="text-align: center;">400</td>
+<td style="text-align: center;">0.00000001 = <span class="math inline">\(1 \times 10^{-8}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Vale la pena observar cuál es el error de cada método correspondiente a un costo de 40 evaluaciones y también al que corresponde a 80 evaluaciones.</p>
+<p><span class="center">¡¡Los métodos de orden superior son mucho más eficientes!!</span></p>
+<p>Claro, cada vez que duplicamos <span class="math inline">\(L\)</span>, el error por el método de Euler se reduce a la mitad, en cambio el error por el método RK2 se reduce por 4 y el error por RK4 se reduce por 16.</p>
+<p>A continuación se definen las funciones <code>rk2</code> y <code>rk4</code> en las cuales se implementan los métodos de Runge-Kutta de orden 2 y 4 respectivamente.</p>
+<div id="6da97367" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rk2(f, inter, y0, L):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Runge Kutta de orden 2 para resolver</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">  y’ = f(t,y) en [t0,TF]</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">  y(t0) = y0</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Usando L pasos</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">  y0 puede ser vectorial o escalar</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reservamos lugar en memoria para y</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> np.zeros((<span class="bu">len</span>(y0), L <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  y[:, <span class="dv">0</span>] <span class="op">=</span> y0</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L):</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      k1<span class="op">=</span>h<span class="op">*</span>f(t[n], y[:, n])</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      k2<span class="op">=</span>h<span class="op">*</span>f(t[n<span class="op">+</span><span class="dv">1</span>], y[:, n]<span class="op">+</span>k1)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      y[:, n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y[:, n] <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> (k1<span class="op">+</span>k2)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> t, y.T</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="181163e8" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rk4(f, inter, y0, L):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Runge Kutta de orden 4 para resolver</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">  y’ = f(t,y) en [t0,TF]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">  y(t0) = y0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">  Usando L pasos</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">  y0 puede ser vectorial o escalar</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">  """</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> np.linspace(inter[<span class="dv">0</span>], inter[<span class="dv">1</span>], L <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  h <span class="op">=</span> (inter[<span class="dv">1</span>] <span class="op">-</span> inter[<span class="dv">0</span>]) <span class="op">/</span> L</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reservamos lugar en memoria para y</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> np.zeros((<span class="bu">len</span>(y0), L <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  y[:, <span class="dv">0</span>] <span class="op">=</span> y0</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(L):</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      k1<span class="op">=</span>h<span class="op">*</span>f(t[n], y[:, n])</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      k2<span class="op">=</span>h<span class="op">*</span>f(t[n]<span class="op">+</span>h<span class="op">/</span><span class="dv">2</span>, y[:, n]<span class="op">+</span>k1<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      k3<span class="op">=</span>h<span class="op">*</span>f(t[n]<span class="op">+</span>h<span class="op">/</span><span class="dv">2</span>, y[:, n]<span class="op">+</span>k2<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      k4<span class="op">=</span>h<span class="op">*</span>f(t[n<span class="op">+</span><span class="dv">1</span>], y[:, n]<span class="op">+</span>k3)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      y[:, n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y[:, n] <span class="op">+</span> (k1<span class="op">+</span><span class="dv">2</span><span class="op">*</span>k2<span class="op">+</span><span class="dv">2</span><span class="op">*</span>k3<span class="op">+</span>k4)<span class="op">/</span><span class="dv">6</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> t, y.T</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="pongámonos-a-prueba-1" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="pongámonos-a-prueba-1"><span class="header-section-number">5.4.1</span> Pongámonos a prueba!!! 💪🏻</h3>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>La trayectoria de una partícula que inicialmente se encuentra en el punto <span class="math inline">\((-1, 1)\)</span> y se mueve en el plano está dada por la curva <span class="math inline">\(\left(x_1(t), x_2(t)\right)\)</span>, donde las funciones <span class="math inline">\(x_1\)</span> y <span class="math inline">\(x_2\)</span> son la solución del siguiente sistema de ecuaciones diferenciales:</p>
+<p><span class="math display">\[
+\begin{cases}
+  \begin{aligned}
+    x_1'(t) &amp;= -t x_2(t) , \\
+    x_2'(t) &amp;= t x_1(t) - t x_2(t).
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li><p>Grafique la trayectoria de la partícula durante los primeros 20 segundos.</p></li>
+<li><p>Utilice el método de Runge-Kutta 4 con paso h = 0.1 para determinar la posición de la partícula y su rapidez a los tres segundos.</p></li>
+<li><p>¿Cuántos dígitos correctos tienen los resultados del item anterior? Explique cómo lo determinó.</p></li>
+<li><p>Recuerde que la longitud de la trayectoria de la partícula durante los <span class="math inline">\(T\)</span> primeros segundos está dada por <span class="math inline">\(\int^T_0 \sqrt{x'_1(t)^2 + x'_2(t)^2} \mathop{}\!\mathrm{d}t\)</span>. Calcule la distancia recorrida por la partícula durante los primeros tres segundos. Explique cómo lo hizo.</p></li>
+<li><p>Determine el instante de tiempo a partir del cual la partícula está siempre a una distancia menor a 0.01 del origen de coordenadas.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere siguiente PVI de orden 3: <span class="math display">\[
+\begin{cases}
+  \begin{aligned}
+    y'''+4y''+5y'+2y &amp;= -4 \sin(t)-2 \cos(t), \\
+    y(0) &amp;= 1, \\
+    y'(0) &amp;= 0, \\
+    y''(0) &amp;= -1
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li><p>Reescriba el problema como un sistema de EDO de primer orden, con sus respectivos valores iniciales.</p></li>
+<li><p>Grafique la solución y obtenga el valor de la variable de estado y en <span class="math inline">\(t = 2.5\)</span>, con 6 dígitos exactos.</p></li>
+<li><p>Indique cuántas veces se anula la función <span class="math inline">\(y'(t)\)</span> en el intervalo <span class="math inline">\([0, 15]\)</span>.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-6" class="exercise-cell">
+
+</div>
+<script type="pyodide-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Una paracaidista de masa <span class="math inline">\(m\)</span> salta desde un helicóptero suspendido a una altura inicial de 45 km. Supóngase que cae verticalmente con una velocidad inicial cero y que solo actáan sobre ella la fuerza de la gravedad y una fuerza hacia arriba <span class="math inline">\(F_R\)</span> debida a la resistencia del aire (en Newtons, y con el eje coordenado dirigido hacia abajo, de tal manera que la velocidad <span class="math inline">\(v\)</span> es positiva durante su descenso al piso).</p>
+<p>Si no se abre el paracaídas, teniendo en cuenta la Ley de Newton <span class="math inline">\(F = ma\)</span>, se sabe que la velocidad debe satisfacer: <span class="math display">\[
+m \frac{dv}{dt} = mg - F_R
+\]</span></p>
+<p>donde <span class="math inline">\(g = 9.8 m/s^2\)</span>. Suponga que la masa de la paracaidista es de <span class="math inline">\(60 kg\)</span> y que <span class="math inline">\(F_R\)</span> está dada en términos de la velocidad <span class="math inline">\(v\)</span> como <span class="math display">\[
+F_R = 0.0096(100v + 10v^2 + v^3).
+\]</span></p>
+<ol type="1">
+<li><p>Determinar el problema a valores iniciales que modela esta situación en donde la única variable de estado sea la velocidad <span class="math inline">\(v\)</span>.</p></li>
+<li><p>Determine (con tres dígitos decimales exactos) la velocidad en <span class="math inline">\(m/s\)</span> y la aceleración en <span class="math inline">\(m/s^2\)</span> de la paracaidista a los 5 segundos. Explique cómo lo hizo.</p></li>
+<li><p>Determine la distancia recorrida por la paracaidista durante los primeros 10 segundos. ¿Cuál es la precisión de su cálculo? Explique brevemente cómo lo hizo</p></li>
+<li><p>La velocidad de un objeto que cae con resistencia del aire no aumenta indefinidamente sino que, a medida que transcurre el tiempo, se aproxima a una cantidad límite finita. Esta velocidad que denotamos por <span class="math inline">\(v_T\)</span> se denomina velocidad terminal o velocidad límite del objeto, y se produce cuando la fuerza de la gravedad y la resistencia del aire se equilibran, de modo que la aceleración es igual a cero. Determine con un error menor a <span class="math inline">\(10^{4}\)</span> la velocidad terminal vT del paracaidista y el tiempo que tarda en alcanzarla. Explique cómo lo hizo.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-7" class="exercise-cell">
+
+</div>
+<script type="pyodide-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 4 (Sistema masa-resorte)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere un objeto de masa m moviéndose en un plano horizontal, sujeto a un resorte amurado a una pared y sometido a una fuerza externa <span class="math inline">\(F\)</span> y a un sistema de amortiguamiento.</p>
+<p>La fuerza total <span class="math inline">\(f_T\)</span> que actúa sobre el objeto está dada por <span class="math display">\[
+f_T = -cv - kx + F
+\]</span></p>
+<p>donde <span class="math inline">\(x\)</span> representa el desplazamiento del objeto desde la posición de equilibrio en metros, <span class="math inline">\(v\)</span> su velocidad, <span class="math inline">\(k\)</span> la constante elástica del resorte y <span class="math inline">\(c\)</span> el coeficiente de amortiguamiento.</p>
+<ol type="1">
+<li><p>Utilice la segunda ley de Newton para escribir un PVI que permita encontrar el desplazamiento <span class="math inline">\(x\)</span> a los <span class="math inline">\(t\)</span> segundos. Escriba de manera general las condiciones iniciales que se necesitan.</p></li>
+<li><p>Resuelva el sistema considerando <span class="math inline">\(m = 20 kg\)</span>, <span class="math inline">\(k = 20 N/m\)</span>, <span class="math inline">\(c = 10 N · s/m\)</span>, y sin fuerza externa, partiendo del reposo a 1 metro hacia la derecha de la posición de equilibrio.</p></li>
+<li><p>Determine la máxima velocidad alcanzada por el sistema y en qué tiempo ocurre.</p></li>
+<li><p>Determine el desplazamiento máximo del objeto después de pasar por primera vez por la posición de equilibrio.</p></li>
+<li><p>Responda a los dos items anteriores suponiendo que el coeficiente de amortiguamiento es el doble.</p></li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pvi_sistema_masa_resorte.png" class="img-fluid figure-img" width="300"></p>
+<figcaption>Sistema masa-resorte</figcaption>
+</figure>
+</div>
+</div>
+<div>
+<div id="pyodide-8" class="exercise-cell">
+
+</div>
+<script type="pyodide-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Se carga un reactor con una sustancia <span class="math inline">\(A\)</span> diluida en agua. En determinadas condiciones, dicha sustancia reacciona para formar un producto deseado <span class="math inline">\(B\)</span>. A su vez, el producto <span class="math inline">\(B\)</span> continúa reaccionando para formar una sustancia no deseada <span class="math inline">\(C\)</span>, de acuerdo al siguiente esquema: <span class="math display">\[
+A \xrightarrow{r_1} B \xrightarrow{r_2} C
+\]</span></p>
+<p>donde <span class="math inline">\(r_1\)</span> es la velocidad de la primera etapa y <span class="math inline">\(r_2\)</span> es la velocidad de la segunda etapa de reacción. Ambas velocidades dependen de las concentraciones de las sustancias y de la temperatura de trabajo, según: <span class="math display">\[
+r_1 = A_1 e^{-\frac{E_1}{RT}} c_A, \quad r_2 = A_2 e^{-\frac{E_2}{RT}} c_B
+\]</span></p>
+<p>donde <span class="math inline">\(c_A\)</span> y <span class="math inline">\(c_B\)</span> son las concentraciones de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>, <span class="math inline">\(T\)</span> es la temperatura del reactor, <span class="math inline">\(A_1\)</span> y <span class="math inline">\(A_2\)</span> son dos parámetros que valen <span class="math inline">\(0.5\, min^{-1}\)</span> y <span class="math inline">\(0.3\, min^{-1}\)</span>, respectivamente, <span class="math inline">\(E_1\)</span> y <span class="math inline">\(E_2\)</span> valen <span class="math inline">\(1000 \,cal/mol\)</span> y <span class="math inline">\(1500\, cal/mol\)</span> y <span class="math inline">\(R\)</span> es la constante de los gases, cuyo valor es de <span class="math inline">\(1.9872\, cal\, mol^{-1}\, K^{-1}\)</span>. En estas condiciones, las concentraciones de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> varían según: <span class="math display">\[
+\frac{dc_A}{dt} = -r_1, \quad \frac{dc_B}{dt} = r_1 - r_2
+\]</span></p>
+<p>Al llevarse a cabo, las reacciones liberan energía en forma de calor. Considerando que el reactor está aislado del ambiente, la temperatura varía de acuerdo a: <span class="math display">\[
+\frac{dT}{dt} = \frac{1}{c_v}(r_1 \Delta H_1 + r_2 \Delta H_2)
+\]</span></p>
+<p>donde <span class="math inline">\(c_v\)</span> es la capacidad calorífica del sistema, cuyo valor es <span class="math inline">\(18\, cal\, L^{-1}\, K^{-1}\)</span> y <span class="math inline">\(\Delta H_1\)</span> y <span class="math inline">\(\Delta H_2\)</span> son los calores de reacción, que valen <span class="math inline">\(2000 cal/mol\)</span> y <span class="math inline">\(1200 cal/mol\)</span> respectivamente.</p>
+<p>El reactor se llena con agua a una temperatura de <span class="math inline">\(298 K\)</span> y se agrega sustancia A que se mezcla rápidamente a fin de tener una concentración inicial de <span class="math inline">\(0.5 mol/L\)</span>. En base a esta información:</p>
+<ol type="1">
+<li><p>Determine, con un error menor a <span class="math inline">\(10^{-6} mol/L\)</span>, las concentraciones que alcanzan <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> luego de media hora de reacción.</p></li>
+<li><p>Al cabo de un cierto tiempo de reacción se agrega un inhibidor que detiene las reacciones. Si se desea maximizar la producción de <span class="math inline">\(B\)</span>, ¿en qué momento debe agregarse dicho inhibidor?¿Cuál es la temperatura del reactor en ese momento?</p></li>
+<li><p>Si la reacción continuara indefinidamente, ¿cuál es la mayor temperatura que podría alcanzar el reactor?</p></li>
+<li><p>Si quisiera mejorar la producción de <span class="math inline">\(B\)</span>, ¿debería utilizar agua más fría o más caliente al inicio de la reacción? Suponga que puede decidir nuevamente en qué momento agregar el inhibidor.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-9" class="exercise-cell">
+
+</div>
+<script type="pyodide-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Runge-Kutta 6
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Luego del accidente sufrido en un circo chileno en julio de 2018, donde el hombre bala salió despedido del cañón con demasiada potencia cayendo muchos metros después de la red de seguridad, la Comisión Internacional del Circo decidió diseñar un nuevo traje reglamentario, con un sistema de frenado inteligente. El mismo consiste en una fuerza de resistencia proporcional a la velocidad del individuo que se activa cuando éste supera los 10 metros de altura. Más exactamente, llamando <span class="math inline">\(\vec{r} = (x1, x2)\)</span> a la posición del hombre bala en un plano vertical, la fuerza resultante que actúa sobre el sujeto es</p>
+<p><span class="math display">\[
+\vec{F}
+\begin{cases}
+  \begin{aligned}
+    m \vec{g}, \quad &amp;\text{si}\, x_2 &lt;10, \\
+    m \vec{g} - 20 \vec{v}, \quad &amp;\text{si}\, x_2 \ge 10.
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>donde <span class="math inline">\(\vec{v} = \frac{d\vec{r}}{dt(t)}\)</span> es el vector velocidad y <span class="math inline">\(\vec{g} = (0, -g)\)</span>, siendo <span class="math inline">\(g = 9.8 m/s^2\)</span> la constante de aceleración gravitacional.</p>
+<ol type="1">
+<li><p>Utilizando la segunda Ley de Newton <span class="math inline">\(\vec{F} = m \vec{a}\)</span>, escriba el problema a valores iniciales correspondiente para las variables de estado <span class="math inline">\(x_1(t)\)</span> y <span class="math inline">\(x_2(t)\)</span>, considerando un sujeto de masa <span class="math inline">\(m\)</span> que sale desde el origen con velocidad inicial <span class="math inline">\(\vec{v_0} = (v_0 cos θ_0, v_0 sen θ_0)\)</span>. Escriba el PVI como un sistema de primer orden.</p></li>
+<li><p>Encuentre la altura máxima que alcanza el hombre bala, si consideramos que los datos son <span class="math inline">\(m = 75\)</span>, <span class="math inline">\(v_0 = 22\)</span> y <span class="math inline">\(θ_0 = π/3\)</span>.</p></li>
+<li><p>Determine la distancia horizontal recorrida por el hombre bala desde que sale despedido del cañón hasta que toca la red de seguridad, que tiene 2 metros de altura.</p></li>
+<li><p>¿Cuánto tiempo permanece en el aire antes de hacer contacto con la red?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-10" class="exercise-cell">
+
+</div>
+<script type="pyodide-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-como.calcular.soluciones" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sec-como.calcular.soluciones"><span class="header-section-number">5.5</span> Cómo calcular soluciones con una precisión deseada</h2>
+<p>Python tiene algoritmos automáticos adaptativos para calcular soluciones con una precisión deseada, pero no los utilizaremos en este curso.</p>
+<p>Para calcular una solución con cierta precisión en un instante de tiempo <span class="math inline">\(t\)</span> haremos como se describe a continuación, que es similar a lo hecho para integrales en la Sección <a href="03-interpolacion.html#sec-interp.pol.a.trozos" class="quarto-xref"><span>3.5</span></a>.</p>
+<p>Consideremos el problema de calcular la solución del siguiente (PVI) a tiempo <span class="math inline">\(t = 10\)</span> con un error menor a <span class="math inline">\(10^{-4}\)</span>:</p>
+<p><span class="math display">\[
+\begin{cases}
+  y' = -y + t + \sin(t) + \cos(t), \quad &amp;t \ge 0 \\
+  y(0) = 2.5
+\end{cases}
+\]</span></p>
+<p>Procedemos con los siguientes pasos:</p>
+<ol type="1">
+<li>Definimos la función <span class="math inline">\(f\)</span>:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> t, y: <span class="op">-</span>y <span class="op">+</span> t <span class="op">+</span> np.sin(t) <span class="op">+</span> np.cos(t)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>Tomamos un valor de <span class="math inline">\(L=20\)</span> y resolvemos, por ejemplo con Euler:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>L<span class="op">=</span><span class="dv">20</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>t,Y <span class="op">=</span> euler(f,[<span class="dv">0</span>,<span class="dv">10</span>],[<span class="fl">2.5</span>],L)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>Aquí viene un punto importante. Hemos resuelto el PVI en el intervalo <span class="math inline">\([0,10]\)</span>, luego, la aproximación de la solución <span class="math inline">\(y\)</span> a tiempo <span class="math inline">\(t=10\)</span> está en la última posición del vector <span class="math inline">\(\texttt{Y}\)</span>. Como resolvimos con <span class="math inline">\(L\)</span> intervalos, esta posición es la <span class="math inline">\(L+1\)</span>. Para ver la aproximación escribimos <code>print(Y[L])</code> o bien <code>print(Y[-1])</code> obteniendo el siguiente resultado:</li>
+</ol>
+<pre><code>`8.48878015`</code></pre>
+<ol start="4" type="1">
+<li>Ahora comenzamos a mejorar la precisión, duplicando <span class="math inline">\(L\)</span>:</li>
+</ol>
+<pre><code>`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.47365301`
+
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.46510056`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.46066162`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45840935`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45727587`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45670739`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45642273`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45628029`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+`8.45620905`
+  
+`L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+  
+`8.45617342`
+
+. . .</code></pre>
+<ol start="5" type="1">
+<li>Todavía no queda claro si la solución será <span class="math inline">\(8.4561\dots\)</span> o <span class="math inline">\(8.4560\dots\)</span>. Deberíamos seguir probando, pero ya <span class="math inline">\(L=20480\)</span>. Tal vez sea momento de reconsiderar, y utilizar el método de Runge-Kutta de orden 2 ó 4, que llegará a mejor precisión con menos sub-intervalos.</li>
+</ol>
+</section>
+<section id="sec-estabilidad.de.métodos.numéricos" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="sec-estabilidad.de.métodos.numéricos"><span class="header-section-number">5.6</span> Estabilidad de métodos numéricos</h2>
+<p>Consideremos el siguiente PVI:</p>
+<p><span class="math display">\[
+\begin{cases}
+  \begin{aligned}
+    y' &amp;= -100 y, \quad t &gt; 0, \\
+    y(0) &amp;= 1,
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>cuya solución exacta es <span class="math inline">\(y(t) = e^{-100 t}\)</span>. Este es un problema <em>estable</em> dado que la solución tiende a cero cuando <span class="math inline">\(t \to \infty\)</span> y más aún, si tomamos soluciones con <span class="math inline">\(y(0) = y_0\)</span> y <span class="math inline">\(\tilde y(0) = \tilde y_0\)</span>, entonces se cumple</p>
+<p><span class="math display">\[
+  | y(t) - \tilde y(t) | \le e^{-100 t} |y_0 - \tilde y_0|.
+\]</span></p>
+<p>Es decir, la diferencia existente a tiempo <span class="math inline">\(t=0\)</span> disminuye (¡exponencialmente!) cuando <span class="math inline">\(t\)</span> crece.</p>
+<p>Consideremos ahora su resolución con el método de Euler, con <span class="math inline">\(h=0.1\)</span>. Resulta: <span class="math display">\[
+\begin{aligned}
+  Y_1 &amp;= 1 \\
+  Y_2 &amp;= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.1 (-100 \times 1) = 1 - 10 = -9 \\
+  Y_3 &amp;= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -9 + 0.1 (-100 \times (-9)) = -9 + 90 = 81 \\
+  Y_4 &amp;= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 81 + 0.1 (-100 \times 81) = 81 - 810 = -729 \\
+  Y_5 &amp;= \dots = 6561 \\
+  Y_6 &amp;= \dots = -59049 \\
+  &amp;\vdots  \\
+  &amp;\text{¡Nada que ver con la solución!}
+\end{aligned}
+\]</span></p>
+<p>Probemos con <span class="math inline">\(h\)</span> más pequeño, por ejemplo <span class="math inline">\(h = 0.05\)</span>. Resulta <span class="math display">\[
+\begin{aligned}
+Y_1 &amp;= 1 \\
+Y_2 &amp;= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.05 (-100 \times 1) = 1 - 5 = -4 \\
+Y_3 &amp;= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -4 + 0.05 (-100 \times (-4)) = -4 + 20 = 16 \\
+Y_4 &amp;= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 16 + 0.05 (-100 \times 16) = 16 - 80 = -64 \\
+Y_5 &amp;= \dots = 256 \\
+Y_6 &amp;= \dots = -1024 \\
+&amp;\vdots  \\
+&amp;\text{¡Nada que ver con la solución!}
+\end{aligned}
+\]</span></p>
+<p>Probemos con <span class="math inline">\(h\)</span> más pequeño, por ejemplo <span class="math inline">\(h = 0.02\)</span>. Resulta <span class="math display">\[
+\begin{aligned}
+  Y_1 &amp;= 1 \\
+  Y_2 &amp;= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.02 (-100 \times 1) = 1 - 2 = -1 \\
+  Y_3 &amp;= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -1 + 0.02 (-100 \times (-1)) = -1 + 2 = 1 \\
+  Y_4 &amp;= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 1 + 0.02 (-100 \times 1) = 1 - 2 = -1 \\
+  Y_5 &amp;= \dots = 1 \\
+  Y_6 &amp;= \dots = -1 \\
+  &amp;\vdots  \\
+  &amp;\text{¡Nada que ver con la solución!}
+\end{aligned}
+\]</span></p>
+<p>Probemos con <span class="math inline">\(h\)</span> más pequeño, por ejemplo <span class="math inline">\(h = 0.01\)</span>. Resulta <span class="math display">\[
+\begin{aligned}
+  Y_1 &amp;= 1 \\
+  Y_2 &amp;= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.01 (-100 \times 1) = 1 - 1 = 0 \\
+  Y_3 &amp;= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = 0 + 0.02 (-100 \times 0) = 0 + 0 = 0 \\
+  Y_4 &amp;= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 0 + 0.02 (-100 \times 0) = 0 + 0 = 0 \\
+  Y_5 &amp;= \dots = 0 \\
+  Y_6 &amp;= \dots = 0 \\
+  &amp;\vdots  \\
+  &amp;\text{Esta ya se parece un poco...}
+\end{aligned}
+\]</span></p>
+<p>Para <span class="math inline">\(h\)</span> más pequeños ya se parece un poco más. Pero para <span class="math inline">\(h &gt; 0.01\)</span> las soluciones son realmente diferentes a la solución exacta <span class="math inline">\(y = e^{-100 t}\)</span>. Es más, si <span class="math inline">\(h &gt; 0.02\)</span>, <span class="math inline">\(Y_n \to \infty\)</span> cuando <span class="math inline">\(n \to \infty\)</span>.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Para los métodos explícitos que usamos en este curso, en algunas situaciones hace falta que <span class="math inline">\(h\)</span> sea muy pequeño para que el método funcione bien.</p>
+<p>Hay casos en que <span class="math inline">\(h\)</span> debe ser demasiado pequeño, y hay que recurrir a otros métodos que no tengan este problema. Los métodos que funcionan mejor en este caso son los llamados <em>implícitos</em>.</p>
+</div>
+</div>
+</div>
+<section id="método-retro-euler-o-euler-implícito" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="método-retro-euler-o-euler-implícito"><span class="header-section-number">5.6.1</span> Método Retro-Euler o Euler implícito</h3>
+<p>El método de Euler se puede obtener a partir de la fórmula de Taylor alrededor de <span class="math inline">\(t_n\)</span>, en efecto</p>
+<p><span class="math display">\[
+\begin{aligned}
+  y(t_{n+1}) &amp;= y(t_n) + h y'(t_n) + \mathcal{O}(h^2) \\
+  y(t_{n+1}) &amp;\approx y(t_n) + h f(t_n,y(t_n))  \\
+  Y_{n+1} &amp;= Y_n + h f(t_n,Y_n)
+\end{aligned}
+\]</span></p>
+<p>Si usamos la fórmula de Taylor alrededor de <span class="math inline">\(t_{n+1}\)</span> obtenemos</p>
+<p><span class="math display">\[
+\begin{aligned}
+  y(t_n) &amp;= y(t_{n+1}) - h y'(t_{n+1}) + \mathcal{O}(h^2) \\
+  y(t_{n+1}) &amp;= y(t_n) + h y'(t_{n+1}) + \mathcal{O}(h^2) \\
+  y(t_{n+1}) &amp;\approx y(t_n) + h f(t_{n+1},y(t_{n+1}))  \\
+  Y_{n+1} &amp;= Y_n + h f(t_{n+1},Y_{n+1})
+\end{aligned}
+\]</span></p>
+<p>El método de Euler implícito o <em>Retro Euler</em> se define entonces por la iteración <span class="math display">\[
+Y_{n+1} = Y_n + h f(t_{n+1},Y_{n+1}),
+\]</span></p>
+<p>Es decir, <span class="math inline">\(Y_{n+1}\)</span> es la solución <span class="math inline">\(Y\)</span> de la ecuación algebraica <span class="math display">\[
+Y= Y_n + h f(t_{n+1},Y).
+\]</span></p>
+<p>Este método implica resolver, en cada paso, una ecuación o sistema de ecuaciones que en general será no lineal.</p>
+<p>En cada paso se puede resolver con un método tipo Newton (por ejemplo). Este método tiene un costo adicional de resolver un sistema no lineal en cada paso de tiempo, pero permite tomar <span class="math inline">\(h\)</span> mucho más grande que el método de Euler explícito, en especial cuando <span class="math inline">\(\frac{\partial f}{\partial y} &lt; 0\)</span> y <span class="math inline">\(\left|\frac{\partial f}{\partial y}\right|\)</span> es grande (ecuaciones stiff o <em>stiff equations</em>).</p>
+</section>
+</section>
+<section id="ejercicios-adicionales" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="ejercicios-adicionales"><span class="header-section-number">5.7</span> Ejercicios Adicionales ✍</h2>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en este capítulo. Como verás, no hay un método único para resolver la mayoría de estos ejercicios.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p><span class="math display">\[
+\begin{cases}
+  \begin{aligned} y' &amp;= f(t,y) = -y +\sin(t)+\cos(t) , \\
+    y(0 ) &amp;= 0.
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<p>Se desea conocer el valor de la variable de estado <span class="math inline">\(y\)</span> a tiempo <span class="math inline">\(t = 2\)</span>.</p>
+<ol type="1">
+<li>Complete la siguiente tabla con la aproximación de <span class="math inline">\(y(2)\)</span> obtenida utilizando los métodos de Euler, RK2 y RK4 con los pasos indicados:</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>h</th>
+<th>L</th>
+<th>Euler</th>
+<th>RK2</th>
+<th>RK4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1/10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1/20</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1/40</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1/80</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>1/160</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1/320</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>Sugerencia: para armar una tabla a partir de vectores, explore la función <code>DataFrame</code> de la librería <code>pandas</code>.</em></p>
+<ol start="2" type="1">
+<li><p>Determine la cantidad de pasos <span class="math inline">\(L\)</span> y el número de evaluaciones de <span class="math inline">\(f\)</span> que fueron necesarios, en cada método, para obtener <span class="math inline">\(y(2)\)</span> con:</p>
+<ol type="i">
+<li>Tres decimales correctos.</li>
+<li>Seis decimales correctos.</li>
+<li>Diez decimales correctos.</li>
+</ol></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-11" class="exercise-cell">
+
+</div>
+<script type="pyodide-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 2 (Modelo predador-presa de Lotka-Volterra)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Consideremos el siguiente modelo <span class="math display">\[
+\begin{cases}
+  \begin{aligned}
+    x'_1(t) &amp;= x_1(3-0.002 x_2), \\
+    x'_2(t) &amp;= -x_2(0.5-0.0006x_1).
+  \end{aligned}
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li><p>¿Cuál variable representa al predador y cuál a la presa? Para determinar esto, tenga en cuenta las siguientes preguntas:</p>
+<ol type="i">
+<li>¿Cuál de las dos especies puede sobrevivir sin la existencia de la otra?</li>
+<li>¿Qué especie se extingue si la otra no existe?</li>
+</ol></li>
+<li><p>Graficar la evolución de ambas poblaciones considerando que la población inicial de presas es 1600 y la de predadores es 800, y teniendo en cuenta que el tiempo <span class="math inline">\(t\)</span> se mide en meses. Describir el fenómeno representado.</p>
+<p><em>Sugerencia: Utilice un método que usted considere apropiado, y un intervalo de tiempo que sea representativo de lo que sucede.</em></p></li>
+<li><p>Determine la duración del ciclo o período en este modelo. Explique brevemente óomo lo hizo.</p></li>
+<li><p>Determine el primer momento en que ambas poblaciones coinciden. Identificar la tasa de crecimiento instantánea, explicando si ambas poblaciones crecen, ambas decrecen, o si una crece y la otra decrece.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-12" class="exercise-cell">
+
+</div>
+<script type="pyodide-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 3 (Péndulo simple)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Si consideramos un péndulo de brazo rígido de longitud <span class="math inline">\(L\)</span>, donde no hay friccóon ni resistencia del aire, el ángulo <span class="math inline">\(\phi(t)\)</span> que forma el péndulo con la vertical satisface la siguiente ecuación diferencial de orden dos:</p>
+<p><span class="math display">\[
+  \phi''(t) + \frac{g}{L} \sin \phi(t) = 0
+\]</span></p>
+<p>donde <span class="math inline">\(g = 9.81 g/m^2\)</span> es la constante de aceleración gravitacional.</p>
+<p>Supongamos (por simplicidad) que la longitud del brazo es igual a <span class="math inline">\(9.81\ \text{m}\)</span>, con lo que obtenemos la ecuación: <span class="math display">\[
+  \phi''(t) + \sin \phi(t) = 0
+\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pvi_ejemplo_pendulo_simple.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Péndulo simple</figcaption>
+</figure>
+</div>
+<p>Resolver esta ecuación numéricamente en el intervalo <span class="math inline">\([0, 20]\)</span> y explicar, en cada uno de los siguientes casos, la situación física descripta (condiciones iniciales y evolución):</p>
+<ol type="1">
+<li><span class="math inline">\(\phi(0) = 0.1,\quad \phi'(0) = 0\)</span></li>
+<li><span class="math inline">\(\phi(0) = 0.7,\quad \phi'(0) = 0\)</span></li>
+<li><span class="math inline">\(\phi(0) = 3.0,\quad \phi'(0) = 0\)</span></li>
+<li><span class="math inline">\(\phi(0) = 3.5,\quad \phi'(0) = 0\)</span></li>
+<li><span class="math inline">\(\phi(0) = 0,\quad \phi'(0) = 1\)</span></li>
+<li><span class="math inline">\(\phi(0) = 0,\quad \phi'(0) = 1.99\)</span></li>
+<li><span class="math inline">\(\phi(0) = 0,\quad \phi'(0) = 2\)</span></li>
+<li><span class="math inline">\(\phi(0) = 0,\quad \phi'(0) = 2.01\)</span></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-13" class="exercise-cell">
+
+</div>
+<script type="pyodide-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Un péndulo de Foucault es un péndulo esférico que puede oscilar libremente en cualquier plano vertical. Este fue utilizado por su inventor, Léon Foucault, para demostrar la rotación de la Tierra.</p>
+<p>El movimiento de un péndulo de Foucault sin fricción se describe mediante el siguiente sistema de dos ecuaciones <span class="math display">\[
+\begin{cases}
+  x'' - 2 ω sen(Ψ) y' + \frac{g}{L} x = 0, \\
+  y'' + 2ω cos(Ψ)x' + \frac{g}{L}y = 0,\\
+  t \geq 0
+\end{cases}
+\]</span></p>
+<p>donde <span class="math inline">\(x(t)\)</span> e <span class="math inline">\(y(t)\)</span> representan las coordenadas en el plano de la punta del péndulo a tiempo <span class="math inline">\(t\)</span>, <span class="math inline">\(Ψ\)</span> es la latitud del lugar donde se localiza el péndulo, <span class="math inline">\(ω\)</span> y <span class="math inline">\(g\)</span> son la velocidad angular y la gravedad del planeta, respectivamente, y <span class="math inline">\(L\)</span> es la longitud del péndulo.</p>
+<p>Fijemos los parámetros <span class="math inline">\(\Psi = \pi/4\)</span>, <span class="math inline">\(\omega = 6 \times 10^{-2} s^{-1}\)</span>, <span class="math inline">\(g = 9.81 m/s^2\)</span> y <span class="math inline">\(L = 100 m\)</span>. Supongamos que soltamos el péndulo en la posición <span class="math inline">\(x(0) = 0\)</span>, <span class="math inline">\(y(0) = 0\)</span>, a una velocidad inicial <span class="math inline">\(x'(0) = 0.3\)</span>, <span class="math inline">\(y'(0) = 0.3\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pvi_pendulo_foucault.png" height="300" class="figure-img"></p>
+<figcaption>Péndulo de Foucault</figcaption>
+</figure>
+</div>
+<ol type="1">
+<li><p>Obtenga una aproximación de la posición del péndulo a tiempo <span class="math inline">\(t = 70\)</span> con un error absoluto menor a <span class="math inline">\(10^{-8}\)</span>.</p></li>
+<li><p>¿Cuántas veces vuelve a pasar por la posición inicial (aproximadamente) en el período de tiempo <span class="math inline">\(0 &lt; t \leq 70\)</span>? También se desea saber en qué instantes aproximados esto ocurre (puede hacerlo a partir de un gráfico).</p></li>
+<li><p>Obsérvese que el péndulo describe un gráfico similar a un flor ¿Cuántos pétalos tiene la misma para <span class="math inline">\(t \in [0, 70]\)</span>?</p></li>
+<li><p>¿Cuál es la distancia máxima que se aleja el péndulo de la posición inicial y en qué tiempo esto ocurre?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-14" class="exercise-cell">
+
+</div>
+<script type="pyodide-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 5
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>En un tanque agitado se encuentra almacenada una sustancia <span class="math inline">\(B\)</span> diluida en agua. Dado que esta sustancia es un contaminante, se decide eliminarla por reacción química a fin de tener un compuesto menos nocivo. Para ello, se adiciona una sustancia <span class="math inline">\(A\)</span> que, en contacto con el agua, se degrada lentamente formando un compuesto muy reactivo <span class="math inline">\(R\)</span> que reacciona rápidamente con <span class="math inline">\(B\)</span> para formar <span class="math inline">\(RB\)</span>. Sin embargo, parte de <span class="math inline">\(R\)</span> se pierde puesto que también reacciona con <span class="math inline">\(A\)</span> para formar <span class="math inline">\(RA\)</span>. Las reacciones químicas se muestran a continuación:</p>
+<p><span class="math display">\[
+  A \xrightarrow{r_1} R
+\]</span> <span class="math display">\[
+  R + B \xrightarrow{r_2} RB
+\]</span> <span class="math display">\[
+  R + A \xrightarrow{r_3} RA
+\]</span></p>
+<p>Las expresiones de velocidad de cada reacción (en <span class="math inline">\(\mathrm{mol}\,\mathrm{L}^{-1} \mathrm{min}^{-1}\)</span>) son: <span class="math display">\[
+r_1 = 0.013 c_A,\quad r_2 = 2500 c_B c_R, \quad r_3 = 1000 c_A c_R,
+\]</span></p>
+<p>donde <span class="math inline">\(c_A\)</span>, <span class="math inline">\(c_B\)</span> y <span class="math inline">\(c_R\)</span> son las concentraciones de <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> y <span class="math inline">\(R\)</span> respectivamente, y su unidad es <span class="math inline">\(mol/L\)</span>. A través de un balance de masa, puede describirse la variación temporal de cada una de ellas: <span class="math display">\[
+  \frac{dc_A}{dt} = -r_1 - r_3, \quad \frac{dc_B}{dt} = -r_2, \quad \frac{dc_R}{dt} = r_1 - r_2 - r_3.
+\]</span></p>
+<p>Inicialmente, la concentración de <span class="math inline">\(B\)</span> es de <span class="math inline">\(1 mol/L\)</span> y se añade <span class="math inline">\(A\)</span> a fin de tener una concentración inicial igual a la de <span class="math inline">\(B\)</span>.</p>
+<ol type="1">
+<li><p>Grafique la evolución temporal de las concentraciones durante los primeros 50 minutos. <em>Sugerencia: resolver numéricamente el PVI utilizando una cantidad de pasos <span class="math inline">\(L\)</span> con la cual las soluciones obtenidas sean representativas del problema en cuestión.</em></p></li>
+<li><p>Determine las concentraciones de <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> al cabo de 50 minutos. Calcule el porcentaje de <span class="math inline">\(B\)</span> que logró eliminarse y el porcentaje de <span class="math inline">\(A\)</span> se consumió en el proceso.</p></li>
+<li><p>¿Qué porcentaje de <span class="math inline">\(B\)</span> lograría eliminarse si la reacción continuara indefinidamente?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-15" class="exercise-cell">
+
+</div>
+<script type="pyodide-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="bibliografía" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="bibliografía"><span class="header-section-number">5.8</span> Bibliografía</h2>
+<p>Si le interesa leer un poco más sobre los temas de este capítulo, le recomendamos los siguientes libros:</p>
+<ul>
+<li>K.E. Atkinson, <em>An introduction to Numerical Analysis</em>, 2nd edition, John Wiley &amp; Sons, 1989.</li>
+<li>Charles Van Loan, <em>Introduction to scientific computing. A matrix-vector approach using Octave</em>, Prentice Hall, 1997.</li>
+</ul>
+
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTE1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTUgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE1LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE0LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEzIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEzLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTExIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTExLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTAgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEwLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTAtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl85ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS05LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzkgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzksIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTgiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl84ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS04LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl83ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS03LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl82ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS02LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../../chapters";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "..";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/04-integracion.html" class="pagination-link" aria-label="Integración numérica o cuadratura">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Integración numérica o cuadratura</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/06-diferencias-finitas.html" class="pagination-link" aria-label="Diferencias finitas">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Diferencias finitas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
