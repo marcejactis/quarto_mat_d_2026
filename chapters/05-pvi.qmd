@@ -1066,4 +1066,210 @@ velocidad inicial $\vec{v_0} = (v_0 cos θ_0, v_0 sen θ_0)$. Escriba el PVI com
 ::::
 
 
+## Cómo calcular soluciones con una precisión deseada {#sec-como.calcular.soluciones}
+
+Python tiene algoritmos automáticos adaptativos para calcular soluciones con una precisión deseada, pero no los utilizaremos en este curso.
+
+Para calcular una solución con cierta precisión en un instante de tiempo $t$ haremos como se describe a continuación, que es similar a lo hecho para integrales en la Sección -@sec-interp.pol.a.trozos.
+
+Consideremos el problema de calcular la solución del siguiente (PVI) a tiempo $t = 10$ con un error menor a $10^{-4}$:
+
+$$
+\begin{cases}
+  y' = -y + t + \sin(t) + \cos(t), \quad &t \ge 0 \\
+  y(0) = 2.5
+\end{cases}
+$$
+
+Procedemos con los siguientes pasos:
+
+1.   Definimos la función $f$:
+
+  ```python
+  import numpy as np
+  f = lambda t, y: -y + t + np.sin(t) + np.cos(t)
+  ```
+2.   Tomamos un valor de $L=20$ y resolvemos, por ejemplo con Euler:
+
+  ```python
+  L=20
+  t,Y = euler(f,[0,10],[2.5],L)
+  ```
+3.    Aquí viene un punto importante. Hemos resuelto el PVI en el intervalo $[0,10]$, luego, la aproximación de la solución $y$ a tiempo $t=10$ está en la última posición del vector $\texttt{Y}$. Como resolvimos con $L$ intervalos, esta posición es la $L+1$. Para ver la aproximación escribimos `print(Y[L])` o bien `print(Y[-1])` obteniendo el siguiente resultado:
+
+    `8.48878015`
+
+4.    Ahora comenzamos a mejorar la precisión, duplicando $L$:
+
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.47365301`
+
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.46510056`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.46066162`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45840935`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45727587`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45670739`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45642273`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45628029`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+
+    `8.45620905`
+ 	  
+    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+ 	  
+    `8.45617342`
+
+    . . .
+
+5.    Todavía no queda claro si la solución será $8.4561\dots$ o $8.4560\dots$. Deberíamos seguir probando, pero ya $L=20480$. Tal vez sea momento de reconsiderar, y utilizar el método de Runge-Kutta de orden 2 ó 4, que llegará a mejor precisión con menos sub-intervalos.
+
+
+## Estabilidad de métodos numéricos {#sec-estabilidad.de.métodos.numéricos}
+
+Consideremos el siguiente PVI:
+
+$$
+\begin{cases}
+  \begin{aligned}
+    y' &= -100 y, \quad t > 0, \\
+    y(0) &= 1,
+  \end{aligned}
+\end{cases}
+$$
+
+cuya solución exacta es $y(t) = e^{-100 t}$. Este es un problema *estable* dado que la solución tiende a cero cuando $t \to \infty$ y más aún, si tomamos soluciones con $y(0) = y_0$ y $\tilde y(0) = \tilde y_0$, entonces se cumple
+
+$$
+  | y(t) - \tilde y(t) | \le e^{-100 t} |y_0 - \tilde y_0|.
+$$
+
+Es decir, la diferencia existente a tiempo $t=0$ disminuye (¡exponencialmente!) cuando $t$ crece.
+
+Consideremos ahora su resolución con el método de Euler, con $h=0.1$. Resulta:
+$$
+\begin{aligned}
+  Y_1 &= 1 \\
+  Y_2 &= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.1 (-100 \times 1) = 1 - 10 = -9 \\
+  Y_3 &= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -9 + 0.1 (-100 \times (-9)) = -9 + 90 = 81 \\
+  Y_4 &= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 81 + 0.1 (-100 \times 81) = 81 - 810 = -729 \\
+  Y_5 &= \dots = 6561 \\
+  Y_6 &= \dots = -59049 \\
+  &\vdots  \\
+  &\text{¡Nada que ver con la solución!}
+\end{aligned}
+$$
+
+Probemos con $h$ más pequeño, por ejemplo $h = 0.05$. Resulta
+$$
+\begin{aligned}
+Y_1 &= 1 \\
+Y_2 &= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.05 (-100 \times 1) = 1 - 5 = -4 \\
+Y_3 &= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -4 + 0.05 (-100 \times (-4)) = -4 + 20 = 16 \\
+Y_4 &= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 16 + 0.05 (-100 \times 16) = 16 - 80 = -64 \\
+Y_5 &= \dots = 256 \\
+Y_6 &= \dots = -1024 \\
+&\vdots  \\
+&\text{¡Nada que ver con la solución!}
+\end{aligned}
+$$
+
+Probemos con $h$ más pequeño, por ejemplo $h = 0.02$. Resulta
+$$
+\begin{aligned}
+  Y_1 &= 1 \\
+  Y_2 &= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.02 (-100 \times 1) = 1 - 2 = -1 \\
+  Y_3 &= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = -1 + 0.02 (-100 \times (-1)) = -1 + 2 = 1 \\
+  Y_4 &= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 1 + 0.02 (-100 \times 1) = 1 - 2 = -1 \\
+  Y_5 &= \dots = 1 \\
+  Y_6 &= \dots = -1 \\
+  &\vdots  \\
+  &\text{¡Nada que ver con la solución!}
+\end{aligned}
+$$
+
+Probemos con $h$ más pequeño, por ejemplo $h = 0.01$. Resulta
+$$
+\begin{aligned}
+  Y_1 &= 1 \\
+  Y_2 &= Y_1 + h f(t_1,Y_1) = Y_1 + h (-100 Y_1) = 1 + 0.01 (-100 \times 1) = 1 - 1 = 0 \\
+  Y_3 &= Y_2 + h f(t_2,Y_2) = Y_2 + h (-100 Y_2) = 0 + 0.02 (-100 \times 0) = 0 + 0 = 0 \\
+  Y_4 &= Y_3 + h f(t_3,Y_3) = Y_3 + h (-100 Y_3) = 0 + 0.02 (-100 \times 0) = 0 + 0 = 0 \\
+  Y_5 &= \dots = 0 \\
+  Y_6 &= \dots = 0 \\
+  &\vdots  \\
+  &\text{Esta ya se parece un poco...}
+\end{aligned}
+$$
+
+Para $h$ más pequeños ya se parece un poco más. Pero para $h > 0.01$ las soluciones son realmente diferentes a la solución exacta $y = e^{-100 t}$. Es más, si $h > 0.02$, $Y_n \to \infty$ cuando $n \to \infty$.
+
+::: {.callout-note appearance="simple"}
+Para los métodos explícitos que usamos en este curso, en algunas situaciones hace falta que $h$ sea muy pequeño para que el método funcione bien.
+
+Hay casos en que $h$ debe ser demasiado pequeño, y hay que recurrir a otros métodos que no tengan este problema. Los métodos que funcionan mejor en este caso son los llamados *implícitos*.
+:::
+
+
+### Método Retro-Euler o Euler implícito
+
+El método de Euler se puede obtener a partir de la fórmula de Taylor alrededor de $t_n$, en efecto
+
+$$
+\begin{aligned}
+  y(t_{n+1}) &= y(t_n) + h y'(t_n) + \bigO(h^2) \\
+  y(t_{n+1}) &\approx y(t_n) + h f(t_n,y(t_n))  \\
+  Y_{n+1} &= Y_n + h f(t_n,Y_n)
+\end{aligned}
+$$
+
+Si usamos la fórmula de Taylor alrededor de $t_{n+1}$ obtenemos
+
+$$
+\begin{aligned}
+  y(t_n) &= y(t_{n+1}) - h y'(t_{n+1}) + \bigO(h^2) \\
+  y(t_{n+1}) &= y(t_n) + h y'(t_{n+1}) + \bigO(h^2) \\
+  y(t_{n+1}) &\approx y(t_n) + h f(t_{n+1},y(t_{n+1}))  \\
+  Y_{n+1} &= Y_n + h f(t_{n+1},Y_{n+1})
+\end{aligned}
+$$
+
+El método de Euler implícito o *Retro Euler* se define entonces por la iteración
+$$
+Y_{n+1} = Y_n + h f(t_{n+1},Y_{n+1}),
+$$
+
+Es decir, $Y_{n+1}$ es la solución $Y$ de la ecuación algebraica
+$$
+Y= Y_n + h f(t_{n+1},Y).
+$$
+
+Este método implica resolver, en cada paso, una ecuación o sistema de ecuaciones que en general será no lineal.
+
+En cada paso se puede resolver con un método tipo Newton (por ejemplo). Este método tiene un costo adicional de resolver un sistema no lineal en cada paso de tiempo, pero permite tomar $h$ mucho más grande que el método de Euler explícito, en especial cuando $\frac{\partial f}{\partial y} < 0$ y $\left|\frac{\partial f}{\partial y}\right|$ es grande (ecuaciones stiff o *stiff equations*).
+
+
+
+
 
