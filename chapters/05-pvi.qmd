@@ -1270,6 +1270,225 @@ Este método implica resolver, en cada paso, una ecuación o sistema de ecuacion
 En cada paso se puede resolver con un método tipo Newton (por ejemplo). Este método tiene un costo adicional de resolver un sistema no lineal en cada paso de tiempo, pero permite tomar $h$ mucho más grande que el método de Euler explícito, en especial cuando $\frac{\partial f}{\partial y} < 0$ y $\left|\frac{\partial f}{\partial y}\right|$ es grande (ecuaciones stiff o *stiff equations*).
 
 
+## Ejercicios Adicionales ✍
 
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en este capítulo. Como verás, no hay un método único para resolver la mayoría de estos ejercicios.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Adicional 1
+
+::: {}
+$$
+\begin{cases}
+  \begin{aligned} y' &= f(t,y) = -y +\sin(t)+\cos(t) , \\
+    y(0 ) &= 0.
+  \end{aligned}
+\end{cases}
+$$
+
+Se desea conocer el valor de la variable de estado $y$ a tiempo $t = 2$.
+
+1. Complete la siguiente tabla con la aproximación de $y(2)$ obtenida utilizando los métodos de Euler, RK2 y RK4 con los pasos indicados:
+
+|h|L|Euler|RK2|RK4|
+|-|-|-|-|-|
+|1/10| | | | |
+|1/20| | | | |
+|1/40| | | | |
+|1/80| | | | |
+|1/160| | | | |
+|1/320| | | | |
+
+*Sugerencia: para armar una tabla a partir de vectores, explore la función `DataFrame` de la librería `pandas`.*
+
+2. Determine la cantidad de pasos $L$ y el número de evaluaciones de $f$ que fueron necesarios, en cada método, para obtener $y(2)$ con:
+
+    (i) Tres decimales correctos.
+    (ii) Seis decimales correctos.
+    (iii) Diez decimales correctos.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 2 (Modelo predador-presa de Lotka-Volterra)
+
+::: {}
+Consideremos el siguiente modelo
+$$
+\begin{cases}
+  \begin{aligned}
+    x'_1(t) &= x_1(3-0.002 x_2), \\
+    x'_2(t) &= -x_2(0.5-0.0006x_1).
+  \end{aligned}
+\end{cases}
+$$
+
+1. ¿Cuál variable representa al predador y cuál a la presa? Para determinar esto, tenga en cuenta las siguientes
+preguntas:
+
+    (i) ¿Cuál de las dos especies puede sobrevivir sin la existencia de la otra?
+    (ii) ¿Qué especie se extingue si la otra no existe?
+
+2. Graficar la evolución de ambas poblaciones considerando que la población inicial de presas es 1600 y la de predadores es 800, y teniendo en cuenta que el tiempo $t$ se mide en meses. Describir el fenómeno representado.
+
+    *Sugerencia: Utilice un método que usted considere apropiado, y un intervalo de tiempo que sea representativo de lo que sucede.*
+
+3. Determine la duración del ciclo o período en este modelo. Explique brevemente óomo lo hizo.
+
+4. Determine el primer momento en que ambas poblaciones coinciden. Identificar la tasa de crecimiento instantánea, explicando si ambas poblaciones crecen, ambas decrecen, o si una crece y la otra decrece.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 3 (Péndulo simple)
+
+::: {}
+Si consideramos un péndulo de brazo rígido de longitud  $L$, donde no hay friccóon ni resistencia del aire, el ángulo $\phi(t)$ que forma el péndulo con la vertical satisface la siguiente ecuación diferencial de orden dos:
+
+$$
+  \phi''(t) + \frac{g}{L} \sin \phi(t) = 0
+$$
+
+donde $g = 9.81 g/m^2$ es la constante de aceleración gravitacional.
+
+Supongamos (por simplicidad) que la longitud del brazo es igual a $9.81\ \text{m}$, con lo que obtenemos la ecuación:
+$$
+  \phi''(t) + \sin \phi(t) = 0
+$$
+
+![Péndulo simple](images/pvi_ejemplo_pendulo_simple.png){fig-align="center" width="50%"}
+
+Resolver esta ecuación numéricamente en el intervalo $[0, 20]$ y explicar, en cada uno de los siguientes casos, la situación física descripta (condiciones iniciales y evolución):
+
+1. $\phi(0) = 0.1,\quad \phi'(0) = 0$
+2. $\phi(0) = 0.7,\quad \phi'(0) = 0$
+3. $\phi(0) = 3.0,\quad \phi'(0) = 0$
+4. $\phi(0) = 3.5,\quad \phi'(0) = 0$
+5. $\phi(0) = 0,\quad \phi'(0) = 1$
+6. $\phi(0) = 0,\quad \phi'(0) = 1.99$
+7. $\phi(0) = 0,\quad \phi'(0) = 2$
+8. $\phi(0) = 0,\quad \phi'(0) = 2.01$
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 4
+
+::: {}
+Un péndulo de Foucault es un péndulo esférico que puede oscilar libremente en cualquier plano vertical. Este fue utilizado por su inventor, Léon Foucault, para demostrar la rotación de la Tierra.
+
+El movimiento de un péndulo de Foucault sin fricción se describe mediante el siguiente sistema de dos ecuaciones
+$$
+\begin{cases}
+  x'' - 2 ω sen(Ψ) y' + \frac{g}{L} x = 0, \\
+  y'' + 2ω cos(Ψ)x' + \frac{g}{L}y = 0,\\
+  t \geq 0
+\end{cases}
+$$
+
+donde $x(t)$ e $y(t)$ representan las coordenadas en el plano de la punta del péndulo a tiempo $t$, $Ψ$ es la latitud del lugar donde se localiza el péndulo, $ω$ y $g$ son la velocidad angular y la gravedad del planeta, respectivamente, y $L$ es la longitud del péndulo.
+
+Fijemos los parámetros $\Psi = \pi/4$, $\omega = 6 \times 10^{-2} s^{-1}$, $g = 9.81 m/s^2$ y $L = 100 m$. Supongamos que soltamos el péndulo en la posición $x(0) = 0$, $y(0) = 0$, a una velocidad inicial $x'(0) = 0.3$, $y'(0) = 0.3$.
+
+![Péndulo de Foucault](images/pvi_pendulo_foucault.png){fig-align="center" height=300}
+
+1. Obtenga una aproximación de la posición del péndulo a tiempo $t = 70$ con un error absoluto menor a $10^{-8}$.
+
+2. ¿Cuántas veces vuelve a pasar por la posición inicial (aproximadamente) en el período de tiempo $0 < t \leq 70$? También se desea saber en qué instantes aproximados esto ocurre (puede hacerlo a partir de un gráfico).
+
+3. Obsérvese que el péndulo describe un gráfico similar a un flor ¿Cuántos pétalos tiene la misma para $t \in [0, 70]$?
+
+4. ¿Cuál es la distancia máxima que se aleja el péndulo de la posición inicial y en qué tiempo esto ocurre?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 5
+
+::: {}
+En un tanque agitado se encuentra almacenada una sustancia $B$ diluida en agua. Dado que esta sustancia es un contaminante, se decide eliminarla por reacción química a fin de tener un compuesto menos nocivo. Para ello, se adiciona una sustancia $A$ que, en contacto con el agua, se degrada lentamente formando un compuesto muy reactivo $R$ que reacciona rápidamente con $B$ para formar $RB$. Sin embargo, parte de $R$ se pierde puesto que también reacciona con $A$ para formar $RA$. Las reacciones químicas se muestran a continuación:
+
+$$
+  A \xrightarrow{r_1} R
+$$
+$$
+  R + B \xrightarrow{r_2} RB
+$$
+$$
+  R + A \xrightarrow{r_3} RA
+$$
+
+Las expresiones de velocidad de cada reacción (en $\mathrm{mol}\,\mathrm{L}^{-1} \mathrm{min}^{-1}$) son:
+$$
+r_1 = 0.013 c_A,\quad r_2 = 2500 c_B c_R, \quad r_3 = 1000 c_A c_R,
+$$
+
+donde $c_A$, $c_B$ y $c_R$ son las concentraciones de $A$, $B$ y $R$ respectivamente, y su unidad es $mol/L$. A través de un balance de masa, puede describirse la variación temporal de cada una de ellas:
+$$
+  \frac{dc_A}{dt} = -r_1 - r_3, \quad \frac{dc_B}{dt} = -r_2, \quad \frac{dc_R}{dt} = r_1 - r_2 - r_3.
+$$
+
+Inicialmente, la concentración de $B$ es de $1 mol/L$ y se añade $A$ a fin de tener una concentración inicial igual a la de $B$.
+
+1. Grafique la evolución temporal de las concentraciones durante los primeros 50 minutos. *Sugerencia: resolver numéricamente el PVI utilizando una cantidad de pasos $L$ con la cual las soluciones obtenidas sean representativas del problema en cuestión.*
+
+2. Determine las concentraciones de $A$ y $B$ al cabo de 50 minutos. Calcule el porcentaje de $B$ que logró eliminarse y el porcentaje de $A$ se consumió en el proceso.
+
+3. ¿Qué porcentaje de $B$ lograría eliminarse si la reacción continuara indefinidamente?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Bibliografía
+Si le interesa leer un poco más sobre los temas de este capítulo, le recomendamos los siguientes libros:
+
+*   K.E. Atkinson,
+  *An introduction to Numerical Analysis*, 2nd edition, John
+  Wiley \& Sons, 1989.
+*   Charles Van Loan, *Introduction to scientific computing. A matrix-vector approach using Octave*, Prentice Hall, 1997.
 
 
