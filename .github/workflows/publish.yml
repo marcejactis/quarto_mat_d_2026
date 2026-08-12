@@ -29,8 +29,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Nos aseguramos de instalar jinja2 para el correcto formateo de tablas en pandas
-          pip install pandas numpy jinja2 
+          # Instalamos dependencias científicas y el entorno de ejecución de Jupyter
+          pip install pandas numpy jinja2 jupyter ipykernel
+          # Registramos de forma explícita el kernel python3 en el runner de GitHub
+          python -m ipykernel install --user
 
       # # 2. Configuración de R y los paquetes del motor de renderizado (knitr)
       # - name: Set up R
