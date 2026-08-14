@@ -1,1 +1,442 @@
-# Diferencias finitas
+---
+title: "Diferencias finitas"
+---
+{{< include ../_macros.qmd >}}
+
+El método de diferencias finitas es un método numérico para calcular soluciones aproximadas de ecuaciones diferenciales. La aproximación puede ser tan buena como se desee. Pero para mayor aproximación hace falta más trabajo computacional.
+
+En este método no se obtiene una fórmula analítica de la solución, sino que se obtienen aproximaciones en muchos puntos del dominio donde se quiere resolver el problema.
+
+La ventaja es que permite resolver problemas con condiciones de borde mucho más generales y con términos fuente también generales. También permite trabajar con coeficientes variables, aunque no nos preocuparemos por eso en este curso.
+
+
+## Diferencias finitas en 1D {#sec-dif.finitas.en.1D}
+
+Consideraremos primero la ecuación del calor unidimensional.
+Es decir, estamos considerando una barra donde todas las cantidades son constantes en los planos paralelos al plano $yz$, y los cambios o variaciones y el flujo sólo ocurre en la dirección $x$.
+
+
+### Problema estacionario (Poisson) {#sec-prob.estac.poisson}
+
+Recordemos el problema de difusión en una dimensión
+$$
+    c \rho u_t - K_0 u_{xx} = Q, \quad u = u(x,t),\quad 0 \le x \le L,\quad t \ge 0.
+$$
+
+Al considerar el *estado estacionario* en que la variable $u(x,t)$ no cambia con respecto al tiempo $t$, tenemos $u_t = 0$ y obtenemos la ecuación de Poisson
+$$
+    - K_0 u_{xx} = Q, \quad u = u(x), \quad 0 \le x \le L.
+$$
+
+En la siguiente sección vemos cómo se discretiza el problema de Poisson unidimensional con condiciones de borde de tipo Dirichlet.
+
+#### Condiciones de borde Dirichlet
+
+Consideremos el problema
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    u(L) &= b.
+\end{aligned}
+\end{cases}
+$$ {#eq-cond.borde.dirichlet}
+
+::: {.callout-note appearance="simple"}
+## La idea principal
+
+El método de diferencias finitas consiste en reemplazar derivadas por cocientes de diferencias.
+:::
+
+Recordando que $\frac{dg}{dx} (x) = \lim_{h \to 0} \frac{g(x+h) - g(x)}h$, la idea es tomar $h$ pequeño y aproximar $\frac{dg}{dx} (x)$ por $\frac{g(x+h) - g(x)}h$, o alguna variante:
+
+| Diferencia | Fórmula | Orden del error |
+|:---:|:---:|:---:|
+| Adelantada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x+h) - g(x)}{h}$ | $\bigO(h)$ si $g \in C^2$ |
+| Atrasada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x) - g(x-h)}{h}$ | $\bigO(h)$ si $g \in C^2$ |
+| Centrada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g\left(x+\frac{h}{2}\right) - g\left(x-\frac{h}{2}\right)}{h}$ | $\bigO(h^2)$ si $g \in C^3$ |
+
+Las acotaciones del error se obtienen utilizando el Teorema de Taylor. Recordemos que en la ecuación de Poisson aparece $u_{xx} = \frac{d^2 u}{dx^2}$.
+
+Para derivadas segundas hacemos lo siguiente, utilizando diferencias centradas:
+
+$$
+\begin{aligned}
+    \frac{d^2 u}{dx^2}(x) = \frac{d}{dx} \left( \frac{d u}{dx} \right)(x)
+    &\approx \frac{ \frac{d u}{dx} \left(x+\frac{h}{2}\right) - \frac{d u}{dx}\left(x-\frac{h}{2}\right)}{h} \\
+    &\approx \dfrac{ \dfrac{ u\left(x+\frac{h}{2} + \frac{h}{2}\right) - u\left(x+\frac{h}{2} - \frac{h}{2}\right)}{h}
+    - \dfrac{ u\left(x-\frac{h}{2} + \frac{h}{2}\right) - u\left(x-\frac{h}{2} - \frac{h}{2}\right)}{h}}{h} \\
+    &= \dfrac{ \dfrac{ u(x+h) - u(x)}{h} - \dfrac{ u(x) - u(x-h)}{h}}{h} \\
+    &= \frac{ u(x+h) - 2 u(x) + u(x-h)}{h^2}
+\end{aligned}
+$$
+
+Para esta aproximación de la derivada segunda tenemos el siguiente resultado:
+
+::: {.callout-warning #prop-6.1 icon="false"}
+## Proposición 6.1
+
+Si $u \in C^4$, entonces
+$$
+    \frac{d^2 u}{dx^2}(x) = \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} + \bigO(h^2).
+$$
+
+Más precisamente, si $M_4 = \max_{[x-h,x+h]} | u^{IV} |$, entonces
+$$
+    \left| \frac{d^2 u}{dx^2}(x) - \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \right| \le \frac{M_4}{12} h^2.
+$$ {#eq-cota.error.dif.finitas}
+
+**Demostración.**
+
+Observemos que por el teorema de Taylor, como $u \in C^4$, resulta
+$$
+\begin{aligned}
+    u(x+h) &= u(x) + h u'(x) + \frac{h^2}{2} u''(x) + \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_1), \\
+    u(x-h) &= u(x) - h u'(x) + \frac{h^2}{2} u''(x) - \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_2),
+\end{aligned}
+$$
+
+con $x-h < \xi_2 < x < \xi_1 < x+h$. Luego, sumando ambas igualdades, obtenemos
+$$
+    u(x+h) - 2 u(x) + u(x-h) = h^2 u''(x) + \frac{h^4}{12} \frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2}.
+$$
+
+Como $u^{IV}$ es continua, $\frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2} = u^{IV}(\eta)$ para algún $x-h < \eta < x+h$, y luego
+$$
+    \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} = u''(x) + \frac{h^2}{12} u^{IV}(\eta),
+$$
+que implica la afirmación de la proposición.
+:::
+
+Proponemos los siguientes ejercicios para comprender estos conceptos relacionados al error de aproximación en las derivadas.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio 1
+
+::: {}
+Considere la función $u(x) = \frac{\text{sen}(x)}{x}$ y $x_0=1$. Complete la siguiente tabla con las aproximaciones de $u'(x_0)$ obtenidas utilizando diferencias adelantadas, diferencias atrasadas y diferencias centradas, y sus respectivos errores.
+
+|$h$| $\dfrac{u(x_0+h)-u(x_0)}h$ | $\quad$ error $\quad$| $\dfrac{u(x_0) - u(x_0-h)}h$ | $\quad$ error $\quad$ |$\dfrac{u(x_0+ h) - u(x_0- h)}{2h}$ |$\quad$ error $\quad$|
+|:---|---|---|---|---|---|---|
+|1/10   | | | | | | |
+|1/20   | | | | | | |
+|1/40   | | | | | | |
+|1/80   | | | | | | |
+|1/160  | | | | | | |
+|1/320  | | | | | | |
+|1/640  | | | | | | |
+|1/1280 | | | | | | |
+
+
+1. Determine en qué factor se reduce el error de aproximación en cada caso cuando $h$ se divide a la mitad.
+
+2. Determine el orden de convergencia de los tres métodos propuestos en términos de $h$.
+
+3. Observando la tabla, determine el valor de $h$ necesario en cada caso para obtener el valor $u'(x_0)$ con tres dígitos correctos.
+
+4. Observando la tabla, determine cuántos dígitos correctos de $u'(x_0)$ se obtienen con cada método usando $h=1/1280$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio 2
+
+::: {}
+Se tomaron mediciones de la posición de un automóvil en una ruta durante una hora cada cinco minutos, y las mismas se reportan en el archivo `posicion_automovil.txt` (ver [TP6](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111){target="_blank"} en el aula virtual). El tiempo está expresado en min y la posición en km.
+
+1. Determine la velocidad del automóvil en km/h a la media hora y estime la precisión de su cálculo.
+
+2. ¿Cómo cambiaría la calidad de su aproximación si las mediciones se hubieran tomado cada diez minutos?
+
+3. Determine la velocidad máxima en km/h y en qué momento se da. ¿Cuál es la precisión de su estimación?
+
+4. Determine la aceleración del automóvil en $\text{km/h}^2$ a la media hora y estime la precisión de su cálculo.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+
+En vista de la [Proposición 6.1](#prop-6.1){.xref-quarto}, si $u$ es la solución de ([6.1](#prop-6.1){.xref-quarto}), resulta
+$$
+    - K_0 \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \approx Q(x),
+$$
+
+siempre que $x-h, x, x+h \in [0,L]$, es decir, si $h \le x \le L-h$. El error de aproximación en esta fórmula es $\bigO(h^2)$.
+
+Para obtener un método numérico, tomamos $N \in \mathbb{N}$ y $h = \frac{L}{N}$, y definimos la partición
+
+$$
+    0 = x_1 < x_2 = h < x_3 = 2h < \dots < x_N = L - h < x_{N+1} = L.
+$$
+
+Si observamos que $x_i - h = x_{i-1}$ y que $x_i + h = x_{i+1}$, resulta
+$$
+    -K_0 \frac{u(x_i+h) - 2 u(x_i) + u(x_i-h)}{h^2} =
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} \approx Q(x_i)
+$$
+
+para $i = 2, 3, 4, \dots, N$. Además, $u(x_1) = a$ y $u(x_{N+1}) = b$.
+
+Resumiendo,
+$$
+\begin{cases}
+\begin{aligned}
+    u(x_1) &= a, \\
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} &\approx Q(x_i), \qquad i=2,3,\dots,N, \\
+    u(x_{N+1}) &= b.
+\end{aligned}
+\end{cases}
+$$
+
+La idea es entonces definir aproximaciones $U_i \approx u(x_i)$ que cumplan las fórmulas anteriores *con igualdad*, es decir
+
+$$
+\begin{cases}
+\begin{aligned}
+    U_1 &= a, \\
+    -K_0 \frac{ U_{i+1}  -2 U_i + U_{i-1}}{h^2} &= Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$
+
+Multiplicando por $\frac{h^2}{K_0}$ llegamos al siguiente sistema de ecuaciones:
+$$
+\begin{cases}
+\begin{aligned}
+    U_1 &= a, \\
+    - U_{i-1} + 2 U_i - U_{i+1} &= \frac {h^2}{K_0} Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$
+
+Este sistema de ecuaciones tiene $N+1$ ecuaciones y $N+1$ incógnitas $U_1, U_2, \dots, U_{N+1}$.
+
+El mismo, puede reescribirse de la siguiente manera:
+$$
+\begin{cases}
+\begin{aligned}
+    &U_1 &  &= a \\
+    -&U_1 + 2 U_2 - U_3&  &= \frac{h^2}{K_0} Q(x_2) \\
+    &\quad - U_2 + 2 U_3 - U_4&  &= \frac{h^2}{K_0} Q(x_3) \\
+    & \qquad \qquad  \qquad \qquad \ddots  & & \quad \vdots \\
+    & &\hspace{-1cm} - U_{N-1} + 2 U_{N} - U_{N+1} &= \frac{h^2}{K_0} Q(x_N) \\
+    & & U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$ {#eq-sist.ec.dif.finitas}
+
+En forma matricial resulta
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -1 & 2 & -1 & 0 & \dots  & 0 \\
+    0 & -1 & 2  & -1 & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -1 & 2    & -1 \\
+    0 & 0 & \dots & \dots & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots \\ U_N \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q(x_2) \\ \frac{h^2}{K_0} Q(x_3) \\ \vdots \\ \frac{h^2}{K_0} Q(x_N) \\  b
+\end{bmatrix}
+.
+$$ {#eq-matriz.dif.finitas}
+
+He aquí una implementación computacional en Python, que consiste en escribir un programa que ensamble el sistema y lo resuelva:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissondirichletdf1d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+# Programa para resolver la ecuación de Poisson 1D
+# con condiciones de Dirichlet en x=0 y x=L.
+# Método: Diferencias finitas
+#
+#  - K0 u''(x) = Q(x),   0 < x < L
+#  u(0) = a,   u(L) = b
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+K0 = 1.0  # Coeficiente de difusión
+a = 2.0   # Condición de Dirichlet en x=0
+b = -3.0  # Condición de Dirichlet en x=L
+Q = lambda x: 100 * np.exp(-20 * (x - L/3)**2)  # Término fuente
+
+# Parámetros del método numérico
+N = 30  # Número de intervalos
+
+# Armado de la matriz
+h = L / N  # Tamaño del paso
+unos = np.ones(N + 1)  # Vector de unos
+diagonales = np.array([-1 * unos, 2 * unos, -1 * unos])
+matriz = spdiags(diagonales, [-1, 0, 1], N + 1, N + 1).toarray()
+matriz[0, :2] = [1, 0]
+matriz[N, N-1:N+1] = [0, 1]
+
+# Armado del lado derecho
+X = np.linspace(0, L, N + 1)
+F = np.zeros(N + 1)
+F[0] = a
+F[1:N] = h**2 / K0 * Q(X[1:N])
+F[N] = b
+
+# Resolución del sistema
+U = np.linalg.solve(matriz, F)
+
+# Graficar la solución
+plt.figure(1)
+plt.plot(X, U, '*-', color='blue')
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.grid(True)
+plt.show()
+```
+
+Lo que puede demostrarse, a partir del error cometido por la fórmula en diferencias -@eq-cota.error.dif.finitas es que
+
+:::: {.callout-warning icon="false"}
+## Error máximo de diferencias finitas (1D) para el Problema de Poisson
+
+::: {#thm-error.poisson.dir1D}
+Si la solución exacta $u(x)$ del Problema de Poisson
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    u(L) &= b.
+\end{aligned}
+\end{cases}
+$$
+
+es $C^4[0,L]$ entonces
+$$
+\max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2  = C M_4 L^2 \frac{1}{N^2},
+$$
+
+donde $M_4 = \max_{[0,L]} |u^{IV}|$ y $C$ es una constante que depende
+de los parámetros $K_0$, $L$, de la ecuación, pero es independiente de la función $Q(x)$, y de los datos de borde $a$, $b$ y del parámetro de discretización $h$ (o $N$).
+:::
+
+**Demostración**
+
+La demostración de este teorema queda fuera del alcance de este curso. El lector interesado puede encontrarla en el libro recomendado en la Bibliografía al final de este capítulo.
+::::
+
+**Observación:**
+Cuando uno escribe un programa como el anterior para resolver un problema, debe verificar que funcione bien. Para ello, se busca una solución exacta. Esto parece difícil, pero es cuestión de elegir una $u(x)$ cualquiera, que sea $C^4[0,L]$ aunque no sea muy obvia, como lineal o cuadrática y luego, dado un $k$ elegido, se calcula $f(x)$, $u(0)$ y $u(L)$.
+
+Por ejemplo: Tomemos $L=1$, $K_0=2$ y $u(x) = x^2 + e^{-(x-0.5)^2}$.
+Para que esta $u$ sea solución de -@eq-cond.borde.dirichlet, calculamos
+$Q = -K_0 u_{xx}$:
+$$
+u_x(x) = 2x - 2(x-0.5)e^{-(x-0.5)^2}
+, \qquad
+u_{xx}(x) = 2 - 2[1-2(x-0.5)^2] e^{-(x-0.5)^2}
+$$
+
+Luego, resolvemos el problema con
+$$
+\begin{aligned}
+    Q(x) &= -4+4[1-2(x-0.5)^2] e^{-(x-0.5)^2} & &\bigg(=-K_0 u_{xx}(x) \quad\text{con}\quad K_0=2\bigg) \\
+    a &= e^{-0.5^2} & &\bigg( =u(0) \bigg)  \\
+    b &= 1 + e^{-0.5^2} & &\bigg( =u(1) \quad\text{con}\quad L=1\bigg)  
+\end{aligned}
+$$
+
+y deberíamos obtener una solución aproximada a $u(x) = x^2 + e^{-(x-0.5)^2}$.
+
+Para estar seguros que el código está bien programado, debemos verificar que cuando tomamos $h$ más pequeño, el error máximo se reduce como $C h^2$. Es decir, cada vez que tomamos $h$ igual a la mitad de un $h$ anterior, el error debe reducirse por un factor $1/4$. Puede intentar resolverlo con Python:
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Estacionario Dirichlet 1
+
+::: {}
+Consideremos el siguiente problema:
+$$
+\begin{cases}
+\begin{aligned}
+    - u_{xx} &= 20 e^{-10(x-0.7)^2}, \quad 0 \le x \le 1, \\
+    u(0) &= 5, \\
+    u(1) &= 6.
+\end{aligned}
+\end{cases}
+$$
+
+Grafique la solución $u(x)$ y calcule $u(1/2)$ con un error absoluto menor a $10^{-3}$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Estacionario Dirichlet 2
+
+::: {}
+Escriba la ecuación diferencial y las condiciones de borde que satisface el estado estacionario $u(x)$ hallado en el item `b)` del Ejercicio 7 (6) del TP5, considerando $L=2$, $K_0=\tfrac12$ y $T=10$. Resuelva dicho problema con el método de diferencias finitas y complete la siguiente tabla:
+
+|$N$|$h$| $E_N$ | $\frac{E_{N/2}}{E_N}$ |
+|-|-|-|-|
+|10| | | |
+|20| | | |
+|40| | | |
+|80| | | |
+|160| | | |
+|320| | | |
+|640| | | |
+|1280| | | |
+
+Aquí, el error con $N$ subintervalos es $E_N= \max\limits_{1\le i \le N+1} |u(x_i)-U_i|$ y $h$ es la longitud de cada subintervalo. Verificar que el factor de reducción del error al duplicar la cantidad de subintervalos es el esperado.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
