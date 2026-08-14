@@ -1,12 +1,9 @@
 name: Publicar Apunte en GitHub Pages
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main # Se ejecuta automáticamente al hacer push o merge a la rama principal
-
-permissions:
-  contents: write # Permiso crucial para que la acción pueda escribir y actualizar la rama gh-pages
+    branches: main # Se ejecuta automáticamente al hacer push o merge a la rama principal
 
 # Fuerza a que todas las acciones se ejecuten bajo el motor de Node 24 de manera inmediata
 env:
@@ -15,26 +12,28 @@ env:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permiso crucial para que la acción pueda escribir y actualizar la rama gh-pages
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 1. Configuración de Python y sus dependencias científicas
+      # Configuración de Python y sus dependencias científicas
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11' # Sincronizado con su entorno de desarrollo
+          cache: 'pip'
 
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Instalamos dependencias científicas y el entorno de ejecución de Jupyter
-          pip install pandas numpy jinja2 jupyter ipykernel
+          pip install jupyter
+          pip install -r requirements.txt
           # Registramos de forma explícita el kernel python3 en el runner de GitHub
           python -m ipykernel install --user
 
-      # # 2. Configuración de R y los paquetes del motor de renderizado (knitr)
+      # # Configuración de R y los paquetes del motor de renderizado (knitr)
       # - name: Set up R
       #   uses: r-lib/actions/setup-r@v2
       #   with:
@@ -45,13 +44,13 @@ jobs:
       #     install.packages(c("knitr", "rmarkdown", "reticulate"), repos = "https://cloud.r-project.org")
       #   shell: Rscript {0}
 
-      # 3. Configuración de Quarto CLI
+      # Configuración de Quarto CLI
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
           version: 1.8.27 # Su versión de Quarto para evitar discrepancias de compilación
 
-      # 4. Renderizado y despliegue automático en la rama gh-pages
+      # Renderizado y despliegue automático en la rama gh-pages
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
