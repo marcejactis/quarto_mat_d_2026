@@ -440,3 +440,246 @@ Aquí, el error con $N$ subintervalos es $E_N= \max\limits_{1\le i \le N+1} |u(x
 
 ```
 ::::
+
+
+### Otras Condiciones de Borde
+
+En esta sección consideramos en el extremo derecho $x=L$ una condición de borde diferente, que contiene a la de tipo Neumann y de tipo Robin.
+
+Consideremos el problema -@eq-cond.borde.robin
+
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    K_0 u'(L) + H_1 u(L) &= H_2 u_E.
+\end{aligned}
+\end{cases}
+$$ {#eq-cond.borde.robin}
+
+Aquí los datos del problema son: $K_0$, $L$, $Q(x)$, $a$, $H_1$, $H_2$ y $u_E$.
+
+::: {.callout-note appearance="simple"}
+Notar que la condición de borde que aparece aquí sirve para resolver problemas con *flujo prescripto* (considerando  $H1=0$) y también con *ley de enfriamiento de Newton* (considerando $H_1=H_2$).
+:::
+
+La diferencia esencial entre este problema y el tratado en la sección anterior radica en la derivada $u'(L)$ que aparece en la condición de borde.
+
+Para no perder precisión en el método, y mantener un error de orden $\bigO(h^2)$, usaremos una diferencia centrada para la derivada:
+$$
+    u'(L) \approx \frac{u(L+h) - u(L-h)}{2h}.
+$$
+
+Notamos que $x_{N+2} = L+h$ es un punto que cae fuera del dominio $[0,L]$ y por eso lo llamamos *nodo ficticio*.
+
+La condición del borde derecho de -@eq-cond.borde.robin se reemplaza entonces por la ecuación discreta
+$$
+    K_0 \frac{U_{N+2} - U_N}{2h} + H_1 U_{N+1} = H_2 u_E
+$$ {#eq-borde.derecho.robin.discreto}
+
+la cual, multiplicando por $\frac{2h}{K_0}$ y reordenando, transformamos en
+
+$$
+    - U_N  +\frac{2h H_1}{K_0}U_{N+1}+U_{N+2} = \frac{2h H_2}{K_0}u_E.
+$$
+
+Observamos que en esta ecuación aparece una nueva incógnita, $U_{N+2}$, aunque seguimos teniendo $N+1$ ecuaciones.
+
+Para arreglar eso, consideremos a $x_{N+1}=L$ como un *nodo interior* : se cumple entonces la ecuación diferencial $-K_0 u''(x) = Q$ en $x=x_{N+1} = L$. Por lo tanto, podemos pedir que $U_{N}$, $U_{N+1}$ y $U_{N+2}$ satisfagan
+$$
+    - U_{N} + 2 U_{N+1} - U_{N+2} = \frac {h^2}{K_0} Q(x_{N+1}).
+$$
+
+Si sumamos esta última ecuación con -@eq-borde.derecho.robin.discreto, obtenemos una nueva ecuación donde la incógnita $U_{N+2}$, correspondiente al *nodo ficticio* $x_{N+2}$, ha desaparecido:
+
+$$
+    -2 U_{N} + \left(2+\frac{2h H_1}{K_0}\right) U_{N+1}  = \frac {h^2}{K_0} Q(x_{N+1})+\frac{2h H_2}{K_0}u_E.
+$$
+
+Si dividimos esta ecuación por 2 y la colocamos en lugar de $U_{N+1}=b$ en el último renglón de -@eq-matriz.dif.finitas, obtenemos un nuevo sistema, considerando ahora una condición de borde tipo Robin en el extremo derecho:
+$$
+\begin{cases}
+\begin{aligned}
+    &U_1&  &=  a \\
+    -&U_1 + 2 U_2 - U_3&  &= \frac{h^2}{K_0} Q_2 \\
+    &\quad - U_2 + 2 U_3 - U_4&  &= \frac{h^2}{K_0} Q_3 \\
+    & \qquad \qquad\qquad \ddots & & \quad \vdots \\
+    & &- U_{N-1} + 2 U_{N} \qquad\qquad  - U_{N+1} &= \frac{h^2}{K_0} Q_N \\
+    & & - U_{N} +(1+\frac{h H_1}{K_0}) U_{N+1} &= \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E,
+\end{aligned}
+\end{cases}
+$$
+
+donde denotamos $Q_i=Q(x_i)$, para $i=2, \dots, N+1$.
+De forma matricial, el sistema se escribe de la siguiente manera:
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -1 & 2 & -1 & 0 & \dots  & 0 \\
+    0 & -1 & 2  & -1 & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -1 & 2    & -1 \\
+    0 & \dots & 0 & 0 & -1 & 1+\frac{hH_1}{K_0}
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots  \\ U_{N} \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q_2 \\ \frac{h^2}{K_0} Q_3 \\ \vdots  \\  \frac{h^2}{K_0} Q_N\\   \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E
+\end{bmatrix}
+.
+$$
+
+La implementación computacional consiste en escribir un programa que ensamble el sistema y lo resuelva. A continuación mostramos un programa en Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissonrobindf1d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+# Programa para resolver la ecuacion de Poisson
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Metodo: Diferencias finitas
+
+L = 1.0
+K0 = 1.0
+a = 2.0
+H1 = 20.0
+H2 = 1.0
+uE = 0.0
+Q = lambda x: 100 * np.exp(-20 * (x - 0.3)**2)
+# Q = lambda x: 100 * (x > 0.7)
+
+# Parametros del metodo de resolucion
+N = 30  # Numero de intervalos
+
+# Armado de la matriz
+h = L / N
+unos = np.ones(N + 2)
+diagonales = np.array([-1 * unos, 2 * unos, -1 * unos])
+matriz = spdiags(diagonales, [-1, 0, 1], N + 1, N + 1).toarray()
+matriz[0, :2] = [1, 0]
+matriz[N, N] = 1 + h * H1/K0
+
+# Armado del lado derecho
+X = np.linspace(0, L, N + 1)
+F = np.zeros(N + 1)
+F[0] = a
+F[1:N] = h**2 / K0 * Q(X[1:N])
+F[N] = h**2 / K0 * Q(X[N]) / 2 + h * H2 * uE / K0
+
+# Resolucion
+U = np.linalg.solve(matriz, F)
+
+# Plot the solution
+plt.figure(1)
+plt.plot(X, U, 'm-')
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.grid(True)
+plt.show()
+```
+
+También para este problema se tiene un resultado de estimación del error, cuya demostración escapa al alcance de este curso:
+
+:::: {.callout-warning icon="false"}
+::: {#thm-error_poisson_rob1D}
+Si la solución exacta $u(x)$ de -@eq-matriz.dif.finitas es $C^4[0,L]$ entonces
+$$
+    \max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2 = CM_4 \frac{L^2}{N^2},
+$$
+
+donde $M_4 = \max_{[0,L]} |u^{IV}|$ y $C$ es una constante que depende de los parámetros $k$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x)$, del dato $u_E$ y del parámetro de discretización $h$.
+:::
+::::
+
+### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Estacionario Robin 1
+
+::: {}
+Considere el método de diferencias finitas para resolver los siguientes problemas:
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &= 0 \\
+    u'(1) &= 0.
+\end{aligned}
+\end{cases}
+\qquad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &= 0 \\
+    u'(1) &= -u(1).
+\end{aligned}
+\end{cases}
+$$
+
+Grafique las soluciones de ambos problemas.	¿Se anima a dar una interpretación física de las soluciones obtenidas? Recuerde que la ecuación estudiada corresponde al estado estacionario de la ecuación de difusión.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Estacionario Robin 2 (con Reacción)
+
+::: {}
+Considere el siguiente problema de difusión-reacción:
+$$
+\begin{cases}
+\begin{aligned}
+    - u_{xx} + 5 u &= 100 x (1-x), \quad 0 \le x \le 1, \\
+    u(0) &= 0, \\
+    u'(1) &= 0.
+\end{aligned}
+\end{cases}
+$$
+
+Grafique la solución $u(x)$ y calcule $u(1/2)$ con un error absoluto menor a $10^{-3}$.
+
+*Sugerencia:* Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de Poisson incorporando adecuadamente el término de reacción. Note que en general el problema es de la forma:
+$$
+\begin{cases}
+\begin{aligned}
+    - K_0 \, u_{xx} + c_R \, u &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    K_0 u'(L) + H_1 u(L) &= H_2 u_E.
+\end{aligned}
+\end{cases}
+$$
+
+donde $c_R>0$ es la constante de reacción.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
