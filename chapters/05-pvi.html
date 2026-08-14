@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-6a59748c55ec1a6818b05d9630b85713.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-20aec94cf2230619e57bb2a03c4acc19.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-6a59748c55ec1a6818b05d9630b85713.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-c518ba0b0af8cc7a6250b22ba0b466a2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -576,7 +576,7 @@ y(t+h) \approx y(t) + h f(t,y(t)).
 \end{aligned}
 \]</span></p>
 <p>De esta manera se obtienen <span class="math inline">\(L+1\)</span> números <span class="math inline">\(Y_1, Y_2, Y_3, \cdots, Y_{L+1}\)</span> que se espera aproximen a <span class="math inline">\(y(t_1), y(t_2), y(t_3), \cdots, y(t_{L+1})\)</span>.</p>
-<div id="5e6e0f28" class="cell" title="Solución por el método de Euler a distintos L" data-execution_count="2">
+<div id="ee58123d" class="cell" title="Solución por el método de Euler a distintos L" data-execution_count="1">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -639,14 +639,14 @@ y(t+h) \approx y(t) + h f(t,y(t)).
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="05-pvi_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="758" height="374"></p>
+<p><img src="05-pvi_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="759" height="374"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>En las gráficas podemos observar la solución obtenida y la exacta para el ejemplo que venimos trabajando, con <span class="math inline">\(L=10\)</span> y <span class="math inline">\(L=20\)</span> sobre el intervalo <span class="math inline">\([0,4]\)</span>. Vemos en particular como al duplicar la cantidad de intervalos, la solución obtenida se aproxima más a la exacta.</p>
 <p>A continuación se define la función <code>euler1</code> que tiene una implementación del método de Euler.</p>
-<div id="24483747" class="cell" data-execution_count="3">
+<div id="472793f4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> euler1(f, inter, y0, L):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Euler para resolver</span></span>
@@ -1087,7 +1087,7 @@ y(0) = \begin{bmatrix} \varphi_0 \\ v_0 \end{bmatrix}.
 <li><code>t</code>: Debe ser un vector columna de <code>L+1</code> componentes.</li>
 <li><code>y</code>: Debe ser una matriz de <code>L+1</code> filas y <code>n</code> columnas. La <code>i</code>-ésima fila debe contener el estado <code>y</code> a tiempo <code>t(i)</code>.</li>
 </ul>
-<div id="e0234b8a" class="cell" data-execution_count="4">
+<div id="4344ad88" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> euler(f, inter, y0, L):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Euler para resolver</span></span>
@@ -1317,7 +1317,7 @@ a = \frac12, \quad b = \frac12, \quad \alpha = 1, %\quad \beta = 1,
 <p><span class="center">¡¡Los métodos de orden superior son mucho más eficientes!!</span></p>
 <p>Claro, cada vez que duplicamos <span class="math inline">\(L\)</span>, el error por el método de Euler se reduce a la mitad, en cambio el error por el método RK2 se reduce por 4 y el error por RK4 se reduce por 16.</p>
 <p>A continuación se definen las funciones <code>rk2</code> y <code>rk4</code> en las cuales se implementan los métodos de Runge-Kutta de orden 2 y 4 respectivamente.</p>
-<div id="6da97367" class="cell" data-execution_count="5">
+<div id="6dc5f9da" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rk2(f, inter, y0, L):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Runge Kutta de orden 2 para resolver</span></span>
@@ -1337,7 +1337,7 @@ a = \frac12, \quad b = \frac12, \quad \alpha = 1, %\quad \beta = 1,
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      y[:, n <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> y[:, n] <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> (k1<span class="op">+</span>k2)</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> t, y.T</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="181163e8" class="cell" data-execution_count="6">
+<div id="1c827431" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> rk4(f, inter, y0, L):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">  Método de Runge Kutta de orden 4 para resolver</span></span>
