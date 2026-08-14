@@ -1,5 +1,64 @@
 # Notación utilizada en el proyecto
 
+## Consideraciones sobre entornos latex
+Para abrir un entorno matemático *en línea*, procurar hacerlo con signo peso simple pegados a la ecuación; por ejemplo, `$e^{i\pi} + 1 = 0$`.
+
+**Evitar!!**
+
+* `$ \cos(x)$`
+* `$ \cos(x) $`
+* `$\cos(x) $`
+
+Para abrir un entorno matemático *en bloque*, es menéster abrir y cerrar con doble signo `$`, y escribir la ecuación entre medio de la siguiente manera:
+```latex
+$$
+    \cos^2(x) + \sin^2(x) = 1
+$$
+```
+
+o, en su defecto:
+```latex
+$$
+\cos^2(x) + \sin^2(x) = 1
+$$
+```
+
+**Evitar!!**
+
+* `$$\cos^2(x) + \sin^2(x) = 1$$` (en línea)
+* `$$ \cos^2(x) + \sin^2(x) = 1 $$` (en línea con espacios)
+* ```latex
+    $$\cos^2(x) + \sin^2(x) = 1
+    $$``` (en bloque, mal escrito)
+
+### Entornos matemáticos especiales
+Para trabajar de forma cómoda en quarto, es preferible usar entornos que sean compatibles de usar dentro dentro de un entorno matemático (es decir, entre `$$`), ya que permite la previsualización desde el editor de código (se asume el uso de VS Code).
+
+Cuando se desee escribir ecuaciones alineadas, pero sin numerar, evitar el uso del entorno `align*` dentro de un entorno matemático (eso daría **error**); en su lugar, usar el entorno `aligned` dentro de un entorno matemático:
+```latex
+$$
+\begin{aligned}
+    \cos(x) &= \sqrt{1 - \sin^2(x)} \\
+    &= \frac{1 + \cos(2x)}{2}
+\end{aligned}
+$$
+```
+
+Cuando se desee escribir un sistema de ecuaciones con una llave detrás, usar el entorno `cases` en combinación con `aligned` dentro de un entorno matemático:
+```latex
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    u(L) &= b.
+\end{aligned}
+\end{cases}
+$$
+```
+
+
+
 ## Div y Span, estructuras base
 En quarto, se trabaja mucho con:
 - divs: Se abren y cierran con `:::`
