@@ -563,7 +563,7 @@ p0 = 0.4  # Punto inicial
 n_iterations = 10  # Número de iteraciones
 ```
 
-::: {.center_output}
+::: {.center-output}
 ```{python}
 #| fig-align: center
 #| code-fold: true
@@ -679,7 +679,7 @@ p0 = 1.1  # Punto inicial
 n_iterations = 10  # Número de iteraciones
 ```
 
-::: {.center_output}
+::: {.center-output}
 ```{python}
 #| fig-align: center
 #| code-fold: true
