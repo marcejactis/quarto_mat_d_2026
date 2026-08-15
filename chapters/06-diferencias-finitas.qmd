@@ -941,7 +941,7 @@ Vemos que no queda $U_i^{j+1}$ *despejada* sola a la izquierda, sino que queda r
 
 Por lo tanto, en cada paso de tiempo deberemos resolver un *sistema de ecuaciones*. Esto es un poco más costoso computacionalmente que lo que se hace en el caso *explícito*, pero se gana en estabilidad.
 
-::: {.center .callout-note appearance="simple"}
+::: {.callout-note appearance="simple"}
 El método implícito resulta estable para cualquier $\Delta t > 0$.
 :::
 
@@ -1420,3 +1420,239 @@ $$
 Esto resulta en un sistema de $(N+1)^2$ ecuaciones con $(N+1)^2$ incógnitas, que debe ser resuelto en cada paso de tiempo. Es decir, para $n=1,2,\dots$.
 
 Sin decirlo explícitamente, hemos supuesto que la condición inicial viene dada por $U^0_{i,j} = u_0(x_i,y_j)$.
+
+
+## Ejercicios Adicionales ✍
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Adicional 1
+
+::: {}
+Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud $L=1$ cuya sección transversal tiene un área $A=0.05$. Suponga que la temperatura en el extremo izquierdo está dada por $u(0,t) = \frac12+\frac34 e^{-\frac{\pi}{2}t}\sin(\frac{5\pi}{4}t)$ y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son $c=1$, $\rho =1$ y $K_0=\frac12$. Se sabe que inicialmente toda la barra se encuentra a una temperatura $\frac12$ y que no hay fuentes. Considere la resolución de este problema durante el primer segundo mediante el método de diferencias finitas implícito con $N= 40$ y $\lambda = 4$.
+
+1. Grafique la evolución del flujo en el extremo izquierdo de la barra $A\phi(0,t)$ durante el primer segundo y determinar los subintervalos de tiempo en donde el mismo es saliente y en donde es entrante.
+
+2. Calcule y grafique la energía térmica total de la barra $E(t)$ en cada uno de los instantes de tiempo $t$ que se usaron, utilizando la regla de Simpson compuesta. Calcule el polinomio $p(t)$ de grado $8$ que aproxima los puntos $(t,E(t))$ en el sentido de cuadrados mínimos y reporte el error cuadrático correspondiente al ajuste.  
+
+3. Utilice el ajuste realizado en el item anterior para calcular la máxima tasa de crecimiento de la energía total en la barra y diga aproximadamente en qué momento ocurre. Explique cómo obtuvo los resultados.
+
+4. ¿Qué relación debería haber entre $E'(t)$ y $A\phi(0,t)$? Justifique y verifique su respuesta.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 2
+
+::: {}
+Una barra de cobre homogénea de $5$ cm de largo y $0.1$ cm$^2$ de sección transversal se somete a un estudio de difusión de calor. Se conocen las
+propiedades de dicho material: calor específico $0.092$ $\mathrm{cal}/(\mathrm{g}\,^\circ \mathrm{C})$, densidad $8.96$ $\mathrm{g}/\mathrm{cm}^3$ y $K_0=0.9$ $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm} \,^\circ \mathrm{C})$. Inicialmente la barra se encuentra a una temperatura de $6\,^\circ \mathrm{C}$ y su superficie está aislada, salvo quizás en sus extremos. El extremo izquierdo
+de la barra se somete a una temperatura variable $\displaystyle a(t)=\frac{6}{1+t^2}$ y en el extremo derecho rige la ley de enfriamiento de Newton donde $H=15$ $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{2} \,^\circ \mathrm{C})$ es el coeficiente transferencia de calor y $u_E(t)=4\,^\circ \mathrm{C}$ es la temperatura exterior. En la barra actúa una fuente de calor $Q(x,t)=25e^{-15(x-0.5)^2}e^{-7.5t}$ medida en $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{3})$.
+
+1. Plantee la ecuación diferencial que gobierna la distribución de temperatura de la barra de cobre, indicando tanto las condiciones de borde como la condición inicial.
+
+2. Determine el tiempo en el cual toda la barra se encuentra por debajo de los $6\,^\circ \mathrm{C}$.
+
+3. Determinar la mínima energía térmica total del sistema y en qué momento ocurre.
+
+4. ¿Existe un estado estacionario en este proceso? En caso afirmativo, encuéntrelo; y en caso negativo, explique por qué no existe. En cualquier caso relacione su resultado con el item anterior.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 3
+
+::: {}
+Una barra de aluminio homogénea de $2\, \textrm{cm}$ de largo y $0.01\, \textrm{cm}^2$ de sección transversal se somete a un estudio de difusión de calor. Se conocen las propiedades de dicho material: calor específico $0.217\,\textrm{cal}/(\textrm{g}\,^\circ \textrm{C})$, densidad $2.7\,\textrm{g}/\textrm{cm}^3$ y conductividad térmica $0.57\,\textrm{cal}/(\textrm{s}\,\textrm{cm}\,^\circ\textrm{C})$. Inicialmente la barra se encuentra a una distribución de temperaturas dada por $u_0(x)=4+0.6x(x-4)$ medida en $^\circ \textrm{C}$ y su superficie está aislada, incluso en el borde derecho. El extremo izquierdo de la barra se somete a una temperatura variable $a(t)=4-18.8t \, e^{-3.8t}$. En la barra actúa una fuente de calor $Q(x,t)=225(t-0.1)e^{-125(x-1.1t)^2}e^{-25(t-0.1)^3}$ medida en $\textrm{cal}/(\textrm{s}\,\textrm{cm}^3)$.
+
+1. Plantear la ecuación diferencial que gobierna la distribución de temperatura de la barra de aluminio, indicando tanto las condiciones de borde como la condición inicial.
+
+2. Graficar la evolución del flujo en el extremo izquierdo de la barra durante los primeros 2 segundos y determine los intervalos donde el flujo es entrante, y donde es saliente.
+
+3. Determinar la cantidad de energía que fluye por el extremo izquierdo durante los primeros 2 segundos (flujo neto).
+
+4. Determinar la cantidad de energía que se genera (o se pierde) en la barra a causa de la fuente $Q$ durante los primeros 2 segundos.
+
+5. Determinar el cambio de la energía térmica total en la barra a los 2 segundos, explicando si es energía que el sistema ganó o perdió.  ¿Cómo se relaciona este resultado con los resultados de los dos ítems anteriores?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 4
+
+::: {}
+Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud $1$ cuya sección transversal tiene un área de $0.01$. Suponga que la temperatura en el extremo izquierdo es igual a cero durante todo el proceso y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son $c=1$, $\rho =1$ y $K_0=\frac12$. Se sabe que la barra inicialmente está a cero grados ($u_0(x)= 0$). Se activa la fuente interna $Q(x,t)$ cuyos valores están reportados en el archivo `energia_generada.txt` (ver [TP6](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111){target="_blank"} en el aula virtual) en 41 puntos equidistribuidos en la barra y medidos cada 0.005 segundos durante los primeros dos segundos.
+
+1. Determinar la mayor temperatura que se alcanza en el proceso y decir en qué punto y en qué momento ocurre.
+
+2. Graficar como evoluciona la temperatura en el punto medio de la barra a medida que transcurre el tiempo. Determinar la máxima temperatura que se alcanza en este punto y decir en qué instante ocurre.
+
+3. Graficar la energía térmica total $E(t)$ en funcién del tiempo $t$. Determinar cuál es la máxima energía del sistema y en qué momento se alcanza.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 5 (Difusión Reacción)
+
+::: {}
+Considere los siguientes problemas de difusión-reacción:
+
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + u &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= (1-x)^2, \ & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+$$
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + 5\,u &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= (1-x)^2, \quad& & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+Determine, en ambos casos, en qué instante de tiempo la temperatura en el extremo derecho es por primera vez mayor a $0.2$.
+
+*Sugerencia:* Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de difusión incorporando adecuadamente el término de reacción. Note que en general los problemas de difusión-reacción son de la forma:
+
+$$
+\begin{cases}
+\begin{aligned}
+	c \, \rho \, u_t - K_0 \, u_{xx} + c_R \, u &= Q(x,t),
+	\quad& & 0 \le x \le L,\quad t \ge 0, \\
+	u(0,t) &= a(t) & &t \ge 0,\\
+	K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), & &t \ge 0,\\
+	u(x,0) &= u_0(x), \ & & 0 \le x \le L,
+\end{aligned}
+\end{cases}
+$$
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 6 (Difusión Reacción no estacionario)
+
+::: {}
+Considere el siguiente problema de difusión-reacción (no estacionario) en una barra de longitud $L=1$:
+
+$$
+\begin{cases}
+\begin{aligned}
+	u_t - u_{xx} +  u &= Q(x,t), \quad 0 \le x \le 1, \\
+	u(0,t) &= 0, \\
+	u_x(1,t) &= 0, \\
+	u(x,0) &= -10x^2+20x,
+\end{aligned}
+\end{cases}
+$$
+
+donde $Q(x,t) = \begin{cases} 100, &\text{si } t < 2, \\ 0, &\text{si } t \ge 2. \end{cases}$
+
+1. Grafique la evolución de la temperatura durante el intervalo de tiempo entre $t=0$ y $t=4$, y describa lo que observa.
+
+2. Determine el instante de tiempo en que la temperatura en el punto medio es menor a 7.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 7 (Difusión Reacción)
+
+::: {}
+Considere el siguiente problema de difusión-reacción para una barra de longitud $L=2$:
+
+$$
+\begin{cases}
+\begin{aligned}
+	u_t -  u_{xx} + 4 u &= -(8x^{3}-16x^{2}+12x-8)e^{(x-1)^2}, \quad & & 0 \le x \le 2, \quad t \ge 0,\\
+	u(0,t)    &= e^{-5t}, & & t \ge 0,\\
+	-u_x(2,t) &= 0.5 (u(2,t) - 65.239) , & & t \ge 0,\\
+	u(x,0) &= 2xe^{(x-1)^2} + 4x+1, & & 0 \le x \le 2 .
+\end{aligned}
+\end{cases}
+$$
+
+1. Determine gráficamente la cantidad de puntos necesarios para hallar el estado estacionario utilizando el método de diferencias finitas. Justifique el resultado obtenido describiendo cómo hizo para obtenerlo.
+
+2. Determine el tiempo necesario para llegar al estado estacionario, considerando que este se alcanza cuando la temperatura en toda la barra difiere de la temperatura de equilibrio en no más de $0.05$ grados.
+	    
+3. Determine el tiempo para el cual la temperatura en todo punto de la barra es menor a 13 grados.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Bibliografía
+
+Si le interesa leer un poco más sobre los temas de este capítulo, le recomendamos el siguiente libro:
+
+- Larsson, S., Thomée, V., *Partial Differential Equations with Numerical Methods*, Springer, 2009.
