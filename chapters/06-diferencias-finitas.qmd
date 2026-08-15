@@ -1191,3 +1191,232 @@ A partir de estos cálculos, deduzca qué efecto tiene sobre la solución el cam
 
 ```
 ::::
+
+
+## Diferencias finitas en 2D {#sec-dif.finitas.en.2D}
+
+El método de diferencias finitas se extiende naturalmente a dominios bidimensionales de forma rectangular o que sean uniones finitas de rectángulos, y el análisis puede hacerse de manera similar. Lo complicado es numerar los nodos con un solo índice, y encontrar la manera automática de armar la matriz del sistema, pero pensando un poco es posible.
+
+Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio $\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2$
+
+$$
+\begin{aligned}
+    u_t- k ( u_{xx} + u_{yy} ) &= q, \qquad & &\text{en $\Omega$ para $t \ge 0$}, \\
+    u &= \alpha, \qquad & &\text{en $\partial\Omega$ para $t \ge 0$}, \\
+    u &= u_0, \qquad & &\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+$$
+
+
+### Estado estacionario (ecuación de Poisson) {#sec-estado.estac.poisson}
+
+Consideremos primero esta ecuación en estado estacionario, es decir, consideremos $u=u(x,y)$ y $u_t = 0$. Luego resulta la ecuación de Poisson, que consiste en hallar $u=u(x,y)$, $u:\Omega \to \mathbb{R}$ tal que
+
+$$
+\begin{aligned}
+    -k ( u_{xx}(x,y) + u_{yy}(x,y) ) &= q(x,y), \qquad& &\text{para $(x,y) \in \Omega$}, \\
+    %-\nabla^2 u + p(x,y) \cdot \nabla u + q(x,y) u &= g(x,y) , \qquad & &(x,y) \in \Omega, \\
+    u(x,y) &= \alpha(x,y), & &\text{para $(x,y) \in \partial\Omega$}.
+\end{aligned}
+$$ {#eq-poisson.estacionario}
+
+Dado $N\in\mathbb{N}$, definimos $h = 1/N$ y $x_i = ih$, $y_j= jh$ $i,j=0,1,\dots,N$, y resulta, denotando $u_{i,j} = u(x_i,y_j)$,
+
+$$
+\begin{aligned}
+    \nabla^2 u(x_i,y_j) &= \frac{\partial^2u}{\partial x^2}(x_i,y_j) + \frac{\partial^2u}{\partial y^2}(x_i,y_j) \\
+    &= \frac{u_{i+1,j} - 2 u_{i,j} + u_{i-1,j}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)
+    + \frac{u_{i,j+1} - 2 u_{i,j} + u_{i,j-1}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial y^4}(x_i,\eta_{i,j})
+    \\
+    &=\frac{ u_{i+1,j}  + u_{i,j+1} - 4 u_{i,j} + u_{i-1,j} + u_{i,j-1}}{h^2}
+    + \frac{h^2}{12} \left[ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)+ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(x_i,\eta_{i,j}) \right]
+\end{aligned}
+$$
+
+Por lo tanto, si la solución $u(x,y)$ de $(6.9)$ es $C^4$ en $\bar\Omega$, satisface
+
+$$
+\begin{aligned}
+    &k \frac{ -u_{i+1,j}  - u_{i,j+1} + 4 u_{i,j} - u_{i-1,j} - u_{i,j-1}}{h^2}
+    = q_{i,j} + \bigO(h^2)
+\end{aligned}
+$$
+
+para $i,j=1,2,\dots,N-1$. Aquí $q_{i,j}$  denota la evaluación de $q$ en $(x_i,y_j)$, respectivamente.
+
+A partir de estas expresiones, definimos $U_{i,j}$, aproximaciones de $u_{i,j}$ a través de las siguientes igualdades:
+
+$$
+\begin{aligned}
+    &k\frac{ -U_{i+1,j}  - U_{i,j+1} + 4 U_{i,j} - U_{i-1,j} - U_{i,j-1}}{h^2}
+    = q_{i,j} ,\quad
+    & &i,j=1,2,\dots,N-1, \\[6pt]
+    &U_{0,j} = \alpha(0,y_j), \quad U_{N,j} = \alpha(1,y_j), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0), \quad U_{i,N} = \alpha(x_i,1), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Esto resulta en un sistema de $(N+1)^2$ ecuaciones lineales con $(N+1)^2$ incógnitas.
+
+También aquí puede demostrarse que el sistema tiene solución única y además se cumple que
+
+$$
+    \max_{0\le i,j\le N} | u(x_i,y_j) - U_{i,j} | \le C h^2,
+$$
+
+con $C$ una constante que depende de derivadas de hasta orden cuatro de $u$. % y de los coeficientes $p(x,y)$, $q(x,y)$ de la EDP.
+
+::: {.callout-note appearance="simple"}
+## Observación
+
+Para implementarlo debemos numerar los nodos e incógnitas con un solo índice, por ejemplo $k = (i-1)(N+1) + j$. Al hacer esto, el sistema resulta con una matriz pentadiagonal en lugar de tridiagonal.
+:::
+
+A continuación mostramos un código ejemplo en Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissondirichletdf2d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+from scipy.sparse.linalg import spsolve
+import matplotlib.pyplot as plt
+
+
+# Método de diferencias finitas en 2D para resolver
+# el problema de Poisson en un cuadrado:
+#
+# - k (u_xx + u_yy) = q(x,y),    (x,y) en Omega = (0,L) x (0,L)
+#            u(x,y) = alfa(x,y), (x,y) en la frontera de Omega
+
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+k = 0.001
+q = lambda x, y: np.ones_like(x)
+alfa = lambda x, y: np.zeros_like(x)
+
+# Parámetros de la resolución
+N = 30
+
+# Resolución
+h = 1.0 / N  # Tamaño del paso
+xx = np.linspace(0, L, N + 1)  # Puntos en x
+yy = xx  # Puntos en y (mismo espaciado)
+x, y = np.meshgrid(xx, yy)  # Crear malla 2D
+x = x.T.flatten()  # Vectorizar x (transponer para orden correcto)
+y = y.T.flatten()  # Vectorizar y
+F = q(x, y)
+ALFA = alfa(x, y)
+
+
+diagonal_values = k * np.array([-1, -1, 4, -1, -1]) / h**2
+diagonales = np.tile(diagonal_values[:, np.newaxis], (1, (N + 1)**2))
+M = spdiags(diagonales, [N + 1, 1, 0, -1, -(N + 1)], (N + 1)**2, (N + 1)**2)
+M = M.T
+
+rhs = F
+
+# Corregir ecuaciones de los nodos del borde
+# Índices de los nodos en el borde: piso, techo, pared izq, pared der
+ind = np.concatenate([
+    np.arange(0, N + 1),
+    np.arange((N + 1)**2 - (N + 1), (N + 1)**2),
+    np.arange(N + 1, (N + 1)**2 - (N + 1), N + 1),
+    np.arange(2 * (N + 1), (N + 1) * N + 1, N + 1)
+])
+from scipy.sparse import lil_matrix
+M = lil_matrix(M)  # Convertir a formato LIL para modificar filas
+M[ind, :] = 0  # Poner ceros en filas de los nodos del borde
+for i in ind:
+    M[i, i] = 1  # Poner 1 en la diagonal para u = alfa
+M = M.tocsc()  # Convertir a CSC para spsolve
+rhs[ind] = ALFA[ind]  # Aplicar condición de contorno en el lado derecho
+
+# Resolver el sistema
+U = spsolve(M, rhs)
+
+# Transformar a matriz para graficar
+U = U.reshape(N + 1, N + 1)  # Convertir vector a matriz (N+1 x N+1)
+
+# Graficar la solución
+fig = plt.figure(1)
+ax = fig.add_subplot(111, projection='3d')
+X, Y = np.meshgrid(xx, yy)
+surf = ax.plot_surface(X, Y, U, cmap='viridis')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('u(x,y)')
+ax.set_title(f'N = {N}')
+plt.colorbar(surf)
+plt.show()
+```
+
+### Difusión no estacionaria en 2D {#sec-dif.no.estac.en.2D}
+
+En esta sección consideraremos el método implícito, análogo al visto en la @sec-dif.no.estac para difusión en 1D.
+Pero lo haremos de otra forma.
+Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio $\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2$
+
+$$
+\begin{aligned}
+u_t- k ( u_{xx} + u_{yy} ) &= q, \qquad & &\text{en $\Omega$ para $t \ge 0$}, \\
+u &= \alpha, \qquad & &\text{en $\partial\Omega$ para $t \ge 0$}, \\
+u &= u_0, \qquad & &\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+$$
+
+Una discretización de la variable tiempo utilizando un método de Euler implícito consiste en aproximar $u_t(x,y,t_{n})$ por $\frac{u(x,y_n, t) - u(x,y,t_{n-1})}{\Delta t}$, con algún $\Delta t>0$ pequeño. Si ahora $u^n$ denota la aproximación de $u$ en $t=t_n$ que resulta de reemplazar $u_t$ por esta fórmula, obtenemos:
+
+$$
+\begin{aligned}
+    \frac{u^n - u^{n-1}}{\Delta t}- k ( u^n_{xx} + u^n_{yy} ) &= q^n, \qquad & &\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &= \alpha^n, \qquad & &\text{en $\partial\Omega$ para $n \ge 1$}, \\
+    u^0 &= u_0, \qquad & &\text{en $\Omega$}.
+\end{aligned}
+$$
+
+Despejando $u^n$ en la primera ecuación, obtenemos que cada $u^n$ debe satisfacer
+
+$$
+\begin{aligned}
+    u^n - \Delta t\, k ( u^n_{xx} + u^n_{yy} ) &= u^{n-1} + \Delta t \, q^n, \qquad & &\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &= \alpha^n, \qquad & &\text{en $\partial\Omega$ para $n \ge 1$},
+\end{aligned}
+$$ {#eq-6.11}
+
+De esta manera, dado $u^0 = u_0$, resulta que $u^1$ es la solución de una ecuación en derivadas parciales con valores en el borde. Una vez hallado $u^1$, $u^2$ es la solución de otro problema del mismo tipo, y así sucesivamente.
+Cada uno de estos problemas puede resolverse de manera similar a la ecuación de Poisson, discretizando en $x$ y en $y$ con un parámetro $h = 1/N$.
+Más precisamente, aproximaremos $u_{xx}^n(x_i,y_j) + u_{yy}^n(x_i,y_j)$ por la fórmula
+
+$$
+\frac{ u^n_{i+1,j}  + u^n_{i,j+1} - 4 u^n_{i,j} + u^n_{i-1,j} + u^n_{i,j-1}}{h^2}
+$$
+
+Reemplazando esta fórmula en -@eq-6.11 obtenemos el siguiente sistema de ecuaciones para $U_{i,j}^n$, que son las aproximaciones de $u_{i,j}^n$, para $n=1,2,3,\dots$
+
+$$
+\begin{aligned}
+    &U_{i,j}^n - \frac{k\Delta t}{h^2} \left( U^n_{i+1,j}  + U^n_{i,j+1} - 4 U^n_{i,j} + U^n_{i-1,j} + U^n_{i,j-1}\right)
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad & & i,j=1,2,\dots,N-1, \\
+    &U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Llamando $\lambda = \frac{k\Delta t}{h^2}$ obtenemos
+
+$$
+\begin{aligned}
+    &- \lambda U^n_{i+1,j}  - \lambda U^n_{i,j+1} + (1 + 4 \lambda) 4 U^n_{i,j} -\lambda U^n_{i-1,j} -\lambda U^n_{i,j-1}
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad & & i,j=1,2,\dots,N-1, \\
+    &U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Esto resulta en un sistema de $(N+1)^2$ ecuaciones con $(N+1)^2$ incógnitas, que debe ser resuelto en cada paso de tiempo. Es decir, para $n=1,2,\dots$.
+
+Sin decirlo explícitamente, hemos supuesto que la condición inicial viene dada por $U^0_{i,j} = u_0(x_i,y_j)$.
