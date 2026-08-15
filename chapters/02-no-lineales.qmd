@@ -1,9 +1,9 @@
 ---
-number-offset: -1
+title: Sistemas no lineales
 ---
 {{< include ../_macros.qmd >}}
 
-# Sistemas no lineales
+
 El objetivo de este capítulo es conocer métodos numéricos para aproximar soluciones de ecuaciones donde resulta difícil o hasta imposible encontrar la solución por los métodos algebraicos y analíticos clásicos. Dicho llanamente,
 ecuaciones donde la incógnita *no se puede despejar*.
 
@@ -563,6 +563,7 @@ p0 = 0.4  # Punto inicial
 n_iterations = 10  # Número de iteraciones
 ```
 
+::: {.center_output}
 ```{python}
 #| fig-align: center
 #| code-fold: true
@@ -667,6 +668,7 @@ from IPython.display import HTML
 plt.close(fig)  # Cerrar la figura para evitar la gráfica estática
 HTML(ani.to_jshtml())
 ```
+:::
 
 ```python
 def g(x):
@@ -677,6 +679,7 @@ p0 = 1.1  # Punto inicial
 n_iterations = 10  # Número de iteraciones
 ```
 
+::: {.center_output}
 ```{python}
 #| fig-align: center
 #| code-fold: true
@@ -780,6 +783,7 @@ from IPython.display import HTML
 plt.close(fig)  # Cerrar la figura para evitar la gráfica estática
 HTML(ani.to_jshtml())
 ```
+:::
 
 En base a estos ejemplos vemos que la convergencia tiene que ver con la forma en que la función *corte* a la identidad $y=x$. Más formalmente, el valor de la derivada de $g$ cerca del punto fijo. El siguiente teorema precisa esta idea.
 
