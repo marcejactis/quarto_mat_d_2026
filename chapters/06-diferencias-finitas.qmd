@@ -1,1 +1,1658 @@
-# Diferencias finitas
+---
+title: "Diferencias finitas"
+---
+{{< include ../_macros.qmd >}}
+
+El método de diferencias finitas es un método numérico para calcular soluciones aproximadas de ecuaciones diferenciales. La aproximación puede ser tan buena como se desee. Pero para mayor aproximación hace falta más trabajo computacional.
+
+En este método no se obtiene una fórmula analítica de la solución, sino que se obtienen aproximaciones en muchos puntos del dominio donde se quiere resolver el problema.
+
+La ventaja es que permite resolver problemas con condiciones de borde mucho más generales y con términos fuente también generales. También permite trabajar con coeficientes variables, aunque no nos preocuparemos por eso en este curso.
+
+
+## Diferencias finitas en 1D {#sec-dif.finitas.en.1D}
+
+Consideraremos primero la ecuación del calor unidimensional.
+Es decir, estamos considerando una barra donde todas las cantidades son constantes en los planos paralelos al plano $yz$, y los cambios o variaciones y el flujo sólo ocurre en la dirección $x$.
+
+
+### Problema estacionario (Poisson) {#sec-prob.estac.poisson}
+
+Recordemos el problema de difusión en una dimensión
+$$
+    c \rho u_t - K_0 u_{xx} = Q, \quad u = u(x,t),\quad 0 \le x \le L,\quad t \ge 0.
+$$
+
+Al considerar el *estado estacionario* en que la variable $u(x,t)$ no cambia con respecto al tiempo $t$, tenemos $u_t = 0$ y obtenemos la ecuación de Poisson
+$$
+    - K_0 u_{xx} = Q, \quad u = u(x), \quad 0 \le x \le L.
+$$
+
+En la siguiente sección vemos cómo se discretiza el problema de Poisson unidimensional con condiciones de borde de tipo Dirichlet.
+
+#### Condiciones de borde Dirichlet
+
+Consideremos el problema
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    u(L) &= b.
+\end{aligned}
+\end{cases}
+$$ {#eq-cond.borde.dirichlet}
+
+::: {.callout-note appearance="simple"}
+## La idea principal
+
+El método de diferencias finitas consiste en reemplazar derivadas por cocientes de diferencias.
+:::
+
+Recordando que $\frac{dg}{dx} (x) = \lim_{h \to 0} \frac{g(x+h) - g(x)}h$, la idea es tomar $h$ pequeño y aproximar $\frac{dg}{dx} (x)$ por $\frac{g(x+h) - g(x)}h$, o alguna variante:
+
+| Diferencia | Fórmula | Orden del error |
+|:---:|:---:|:---:|
+| Adelantada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x+h) - g(x)}{h}$ | $\bigO(h)$ si $g \in C^2$ |
+| Atrasada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x) - g(x-h)}{h}$ | $\bigO(h)$ si $g \in C^2$ |
+| Centrada | $\displaystyle \frac{dg}{dx} (x) \approx \frac{g\left(x+\frac{h}{2}\right) - g\left(x-\frac{h}{2}\right)}{h}$ | $\bigO(h^2)$ si $g \in C^3$ |
+
+Las acotaciones del error se obtienen utilizando el Teorema de Taylor. Recordemos que en la ecuación de Poisson aparece $u_{xx} = \frac{d^2 u}{dx^2}$.
+
+Para derivadas segundas hacemos lo siguiente, utilizando diferencias centradas:
+
+$$
+\begin{aligned}
+    \frac{d^2 u}{dx^2}(x) = \frac{d}{dx} \left( \frac{d u}{dx} \right)(x)
+    &\approx \frac{ \frac{d u}{dx} \left(x+\frac{h}{2}\right) - \frac{d u}{dx}\left(x-\frac{h}{2}\right)}{h} \\
+    &\approx \dfrac{ \dfrac{ u\left(x+\frac{h}{2} + \frac{h}{2}\right) - u\left(x+\frac{h}{2} - \frac{h}{2}\right)}{h}
+    - \dfrac{ u\left(x-\frac{h}{2} + \frac{h}{2}\right) - u\left(x-\frac{h}{2} - \frac{h}{2}\right)}{h}}{h} \\
+    &= \dfrac{ \dfrac{ u(x+h) - u(x)}{h} - \dfrac{ u(x) - u(x-h)}{h}}{h} \\
+    &= \frac{ u(x+h) - 2 u(x) + u(x-h)}{h^2}
+\end{aligned}
+$$
+
+Para esta aproximación de la derivada segunda tenemos el siguiente resultado:
+
+::: {.callout-warning #prop-6.1 icon="false"}
+## Proposición 6.1
+
+Si $u \in C^4$, entonces
+$$
+    \frac{d^2 u}{dx^2}(x) = \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} + \bigO(h^2).
+$$
+
+Más precisamente, si $M_4 = \max_{[x-h,x+h]} | u^{IV} |$, entonces
+$$
+    \left| \frac{d^2 u}{dx^2}(x) - \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \right| \le \frac{M_4}{12} h^2.
+$$ {#eq-cota.error.dif.finitas}
+
+**Demostración.**
+
+Observemos que por el teorema de Taylor, como $u \in C^4$, resulta
+$$
+\begin{aligned}
+    u(x+h) &= u(x) + h u'(x) + \frac{h^2}{2} u''(x) + \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_1), \\
+    u(x-h) &= u(x) - h u'(x) + \frac{h^2}{2} u''(x) - \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_2),
+\end{aligned}
+$$
+
+con $x-h < \xi_2 < x < \xi_1 < x+h$. Luego, sumando ambas igualdades, obtenemos
+$$
+    u(x+h) - 2 u(x) + u(x-h) = h^2 u''(x) + \frac{h^4}{12} \frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2}.
+$$
+
+Como $u^{IV}$ es continua, $\frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2} = u^{IV}(\eta)$ para algún $x-h < \eta < x+h$, y luego
+$$
+    \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} = u''(x) + \frac{h^2}{12} u^{IV}(\eta),
+$$
+que implica la afirmación de la proposición.
+:::
+
+Proponemos los siguientes ejercicios para comprender estos conceptos relacionados al error de aproximación en las derivadas.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio 1
+
+::: {}
+Considere la función $u(x) = \frac{\text{sen}(x)}{x}$ y $x_0=1$. Complete la siguiente tabla con las aproximaciones de $u'(x_0)$ obtenidas utilizando diferencias adelantadas, diferencias atrasadas y diferencias centradas, y sus respectivos errores.
+
+|$h$| $\dfrac{u(x_0+h)-u(x_0)}h$ | $\quad$ error $\quad$| $\dfrac{u(x_0) - u(x_0-h)}h$ | $\quad$ error $\quad$ |$\dfrac{u(x_0+ h) - u(x_0- h)}{2h}$ |$\quad$ error $\quad$|
+|:---|---|---|---|---|---|---|
+|1/10   | | | | | | |
+|1/20   | | | | | | |
+|1/40   | | | | | | |
+|1/80   | | | | | | |
+|1/160  | | | | | | |
+|1/320  | | | | | | |
+|1/640  | | | | | | |
+|1/1280 | | | | | | |
+
+
+1. Determine en qué factor se reduce el error de aproximación en cada caso cuando $h$ se divide a la mitad.
+
+2. Determine el orden de convergencia de los tres métodos propuestos en términos de $h$.
+
+3. Observando la tabla, determine el valor de $h$ necesario en cada caso para obtener el valor $u'(x_0)$ con tres dígitos correctos.
+
+4. Observando la tabla, determine cuántos dígitos correctos de $u'(x_0)$ se obtienen con cada método usando $h=1/1280$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio 2
+
+::: {}
+Se tomaron mediciones de la posición de un automóvil en una ruta durante una hora cada cinco minutos, y las mismas se reportan en el archivo `posicion_automovil.txt` (ver [TP6](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111){target="_blank"} en el aula virtual). El tiempo está expresado en min y la posición en km.
+
+1. Determine la velocidad del automóvil en km/h a la media hora y estime la precisión de su cálculo.
+
+2. ¿Cómo cambiaría la calidad de su aproximación si las mediciones se hubieran tomado cada diez minutos?
+
+3. Determine la velocidad máxima en km/h y en qué momento se da. ¿Cuál es la precisión de su estimación?
+
+4. Determine la aceleración del automóvil en $\text{km/h}^2$ a la media hora y estime la precisión de su cálculo.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+
+En vista de la [Proposición 6.1](#prop-6.1){.xref-quarto}, si $u$ es la solución de ([6.1](#prop-6.1){.xref-quarto}), resulta
+$$
+    - K_0 \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \approx Q(x),
+$$
+
+siempre que $x-h, x, x+h \in [0,L]$, es decir, si $h \le x \le L-h$. El error de aproximación en esta fórmula es $\bigO(h^2)$.
+
+Para obtener un método numérico, tomamos $N \in \mathbb{N}$ y $h = \frac{L}{N}$, y definimos la partición
+
+$$
+    0 = x_1 < x_2 = h < x_3 = 2h < \dots < x_N = L - h < x_{N+1} = L.
+$$
+
+Si observamos que $x_i - h = x_{i-1}$ y que $x_i + h = x_{i+1}$, resulta
+$$
+    -K_0 \frac{u(x_i+h) - 2 u(x_i) + u(x_i-h)}{h^2} =
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} \approx Q(x_i)
+$$
+
+para $i = 2, 3, 4, \dots, N$. Además, $u(x_1) = a$ y $u(x_{N+1}) = b$.
+
+Resumiendo,
+$$
+\begin{cases}
+\begin{aligned}
+    u(x_1) &= a, \\
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} &\approx Q(x_i), \qquad i=2,3,\dots,N, \\
+    u(x_{N+1}) &= b.
+\end{aligned}
+\end{cases}
+$$
+
+La idea es entonces definir aproximaciones $U_i \approx u(x_i)$ que cumplan las fórmulas anteriores *con igualdad*, es decir
+
+$$
+\begin{cases}
+\begin{aligned}
+    U_1 &= a, \\
+    -K_0 \frac{ U_{i+1}  -2 U_i + U_{i-1}}{h^2} &= Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$
+
+Multiplicando por $\frac{h^2}{K_0}$ llegamos al siguiente sistema de ecuaciones:
+$$
+\begin{cases}
+\begin{aligned}
+    U_1 &= a, \\
+    - U_{i-1} + 2 U_i - U_{i+1} &= \frac {h^2}{K_0} Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$
+
+Este sistema de ecuaciones tiene $N+1$ ecuaciones y $N+1$ incógnitas $U_1, U_2, \dots, U_{N+1}$.
+
+El mismo, puede reescribirse de la siguiente manera:
+$$
+\begin{cases}
+\begin{aligned}
+    &U_1 &  &= a \\
+    -&U_1 + 2 U_2 - U_3&  &= \frac{h^2}{K_0} Q(x_2) \\
+    &\quad - U_2 + 2 U_3 - U_4&  &= \frac{h^2}{K_0} Q(x_3) \\
+    & \qquad \qquad  \qquad \qquad \ddots  & & \quad \vdots \\
+    & &\hspace{-1cm} - U_{N-1} + 2 U_{N} - U_{N+1} &= \frac{h^2}{K_0} Q(x_N) \\
+    & & U_{N+1} &= b.
+\end{aligned}
+\end{cases}
+$$ {#eq-sist.ec.dif.finitas}
+
+En forma matricial resulta
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -1 & 2 & -1 & 0 & \dots  & 0 \\
+    0 & -1 & 2  & -1 & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -1 & 2    & -1 \\
+    0 & 0 & \dots & \dots & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots \\ U_N \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q(x_2) \\ \frac{h^2}{K_0} Q(x_3) \\ \vdots \\ \frac{h^2}{K_0} Q(x_N) \\  b
+\end{bmatrix}
+.
+$$ {#eq-matriz.dif.finitas}
+
+He aquí una implementación computacional en Python, que consiste en escribir un programa que ensamble el sistema y lo resuelva:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissondirichletdf1d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+# Programa para resolver la ecuación de Poisson 1D
+# con condiciones de Dirichlet en x=0 y x=L.
+# Método: Diferencias finitas
+#
+#  - K0 u''(x) = Q(x),   0 < x < L
+#  u(0) = a,   u(L) = b
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+K0 = 1.0  # Coeficiente de difusión
+a = 2.0   # Condición de Dirichlet en x=0
+b = -3.0  # Condición de Dirichlet en x=L
+Q = lambda x: 100 * np.exp(-20 * (x - L/3)**2)  # Término fuente
+
+# Parámetros del método numérico
+N = 30  # Número de intervalos
+
+# Armado de la matriz
+h = L / N  # Tamaño del paso
+unos = np.ones(N + 1)  # Vector de unos
+diagonales = np.array([-1 * unos, 2 * unos, -1 * unos])
+matriz = spdiags(diagonales, [-1, 0, 1], N + 1, N + 1).toarray()
+matriz[0, :2] = [1, 0]
+matriz[N, N-1:N+1] = [0, 1]
+
+# Armado del lado derecho
+X = np.linspace(0, L, N + 1)
+F = np.zeros(N + 1)
+F[0] = a
+F[1:N] = h**2 / K0 * Q(X[1:N])
+F[N] = b
+
+# Resolución del sistema
+U = np.linalg.solve(matriz, F)
+
+# Graficar la solución
+plt.figure(1)
+plt.plot(X, U, '*-', color='blue')
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.grid(True)
+plt.show()
+```
+
+Lo que puede demostrarse, a partir del error cometido por la fórmula en diferencias -@eq-cota.error.dif.finitas es que
+
+:::: {.callout-warning icon="false"}
+## Error máximo de diferencias finitas (1D) para el Problema de Poisson
+
+::: {#thm-error.poisson.dir1D}
+Si la solución exacta $u(x)$ del Problema de Poisson
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    u(L) &= b.
+\end{aligned}
+\end{cases}
+$$
+
+es $C^4[0,L]$ entonces
+$$
+\max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2  = C M_4 L^2 \frac{1}{N^2},
+$$
+
+donde $M_4 = \max_{[0,L]} |u^{IV}|$ y $C$ es una constante que depende
+de los parámetros $K_0$, $L$, de la ecuación, pero es independiente de la función $Q(x)$, y de los datos de borde $a$, $b$ y del parámetro de discretización $h$ (o $N$).
+:::
+
+**Demostración**
+
+La demostración de este teorema queda fuera del alcance de este curso. El lector interesado puede encontrarla en el libro recomendado en la Bibliografía al final de este capítulo.
+::::
+
+**Observación:**
+Cuando uno escribe un programa como el anterior para resolver un problema, debe verificar que funcione bien. Para ello, se busca una solución exacta. Esto parece difícil, pero es cuestión de elegir una $u(x)$ cualquiera, que sea $C^4[0,L]$ aunque no sea muy obvia, como lineal o cuadrática y luego, dado un $k$ elegido, se calcula $f(x)$, $u(0)$ y $u(L)$.
+
+Por ejemplo: Tomemos $L=1$, $K_0=2$ y $u(x) = x^2 + e^{-(x-0.5)^2}$.
+Para que esta $u$ sea solución de -@eq-cond.borde.dirichlet, calculamos
+$Q = -K_0 u_{xx}$:
+$$
+u_x(x) = 2x - 2(x-0.5)e^{-(x-0.5)^2}
+, \qquad
+u_{xx}(x) = 2 - 2[1-2(x-0.5)^2] e^{-(x-0.5)^2}
+$$
+
+Luego, resolvemos el problema con
+$$
+\begin{aligned}
+    Q(x) &= -4+4[1-2(x-0.5)^2] e^{-(x-0.5)^2} & &\bigg(=-K_0 u_{xx}(x) \quad\text{con}\quad K_0=2\bigg) \\
+    a &= e^{-0.5^2} & &\bigg( =u(0) \bigg)  \\
+    b &= 1 + e^{-0.5^2} & &\bigg( =u(1) \quad\text{con}\quad L=1\bigg)  
+\end{aligned}
+$$
+
+y deberíamos obtener una solución aproximada a $u(x) = x^2 + e^{-(x-0.5)^2}$.
+
+Para estar seguros que el código está bien programado, debemos verificar que cuando tomamos $h$ más pequeño, el error máximo se reduce como $C h^2$. Es decir, cada vez que tomamos $h$ igual a la mitad de un $h$ anterior, el error debe reducirse por un factor $1/4$. Puede intentar resolverlo con Python:
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+
+#### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Estacionario Dirichlet 1
+
+::: {}
+Consideremos el siguiente problema:
+$$
+\begin{cases}
+\begin{aligned}
+    - u_{xx} &= 20 e^{-10(x-0.7)^2}, \quad 0 \le x \le 1, \\
+    u(0) &= 5, \\
+    u(1) &= 6.
+\end{aligned}
+\end{cases}
+$$
+
+Grafique la solución $u(x)$ y calcule $u(1/2)$ con un error absoluto menor a $10^{-3}$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Estacionario Dirichlet 2
+
+::: {}
+Escriba la ecuación diferencial y las condiciones de borde que satisface el estado estacionario $u(x)$ hallado en el item `b)` del Ejercicio 7 (6) del TP5, considerando $L=2$, $K_0=\tfrac12$ y $T=10$. Resuelva dicho problema con el método de diferencias finitas y complete la siguiente tabla:
+
+|$N$|$h$| $E_N$ | $\frac{E_{N/2}}{E_N}$ |
+|-|-|-|-|
+|10| | | |
+|20| | | |
+|40| | | |
+|80| | | |
+|160| | | |
+|320| | | |
+|640| | | |
+|1280| | | |
+
+Aquí, el error con $N$ subintervalos es $E_N= \max\limits_{1\le i \le N+1} |u(x_i)-U_i|$ y $h$ es la longitud de cada subintervalo. Verificar que el factor de reducción del error al duplicar la cantidad de subintervalos es el esperado.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+```
+::::
+
+
+### Otras Condiciones de Borde
+
+En esta sección consideramos en el extremo derecho $x=L$ una condición de borde diferente, que contiene a la de tipo Neumann y de tipo Robin.
+
+Consideremos el problema -@eq-cond.borde.robin
+
+$$
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    K_0 u'(L) + H_1 u(L) &= H_2 u_E.
+\end{aligned}
+\end{cases}
+$$ {#eq-cond.borde.robin}
+
+Aquí los datos del problema son: $K_0$, $L$, $Q(x)$, $a$, $H_1$, $H_2$ y $u_E$.
+
+::: {.callout-note appearance="simple"}
+Notar que la condición de borde que aparece aquí sirve para resolver problemas con *flujo prescripto* (considerando  $H1=0$) y también con *ley de enfriamiento de Newton* (considerando $H_1=H_2$).
+:::
+
+La diferencia esencial entre este problema y el tratado en la sección anterior radica en la derivada $u'(L)$ que aparece en la condición de borde.
+
+Para no perder precisión en el método, y mantener un error de orden $\bigO(h^2)$, usaremos una diferencia centrada para la derivada:
+$$
+    u'(L) \approx \frac{u(L+h) - u(L-h)}{2h}.
+$$
+
+Notamos que $x_{N+2} = L+h$ es un punto que cae fuera del dominio $[0,L]$ y por eso lo llamamos *nodo ficticio*.
+
+La condición del borde derecho de -@eq-cond.borde.robin se reemplaza entonces por la ecuación discreta
+$$
+    K_0 \frac{U_{N+2} - U_N}{2h} + H_1 U_{N+1} = H_2 u_E
+$$ {#eq-borde.derecho.robin.discreto}
+
+la cual, multiplicando por $\frac{2h}{K_0}$ y reordenando, transformamos en
+
+$$
+    - U_N  +\frac{2h H_1}{K_0}U_{N+1}+U_{N+2} = \frac{2h H_2}{K_0}u_E.
+$$
+
+Observamos que en esta ecuación aparece una nueva incógnita, $U_{N+2}$, aunque seguimos teniendo $N+1$ ecuaciones.
+
+Para arreglar eso, consideremos a $x_{N+1}=L$ como un *nodo interior* : se cumple entonces la ecuación diferencial $-K_0 u''(x) = Q$ en $x=x_{N+1} = L$. Por lo tanto, podemos pedir que $U_{N}$, $U_{N+1}$ y $U_{N+2}$ satisfagan
+$$
+    - U_{N} + 2 U_{N+1} - U_{N+2} = \frac {h^2}{K_0} Q(x_{N+1}).
+$$
+
+Si sumamos esta última ecuación con -@eq-borde.derecho.robin.discreto, obtenemos una nueva ecuación donde la incógnita $U_{N+2}$, correspondiente al *nodo ficticio* $x_{N+2}$, ha desaparecido:
+
+$$
+    -2 U_{N} + \left(2+\frac{2h H_1}{K_0}\right) U_{N+1}  = \frac {h^2}{K_0} Q(x_{N+1})+\frac{2h H_2}{K_0}u_E.
+$$
+
+Si dividimos esta ecuación por 2 y la colocamos en lugar de $U_{N+1}=b$ en el último renglón de -@eq-matriz.dif.finitas, obtenemos un nuevo sistema, considerando ahora una condición de borde tipo Robin en el extremo derecho:
+$$
+\begin{cases}
+\begin{aligned}
+    &U_1&  &=  a \\
+    -&U_1 + 2 U_2 - U_3&  &= \frac{h^2}{K_0} Q_2 \\
+    &\quad - U_2 + 2 U_3 - U_4&  &= \frac{h^2}{K_0} Q_3 \\
+    & \qquad \qquad\qquad \ddots & & \quad \vdots \\
+    & &- U_{N-1} + 2 U_{N} \qquad\qquad  - U_{N+1} &= \frac{h^2}{K_0} Q_N \\
+    & & - U_{N} +(1+\frac{h H_1}{K_0}) U_{N+1} &= \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E,
+\end{aligned}
+\end{cases}
+$$
+
+donde denotamos $Q_i=Q(x_i)$, para $i=2, \dots, N+1$.
+De forma matricial, el sistema se escribe de la siguiente manera:
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -1 & 2 & -1 & 0 & \dots  & 0 \\
+    0 & -1 & 2  & -1 & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -1 & 2    & -1 \\
+    0 & \dots & 0 & 0 & -1 & 1+\frac{hH_1}{K_0}
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots  \\ U_{N} \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q_2 \\ \frac{h^2}{K_0} Q_3 \\ \vdots  \\  \frac{h^2}{K_0} Q_N\\   \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E
+\end{bmatrix}
+.
+$$
+
+La implementación computacional consiste en escribir un programa que ensamble el sistema y lo resuelva. A continuación mostramos un programa en Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissonrobindf1d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+# Programa para resolver la ecuacion de Poisson
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Metodo: Diferencias finitas
+
+L = 1.0
+K0 = 1.0
+a = 2.0
+H1 = 20.0
+H2 = 1.0
+uE = 0.0
+Q = lambda x: 100 * np.exp(-20 * (x - 0.3)**2)
+# Q = lambda x: 100 * (x > 0.7)
+
+# Parametros del metodo de resolucion
+N = 30  # Numero de intervalos
+
+# Armado de la matriz
+h = L / N
+unos = np.ones(N + 2)
+diagonales = np.array([-1 * unos, 2 * unos, -1 * unos])
+matriz = spdiags(diagonales, [-1, 0, 1], N + 1, N + 1).toarray()
+matriz[0, :2] = [1, 0]
+matriz[N, N] = 1 + h * H1/K0
+
+# Armado del lado derecho
+X = np.linspace(0, L, N + 1)
+F = np.zeros(N + 1)
+F[0] = a
+F[1:N] = h**2 / K0 * Q(X[1:N])
+F[N] = h**2 / K0 * Q(X[N]) / 2 + h * H2 * uE / K0
+
+# Resolucion
+U = np.linalg.solve(matriz, F)
+
+# Plot the solution
+plt.figure(1)
+plt.plot(X, U, 'm-')
+plt.xlabel('x')
+plt.ylabel('u(x)')
+plt.grid(True)
+plt.show()
+```
+
+También para este problema se tiene un resultado de estimación del error, cuya demostración escapa al alcance de este curso:
+
+:::: {.callout-warning icon="false"}
+::: {#thm-error_poisson_rob1D}
+Si la solución exacta $u(x)$ de -@eq-matriz.dif.finitas es $C^4[0,L]$ entonces
+$$
+    \max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2 = CM_4 \frac{L^2}{N^2},
+$$
+
+donde $M_4 = \max_{[0,L]} |u^{IV}|$ y $C$ es una constante que depende de los parámetros $k$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x)$, del dato $u_E$ y del parámetro de discretización $h$.
+:::
+::::
+
+#### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Estacionario Robin 1
+
+::: {}
+Considere el método de diferencias finitas para resolver los siguientes problemas:
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &= 0 \\
+    u'(1) &= 0.
+\end{aligned}
+\end{cases}
+\qquad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &= 0 \\
+    u'(1) &= -u(1).
+\end{aligned}
+\end{cases}
+$$
+
+Grafique las soluciones de ambos problemas.	¿Se anima a dar una interpretación física de las soluciones obtenidas? Recuerde que la ecuación estudiada corresponde al estado estacionario de la ecuación de difusión.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Estacionario Robin 2 (con Reacción)
+
+::: {}
+Considere el siguiente problema de difusión-reacción:
+$$
+\begin{cases}
+\begin{aligned}
+    - u_{xx} + 5 u &= 100 x (1-x), \quad 0 \le x \le 1, \\
+    u(0) &= 0, \\
+    u'(1) &= 0.
+\end{aligned}
+\end{cases}
+$$
+
+Grafique la solución $u(x)$ y calcule $u(1/2)$ con un error absoluto menor a $10^{-3}$.
+
+*Sugerencia:* Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de Poisson incorporando adecuadamente el término de reacción. Note que en general el problema es de la forma:
+$$
+\begin{cases}
+\begin{aligned}
+    - K_0 \, u_{xx} + c_R \, u &= Q, \quad 0 \le x \le L, \\
+    u(0) &= a, \\
+    K_0 u'(L) + H_1 u(L) &= H_2 u_E.
+\end{aligned}
+\end{cases}
+$$
+
+donde $c_R>0$ es la constante de reacción.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+### Difusión no estacionaria {#sec-dif.no.estac}
+
+Consideremos ahora el problema de difusión no estacionaria siguiente
+
+$$
+\begin{cases}
+\begin{aligned}
+    c \rho u_t(x,t) - K_0 u_{xx}(x,t) &= Q(x,t), \quad& & 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &= a(t), \qquad & &0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), \qquad & &0 \le t \le T,\\
+    u(x,0) &= u_0(x), \qquad& & 0 \le x \le L .
+\end{aligned}
+\end{cases}
+$$
+
+Aquí los datos del problema son: $c$, $\rho$, $K_0$, $L$, $T$, $Q(x,t)$, $a(t)$, $H_1$, $H_2$, $u_E(t)$ y $u_0(x)$. Definiendo  $k = \frac{K_0}{c\rho}$ y $q(x,t) = \frac{Q(x,t)}{c\rho}$ resulta
+
+$$
+\begin{cases}
+\begin{aligned}
+    u_t(x,t) - k u_{xx}(x,t) &= q(x,t), \quad& & 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &= a(t), \qquad & &0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), \qquad & &0 \le t \le T,\\
+    u(x,0) &= u_0(x), \qquad& & 0 \le x \le L .
+\end{aligned}
+\end{cases}
+$$ {#eq-difusion.no.estacionaria}
+
+Para resolver este problema consideramos la grilla de puntos
+$(x_i, t_j)$ con $x_i = (i-1)h$ como antes y $t_j = j \Delta t$, donde $\Delta t$ es el *parámetro de discretización temporal*.
+
+
+#### Método Explícito
+
+Si aproximamos $u_t$ con una diferencia *adelantada*
+
+$$
+    u_t(x,t) \approx \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t},
+$$
+
+y $u_{xx}$ como antes
+
+$$
+    u_{xx}(x,t) \approx \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2},
+$$
+
+obtenemos que en cada punto del dominio se cumple
+
+$$
+    \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t}
+    - k \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2} \approx q(x,t).
+$$
+
+Si nos centramos en $(x,t) = (x_i, t_j)$, observando que
+$x_i\pm h = x_{i\pm1}$, $t_j+\Delta t = t_{j+1}$, tenemos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_j) -2 u(x_i,t_j) + u(x_{i+1},t_j)}{h^2} \approx
+    q(x_i,t_j).
+$$
+
+Definimos las aproximaciones $U_i^j$ de $u(x_i,t_j)$ de la siguiente manera:
+
+$$
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^j - 2 U_i^j + U_{i+1}^j}{h^2} = q_i^j,
+$$
+
+donde denotamos $q_i^j = q(x_i,t_j)$.
+
+Observamos que solo hay un supra-índice $j+1$ en la fórmula anterior.
+
+Si despejamos el término $U_i^{j+1}$ que lo contiene obtenemos,
+llamando $\lambda = \frac{k\Delta t}{h^2}$, la siguiente fórmula:
+
+$$
+U_i^{j+1} = \Delta t q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right].
+$$
+
+Esta fórmula será útil para calcular $U$ en el interior de $[0,L]$, para $t > 0$.
+
+En $t=0$ ($j=0$) usaremos la condición inicial $u(x,0) = u_0(x)$, por lo que tomaremos $U_i^0 = u_0(x_i)$, $i=1,2,\dots,N+1$.
+
+En $x=0$ usaremos la condición de borde $u(0,t) = a(t)$ por lo que
+tomaremos $U_1^j = a(t_j)$.
+
+En $x=L$ tenemos la condición de borde $K_0 u_x(L,t) + H_1 u(L,t) = H_2 u_E(t)$. Aproximando $u_x(L,t) \approx \frac{u(L+h,t) - u(L-h,t)}h$ llegamos a la fórmula
+
+$$
+    K_0 \frac{U_{N+2}^j - U_N^j}{2h} + H_1 U_{N+1}^j = H_2 u_E(t_j)
+    \quad\leadsto\quad
+    U_{N+2}^j = \frac{2h}{K_0} (H_2 u_E(t_{j}) - H_1 U_{N+1}^j ) + U_N^j.
+$$
+
+A partir de estas fórmula, diseñamos el siguiente método numérico para la ecuación de difusión -@eq-difusion.no.estacionaria:
+
+Sean $N,M \in \mathbb{N}$ y definamos $h = L/N$, $\Delta t= T/M$, $\lambda = k \Delta t / h^2$
+
+*   ($j=0$) $U_i^0 = u_0(x_i)$, $i=1,2,\dots,N+1$;
+
+*   $U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0$;
+
+*   Para $j=0,1,2,\dots M-1$
+
+  *   $U_1^{j+1} = a(t_{j+1})$;
+
+  *   $U_i^{j+1} = \Delta t \, q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right]$, $i=2,\dots,N+1$;
+
+  *   $U_{N+2}^{j+1} =  \frac{2h}{K_0} (H_2 u_E(t_{j+1}) - H_1 U_{N+1}^{j+1} ) + U_N^{j+1}$;
+
+He aquí una implementación para Python de este método de resolución:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# difusionrobindf1dexpl.py
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from IPython.display import display, clear_output #alternativa de graf. en Colab
+
+# Programa para resolver la ecuación de difusión 1D
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Método: Diferencias finitas en espacio y Euler explícito en tiempo.
+#
+#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 < x < L,  0 < t < T,
+#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 < t < T,
+#  u(x,0) = u0(x),    0 < x < L.
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+T = 0.5  # Tiempo final
+K0 = 1.0  # Coeficiente de difusión
+c = 1.0   # Capacidad calorífica
+rho = 1.0 # Densidad
+Q = lambda x, t: 10 * np.exp(-100 * (x - 0.5)**2) * (t < 0.25)  # Término fuente
+a = lambda t: 0.0  # Condición Dirichlet en x=0
+H1 = 3.0  # Parámetro de Robin
+H2 = 3.0  # Parámetro de Robin
+uE = lambda t: 0.0  # Valor externo para Robin
+u0 = lambda x: np.zeros_like(x)  # Condición inicial
+
+# Constantes y funciones útiles
+k = K0 / (c * rho)
+q = lambda x, t: Q(x, t) / (c * rho)
+
+# Parámetros del método numérico
+N = 10  # Número de intervalos
+h = L / N  # Tamaño del paso en espacio
+lambda_ = 0.25
+deltat = lambda_ * h**2 / k  # Tamaño del paso en tiempo
+
+# Condición inicial
+X = np.linspace(0, L, N + 1)
+U = u0(X)
+# le damos valor a la U en el nodo ficticio (t=0)
+U = np.append(U, (H2 * uE(0) - H1 * U[N]) * 2 * h / K0 + U[N-1])
+
+# Configurar la gráfica inicial
+#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB
+fig, ax = plt.subplots()
+line, = ax.plot(X, U[:N+1], '*-')
+ax.set_xlabel('x')
+ax.set_ylabel('u(x,t)')
+ax.set_title('t = 0')
+ax.set_xlim(0, L)
+ax.set_ylim(0, 1)
+ax.grid(True)
+plt.pause(3)  # Pausa inicial de 3 segundos
+
+# Resolución
+t = deltat
+while t < T:
+    # Calcular U en los nodos interiores
+    U[1:N+1] = (deltat * q(X[1:N+1], t) +
+                lambda_ * U[:N] +
+                (1 - 2 * lambda_) * U[1:N+1] +
+                lambda_ * U[2:N+2])
+    # Aplicar condición Dirichlet en x=0
+    U[0] = a(t)
+    # Calcular U en el nodo ficticio
+    U[N+1] = (H2 * uE(t) - H1 * U[N]) * 2 * h / K0 + U[N-1]
+
+    # Actualizar gráfica
+    line.set_ydata(U[:N+1])  # Actualizar datos de la solución
+    ax.set_title(f't = {t:.3f}')  # Actualizar título
+    #plt.draw()  # Redibujar NO FUNCIONA EL COLAB
+    clear_output(wait=True) #alternativa de graf. en Colab
+    display(fig) #alternativa de graf. en Colab
+    plt.pause(0.05)  # Pausa breve para animación
+
+    t += deltat
+
+#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EL COLAB
+plt.show()  # Mantener la gráfica final
+```
+
+Este método tiene una restricción para resultar \emph{estable}. Si observamos el término que multiplica $U_i^j$ en la fórmula para $U_i^{j+1}$ vemos que es $1-2\lambda$ con $\lambda = k \Delta t / h^2$. Resulta que si $\lambda \ge 1/2$, de manera que $1-2\lambda \le 0$ se observa un fenómeno de \emph{inestabilidad} (verificarlo con el código) que hace que las soluciones oscilen en cada paso de tiempo. Lo que ocurre es que pequeños errores de redondeo se magnifican exponencialmente.
+
+Se recomienda, una vez elegido $h$, elegir $\Delta t$ de manera que $\lambda \le 1/4$, para que el algoritmo funcione correctamente. Más aún, en el código que mostramos, elegimos $\lambda$ y luego $\Delta t$ se calcula para que $\lambda = \frac{k\Delta t}{h^2}$, es decir $\Delta t = \lambda\frac{h^2}k$.
+
+También hay estimaciones del error, que resumimos en el siguiente Teorema.
+
+:::: {.callout-warning icon="false"}
+## Error del método de difusión para condiciones de borde tipo Robin explícito
+
+::: {#thm-error.difusion.robin.exp}
+Si la solución exacta $u(x,t)$ de -@eq-difusion.no.estacionaria es $C^4[0,L]$ para la variable $x$ y $C^2[0,T]$ para la variable $t$, entonces, si $\lambda = k \Delta t / h^2 < 1/2$, resulta
+
+$$
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2} (h^2+\Delta t),
+$$
+
+donde $M_{4,2} = \max_{[0,L]\times[0,T]} |u_{xxxx}| + |u_{tt}| $ y $C$ es una constante que depende de los parámetros $c$, $\rho$, $K_0$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x,t)$, del dato inicial $u_0(x)$, de los datos de borde $a(t)$, $u_E(t)$ y de los parámetros de discretización $h$, $\Delta t$.
+:::
+::::
+
+
+#### Método Implícito
+
+Cuando los coeficientes son variables, o cuando queremos resolver problemas en dos o tres dimensiones espaciales, la condición de estabilidad puede ser más difícil de determinar. En esta sección veremos un método que es *incondicionalmente estable*, es decir, resulta estable sin importar la relación entre $\Delta t$ y $h$.
+
+La diferencia principal con el método obtenido anteriormente está en aproximar la derivada temporal $u_t$ por una diferencia *atrasada* en lugar de *adelantada*. Es decir, consideraremos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} \approx u_t(x_i, t_{j+1}).
+$$
+
+Por lo tanto, si nos centramos en $(x,t)=(x_i, t_{j+1})$, vemos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_{j+1}) -2 u(x_i,t_{j+1}) + u(x_{i+1},t_{j+1})}{h^2} \approx
+    q(x_i,t_{j+1}).
+$$
+
+Luego, definimos entonces las aproximaciones $U_i^j$ de $u(x_i,t_j)$ de la siguiente manera:
+
+$$
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^{j+1} - 2 U_i^{j+1} + U_{i+1}^{j+1}}{h^2} = q_i^{j+1}.
+$$
+
+Si ahora *despejamos* las incógnitas con supra-índice $j+1$ a la izquierda, nos queda
+
+$$
+    -\lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    = \Delta t \, q_i^{j+1} + U_i^j.
+$$
+
+Vemos que no queda $U_i^{j+1}$ *despejada* sola a la izquierda, sino que queda relacionada con $U_{i-1}^{j+1}$ y con $U_{i+1}^{j+1}$. Por eso se dice que el método es *implícito*.
+
+Por lo tanto, en cada paso de tiempo deberemos resolver un *sistema de ecuaciones*. Esto es un poco más costoso computacionalmente que lo que se hace en el caso *explícito*, pero se gana en estabilidad.
+
+::: {.callout-note appearance="simple"}
+El método implícito resulta estable para cualquier $\Delta t > 0$.
+:::
+
+Si incorporamos las condiciones de borde, vemos que, conocido $U_i^j$, para un $j$ dado y para $i=1,2,\dots,N+2$, los valores $U_i^{j+1}$, $i=1,2,\dots,N+2$ deben satisfacer el siguiente sistema de $N+2$ ecuaciones
+
+$$
+\begin{cases}
+\begin{aligned}
+    U_1^{j+1} &= a(t_{j+1}), \\
+    - \lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    &= \Delta t \, q_i^{j+1} + U_i^j , \qquad i=2,3,\dots,N+1,\\
+    -U_N^{j+1} + \frac{2hH_1}{K_0} U_{N+1}^{j+1} + U_{N+2}^{j+1}
+    &=  \frac{2hH_2}{K_0} u_E(t_{j+1}) .
+\end{aligned}
+\end{cases}
+$$ {#eq-sist.ecuaciones.robin.implicito}
+
+En forma matricial, el sistema a resolver en cada paso de tiempo resulta:
+
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -\lambda & 1+2\lambda & -\lambda & 0 & \dots  & 0 \\
+    0 & -\lambda & 1+2\lambda  & -\lambda & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -\lambda & 1+2\lambda   & -\lambda \\
+    0 & \dots & 0 & -1 & \frac{2hH_1}{K_0} & 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1^{j+1} \\ U_2^{j+1} \\ U_3^{j+1} \\ \vdots \\ U_N^{j+1} \\ U_{N+1}^{j+1} \\ U_{N+2}^{j+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a(t_{j+1}) \\ U_2^j \\ U_3^j \\ \vdots \\ U_N^j \\ U_{N+1}^j \\ \frac{2hH_2}{K_0} u_E(t_{j+1})
+\end{bmatrix}
++
+\Delta t
+\begin{bmatrix}
+    0 \\  q_2^{j+1} \\ q_3^{j+1} \\ \vdots \\ q_N^{j+1} \\ q_{N+1}^{j+1} \\ 0
+\end{bmatrix}
+.
+$$
+
+Esto debe repetirse para $j=0,1,2,\dots,M$ luego de haber definido
+
+$$
+U_i^0 = u_0(x_i), \quad i=1,2,\dots,N+1 \qquad\text{y}\qquad
+U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0.
+$$
+
+He aquí una implementación de este método de resolución para Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# difusionrobindf1dimpl.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+from IPython.display import display, clear_output #alternativa de graf. en Colab
+
+# Programa para resolver la ecuación de difusión 1D
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Método: Diferencias finitas en espacio y Euler implícito en tiempo.
+#
+#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 < x < L,  0 < t < T,
+#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 < t < T,
+#  u(x,0) = u0(x),   0 < x < L.
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+T = 0.5  # Tiempo final
+K0 = 1.0  # Coeficiente de difusión
+c = 1.0   # Capacidad calorífica
+rho = 1.0 # Densidad
+Q = lambda x, t: 10 * np.exp(-100 * (x - 0.5)**2) * (t < 0.25)  # Término fuente
+a = lambda t: 0.0  # Condición Dirichlet en x=0
+H1 = 3.0  # Parámetro de Robin
+H2 = 3.0  # Parámetro de Robin
+uE = lambda t: 0.0  # Valor externo para Robin
+u0 = lambda x: np.zeros_like(x)  # Condición inicial
+
+# Constantes y funciones útiles
+k = K0 / (c * rho)
+q = lambda x, t: Q(x, t) / (c * rho)
+
+# Parámetros del método numérico
+N = 30  # Número de intervalos
+h = L / N  # Tamaño del paso en espacio
+lambda_ = 4.0
+deltat = lambda_ * h**2 / k  # Tamaño del paso en tiempo
+
+# Condición inicial
+X = np.linspace(0, L, N + 1)
+U = u0(X)
+
+
+# Graficar la condición inicial
+#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB
+fig, ax = plt.subplots()
+line, = ax.plot(X, U[:N+1], '*-')
+ax.set_xlabel('x')
+ax.set_ylabel('u(x,t)')
+ax.set_title('t = 0')
+ax.set_xlim(0, L)
+ax.set_ylim(0, 1)
+ax.grid(True)
+plt.pause(3)  # Pausa inicial de 3 segundos
+
+# Armado de la matriz
+unos = np.ones(N + 2)
+columnas = np.array([-lambda_ * unos, (1 + 2 * lambda_) * unos, -lambda_ * unos])
+matriz = spdiags(columnas, [-1, 0, 1], N + 2, N + 2)
+matriz = matriz.toarray()
+matriz[0, :2] = [1, 0]
+matriz[N + 1, N-1:N+2] = [-1, 2 * h * H1 / K0, 1]
+
+# Resolución
+t = deltat
+while t < T:
+    # Ensamblado del lado derecho
+    F = np.zeros(N + 2)
+    F[0] = a(t)  # Condición Dirichlet
+    F[1:N+1] = U[1:N+1] + deltat * q(X[1:N+1], t)  # Puntos interiores
+    F[N+1] = 2 * h * H2 / K0 * uE(t)  # Condición Robin
+
+    # Calcular la nueva U resolviendo el sistema
+    U = np.linalg.solve(matriz, F)
+
+    # Actualizar gráfica
+    line.set_ydata(U[:N+1])  # Actualizar datos de la solución
+    ax.set_title(f't = {t:.3f}')  # Actualizar título
+    #plt.draw()  # Redibujar NO FUNCIONA EN COLAB
+    clear_output(wait=True) #alternativa de graf. en Colab
+    display(fig) #alternativa de graf. en Colab
+    plt.pause(0.05)  # Pausa breve para animación
+
+    t += deltat
+
+#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EN COLAB
+plt.show()  # Mantener la gráfica final
+```
+
+También hay estimaciones del error, que resumimos en el siguiente Teorema.
+
+:::: {.callout-warning icon="false"}
+## Error del método de Difusión para condiciones de borde tipo Robin Implícito
+
+::: {#thm-error.difusion.robin.imp}
+Si la solución exacta $u(x,t)$ de $(6.7)$ es $C^4[0,L]$ para la variable $x$ y $C^2[0,T]$ para la variable $t$, entonces resulta
+
+$$
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2}(h^2+\Delta t),
+$$
+
+donde $M_{4,2} = \max_{[0,L]\times[0,T]} |u_{xxxx}| + |u_{tt}|$ y $C$ es una constante que depende de los parámetros $c$, $\rho$, $K_0$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x,t)$, del dato inicial $u_0(x)$, de los datos de borde $a(t)$, $u_E(t)$ y de los parámetros de discretización $h$, $\Delta t$.
+:::
+::::
+
+
+#### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Difusión no estacionaria 1
+
+::: {}
+Considere la siguiente ecuación del calor en una barra de longitud $L=1$:
+
+$$
+(*)
+\begin{cases}
+\begin{aligned}
+	u_t - u_{xx} &= 100, \quad & & 0 \le x \le 1, \quad t \ge 0,\\
+	u(0,t)    &= 0, & & t \ge 0,\\
+	u_x(1,t)  &= -u(1,t), & & t \ge 0,\\
+	u(x,0) &= 10x(1-x)^2, & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+1. Determine el estado estacionario, al que llamaremos $u_\infty(x)$.
+
+2. Si $u(x,t)$ es la solución de $(*)$, determine el valor de $\lim_\limits{t \to \infty}u(\tfrac12,t)$.
+
+3. Determine el primer instante de tiempo $t$ en el que la temperatura en el punto medio de la barra supera el valor $23$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Difusión no estacionaria 2
+
+::: {}
+Considere los siguientes problemas:
+
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - 2 u_{xx} &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= e^{-10x},  & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\quad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - 6 u_{xx} &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= e^{-10x},  & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+Determine en cada caso la solución estacionaria $u_\infty(x)$ y el tiempo $t$ para el cual se cumple
+
+$$
+	\max_{0\le x \le 1} |u(x,t) - u_\infty(x)| \le 0.01.
+$$
+
+A partir de estos cálculos, deduzca qué efecto tiene sobre la solución el cambio en el coeficiente de difusión.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Diferencias finitas en 2D {#sec-dif.finitas.en.2D}
+
+El método de diferencias finitas se extiende naturalmente a dominios bidimensionales de forma rectangular o que sean uniones finitas de rectángulos, y el análisis puede hacerse de manera similar. Lo complicado es numerar los nodos con un solo índice, y encontrar la manera automática de armar la matriz del sistema, pero pensando un poco es posible.
+
+Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio $\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2$
+
+$$
+\begin{aligned}
+    u_t- k ( u_{xx} + u_{yy} ) &= q, \qquad & &\text{en $\Omega$ para $t \ge 0$}, \\
+    u &= \alpha, \qquad & &\text{en $\partial\Omega$ para $t \ge 0$}, \\
+    u &= u_0, \qquad & &\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+$$
+
+
+### Estado estacionario (ecuación de Poisson) {#sec-estado.estac.poisson}
+
+Consideremos primero esta ecuación en estado estacionario, es decir, consideremos $u=u(x,y)$ y $u_t = 0$. Luego resulta la ecuación de Poisson, que consiste en hallar $u=u(x,y)$, $u:\Omega \to \mathbb{R}$ tal que
+
+$$
+\begin{aligned}
+    -k ( u_{xx}(x,y) + u_{yy}(x,y) ) &= q(x,y), \qquad& &\text{para $(x,y) \in \Omega$}, \\
+    %-\nabla^2 u + p(x,y) \cdot \nabla u + q(x,y) u &= g(x,y) , \qquad & &(x,y) \in \Omega, \\
+    u(x,y) &= \alpha(x,y), & &\text{para $(x,y) \in \partial\Omega$}.
+\end{aligned}
+$$ {#eq-poisson.estacionario}
+
+Dado $N\in\mathbb{N}$, definimos $h = 1/N$ y $x_i = ih$, $y_j= jh$ $i,j=0,1,\dots,N$, y resulta, denotando $u_{i,j} = u(x_i,y_j)$,
+
+$$
+\begin{aligned}
+    \nabla^2 u(x_i,y_j) &= \frac{\partial^2u}{\partial x^2}(x_i,y_j) + \frac{\partial^2u}{\partial y^2}(x_i,y_j) \\
+    &= \frac{u_{i+1,j} - 2 u_{i,j} + u_{i-1,j}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)
+    + \frac{u_{i,j+1} - 2 u_{i,j} + u_{i,j-1}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial y^4}(x_i,\eta_{i,j})
+    \\
+    &=\frac{ u_{i+1,j}  + u_{i,j+1} - 4 u_{i,j} + u_{i-1,j} + u_{i,j-1}}{h^2}
+    + \frac{h^2}{12} \left[ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)+ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(x_i,\eta_{i,j}) \right]
+\end{aligned}
+$$
+
+Por lo tanto, si la solución $u(x,y)$ de $(6.9)$ es $C^4$ en $\bar\Omega$, satisface
+
+$$
+\begin{aligned}
+    &k \frac{ -u_{i+1,j}  - u_{i,j+1} + 4 u_{i,j} - u_{i-1,j} - u_{i,j-1}}{h^2}
+    = q_{i,j} + \bigO(h^2)
+\end{aligned}
+$$
+
+para $i,j=1,2,\dots,N-1$. Aquí $q_{i,j}$  denota la evaluación de $q$ en $(x_i,y_j)$, respectivamente.
+
+A partir de estas expresiones, definimos $U_{i,j}$, aproximaciones de $u_{i,j}$ a través de las siguientes igualdades:
+
+$$
+\begin{aligned}
+    &k\frac{ -U_{i+1,j}  - U_{i,j+1} + 4 U_{i,j} - U_{i-1,j} - U_{i,j-1}}{h^2}
+    = q_{i,j} ,\quad
+    & &i,j=1,2,\dots,N-1, \\[6pt]
+    &U_{0,j} = \alpha(0,y_j), \quad U_{N,j} = \alpha(1,y_j), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0), \quad U_{i,N} = \alpha(x_i,1), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Esto resulta en un sistema de $(N+1)^2$ ecuaciones lineales con $(N+1)^2$ incógnitas.
+
+También aquí puede demostrarse que el sistema tiene solución única y además se cumple que
+
+$$
+    \max_{0\le i,j\le N} | u(x_i,y_j) - U_{i,j} | \le C h^2,
+$$
+
+con $C$ una constante que depende de derivadas de hasta orden cuatro de $u$. % y de los coeficientes $p(x,y)$, $q(x,y)$ de la EDP.
+
+::: {.callout-note appearance="simple"}
+## Observación
+
+Para implementarlo debemos numerar los nodos e incógnitas con un solo índice, por ejemplo $k = (i-1)(N+1) + j$. Al hacer esto, el sistema resulta con una matriz pentadiagonal en lugar de tridiagonal.
+:::
+
+A continuación mostramos un código ejemplo en Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# poissondirichletdf2d.py
+
+import numpy as np
+from scipy.sparse import spdiags
+from scipy.sparse.linalg import spsolve
+import matplotlib.pyplot as plt
+
+
+# Método de diferencias finitas en 2D para resolver
+# el problema de Poisson en un cuadrado:
+#
+# - k (u_xx + u_yy) = q(x,y),    (x,y) en Omega = (0,L) x (0,L)
+#            u(x,y) = alfa(x,y), (x,y) en la frontera de Omega
+
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+k = 0.001
+q = lambda x, y: np.ones_like(x)
+alfa = lambda x, y: np.zeros_like(x)
+
+# Parámetros de la resolución
+N = 30
+
+# Resolución
+h = 1.0 / N  # Tamaño del paso
+xx = np.linspace(0, L, N + 1)  # Puntos en x
+yy = xx  # Puntos en y (mismo espaciado)
+x, y = np.meshgrid(xx, yy)  # Crear malla 2D
+x = x.T.flatten()  # Vectorizar x (transponer para orden correcto)
+y = y.T.flatten()  # Vectorizar y
+F = q(x, y)
+ALFA = alfa(x, y)
+
+
+diagonal_values = k * np.array([-1, -1, 4, -1, -1]) / h**2
+diagonales = np.tile(diagonal_values[:, np.newaxis], (1, (N + 1)**2))
+M = spdiags(diagonales, [N + 1, 1, 0, -1, -(N + 1)], (N + 1)**2, (N + 1)**2)
+M = M.T
+
+rhs = F
+
+# Corregir ecuaciones de los nodos del borde
+# Índices de los nodos en el borde: piso, techo, pared izq, pared der
+ind = np.concatenate([
+    np.arange(0, N + 1),
+    np.arange((N + 1)**2 - (N + 1), (N + 1)**2),
+    np.arange(N + 1, (N + 1)**2 - (N + 1), N + 1),
+    np.arange(2 * (N + 1), (N + 1) * N + 1, N + 1)
+])
+from scipy.sparse import lil_matrix
+M = lil_matrix(M)  # Convertir a formato LIL para modificar filas
+M[ind, :] = 0  # Poner ceros en filas de los nodos del borde
+for i in ind:
+    M[i, i] = 1  # Poner 1 en la diagonal para u = alfa
+M = M.tocsc()  # Convertir a CSC para spsolve
+rhs[ind] = ALFA[ind]  # Aplicar condición de contorno en el lado derecho
+
+# Resolver el sistema
+U = spsolve(M, rhs)
+
+# Transformar a matriz para graficar
+U = U.reshape(N + 1, N + 1)  # Convertir vector a matriz (N+1 x N+1)
+
+# Graficar la solución
+fig = plt.figure(1)
+ax = fig.add_subplot(111, projection='3d')
+X, Y = np.meshgrid(xx, yy)
+surf = ax.plot_surface(X, Y, U, cmap='viridis')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('u(x,y)')
+ax.set_title(f'N = {N}')
+plt.colorbar(surf)
+plt.show()
+```
+
+### Difusión no estacionaria en 2D {#sec-dif.no.estac.en.2D}
+
+En esta sección consideraremos el método implícito, análogo al visto en la @sec-dif.no.estac para difusión en 1D.
+Pero lo haremos de otra forma.
+Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio $\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2$
+
+$$
+\begin{aligned}
+u_t- k ( u_{xx} + u_{yy} ) &= q, \qquad & &\text{en $\Omega$ para $t \ge 0$}, \\
+u &= \alpha, \qquad & &\text{en $\partial\Omega$ para $t \ge 0$}, \\
+u &= u_0, \qquad & &\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+$$
+
+Una discretización de la variable tiempo utilizando un método de Euler implícito consiste en aproximar $u_t(x,y,t_{n})$ por $\frac{u(x,y_n, t) - u(x,y,t_{n-1})}{\Delta t}$, con algún $\Delta t>0$ pequeño. Si ahora $u^n$ denota la aproximación de $u$ en $t=t_n$ que resulta de reemplazar $u_t$ por esta fórmula, obtenemos:
+
+$$
+\begin{aligned}
+    \frac{u^n - u^{n-1}}{\Delta t}- k ( u^n_{xx} + u^n_{yy} ) &= q^n, \qquad & &\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &= \alpha^n, \qquad & &\text{en $\partial\Omega$ para $n \ge 1$}, \\
+    u^0 &= u_0, \qquad & &\text{en $\Omega$}.
+\end{aligned}
+$$
+
+Despejando $u^n$ en la primera ecuación, obtenemos que cada $u^n$ debe satisfacer
+
+$$
+\begin{aligned}
+    u^n - \Delta t\, k ( u^n_{xx} + u^n_{yy} ) &= u^{n-1} + \Delta t \, q^n, \qquad & &\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &= \alpha^n, \qquad & &\text{en $\partial\Omega$ para $n \ge 1$},
+\end{aligned}
+$$ {#eq-6.11}
+
+De esta manera, dado $u^0 = u_0$, resulta que $u^1$ es la solución de una ecuación en derivadas parciales con valores en el borde. Una vez hallado $u^1$, $u^2$ es la solución de otro problema del mismo tipo, y así sucesivamente.
+Cada uno de estos problemas puede resolverse de manera similar a la ecuación de Poisson, discretizando en $x$ y en $y$ con un parámetro $h = 1/N$.
+Más precisamente, aproximaremos $u_{xx}^n(x_i,y_j) + u_{yy}^n(x_i,y_j)$ por la fórmula
+
+$$
+\frac{ u^n_{i+1,j}  + u^n_{i,j+1} - 4 u^n_{i,j} + u^n_{i-1,j} + u^n_{i,j-1}}{h^2}
+$$
+
+Reemplazando esta fórmula en -@eq-6.11 obtenemos el siguiente sistema de ecuaciones para $U_{i,j}^n$, que son las aproximaciones de $u_{i,j}^n$, para $n=1,2,3,\dots$
+
+$$
+\begin{aligned}
+    &U_{i,j}^n - \frac{k\Delta t}{h^2} \left( U^n_{i+1,j}  + U^n_{i,j+1} - 4 U^n_{i,j} + U^n_{i-1,j} + U^n_{i,j-1}\right)
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad & & i,j=1,2,\dots,N-1, \\
+    &U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Llamando $\lambda = \frac{k\Delta t}{h^2}$ obtenemos
+
+$$
+\begin{aligned}
+    &- \lambda U^n_{i+1,j}  - \lambda U^n_{i,j+1} + (1 + 4 \lambda) 4 U^n_{i,j} -\lambda U^n_{i-1,j} -\lambda U^n_{i,j-1}
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad & & i,j=1,2,\dots,N-1, \\
+    &U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), & &j=0,1,\dots,N,\\
+    &U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), & &i=0,1,\dots,N.
+\end{aligned}
+$$
+
+Esto resulta en un sistema de $(N+1)^2$ ecuaciones con $(N+1)^2$ incógnitas, que debe ser resuelto en cada paso de tiempo. Es decir, para $n=1,2,\dots$.
+
+Sin decirlo explícitamente, hemos supuesto que la condición inicial viene dada por $U^0_{i,j} = u_0(x_i,y_j)$.
+
+
+## Ejercicios Adicionales ✍
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Adicional 1
+
+::: {}
+Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud $L=1$ cuya sección transversal tiene un área $A=0.05$. Suponga que la temperatura en el extremo izquierdo está dada por $u(0,t) = \frac12+\frac34 e^{-\frac{\pi}{2}t}\sin(\frac{5\pi}{4}t)$ y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son $c=1$, $\rho =1$ y $K_0=\frac12$. Se sabe que inicialmente toda la barra se encuentra a una temperatura $\frac12$ y que no hay fuentes. Considere la resolución de este problema durante el primer segundo mediante el método de diferencias finitas implícito con $N= 40$ y $\lambda = 4$.
+
+1. Grafique la evolución del flujo en el extremo izquierdo de la barra $A\phi(0,t)$ durante el primer segundo y determinar los subintervalos de tiempo en donde el mismo es saliente y en donde es entrante.
+
+2. Calcule y grafique la energía térmica total de la barra $E(t)$ en cada uno de los instantes de tiempo $t$ que se usaron, utilizando la regla de Simpson compuesta. Calcule el polinomio $p(t)$ de grado $8$ que aproxima los puntos $(t,E(t))$ en el sentido de cuadrados mínimos y reporte el error cuadrático correspondiente al ajuste.  
+
+3. Utilice el ajuste realizado en el item anterior para calcular la máxima tasa de crecimiento de la energía total en la barra y diga aproximadamente en qué momento ocurre. Explique cómo obtuvo los resultados.
+
+4. ¿Qué relación debería haber entre $E'(t)$ y $A\phi(0,t)$? Justifique y verifique su respuesta.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 2
+
+::: {}
+Una barra de cobre homogénea de $5$ cm de largo y $0.1$ cm$^2$ de sección transversal se somete a un estudio de difusión de calor. Se conocen las
+propiedades de dicho material: calor específico $0.092$ $\mathrm{cal}/(\mathrm{g}\,^\circ \mathrm{C})$, densidad $8.96$ $\mathrm{g}/\mathrm{cm}^3$ y $K_0=0.9$ $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm} \,^\circ \mathrm{C})$. Inicialmente la barra se encuentra a una temperatura de $6\,^\circ \mathrm{C}$ y su superficie está aislada, salvo quizás en sus extremos. El extremo izquierdo
+de la barra se somete a una temperatura variable $\displaystyle a(t)=\frac{6}{1+t^2}$ y en el extremo derecho rige la ley de enfriamiento de Newton donde $H=15$ $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{2} \,^\circ \mathrm{C})$ es el coeficiente transferencia de calor y $u_E(t)=4\,^\circ \mathrm{C}$ es la temperatura exterior. En la barra actúa una fuente de calor $Q(x,t)=25e^{-15(x-0.5)^2}e^{-7.5t}$ medida en $\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{3})$.
+
+1. Plantee la ecuación diferencial que gobierna la distribución de temperatura de la barra de cobre, indicando tanto las condiciones de borde como la condición inicial.
+
+2. Determine el tiempo en el cual toda la barra se encuentra por debajo de los $6\,^\circ \mathrm{C}$.
+
+3. Determinar la mínima energía térmica total del sistema y en qué momento ocurre.
+
+4. ¿Existe un estado estacionario en este proceso? En caso afirmativo, encuéntrelo; y en caso negativo, explique por qué no existe. En cualquier caso relacione su resultado con el item anterior.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 3
+
+::: {}
+Una barra de aluminio homogénea de $2\, \textrm{cm}$ de largo y $0.01\, \textrm{cm}^2$ de sección transversal se somete a un estudio de difusión de calor. Se conocen las propiedades de dicho material: calor específico $0.217\,\textrm{cal}/(\textrm{g}\,^\circ \textrm{C})$, densidad $2.7\,\textrm{g}/\textrm{cm}^3$ y conductividad térmica $0.57\,\textrm{cal}/(\textrm{s}\,\textrm{cm}\,^\circ\textrm{C})$. Inicialmente la barra se encuentra a una distribución de temperaturas dada por $u_0(x)=4+0.6x(x-4)$ medida en $^\circ \textrm{C}$ y su superficie está aislada, incluso en el borde derecho. El extremo izquierdo de la barra se somete a una temperatura variable $a(t)=4-18.8t \, e^{-3.8t}$. En la barra actúa una fuente de calor $Q(x,t)=225(t-0.1)e^{-125(x-1.1t)^2}e^{-25(t-0.1)^3}$ medida en $\textrm{cal}/(\textrm{s}\,\textrm{cm}^3)$.
+
+1. Plantear la ecuación diferencial que gobierna la distribución de temperatura de la barra de aluminio, indicando tanto las condiciones de borde como la condición inicial.
+
+2. Graficar la evolución del flujo en el extremo izquierdo de la barra durante los primeros 2 segundos y determine los intervalos donde el flujo es entrante, y donde es saliente.
+
+3. Determinar la cantidad de energía que fluye por el extremo izquierdo durante los primeros 2 segundos (flujo neto).
+
+4. Determinar la cantidad de energía que se genera (o se pierde) en la barra a causa de la fuente $Q$ durante los primeros 2 segundos.
+
+5. Determinar el cambio de la energía térmica total en la barra a los 2 segundos, explicando si es energía que el sistema ganó o perdió.  ¿Cómo se relaciona este resultado con los resultados de los dos ítems anteriores?
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 4
+
+::: {}
+Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud $1$ cuya sección transversal tiene un área de $0.01$. Suponga que la temperatura en el extremo izquierdo es igual a cero durante todo el proceso y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son $c=1$, $\rho =1$ y $K_0=\frac12$. Se sabe que la barra inicialmente está a cero grados ($u_0(x)= 0$). Se activa la fuente interna $Q(x,t)$ cuyos valores están reportados en el archivo `energia_generada.txt` (ver [TP6](https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111){target="_blank"} en el aula virtual) en 41 puntos equidistribuidos en la barra y medidos cada 0.005 segundos durante los primeros dos segundos.
+
+1. Determinar la mayor temperatura que se alcanza en el proceso y decir en qué punto y en qué momento ocurre.
+
+2. Graficar como evoluciona la temperatura en el punto medio de la barra a medida que transcurre el tiempo. Determinar la máxima temperatura que se alcanza en este punto y decir en qué instante ocurre.
+
+3. Graficar la energía térmica total $E(t)$ en funcién del tiempo $t$. Determinar cuál es la máxima energía del sistema y en qué momento se alcanza.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 5 (Difusión Reacción)
+
+::: {}
+Considere los siguientes problemas de difusión-reacción:
+
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + u &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= (1-x)^2, \ & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+$$
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + 5\,u &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= (1-x)^2, \quad& & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+Determine, en ambos casos, en qué instante de tiempo la temperatura en el extremo derecho es por primera vez mayor a $0.2$.
+
+*Sugerencia:* Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de difusión incorporando adecuadamente el término de reacción. Note que en general los problemas de difusión-reacción son de la forma:
+
+$$
+\begin{cases}
+\begin{aligned}
+	c \, \rho \, u_t - K_0 \, u_{xx} + c_R \, u &= Q(x,t),
+	\quad& & 0 \le x \le L,\quad t \ge 0, \\
+	u(0,t) &= a(t) & &t \ge 0,\\
+	K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), & &t \ge 0,\\
+	u(x,0) &= u_0(x), \ & & 0 \le x \le L,
+\end{aligned}
+\end{cases}
+$$
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 6 (Difusión Reacción no estacionario)
+
+::: {}
+Considere el siguiente problema de difusión-reacción (no estacionario) en una barra de longitud $L=1$:
+
+$$
+\begin{cases}
+\begin{aligned}
+	u_t - u_{xx} +  u &= Q(x,t), \quad 0 \le x \le 1, \\
+	u(0,t) &= 0, \\
+	u_x(1,t) &= 0, \\
+	u(x,0) &= -10x^2+20x,
+\end{aligned}
+\end{cases}
+$$
+
+donde $Q(x,t) = \begin{cases} 100, &\text{si } t < 2, \\ 0, &\text{si } t \ge 2. \end{cases}$
+
+1. Grafique la evolución de la temperatura durante el intervalo de tiempo entre $t=0$ y $t=4$, y describa lo que observa.
+
+2. Determine el instante de tiempo en que la temperatura en el punto medio es menor a 7.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Adicional 7 (Difusión Reacción)
+
+::: {}
+Considere el siguiente problema de difusión-reacción para una barra de longitud $L=2$:
+
+$$
+\begin{cases}
+\begin{aligned}
+	u_t -  u_{xx} + 4 u &= -(8x^{3}-16x^{2}+12x-8)e^{(x-1)^2}, \quad & & 0 \le x \le 2, \quad t \ge 0,\\
+	u(0,t)    &= e^{-5t}, & & t \ge 0,\\
+	-u_x(2,t) &= 0.5 (u(2,t) - 65.239) , & & t \ge 0,\\
+	u(x,0) &= 2xe^{(x-1)^2} + 4x+1, & & 0 \le x \le 2 .
+\end{aligned}
+\end{cases}
+$$
+
+1. Determine gráficamente la cantidad de puntos necesarios para hallar el estado estacionario utilizando el método de diferencias finitas. Justifique el resultado obtenido describiendo cómo hizo para obtenerlo.
+
+2. Determine el tiempo necesario para llegar al estado estacionario, considerando que este se alcanza cuando la temperatura en toda la barra difiere de la temperatura de equilibrio en no más de $0.05$ grados.
+	    
+3. Determine el tiempo para el cual la temperatura en todo punto de la barra es menor a 13 grados.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+## Bibliografía
+
+Si le interesa leer un poco más sobre los temas de este capítulo, le recomendamos el siguiente libro:
+
+- Larsson, S., Thomée, V., *Partial Differential Equations with Numerical Methods*, Springer, 2009.

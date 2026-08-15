@@ -47,8 +47,9 @@ format:
       light: [cosmo, styles/quick-tools.scss, styles/custom-theme.scss]
       dark:  [cosmo, styles/quick-tools.scss, styles/custom-theme.scss, styles/theme-dark.scss]
     toc: true
-    toc-depth: 3
+    toc-depth: 4
     number-sections: true
+    number-depth: 3
     code-fold: show
     code-summary: "Mostrar código"
     code-copy: true
