@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -79,6 +114,35 @@ ul.task-list li input[type="checkbox"] {
 <script type="module" src="../site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="../site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -370,8 +434,38 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#sec-dif.finitas.en.1D" id="toc-sec-dif.finitas.en.1D" class="nav-link active" data-scroll-target="#sec-dif.finitas.en.1D"><span class="header-section-number">6.1</span> Diferencias finitas en 1D</a>
+  <ul>
+  <li><a href="#sec-prob.estac.poisson" id="toc-sec-prob.estac.poisson" class="nav-link" data-scroll-target="#sec-prob.estac.poisson"><span class="header-section-number">6.1.1</span> Problema estacionario (Poisson)</a>
+  <ul class="collapse">
+  <li><a href="#condiciones-de-borde-dirichlet" id="toc-condiciones-de-borde-dirichlet" class="nav-link" data-scroll-target="#condiciones-de-borde-dirichlet">Condiciones de borde Dirichlet</a></li>
+  <li><a href="#pongámonos-a-prueba" id="toc-pongámonos-a-prueba" class="nav-link" data-scroll-target="#pongámonos-a-prueba">Pongámonos a prueba!!! 💪🏻</a></li>
+  </ul></li>
+  <li><a href="#otras-condiciones-de-borde" id="toc-otras-condiciones-de-borde" class="nav-link" data-scroll-target="#otras-condiciones-de-borde"><span class="header-section-number">6.1.2</span> Otras Condiciones de Borde</a>
+  <ul class="collapse">
+  <li><a href="#pongámonos-a-prueba-1" id="toc-pongámonos-a-prueba-1" class="nav-link" data-scroll-target="#pongámonos-a-prueba-1">Pongámonos a prueba!!! 💪🏻</a></li>
+  </ul></li>
+  <li><a href="#sec-dif.no.estac" id="toc-sec-dif.no.estac" class="nav-link" data-scroll-target="#sec-dif.no.estac"><span class="header-section-number">6.1.3</span> Difusión no estacionaria</a>
+  <ul class="collapse">
+  <li><a href="#método-explícito" id="toc-método-explícito" class="nav-link" data-scroll-target="#método-explícito">Método Explícito</a></li>
+  <li><a href="#método-implícito" id="toc-método-implícito" class="nav-link" data-scroll-target="#método-implícito">Método Implícito</a></li>
+  <li><a href="#pongámonos-a-prueba-2" id="toc-pongámonos-a-prueba-2" class="nav-link" data-scroll-target="#pongámonos-a-prueba-2">Pongámonos a prueba!!! 💪🏻</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sec-dif.finitas.en.2D" id="toc-sec-dif.finitas.en.2D" class="nav-link" data-scroll-target="#sec-dif.finitas.en.2D"><span class="header-section-number">6.2</span> Diferencias finitas en 2D</a>
+  <ul>
+  <li><a href="#sec-estado.estac.poisson" id="toc-sec-estado.estac.poisson" class="nav-link" data-scroll-target="#sec-estado.estac.poisson"><span class="header-section-number">6.2.1</span> Estado estacionario (ecuación de Poisson)</a></li>
+  <li><a href="#sec-dif.no.estac.en.2D" id="toc-sec-dif.no.estac.en.2D" class="nav-link" data-scroll-target="#sec-dif.no.estac.en.2D"><span class="header-section-number">6.2.2</span> Difusión no estacionaria en 2D</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-adicionales" id="toc-ejercicios-adicionales" class="nav-link" data-scroll-target="#ejercicios-adicionales"><span class="header-section-number">6.3</span> Ejercicios Adicionales ✍</a></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía"><span class="header-section-number">6.4</span> Bibliografía</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -396,10 +490,1825 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El método de diferencias finitas es un método numérico para calcular soluciones aproximadas de ecuaciones diferenciales. La aproximación puede ser tan buena como se desee. Pero para mayor aproximación hace falta más trabajo computacional.</p>
+<p>En este método no se obtiene una fórmula analítica de la solución, sino que se obtienen aproximaciones en muchos puntos del dominio donde se quiere resolver el problema.</p>
+<p>La ventaja es que permite resolver problemas con condiciones de borde mucho más generales y con términos fuente también generales. También permite trabajar con coeficientes variables, aunque no nos preocuparemos por eso en este curso.</p>
+<section id="sec-dif.finitas.en.1D" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-dif.finitas.en.1D"><span class="header-section-number">6.1</span> Diferencias finitas en 1D</h2>
+<p>Consideraremos primero la ecuación del calor unidimensional. Es decir, estamos considerando una barra donde todas las cantidades son constantes en los planos paralelos al plano <span class="math inline">\(yz\)</span>, y los cambios o variaciones y el flujo sólo ocurre en la dirección <span class="math inline">\(x\)</span>.</p>
+<section id="sec-prob.estac.poisson" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="sec-prob.estac.poisson"><span class="header-section-number">6.1.1</span> Problema estacionario (Poisson)</h3>
+<p>Recordemos el problema de difusión en una dimensión <span class="math display">\[
+    c \rho u_t - K_0 u_{xx} = Q, \quad u = u(x,t),\quad 0 \le x \le L,\quad t \ge 0.
+\]</span></p>
+<p>Al considerar el <em>estado estacionario</em> en que la variable <span class="math inline">\(u(x,t)\)</span> no cambia con respecto al tiempo <span class="math inline">\(t\)</span>, tenemos <span class="math inline">\(u_t = 0\)</span> y obtenemos la ecuación de Poisson <span class="math display">\[
+    - K_0 u_{xx} = Q, \quad u = u(x), \quad 0 \le x \le L.
+\]</span></p>
+<p>En la siguiente sección vemos cómo se discretiza el problema de Poisson unidimensional con condiciones de borde de tipo Dirichlet.</p>
+<section id="condiciones-de-borde-dirichlet" class="level4">
+<h4 class="anchored" data-anchor-id="condiciones-de-borde-dirichlet">Condiciones de borde Dirichlet</h4>
+<p>Consideremos el problema <span id="eq-cond.borde.dirichlet"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &amp;= Q, \quad 0 \le x \le L, \\
+    u(0) &amp;= a, \\
+    u(L) &amp;= b.
+\end{aligned}
+\end{cases}
+\tag{6.1}\]</span></span></p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>La idea principal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El método de diferencias finitas consiste en reemplazar derivadas por cocientes de diferencias.</p>
+</div>
+</div>
+<p>Recordando que <span class="math inline">\(\frac{dg}{dx} (x) = \lim_{h \to 0} \frac{g(x+h) - g(x)}h\)</span>, la idea es tomar <span class="math inline">\(h\)</span> pequeño y aproximar <span class="math inline">\(\frac{dg}{dx} (x)\)</span> por <span class="math inline">\(\frac{g(x+h) - g(x)}h\)</span>, o alguna variante:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Diferencia</th>
+<th style="text-align: center;">Fórmula</th>
+<th style="text-align: center;">Orden del error</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Adelantada</td>
+<td style="text-align: center;"><span class="math inline">\(\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x+h) - g(x)}{h}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathcal{O}(h)\)</span> si <span class="math inline">\(g \in C^2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Atrasada</td>
+<td style="text-align: center;"><span class="math inline">\(\displaystyle \frac{dg}{dx} (x) \approx \frac{g(x) - g(x-h)}{h}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathcal{O}(h)\)</span> si <span class="math inline">\(g \in C^2\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Centrada</td>
+<td style="text-align: center;"><span class="math inline">\(\displaystyle \frac{dg}{dx} (x) \approx \frac{g\left(x+\frac{h}{2}\right) - g\left(x-\frac{h}{2}\right)}{h}\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathcal{O}(h^2)\)</span> si <span class="math inline">\(g \in C^3\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Las acotaciones del error se obtienen utilizando el Teorema de Taylor. Recordemos que en la ecuación de Poisson aparece <span class="math inline">\(u_{xx} = \frac{d^2 u}{dx^2}\)</span>.</p>
+<p>Para derivadas segundas hacemos lo siguiente, utilizando diferencias centradas:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \frac{d^2 u}{dx^2}(x) = \frac{d}{dx} \left( \frac{d u}{dx} \right)(x)
+    &amp;\approx \frac{ \frac{d u}{dx} \left(x+\frac{h}{2}\right) - \frac{d u}{dx}\left(x-\frac{h}{2}\right)}{h} \\
+    &amp;\approx \dfrac{ \dfrac{ u\left(x+\frac{h}{2} + \frac{h}{2}\right) - u\left(x+\frac{h}{2} - \frac{h}{2}\right)}{h}
+    - \dfrac{ u\left(x-\frac{h}{2} + \frac{h}{2}\right) - u\left(x-\frac{h}{2} - \frac{h}{2}\right)}{h}}{h} \\
+    &amp;= \dfrac{ \dfrac{ u(x+h) - u(x)}{h} - \dfrac{ u(x) - u(x-h)}{h}}{h} \\
+    &amp;= \frac{ u(x+h) - 2 u(x) + u(x-h)}{h^2}
+\end{aligned}
+\]</span></p>
+<p>Para esta aproximación de la derivada segunda tenemos el siguiente resultado:</p>
+<div id="prop-6.1" class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Proposición 6.1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <span class="math inline">\(u \in C^4\)</span>, entonces <span class="math display">\[
+    \frac{d^2 u}{dx^2}(x) = \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} + \mathcal{O}(h^2).
+\]</span></p>
+<p>Más precisamente, si <span class="math inline">\(M_4 = \max_{[x-h,x+h]} | u^{IV} |\)</span>, entonces <span id="eq-cota.error.dif.finitas"><span class="math display">\[
+    \left| \frac{d^2 u}{dx^2}(x) - \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \right| \le \frac{M_4}{12} h^2.
+\tag{6.2}\]</span></span></p>
+<p><strong>Demostración.</strong></p>
+<p>Observemos que por el teorema de Taylor, como <span class="math inline">\(u \in C^4\)</span>, resulta <span class="math display">\[
+\begin{aligned}
+    u(x+h) &amp;= u(x) + h u'(x) + \frac{h^2}{2} u''(x) + \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_1), \\
+    u(x-h) &amp;= u(x) - h u'(x) + \frac{h^2}{2} u''(x) - \frac{h^3}{3!} u'''(x) + \frac{h^4}{4!} u^{IV}(\xi_2),
+\end{aligned}
+\]</span></p>
+<p>con <span class="math inline">\(x-h &lt; \xi_2 &lt; x &lt; \xi_1 &lt; x+h\)</span>. Luego, sumando ambas igualdades, obtenemos <span class="math display">\[
+    u(x+h) - 2 u(x) + u(x-h) = h^2 u''(x) + \frac{h^4}{12} \frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2}.
+\]</span></p>
+<p>Como <span class="math inline">\(u^{IV}\)</span> es continua, <span class="math inline">\(\frac{u^{IV}(\xi_1) + u^{IV}(\xi_2)}{2} = u^{IV}(\eta)\)</span> para algún <span class="math inline">\(x-h &lt; \eta &lt; x+h\)</span>, y luego <span class="math display">\[
+    \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} = u''(x) + \frac{h^2}{12} u^{IV}(\eta),
+\]</span> que implica la afirmación de la proposición.</p>
+</div>
+</div>
+<p>Proponemos los siguientes ejercicios para comprender estos conceptos relacionados al error de aproximación en las derivadas.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere la función <span class="math inline">\(u(x) = \frac{\text{sen}(x)}{x}\)</span> y <span class="math inline">\(x_0=1\)</span>. Complete la siguiente tabla con las aproximaciones de <span class="math inline">\(u'(x_0)\)</span> obtenidas utilizando diferencias adelantadas, diferencias atrasadas y diferencias centradas, y sus respectivos errores.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><span class="math inline">\(h\)</span></th>
+<th><span class="math inline">\(\dfrac{u(x_0+h)-u(x_0)}h\)</span></th>
+<th><span class="math inline">\(\quad\)</span> error <span class="math inline">\(\quad\)</span></th>
+<th><span class="math inline">\(\dfrac{u(x_0) - u(x_0-h)}h\)</span></th>
+<th><span class="math inline">\(\quad\)</span> error <span class="math inline">\(\quad\)</span></th>
+<th><span class="math inline">\(\dfrac{u(x_0+ h) - u(x_0- h)}{2h}\)</span></th>
+<th><span class="math inline">\(\quad\)</span> error <span class="math inline">\(\quad\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1/10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1/20</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1/40</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1/80</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1/160</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1/320</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1/640</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1/1280</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li><p>Determine en qué factor se reduce el error de aproximación en cada caso cuando <span class="math inline">\(h\)</span> se divide a la mitad.</p></li>
+<li><p>Determine el orden de convergencia de los tres métodos propuestos en términos de <span class="math inline">\(h\)</span>.</p></li>
+<li><p>Observando la tabla, determine el valor de <span class="math inline">\(h\)</span> necesario en cada caso para obtener el valor <span class="math inline">\(u'(x_0)\)</span> con tres dígitos correctos.</p></li>
+<li><p>Observando la tabla, determine cuántos dígitos correctos de <span class="math inline">\(u'(x_0)\)</span> se obtienen con cada método usando <span class="math inline">\(h=1/1280\)</span>.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Se tomaron mediciones de la posición de un automóvil en una ruta durante una hora cada cinco minutos, y las mismas se reportan en el archivo <code>posicion_automovil.txt</code> (ver <a href="https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111" target="_blank">TP6</a> en el aula virtual). El tiempo está expresado en min y la posición en km.</p>
+<ol type="1">
+<li><p>Determine la velocidad del automóvil en km/h a la media hora y estime la precisión de su cálculo.</p></li>
+<li><p>¿Cómo cambiaría la calidad de su aproximación si las mediciones se hubieran tomado cada diez minutos?</p></li>
+<li><p>Determine la velocidad máxima en km/h y en qué momento se da. ¿Cuál es la precisión de su estimación?</p></li>
+<li><p>Determine la aceleración del automóvil en <span class="math inline">\(\text{km/h}^2\)</span> a la media hora y estime la precisión de su cálculo.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<p>En vista de la <a href="#prop-6.1" class="xref-quarto">Proposición 6.1</a>, si <span class="math inline">\(u\)</span> es la solución de (<a href="#prop-6.1" class="xref-quarto">6.1</a>), resulta <span class="math display">\[
+    - K_0 \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \approx Q(x),
+\]</span></p>
+<p>siempre que <span class="math inline">\(x-h, x, x+h \in [0,L]\)</span>, es decir, si <span class="math inline">\(h \le x \le L-h\)</span>. El error de aproximación en esta fórmula es <span class="math inline">\(\mathcal{O}(h^2)\)</span>.</p>
+<p>Para obtener un método numérico, tomamos <span class="math inline">\(N \in \mathbb{N}\)</span> y <span class="math inline">\(h = \frac{L}{N}\)</span>, y definimos la partición</p>
+<p><span class="math display">\[
+    0 = x_1 &lt; x_2 = h &lt; x_3 = 2h &lt; \dots &lt; x_N = L - h &lt; x_{N+1} = L.
+\]</span></p>
+<p>Si observamos que <span class="math inline">\(x_i - h = x_{i-1}\)</span> y que <span class="math inline">\(x_i + h = x_{i+1}\)</span>, resulta <span class="math display">\[
+    -K_0 \frac{u(x_i+h) - 2 u(x_i) + u(x_i-h)}{h^2} =
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} \approx Q(x_i)
+\]</span></p>
+<p>para <span class="math inline">\(i = 2, 3, 4, \dots, N\)</span>. Además, <span class="math inline">\(u(x_1) = a\)</span> y <span class="math inline">\(u(x_{N+1}) = b\)</span>.</p>
+<p>Resumiendo, <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    u(x_1) &amp;= a, \\
+    -K_0 \frac{u(x_{i+1}) - 2 u(x_i) + u(x_{i-1})}{h^2} &amp;\approx Q(x_i), \qquad i=2,3,\dots,N, \\
+    u(x_{N+1}) &amp;= b.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>La idea es entonces definir aproximaciones <span class="math inline">\(U_i \approx u(x_i)\)</span> que cumplan las fórmulas anteriores <em>con igualdad</em>, es decir</p>
+<p><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    U_1 &amp;= a, \\
+    -K_0 \frac{ U_{i+1}  -2 U_i + U_{i-1}}{h^2} &amp;= Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &amp;= b.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Multiplicando por <span class="math inline">\(\frac{h^2}{K_0}\)</span> llegamos al siguiente sistema de ecuaciones: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    U_1 &amp;= a, \\
+    - U_{i-1} + 2 U_i - U_{i+1} &amp;= \frac {h^2}{K_0} Q(x_i), \qquad i=2,3,\dots,N,\\
+    U_{N+1} &amp;= b.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Este sistema de ecuaciones tiene <span class="math inline">\(N+1\)</span> ecuaciones y <span class="math inline">\(N+1\)</span> incógnitas <span class="math inline">\(U_1, U_2, \dots, U_{N+1}\)</span>.</p>
+<p>El mismo, puede reescribirse de la siguiente manera: <span id="eq-sist.ec.dif.finitas"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    &amp;U_1 &amp;  &amp;= a \\
+    -&amp;U_1 + 2 U_2 - U_3&amp;  &amp;= \frac{h^2}{K_0} Q(x_2) \\
+    &amp;\quad - U_2 + 2 U_3 - U_4&amp;  &amp;= \frac{h^2}{K_0} Q(x_3) \\
+    &amp; \qquad \qquad  \qquad \qquad \ddots  &amp; &amp; \quad \vdots \\
+    &amp; &amp;\hspace{-1cm} - U_{N-1} + 2 U_{N} - U_{N+1} &amp;= \frac{h^2}{K_0} Q(x_N) \\
+    &amp; &amp; U_{N+1} &amp;= b.
+\end{aligned}
+\end{cases}
+\tag{6.3}\]</span></span></p>
+<p>En forma matricial resulta <span id="eq-matriz.dif.finitas"><span class="math display">\[
+\begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; \dots &amp; \dots &amp; 0\\
+    -1 &amp; 2 &amp; -1 &amp; 0 &amp; \dots  &amp; 0 \\
+    0 &amp; -1 &amp; 2  &amp; -1 &amp; \ddots  &amp; \vdots \\
+    \vdots &amp; \ddots &amp;  \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+    0 &amp; \dots &amp; 0 &amp; -1 &amp; 2    &amp; -1 \\
+    0 &amp; 0 &amp; \dots &amp; \dots &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots \\ U_N \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q(x_2) \\ \frac{h^2}{K_0} Q(x_3) \\ \vdots \\ \frac{h^2}{K_0} Q(x_N) \\  b
+\end{bmatrix}
+.
+\tag{6.4}\]</span></span></p>
+<p>He aquí una implementación computacional en Python, que consiste en escribir un programa que ensamble el sistema y lo resuelva:</p>
+<div id="ed22932b" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissondirichletdf1d.py</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> spdiags</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Programa para resolver la ecuación de Poisson 1D</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># con condiciones de Dirichlet en x=0 y x=L.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Método: Diferencias finitas</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  - K0 u''(x) = Q(x),   0 &lt; x &lt; L</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  u(0) = a,   u(L) = b</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del problema</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Longitud del dominio</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>K0 <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Coeficiente de difusión</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">2.0</span>   <span class="co"># Condición de Dirichlet en x=0</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="op">-</span><span class="fl">3.0</span>  <span class="co"># Condición de Dirichlet en x=L</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">100</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">20</span> <span class="op">*</span> (x <span class="op">-</span> L<span class="op">/</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)  <span class="co"># Término fuente</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del método numérico</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">30</span>  <span class="co"># Número de intervalos</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Armado de la matriz</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> L <span class="op">/</span> N  <span class="co"># Tamaño del paso</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>unos <span class="op">=</span> np.ones(N <span class="op">+</span> <span class="dv">1</span>)  <span class="co"># Vector de unos</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>diagonales <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span> <span class="op">*</span> unos, <span class="dv">2</span> <span class="op">*</span> unos, <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> unos])</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>matriz <span class="op">=</span> spdiags(diagonales, [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], N <span class="op">+</span> <span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>).toarray()</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>matriz[<span class="dv">0</span>, :<span class="dv">2</span>] <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>matriz[N, N<span class="op">-</span><span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Armado del lado derecho</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, L, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.zeros(N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>F[<span class="dv">0</span>] <span class="op">=</span> a</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>F[<span class="dv">1</span>:N] <span class="op">=</span> h<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> K0 <span class="op">*</span> Q(X[<span class="dv">1</span>:N])</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>F[N] <span class="op">=</span> b</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución del sistema</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.linalg.solve(matriz, F)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar la solución</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>plt.figure(<span class="dv">1</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>plt.plot(X, U, <span class="st">'*-'</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'u(x)'</span>)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="06-diferencias-finitas_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="588" height="430"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lo que puede demostrarse, a partir del error cometido por la fórmula en diferencias <a href="#eq-cota.error.dif.finitas" class="quarto-xref"><span>6.2</span></a> es que</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Error máximo de diferencias finitas (1D) para el Problema de Poisson
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-error.poisson.dir1D" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 6.1</strong></span> Si la solución exacta <span class="math inline">\(u(x)\)</span> del Problema de Poisson <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &amp;= Q, \quad 0 \le x \le L, \\
+    u(0) &amp;= a, \\
+    u(L) &amp;= b.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>es <span class="math inline">\(C^4[0,L]\)</span> entonces <span class="math display">\[
+\max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2  = C M_4 L^2 \frac{1}{N^2},
+\]</span></p>
+<p>donde <span class="math inline">\(M_4 = \max_{[0,L]} |u^{IV}|\)</span> y <span class="math inline">\(C\)</span> es una constante que depende de los parámetros <span class="math inline">\(K_0\)</span>, <span class="math inline">\(L\)</span>, de la ecuación, pero es independiente de la función <span class="math inline">\(Q(x)\)</span>, y de los datos de borde <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> y del parámetro de discretización <span class="math inline">\(h\)</span> (o <span class="math inline">\(N\)</span>).</p>
+</div>
+<p><strong>Demostración</strong></p>
+<p>La demostración de este teorema queda fuera del alcance de este curso. El lector interesado puede encontrarla en el libro recomendado en la Bibliografía al final de este capítulo.</p>
+</div>
+</div>
+<p><strong>Observación:</strong> Cuando uno escribe un programa como el anterior para resolver un problema, debe verificar que funcione bien. Para ello, se busca una solución exacta. Esto parece difícil, pero es cuestión de elegir una <span class="math inline">\(u(x)\)</span> cualquiera, que sea <span class="math inline">\(C^4[0,L]\)</span> aunque no sea muy obvia, como lineal o cuadrática y luego, dado un <span class="math inline">\(k\)</span> elegido, se calcula <span class="math inline">\(f(x)\)</span>, <span class="math inline">\(u(0)\)</span> y <span class="math inline">\(u(L)\)</span>.</p>
+<p>Por ejemplo: Tomemos <span class="math inline">\(L=1\)</span>, <span class="math inline">\(K_0=2\)</span> y <span class="math inline">\(u(x) = x^2 + e^{-(x-0.5)^2}\)</span>. Para que esta <span class="math inline">\(u\)</span> sea solución de <a href="#eq-cond.borde.dirichlet" class="quarto-xref"><span>6.1</span></a>, calculamos <span class="math inline">\(Q = -K_0 u_{xx}\)</span>: <span class="math display">\[
+u_x(x) = 2x - 2(x-0.5)e^{-(x-0.5)^2}
+, \qquad
+u_{xx}(x) = 2 - 2[1-2(x-0.5)^2] e^{-(x-0.5)^2}
+\]</span></p>
+<p>Luego, resolvemos el problema con <span class="math display">\[
+\begin{aligned}
+    Q(x) &amp;= -4+4[1-2(x-0.5)^2] e^{-(x-0.5)^2} &amp; &amp;\bigg(=-K_0 u_{xx}(x) \quad\text{con}\quad K_0=2\bigg) \\
+    a &amp;= e^{-0.5^2} &amp; &amp;\bigg( =u(0) \bigg)  \\
+    b &amp;= 1 + e^{-0.5^2} &amp; &amp;\bigg( =u(1) \quad\text{con}\quad L=1\bigg)  
+\end{aligned}
+\]</span></p>
+<p>y deberíamos obtener una solución aproximada a <span class="math inline">\(u(x) = x^2 + e^{-(x-0.5)^2}\)</span>.</p>
+<p>Para estar seguros que el código está bien programado, debemos verificar que cuando tomamos <span class="math inline">\(h\)</span> más pequeño, el error máximo se reduce como <span class="math inline">\(C h^2\)</span>. Es decir, cada vez que tomamos <span class="math inline">\(h\)</span> igual a la mitad de un <span class="math inline">\(h\)</span> anterior, el error debe reducirse por un factor <span class="math inline">\(1/4\)</span>. Puede intentar resolverlo con Python:</p>
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</section>
+<section id="pongámonos-a-prueba" class="level4">
+<h4 class="anchored" data-anchor-id="pongámonos-a-prueba">Pongámonos a prueba!!! 💪🏻</h4>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Estacionario Dirichlet 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Consideremos el siguiente problema: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    - u_{xx} &amp;= 20 e^{-10(x-0.7)^2}, \quad 0 \le x \le 1, \\
+    u(0) &amp;= 5, \\
+    u(1) &amp;= 6.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Grafique la solución <span class="math inline">\(u(x)\)</span> y calcule <span class="math inline">\(u(1/2)\)</span> con un error absoluto menor a <span class="math inline">\(10^{-3}\)</span>.</p>
+</div>
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Estacionario Dirichlet 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Escriba la ecuación diferencial y las condiciones de borde que satisface el estado estacionario <span class="math inline">\(u(x)\)</span> hallado en el item <code>b)</code> del Ejercicio 7 (6) del TP5, considerando <span class="math inline">\(L=2\)</span>, <span class="math inline">\(K_0=\tfrac12\)</span> y <span class="math inline">\(T=10\)</span>. Resuelva dicho problema con el método de diferencias finitas y complete la siguiente tabla:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><span class="math inline">\(N\)</span></th>
+<th><span class="math inline">\(h\)</span></th>
+<th><span class="math inline">\(E_N\)</span></th>
+<th><span class="math inline">\(\frac{E_{N/2}}{E_N}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>80</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>160</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>320</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>640</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>1280</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Aquí, el error con <span class="math inline">\(N\)</span> subintervalos es <span class="math inline">\(E_N= \max\limits_{1\le i \le N+1} |u(x_i)-U_i|\)</span> y <span class="math inline">\(h\)</span> es la longitud de cada subintervalo. Verificar que el factor de reducción del error al duplicar la cantidad de subintervalos es el esperado.</p>
+</div>
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="otras-condiciones-de-borde" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="otras-condiciones-de-borde"><span class="header-section-number">6.1.2</span> Otras Condiciones de Borde</h3>
+<p>En esta sección consideramos en el extremo derecho <span class="math inline">\(x=L\)</span> una condición de borde diferente, que contiene a la de tipo Neumann y de tipo Robin.</p>
+<p>Consideremos el problema <a href="#eq-cond.borde.robin" class="quarto-xref"><span>6.5</span></a></p>
+<p><span id="eq-cond.borde.robin"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    -K_0 u_{xx} &amp;= Q, \quad 0 \le x \le L, \\
+    u(0) &amp;= a, \\
+    K_0 u'(L) + H_1 u(L) &amp;= H_2 u_E.
+\end{aligned}
+\end{cases}
+\tag{6.5}\]</span></span></p>
+<p>Aquí los datos del problema son: <span class="math inline">\(K_0\)</span>, <span class="math inline">\(L\)</span>, <span class="math inline">\(Q(x)\)</span>, <span class="math inline">\(a\)</span>, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span> y <span class="math inline">\(u_E\)</span>.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Notar que la condición de borde que aparece aquí sirve para resolver problemas con <em>flujo prescripto</em> (considerando <span class="math inline">\(H1=0\)</span>) y también con <em>ley de enfriamiento de Newton</em> (considerando <span class="math inline">\(H_1=H_2\)</span>).</p>
+</div>
+</div>
+</div>
+<p>La diferencia esencial entre este problema y el tratado en la sección anterior radica en la derivada <span class="math inline">\(u'(L)\)</span> que aparece en la condición de borde.</p>
+<p>Para no perder precisión en el método, y mantener un error de orden <span class="math inline">\(\mathcal{O}(h^2)\)</span>, usaremos una diferencia centrada para la derivada: <span class="math display">\[
+    u'(L) \approx \frac{u(L+h) - u(L-h)}{2h}.
+\]</span></p>
+<p>Notamos que <span class="math inline">\(x_{N+2} = L+h\)</span> es un punto que cae fuera del dominio <span class="math inline">\([0,L]\)</span> y por eso lo llamamos <em>nodo ficticio</em>.</p>
+<p>La condición del borde derecho de <a href="#eq-cond.borde.robin" class="quarto-xref"><span>6.5</span></a> se reemplaza entonces por la ecuación discreta <span id="eq-borde.derecho.robin.discreto"><span class="math display">\[
+    K_0 \frac{U_{N+2} - U_N}{2h} + H_1 U_{N+1} = H_2 u_E
+\tag{6.6}\]</span></span></p>
+<p>la cual, multiplicando por <span class="math inline">\(\frac{2h}{K_0}\)</span> y reordenando, transformamos en</p>
+<p><span class="math display">\[
+    - U_N  +\frac{2h H_1}{K_0}U_{N+1}+U_{N+2} = \frac{2h H_2}{K_0}u_E.
+\]</span></p>
+<p>Observamos que en esta ecuación aparece una nueva incógnita, <span class="math inline">\(U_{N+2}\)</span>, aunque seguimos teniendo <span class="math inline">\(N+1\)</span> ecuaciones.</p>
+<p>Para arreglar eso, consideremos a <span class="math inline">\(x_{N+1}=L\)</span> como un <em>nodo interior</em> : se cumple entonces la ecuación diferencial <span class="math inline">\(-K_0 u''(x) = Q\)</span> en <span class="math inline">\(x=x_{N+1} = L\)</span>. Por lo tanto, podemos pedir que <span class="math inline">\(U_{N}\)</span>, <span class="math inline">\(U_{N+1}\)</span> y <span class="math inline">\(U_{N+2}\)</span> satisfagan <span class="math display">\[
+    - U_{N} + 2 U_{N+1} - U_{N+2} = \frac {h^2}{K_0} Q(x_{N+1}).
+\]</span></p>
+<p>Si sumamos esta última ecuación con <a href="#eq-borde.derecho.robin.discreto" class="quarto-xref"><span>6.6</span></a>, obtenemos una nueva ecuación donde la incógnita <span class="math inline">\(U_{N+2}\)</span>, correspondiente al <em>nodo ficticio</em> <span class="math inline">\(x_{N+2}\)</span>, ha desaparecido:</p>
+<p><span class="math display">\[
+    -2 U_{N} + \left(2+\frac{2h H_1}{K_0}\right) U_{N+1}  = \frac {h^2}{K_0} Q(x_{N+1})+\frac{2h H_2}{K_0}u_E.
+\]</span></p>
+<p>Si dividimos esta ecuación por 2 y la colocamos en lugar de <span class="math inline">\(U_{N+1}=b\)</span> en el último renglón de <a href="#eq-matriz.dif.finitas" class="quarto-xref"><span>6.4</span></a>, obtenemos un nuevo sistema, considerando ahora una condición de borde tipo Robin en el extremo derecho: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    &amp;U_1&amp;  &amp;=  a \\
+    -&amp;U_1 + 2 U_2 - U_3&amp;  &amp;= \frac{h^2}{K_0} Q_2 \\
+    &amp;\quad - U_2 + 2 U_3 - U_4&amp;  &amp;= \frac{h^2}{K_0} Q_3 \\
+    &amp; \qquad \qquad\qquad \ddots &amp; &amp; \quad \vdots \\
+    &amp; &amp;- U_{N-1} + 2 U_{N} \qquad\qquad  - U_{N+1} &amp;= \frac{h^2}{K_0} Q_N \\
+    &amp; &amp; - U_{N} +(1+\frac{h H_1}{K_0}) U_{N+1} &amp;= \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E,
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>donde denotamos <span class="math inline">\(Q_i=Q(x_i)\)</span>, para <span class="math inline">\(i=2, \dots, N+1\)</span>. De forma matricial, el sistema se escribe de la siguiente manera: <span class="math display">\[
+\begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; \dots &amp; \dots &amp; 0\\
+    -1 &amp; 2 &amp; -1 &amp; 0 &amp; \dots  &amp; 0 \\
+    0 &amp; -1 &amp; 2  &amp; -1 &amp; \ddots  &amp; \vdots \\
+    \vdots &amp; \ddots &amp;  \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+    0 &amp; \dots &amp; 0 &amp; -1 &amp; 2    &amp; -1 \\
+    0 &amp; \dots &amp; 0 &amp; 0 &amp; -1 &amp; 1+\frac{hH_1}{K_0}
+\end{bmatrix}
+\begin{bmatrix}
+    U_1 \\ U_2 \\ U_3 \\ \vdots  \\ U_{N} \\ U_{N+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a \\ \frac{h^2}{K_0} Q_2 \\ \frac{h^2}{K_0} Q_3 \\ \vdots  \\  \frac{h^2}{K_0} Q_N\\   \frac{h^2}{2K_0}Q_{N+1} +\frac{H_2}{K_0}u_E
+\end{bmatrix}
+.
+\]</span></p>
+<p>La implementación computacional consiste en escribir un programa que ensamble el sistema y lo resuelva. A continuación mostramos un programa en Python:</p>
+<div id="7cf7d735" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissonrobindf1d.py</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> spdiags</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Programa para resolver la ecuacion de Poisson</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># con condiciones de Dirichlet en x=0 y Robin en x=L.</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Metodo: Diferencias finitas</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>K0 <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">2.0</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>H1 <span class="op">=</span> <span class="fl">20.0</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>H2 <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>uE <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">100</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">20</span> <span class="op">*</span> (x <span class="op">-</span> <span class="fl">0.3</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Q = lambda x: 100 * (x &gt; 0.7)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Parametros del metodo de resolucion</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">30</span>  <span class="co"># Numero de intervalos</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Armado de la matriz</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> L <span class="op">/</span> N</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>unos <span class="op">=</span> np.ones(N <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>diagonales <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">1</span> <span class="op">*</span> unos, <span class="dv">2</span> <span class="op">*</span> unos, <span class="op">-</span><span class="dv">1</span> <span class="op">*</span> unos])</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>matriz <span class="op">=</span> spdiags(diagonales, [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], N <span class="op">+</span> <span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>).toarray()</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>matriz[<span class="dv">0</span>, :<span class="dv">2</span>] <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>matriz[N, N] <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> h <span class="op">*</span> H1<span class="op">/</span>K0</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Armado del lado derecho</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, L, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> np.zeros(N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>F[<span class="dv">0</span>] <span class="op">=</span> a</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>F[<span class="dv">1</span>:N] <span class="op">=</span> h<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> K0 <span class="op">*</span> Q(X[<span class="dv">1</span>:N])</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>F[N] <span class="op">=</span> h<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> K0 <span class="op">*</span> Q(X[N]) <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> h <span class="op">*</span> H2 <span class="op">*</span> uE <span class="op">/</span> K0</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolucion</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.linalg.solve(matriz, F)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the solution</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>plt.figure(<span class="dv">1</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>plt.plot(X, U, <span class="st">'m-'</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'u(x)'</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="06-diferencias-finitas_files/figure-html/cell-3-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="577" height="433"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>También para este problema se tiene un resultado de estimación del error, cuya demostración escapa al alcance de este curso:</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-error_poisson_rob1D" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 6.2</strong></span> Si la solución exacta <span class="math inline">\(u(x)\)</span> de <a href="#eq-matriz.dif.finitas" class="quarto-xref"><span>6.4</span></a> es <span class="math inline">\(C^4[0,L]\)</span> entonces <span class="math display">\[
+    \max_{i=1,2,\dots,N+1} | u(x_i) - U_i | \le C M_4 h^2 = CM_4 \frac{L^2}{N^2},
+\]</span></p>
+<p>donde <span class="math inline">\(M_4 = \max_{[0,L]} |u^{IV}|\)</span> y <span class="math inline">\(C\)</span> es una constante que depende de los parámetros <span class="math inline">\(k\)</span>, <span class="math inline">\(L\)</span>, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span> de la ecuación, pero es independiente de la función <span class="math inline">\(Q(x)\)</span>, del dato <span class="math inline">\(u_E\)</span> y del parámetro de discretización <span class="math inline">\(h\)</span>.</p>
+</div>
+</div>
+</div>
+<section id="pongámonos-a-prueba-1" class="level4">
+<h4 class="anchored" data-anchor-id="pongámonos-a-prueba-1">Pongámonos a prueba!!! 💪🏻</h4>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Estacionario Robin 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el método de diferencias finitas para resolver los siguientes problemas: <span class="math display">\[
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &amp;= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &amp;= 0 \\
+    u'(1) &amp;= 0.
+\end{aligned}
+\end{cases}
+\qquad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    -u_{xx} &amp;= 200 e^{\frac{(x-0.5)^2}{20}}, \quad 0 \le x \le 1, \\
+    u(0) &amp;= 0 \\
+    u'(1) &amp;= -u(1).
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Grafique las soluciones de ambos problemas. ¿Se anima a dar una interpretación física de las soluciones obtenidas? Recuerde que la ecuación estudiada corresponde al estado estacionario de la ecuación de difusión.</p>
+</div>
+<div>
+<div id="pyodide-6" class="exercise-cell">
+
+</div>
+<script type="pyodide-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Estacionario Robin 2 (con Reacción)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el siguiente problema de difusión-reacción: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    - u_{xx} + 5 u &amp;= 100 x (1-x), \quad 0 \le x \le 1, \\
+    u(0) &amp;= 0, \\
+    u'(1) &amp;= 0.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Grafique la solución <span class="math inline">\(u(x)\)</span> y calcule <span class="math inline">\(u(1/2)\)</span> con un error absoluto menor a <span class="math inline">\(10^{-3}\)</span>.</p>
+<p><em>Sugerencia:</em> Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de Poisson incorporando adecuadamente el término de reacción. Note que en general el problema es de la forma: <span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    - K_0 \, u_{xx} + c_R \, u &amp;= Q, \quad 0 \le x \le L, \\
+    u(0) &amp;= a, \\
+    K_0 u'(L) + H_1 u(L) &amp;= H_2 u_E.
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>donde <span class="math inline">\(c_R&gt;0\)</span> es la constante de reacción.</p>
+</div>
+<div>
+<div id="pyodide-7" class="exercise-cell">
+
+</div>
+<script type="pyodide-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-dif.no.estac" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="sec-dif.no.estac"><span class="header-section-number">6.1.3</span> Difusión no estacionaria</h3>
+<p>Consideremos ahora el problema de difusión no estacionaria siguiente</p>
+<p><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    c \rho u_t(x,t) - K_0 u_{xx}(x,t) &amp;= Q(x,t), \quad&amp; &amp; 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &amp;= a(t), \qquad &amp; &amp;0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &amp;= H_2 u_E(t), \qquad &amp; &amp;0 \le t \le T,\\
+    u(x,0) &amp;= u_0(x), \qquad&amp; &amp; 0 \le x \le L .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Aquí los datos del problema son: <span class="math inline">\(c\)</span>, <span class="math inline">\(\rho\)</span>, <span class="math inline">\(K_0\)</span>, <span class="math inline">\(L\)</span>, <span class="math inline">\(T\)</span>, <span class="math inline">\(Q(x,t)\)</span>, <span class="math inline">\(a(t)\)</span>, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span>, <span class="math inline">\(u_E(t)\)</span> y <span class="math inline">\(u_0(x)\)</span>. Definiendo <span class="math inline">\(k = \frac{K_0}{c\rho}\)</span> y <span class="math inline">\(q(x,t) = \frac{Q(x,t)}{c\rho}\)</span> resulta</p>
+<p><span id="eq-difusion.no.estacionaria"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    u_t(x,t) - k u_{xx}(x,t) &amp;= q(x,t), \quad&amp; &amp; 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &amp;= a(t), \qquad &amp; &amp;0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &amp;= H_2 u_E(t), \qquad &amp; &amp;0 \le t \le T,\\
+    u(x,0) &amp;= u_0(x), \qquad&amp; &amp; 0 \le x \le L .
+\end{aligned}
+\end{cases}
+\tag{6.7}\]</span></span></p>
+<p>Para resolver este problema consideramos la grilla de puntos <span class="math inline">\((x_i, t_j)\)</span> con <span class="math inline">\(x_i = (i-1)h\)</span> como antes y <span class="math inline">\(t_j = j \Delta t\)</span>, donde <span class="math inline">\(\Delta t\)</span> es el <em>parámetro de discretización temporal</em>.</p>
+<section id="método-explícito" class="level4">
+<h4 class="anchored" data-anchor-id="método-explícito">Método Explícito</h4>
+<p>Si aproximamos <span class="math inline">\(u_t\)</span> con una diferencia <em>adelantada</em></p>
+<p><span class="math display">\[
+    u_t(x,t) \approx \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t},
+\]</span></p>
+<p>y <span class="math inline">\(u_{xx}\)</span> como antes</p>
+<p><span class="math display">\[
+    u_{xx}(x,t) \approx \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2},
+\]</span></p>
+<p>obtenemos que en cada punto del dominio se cumple</p>
+<p><span class="math display">\[
+    \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t}
+    - k \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2} \approx q(x,t).
+\]</span></p>
+<p>Si nos centramos en <span class="math inline">\((x,t) = (x_i, t_j)\)</span>, observando que <span class="math inline">\(x_i\pm h = x_{i\pm1}\)</span>, <span class="math inline">\(t_j+\Delta t = t_{j+1}\)</span>, tenemos que</p>
+<p><span class="math display">\[
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_j) -2 u(x_i,t_j) + u(x_{i+1},t_j)}{h^2} \approx
+    q(x_i,t_j).
+\]</span></p>
+<p>Definimos las aproximaciones <span class="math inline">\(U_i^j\)</span> de <span class="math inline">\(u(x_i,t_j)\)</span> de la siguiente manera:</p>
+<p><span class="math display">\[
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^j - 2 U_i^j + U_{i+1}^j}{h^2} = q_i^j,
+\]</span></p>
+<p>donde denotamos <span class="math inline">\(q_i^j = q(x_i,t_j)\)</span>.</p>
+<p>Observamos que solo hay un supra-índice <span class="math inline">\(j+1\)</span> en la fórmula anterior.</p>
+<p>Si despejamos el término <span class="math inline">\(U_i^{j+1}\)</span> que lo contiene obtenemos, llamando <span class="math inline">\(\lambda = \frac{k\Delta t}{h^2}\)</span>, la siguiente fórmula:</p>
+<p><span class="math display">\[
+U_i^{j+1} = \Delta t q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right].
+\]</span></p>
+<p>Esta fórmula será útil para calcular <span class="math inline">\(U\)</span> en el interior de <span class="math inline">\([0,L]\)</span>, para <span class="math inline">\(t &gt; 0\)</span>.</p>
+<p>En <span class="math inline">\(t=0\)</span> (<span class="math inline">\(j=0\)</span>) usaremos la condición inicial <span class="math inline">\(u(x,0) = u_0(x)\)</span>, por lo que tomaremos <span class="math inline">\(U_i^0 = u_0(x_i)\)</span>, <span class="math inline">\(i=1,2,\dots,N+1\)</span>.</p>
+<p>En <span class="math inline">\(x=0\)</span> usaremos la condición de borde <span class="math inline">\(u(0,t) = a(t)\)</span> por lo que tomaremos <span class="math inline">\(U_1^j = a(t_j)\)</span>.</p>
+<p>En <span class="math inline">\(x=L\)</span> tenemos la condición de borde <span class="math inline">\(K_0 u_x(L,t) + H_1 u(L,t) = H_2 u_E(t)\)</span>. Aproximando <span class="math inline">\(u_x(L,t) \approx \frac{u(L+h,t) - u(L-h,t)}h\)</span> llegamos a la fórmula</p>
+<p><span class="math display">\[
+    K_0 \frac{U_{N+2}^j - U_N^j}{2h} + H_1 U_{N+1}^j = H_2 u_E(t_j)
+    \quad\leadsto\quad
+    U_{N+2}^j = \frac{2h}{K_0} (H_2 u_E(t_{j}) - H_1 U_{N+1}^j ) + U_N^j.
+\]</span></p>
+<p>A partir de estas fórmula, diseñamos el siguiente método numérico para la ecuación de difusión <a href="#eq-difusion.no.estacionaria" class="quarto-xref"><span>6.7</span></a>:</p>
+<p>Sean <span class="math inline">\(N,M \in \mathbb{N}\)</span> y definamos <span class="math inline">\(h = L/N\)</span>, <span class="math inline">\(\Delta t= T/M\)</span>, <span class="math inline">\(\lambda = k \Delta t / h^2\)</span></p>
+<ul>
+<li><p>(<span class="math inline">\(j=0\)</span>) <span class="math inline">\(U_i^0 = u_0(x_i)\)</span>, <span class="math inline">\(i=1,2,\dots,N+1\)</span>;</p></li>
+<li><p><span class="math inline">\(U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0\)</span>;</p></li>
+<li><p>Para <span class="math inline">\(j=0,1,2,\dots M-1\)</span></p></li>
+<li><p><span class="math inline">\(U_1^{j+1} = a(t_{j+1})\)</span>;</p></li>
+<li><p><span class="math inline">\(U_i^{j+1} = \Delta t \, q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right]\)</span>, <span class="math inline">\(i=2,\dots,N+1\)</span>;</p></li>
+<li><p><span class="math inline">\(U_{N+2}^{j+1} =  \frac{2h}{K_0} (H_2 u_E(t_{j+1}) - H_1 U_{N+1}^{j+1} ) + U_N^{j+1}\)</span>;</p></li>
+</ul>
+<p>He aquí una implementación para Python de este método de resolución:</p>
+<div id="3cf22327" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># difusionrobindf1dexpl.py</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, clear_output <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Programa para resolver la ecuación de difusión 1D</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># con condiciones de Dirichlet en x=0 y Robin en x=L.</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Método: Diferencias finitas en espacio y Euler explícito en tiempo.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 &lt; x &lt; L,  0 &lt; t &lt; T,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 &lt; t &lt; T,</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  u(x,0) = u0(x),    0 &lt; x &lt; L.</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del problema</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Longitud del dominio</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Tiempo final</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>K0 <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Coeficiente de difusión</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.0</span>   <span class="co"># Capacidad calorífica</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="fl">1.0</span> <span class="co"># Densidad</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> <span class="kw">lambda</span> x, t: <span class="dv">10</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">100</span> <span class="op">*</span> (x <span class="op">-</span> <span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> (t <span class="op">&lt;</span> <span class="fl">0.25</span>)  <span class="co"># Término fuente</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="kw">lambda</span> t: <span class="fl">0.0</span>  <span class="co"># Condición Dirichlet en x=0</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>H1 <span class="op">=</span> <span class="fl">3.0</span>  <span class="co"># Parámetro de Robin</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>H2 <span class="op">=</span> <span class="fl">3.0</span>  <span class="co"># Parámetro de Robin</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>uE <span class="op">=</span> <span class="kw">lambda</span> t: <span class="fl">0.0</span>  <span class="co"># Valor externo para Robin</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> <span class="kw">lambda</span> x: np.zeros_like(x)  <span class="co"># Condición inicial</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Constantes y funciones útiles</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> K0 <span class="op">/</span> (c <span class="op">*</span> rho)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="kw">lambda</span> x, t: Q(x, t) <span class="op">/</span> (c <span class="op">*</span> rho)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del método numérico</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">10</span>  <span class="co"># Número de intervalos</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> L <span class="op">/</span> N  <span class="co"># Tamaño del paso en espacio</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>lambda_ <span class="op">=</span> <span class="fl">0.25</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>deltat <span class="op">=</span> lambda_ <span class="op">*</span> h<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> k  <span class="co"># Tamaño del paso en tiempo</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Condición inicial</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, L, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> u0(X)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># le damos valor a la U en el nodo ficticio (t=0)</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> np.append(U, (H2 <span class="op">*</span> uE(<span class="dv">0</span>) <span class="op">-</span> H1 <span class="op">*</span> U[N]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> h <span class="op">/</span> K0 <span class="op">+</span> U[N<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Configurar la gráfica inicial</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>line, <span class="op">=</span> ax.plot(X, U[:N<span class="op">+</span><span class="dv">1</span>], <span class="st">'*-'</span>)</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'u(x,t)'</span>)</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'t = 0'</span>)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, L)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>plt.pause(<span class="dv">3</span>)  <span class="co"># Pausa inicial de 3 segundos</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> deltat</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> t <span class="op">&lt;</span> T:</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular U en los nodos interiores</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    U[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> (deltat <span class="op">*</span> q(X[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>], t) <span class="op">+</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>                lambda_ <span class="op">*</span> U[:N] <span class="op">+</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>                (<span class="dv">1</span> <span class="op">-</span> <span class="dv">2</span> <span class="op">*</span> lambda_) <span class="op">*</span> U[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>                lambda_ <span class="op">*</span> U[<span class="dv">2</span>:N<span class="op">+</span><span class="dv">2</span>])</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Aplicar condición Dirichlet en x=0</span></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>    U[<span class="dv">0</span>] <span class="op">=</span> a(t)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular U en el nodo ficticio</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    U[N<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> (H2 <span class="op">*</span> uE(t) <span class="op">-</span> H1 <span class="op">*</span> U[N]) <span class="op">*</span> <span class="dv">2</span> <span class="op">*</span> h <span class="op">/</span> K0 <span class="op">+</span> U[N<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Actualizar gráfica</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>    line.set_ydata(U[:N<span class="op">+</span><span class="dv">1</span>])  <span class="co"># Actualizar datos de la solución</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f't = </span><span class="sc">{</span>t<span class="sc">:.3f}</span><span class="ss">'</span>)  <span class="co"># Actualizar título</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="co">#plt.draw()  # Redibujar NO FUNCIONA EL COLAB</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>    clear_output(wait<span class="op">=</span><span class="va">True</span>) <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>    display(fig) <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    plt.pause(<span class="fl">0.05</span>)  <span class="co"># Pausa breve para animación</span></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    t <span class="op">+=</span> deltat</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EL COLAB</span></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># Mantener la gráfica final</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="06-diferencias-finitas_files/figure-html/cell-4-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="601" height="450"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Este método tiene una restricción para resultar . Si observamos el término que multiplica <span class="math inline">\(U_i^j\)</span> en la fórmula para <span class="math inline">\(U_i^{j+1}\)</span> vemos que es <span class="math inline">\(1-2\lambda\)</span> con <span class="math inline">\(\lambda = k \Delta t / h^2\)</span>. Resulta que si <span class="math inline">\(\lambda \ge 1/2\)</span>, de manera que <span class="math inline">\(1-2\lambda \le 0\)</span> se observa un fenómeno de (verificarlo con el código) que hace que las soluciones oscilen en cada paso de tiempo. Lo que ocurre es que pequeños errores de redondeo se magnifican exponencialmente.</p>
+<p>Se recomienda, una vez elegido <span class="math inline">\(h\)</span>, elegir <span class="math inline">\(\Delta t\)</span> de manera que <span class="math inline">\(\lambda \le 1/4\)</span>, para que el algoritmo funcione correctamente. Más aún, en el código que mostramos, elegimos <span class="math inline">\(\lambda\)</span> y luego <span class="math inline">\(\Delta t\)</span> se calcula para que <span class="math inline">\(\lambda = \frac{k\Delta t}{h^2}\)</span>, es decir <span class="math inline">\(\Delta t = \lambda\frac{h^2}k\)</span>.</p>
+<p>También hay estimaciones del error, que resumimos en el siguiente Teorema.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Error del método de difusión para condiciones de borde tipo Robin explícito
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-error.difusion.robin.exp" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 6.3</strong></span> Si la solución exacta <span class="math inline">\(u(x,t)\)</span> de <a href="#eq-difusion.no.estacionaria" class="quarto-xref"><span>6.7</span></a> es <span class="math inline">\(C^4[0,L]\)</span> para la variable <span class="math inline">\(x\)</span> y <span class="math inline">\(C^2[0,T]\)</span> para la variable <span class="math inline">\(t\)</span>, entonces, si <span class="math inline">\(\lambda = k \Delta t / h^2 &lt; 1/2\)</span>, resulta</p>
+<p><span class="math display">\[
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2} (h^2+\Delta t),
+\]</span></p>
+<p>donde $M_{4,2} = <em>{[0,L]} |u</em>{xxxx}| + |u_{tt}| $ y <span class="math inline">\(C\)</span> es una constante que depende de los parámetros <span class="math inline">\(c\)</span>, <span class="math inline">\(\rho\)</span>, <span class="math inline">\(K_0\)</span>, <span class="math inline">\(L\)</span>, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span> de la ecuación, pero es independiente de la función <span class="math inline">\(Q(x,t)\)</span>, del dato inicial <span class="math inline">\(u_0(x)\)</span>, de los datos de borde <span class="math inline">\(a(t)\)</span>, <span class="math inline">\(u_E(t)\)</span> y de los parámetros de discretización <span class="math inline">\(h\)</span>, <span class="math inline">\(\Delta t\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="método-implícito" class="level4">
+<h4 class="anchored" data-anchor-id="método-implícito">Método Implícito</h4>
+<p>Cuando los coeficientes son variables, o cuando queremos resolver problemas en dos o tres dimensiones espaciales, la condición de estabilidad puede ser más difícil de determinar. En esta sección veremos un método que es <em>incondicionalmente estable</em>, es decir, resulta estable sin importar la relación entre <span class="math inline">\(\Delta t\)</span> y <span class="math inline">\(h\)</span>.</p>
+<p>La diferencia principal con el método obtenido anteriormente está en aproximar la derivada temporal <span class="math inline">\(u_t\)</span> por una diferencia <em>atrasada</em> en lugar de <em>adelantada</em>. Es decir, consideraremos que</p>
+<p><span class="math display">\[
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} \approx u_t(x_i, t_{j+1}).
+\]</span></p>
+<p>Por lo tanto, si nos centramos en <span class="math inline">\((x,t)=(x_i, t_{j+1})\)</span>, vemos que</p>
+<p><span class="math display">\[
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_{j+1}) -2 u(x_i,t_{j+1}) + u(x_{i+1},t_{j+1})}{h^2} \approx
+    q(x_i,t_{j+1}).
+\]</span></p>
+<p>Luego, definimos entonces las aproximaciones <span class="math inline">\(U_i^j\)</span> de <span class="math inline">\(u(x_i,t_j)\)</span> de la siguiente manera:</p>
+<p><span class="math display">\[
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^{j+1} - 2 U_i^{j+1} + U_{i+1}^{j+1}}{h^2} = q_i^{j+1}.
+\]</span></p>
+<p>Si ahora <em>despejamos</em> las incógnitas con supra-índice <span class="math inline">\(j+1\)</span> a la izquierda, nos queda</p>
+<p><span class="math display">\[
+    -\lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    = \Delta t \, q_i^{j+1} + U_i^j.
+\]</span></p>
+<p>Vemos que no queda <span class="math inline">\(U_i^{j+1}\)</span> <em>despejada</em> sola a la izquierda, sino que queda relacionada con <span class="math inline">\(U_{i-1}^{j+1}\)</span> y con <span class="math inline">\(U_{i+1}^{j+1}\)</span>. Por eso se dice que el método es <em>implícito</em>.</p>
+<p>Por lo tanto, en cada paso de tiempo deberemos resolver un <em>sistema de ecuaciones</em>. Esto es un poco más costoso computacionalmente que lo que se hace en el caso <em>explícito</em>, pero se gana en estabilidad.</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>El método implícito resulta estable para cualquier <span class="math inline">\(\Delta t &gt; 0\)</span>.</p>
+</div>
+</div>
+</div>
+<p>Si incorporamos las condiciones de borde, vemos que, conocido <span class="math inline">\(U_i^j\)</span>, para un <span class="math inline">\(j\)</span> dado y para <span class="math inline">\(i=1,2,\dots,N+2\)</span>, los valores <span class="math inline">\(U_i^{j+1}\)</span>, <span class="math inline">\(i=1,2,\dots,N+2\)</span> deben satisfacer el siguiente sistema de <span class="math inline">\(N+2\)</span> ecuaciones</p>
+<p><span id="eq-sist.ecuaciones.robin.implicito"><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    U_1^{j+1} &amp;= a(t_{j+1}), \\
+    - \lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    &amp;= \Delta t \, q_i^{j+1} + U_i^j , \qquad i=2,3,\dots,N+1,\\
+    -U_N^{j+1} + \frac{2hH_1}{K_0} U_{N+1}^{j+1} + U_{N+2}^{j+1}
+    &amp;=  \frac{2hH_2}{K_0} u_E(t_{j+1}) .
+\end{aligned}
+\end{cases}
+\tag{6.8}\]</span></span></p>
+<p>En forma matricial, el sistema a resolver en cada paso de tiempo resulta:</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+    1 &amp; 0 &amp; 0 &amp; \dots &amp; \dots &amp; 0\\
+    -\lambda &amp; 1+2\lambda &amp; -\lambda &amp; 0 &amp; \dots  &amp; 0 \\
+    0 &amp; -\lambda &amp; 1+2\lambda  &amp; -\lambda &amp; \ddots  &amp; \vdots \\
+    \vdots &amp; \ddots &amp;  \ddots &amp; \ddots &amp; \ddots &amp; 0 \\
+    0 &amp; \dots &amp; 0 &amp; -\lambda &amp; 1+2\lambda   &amp; -\lambda \\
+    0 &amp; \dots &amp; 0 &amp; -1 &amp; \frac{2hH_1}{K_0} &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1^{j+1} \\ U_2^{j+1} \\ U_3^{j+1} \\ \vdots \\ U_N^{j+1} \\ U_{N+1}^{j+1} \\ U_{N+2}^{j+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a(t_{j+1}) \\ U_2^j \\ U_3^j \\ \vdots \\ U_N^j \\ U_{N+1}^j \\ \frac{2hH_2}{K_0} u_E(t_{j+1})
+\end{bmatrix}
++
+\Delta t
+\begin{bmatrix}
+    0 \\  q_2^{j+1} \\ q_3^{j+1} \\ \vdots \\ q_N^{j+1} \\ q_{N+1}^{j+1} \\ 0
+\end{bmatrix}
+.
+\]</span></p>
+<p>Esto debe repetirse para <span class="math inline">\(j=0,1,2,\dots,M\)</span> luego de haber definido</p>
+<p><span class="math display">\[
+U_i^0 = u_0(x_i), \quad i=1,2,\dots,N+1 \qquad\text{y}\qquad
+U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0.
+\]</span></p>
+<p>He aquí una implementación de este método de resolución para Python:</p>
+<div id="4647575a" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># difusionrobindf1dimpl.py</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> spdiags</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, clear_output <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Programa para resolver la ecuación de difusión 1D</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># con condiciones de Dirichlet en x=0 y Robin en x=L.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Método: Diferencias finitas en espacio y Euler implícito en tiempo.</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 &lt; x &lt; L,  0 &lt; t &lt; T,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 &lt; t &lt; T,</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  u(x,0) = u0(x),   0 &lt; x &lt; L.</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del problema</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Longitud del dominio</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="fl">0.5</span>  <span class="co"># Tiempo final</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>K0 <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Coeficiente de difusión</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">1.0</span>   <span class="co"># Capacidad calorífica</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>rho <span class="op">=</span> <span class="fl">1.0</span> <span class="co"># Densidad</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> <span class="kw">lambda</span> x, t: <span class="dv">10</span> <span class="op">*</span> np.exp(<span class="op">-</span><span class="dv">100</span> <span class="op">*</span> (x <span class="op">-</span> <span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span> (t <span class="op">&lt;</span> <span class="fl">0.25</span>)  <span class="co"># Término fuente</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="kw">lambda</span> t: <span class="fl">0.0</span>  <span class="co"># Condición Dirichlet en x=0</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>H1 <span class="op">=</span> <span class="fl">3.0</span>  <span class="co"># Parámetro de Robin</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>H2 <span class="op">=</span> <span class="fl">3.0</span>  <span class="co"># Parámetro de Robin</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>uE <span class="op">=</span> <span class="kw">lambda</span> t: <span class="fl">0.0</span>  <span class="co"># Valor externo para Robin</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>u0 <span class="op">=</span> <span class="kw">lambda</span> x: np.zeros_like(x)  <span class="co"># Condición inicial</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Constantes y funciones útiles</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> K0 <span class="op">/</span> (c <span class="op">*</span> rho)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="kw">lambda</span> x, t: Q(x, t) <span class="op">/</span> (c <span class="op">*</span> rho)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del método numérico</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">30</span>  <span class="co"># Número de intervalos</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> L <span class="op">/</span> N  <span class="co"># Tamaño del paso en espacio</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>lambda_ <span class="op">=</span> <span class="fl">4.0</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>deltat <span class="op">=</span> lambda_ <span class="op">*</span> h<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> k  <span class="co"># Tamaño del paso en tiempo</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Condición inicial</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.linspace(<span class="dv">0</span>, L, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> u0(X)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar la condición inicial</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>line, <span class="op">=</span> ax.plot(X, U[:N<span class="op">+</span><span class="dv">1</span>], <span class="st">'*-'</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'u(x,t)'</span>)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'t = 0'</span>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, L)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>plt.pause(<span class="dv">3</span>)  <span class="co"># Pausa inicial de 3 segundos</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Armado de la matriz</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>unos <span class="op">=</span> np.ones(N <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>columnas <span class="op">=</span> np.array([<span class="op">-</span>lambda_ <span class="op">*</span> unos, (<span class="dv">1</span> <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> lambda_) <span class="op">*</span> unos, <span class="op">-</span>lambda_ <span class="op">*</span> unos])</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>matriz <span class="op">=</span> spdiags(columnas, [<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>], N <span class="op">+</span> <span class="dv">2</span>, N <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>matriz <span class="op">=</span> matriz.toarray()</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>matriz[<span class="dv">0</span>, :<span class="dv">2</span>] <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>matriz[N <span class="op">+</span> <span class="dv">1</span>, N<span class="op">-</span><span class="dv">1</span>:N<span class="op">+</span><span class="dv">2</span>] <span class="op">=</span> [<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span> <span class="op">*</span> h <span class="op">*</span> H1 <span class="op">/</span> K0, <span class="dv">1</span>]</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> deltat</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> t <span class="op">&lt;</span> T:</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ensamblado del lado derecho</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    F <span class="op">=</span> np.zeros(N <span class="op">+</span> <span class="dv">2</span>)</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>    F[<span class="dv">0</span>] <span class="op">=</span> a(t)  <span class="co"># Condición Dirichlet</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>    F[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> U[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>] <span class="op">+</span> deltat <span class="op">*</span> q(X[<span class="dv">1</span>:N<span class="op">+</span><span class="dv">1</span>], t)  <span class="co"># Puntos interiores</span></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>    F[N<span class="op">+</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> h <span class="op">*</span> H2 <span class="op">/</span> K0 <span class="op">*</span> uE(t)  <span class="co"># Condición Robin</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calcular la nueva U resolviendo el sistema</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    U <span class="op">=</span> np.linalg.solve(matriz, F)</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Actualizar gráfica</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    line.set_ydata(U[:N<span class="op">+</span><span class="dv">1</span>])  <span class="co"># Actualizar datos de la solución</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f't = </span><span class="sc">{</span>t<span class="sc">:.3f}</span><span class="ss">'</span>)  <span class="co"># Actualizar título</span></span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">#plt.draw()  # Redibujar NO FUNCIONA EN COLAB</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>    clear_output(wait<span class="op">=</span><span class="va">True</span>) <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>    display(fig) <span class="co">#alternativa de graf. en Colab</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>    plt.pause(<span class="fl">0.05</span>)  <span class="co"># Pausa breve para animación</span></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    t <span class="op">+=</span> deltat</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EN COLAB</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co"># Mantener la gráfica final</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="06-diferencias-finitas_files/figure-html/cell-5-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="601" height="450"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>También hay estimaciones del error, que resumimos en el siguiente Teorema.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Error del método de Difusión para condiciones de borde tipo Robin Implícito
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div id="thm-error.difusion.robin.imp" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 6.4</strong></span> Si la solución exacta <span class="math inline">\(u(x,t)\)</span> de <span class="math inline">\((6.7)\)</span> es <span class="math inline">\(C^4[0,L]\)</span> para la variable <span class="math inline">\(x\)</span> y <span class="math inline">\(C^2[0,T]\)</span> para la variable <span class="math inline">\(t\)</span>, entonces resulta</p>
+<p><span class="math display">\[
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2}(h^2+\Delta t),
+\]</span></p>
+<p>donde <span class="math inline">\(M_{4,2} = \max_{[0,L]\times[0,T]} |u_{xxxx}| + |u_{tt}|\)</span> y <span class="math inline">\(C\)</span> es una constante que depende de los parámetros <span class="math inline">\(c\)</span>, <span class="math inline">\(\rho\)</span>, <span class="math inline">\(K_0\)</span>, <span class="math inline">\(L\)</span>, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span> de la ecuación, pero es independiente de la función <span class="math inline">\(Q(x,t)\)</span>, del dato inicial <span class="math inline">\(u_0(x)\)</span>, de los datos de borde <span class="math inline">\(a(t)\)</span>, <span class="math inline">\(u_E(t)\)</span> y de los parámetros de discretización <span class="math inline">\(h\)</span>, <span class="math inline">\(\Delta t\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="pongámonos-a-prueba-2" class="level4">
+<h4 class="anchored" data-anchor-id="pongámonos-a-prueba-2">Pongámonos a prueba!!! 💪🏻</h4>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Difusión no estacionaria 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere la siguiente ecuación del calor en una barra de longitud <span class="math inline">\(L=1\)</span>:</p>
+<p><span class="math display">\[
+(*)
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} &amp;= 100, \quad &amp; &amp; 0 \le x \le 1, \quad t \ge 0,\\
+    u(0,t)    &amp;= 0, &amp; &amp; t \ge 0,\\
+    u_x(1,t)  &amp;= -u(1,t), &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= 10x(1-x)^2, &amp; &amp; 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li><p>Determine el estado estacionario, al que llamaremos <span class="math inline">\(u_\infty(x)\)</span>.</p></li>
+<li><p>Si <span class="math inline">\(u(x,t)\)</span> es la solución de <span class="math inline">\((*)\)</span>, determine el valor de <span class="math inline">\(\lim_\limits{t \to \infty}u(\tfrac12,t)\)</span>.</p></li>
+<li><p>Determine el primer instante de tiempo <span class="math inline">\(t\)</span> en el que la temperatura en el punto medio de la barra supera el valor <span class="math inline">\(23\)</span>.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-8" class="exercise-cell">
+
+</div>
+<script type="pyodide-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Difusión no estacionaria 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere los siguientes problemas:</p>
+<p><span class="math display">\[
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - 2 u_{xx} &amp;= 0, \quad&amp; &amp; 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &amp;= 1, \quad &amp; &amp; t \ge 0,\\
+    u_x(1,t) &amp;= 0, \quad &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= e^{-10x},  &amp; &amp; 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\quad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - 6 u_{xx} &amp;= 0, \quad&amp; &amp; 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &amp;= 1, \quad &amp; &amp; t \ge 0,\\
+    u_x(1,t) &amp;= 0, \quad &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= e^{-10x},  &amp; &amp; 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Determine en cada caso la solución estacionaria <span class="math inline">\(u_\infty(x)\)</span> y el tiempo <span class="math inline">\(t\)</span> para el cual se cumple</p>
+<p><span class="math display">\[
+    \max_{0\le x \le 1} |u(x,t) - u_\infty(x)| \le 0.01.
+\]</span></p>
+<p>A partir de estos cálculos, deduzca qué efecto tiene sobre la solución el cambio en el coeficiente de difusión.</p>
+</div>
+<div>
+<div id="pyodide-9" class="exercise-cell">
+
+</div>
+<script type="pyodide-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="sec-dif.finitas.en.2D" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-dif.finitas.en.2D"><span class="header-section-number">6.2</span> Diferencias finitas en 2D</h2>
+<p>El método de diferencias finitas se extiende naturalmente a dominios bidimensionales de forma rectangular o que sean uniones finitas de rectángulos, y el análisis puede hacerse de manera similar. Lo complicado es numerar los nodos con un solo índice, y encontrar la manera automática de armar la matriz del sistema, pero pensando un poco es posible.</p>
+<p>Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio <span class="math inline">\(\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    u_t- k ( u_{xx} + u_{yy} ) &amp;= q, \qquad &amp; &amp;\text{en $\Omega$ para $t \ge 0$}, \\
+    u &amp;= \alpha, \qquad &amp; &amp;\text{en $\partial\Omega$ para $t \ge 0$}, \\
+    u &amp;= u_0, \qquad &amp; &amp;\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+\]</span></p>
+<section id="sec-estado.estac.poisson" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="sec-estado.estac.poisson"><span class="header-section-number">6.2.1</span> Estado estacionario (ecuación de Poisson)</h3>
+<p>Consideremos primero esta ecuación en estado estacionario, es decir, consideremos <span class="math inline">\(u=u(x,y)\)</span> y <span class="math inline">\(u_t = 0\)</span>. Luego resulta la ecuación de Poisson, que consiste en hallar <span class="math inline">\(u=u(x,y)\)</span>, <span class="math inline">\(u:\Omega \to \mathbb{R}\)</span> tal que</p>
+<p><span id="eq-poisson.estacionario"><span class="math display">\[
+\begin{aligned}
+    -k ( u_{xx}(x,y) + u_{yy}(x,y) ) &amp;= q(x,y), \qquad&amp; &amp;\text{para $(x,y) \in \Omega$}, \\
+    %-\nabla^2 u + p(x,y) \cdot \nabla u + q(x,y) u &amp;= g(x,y) , \qquad &amp; &amp;(x,y) \in \Omega, \\
+    u(x,y) &amp;= \alpha(x,y), &amp; &amp;\text{para $(x,y) \in \partial\Omega$}.
+\end{aligned}
+\tag{6.9}\]</span></span></p>
+<p>Dado <span class="math inline">\(N\in\mathbb{N}\)</span>, definimos <span class="math inline">\(h = 1/N\)</span> y <span class="math inline">\(x_i = ih\)</span>, <span class="math inline">\(y_j= jh\)</span> <span class="math inline">\(i,j=0,1,\dots,N\)</span>, y resulta, denotando <span class="math inline">\(u_{i,j} = u(x_i,y_j)\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \nabla^2 u(x_i,y_j) &amp;= \frac{\partial^2u}{\partial x^2}(x_i,y_j) + \frac{\partial^2u}{\partial y^2}(x_i,y_j) \\
+    &amp;= \frac{u_{i+1,j} - 2 u_{i,j} + u_{i-1,j}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)
+    + \frac{u_{i,j+1} - 2 u_{i,j} + u_{i,j-1}}{h^2} + \frac{h^2}{12} \frac{\partial^4u}{\partial y^4}(x_i,\eta_{i,j})
+    \\
+    &amp;=\frac{ u_{i+1,j}  + u_{i,j+1} - 4 u_{i,j} + u_{i-1,j} + u_{i,j-1}}{h^2}
+    + \frac{h^2}{12} \left[ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(\xi_{i,j},y_j)+ \frac{h^2}{12} \frac{\partial^4u}{\partial x^4}(x_i,\eta_{i,j}) \right]
+\end{aligned}
+\]</span></p>
+<p>Por lo tanto, si la solución <span class="math inline">\(u(x,y)\)</span> de <span class="math inline">\((6.9)\)</span> es <span class="math inline">\(C^4\)</span> en <span class="math inline">\(\bar\Omega\)</span>, satisface</p>
+<p><span class="math display">\[
+\begin{aligned}
+    &amp;k \frac{ -u_{i+1,j}  - u_{i,j+1} + 4 u_{i,j} - u_{i-1,j} - u_{i,j-1}}{h^2}
+    = q_{i,j} + \mathcal{O}(h^2)
+\end{aligned}
+\]</span></p>
+<p>para <span class="math inline">\(i,j=1,2,\dots,N-1\)</span>. Aquí <span class="math inline">\(q_{i,j}\)</span> denota la evaluación de <span class="math inline">\(q\)</span> en <span class="math inline">\((x_i,y_j)\)</span>, respectivamente.</p>
+<p>A partir de estas expresiones, definimos <span class="math inline">\(U_{i,j}\)</span>, aproximaciones de <span class="math inline">\(u_{i,j}\)</span> a través de las siguientes igualdades:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    &amp;k\frac{ -U_{i+1,j}  - U_{i,j+1} + 4 U_{i,j} - U_{i-1,j} - U_{i,j-1}}{h^2}
+    = q_{i,j} ,\quad
+    &amp; &amp;i,j=1,2,\dots,N-1, \\[6pt]
+    &amp;U_{0,j} = \alpha(0,y_j), \quad U_{N,j} = \alpha(1,y_j), &amp; &amp;j=0,1,\dots,N,\\
+    &amp;U_{i,0} = \alpha(x_i,0), \quad U_{i,N} = \alpha(x_i,1), &amp; &amp;i=0,1,\dots,N.
+\end{aligned}
+\]</span></p>
+<p>Esto resulta en un sistema de <span class="math inline">\((N+1)^2\)</span> ecuaciones lineales con <span class="math inline">\((N+1)^2\)</span> incógnitas.</p>
+<p>También aquí puede demostrarse que el sistema tiene solución única y además se cumple que</p>
+<p><span class="math display">\[
+    \max_{0\le i,j\le N} | u(x_i,y_j) - U_{i,j} | \le C h^2,
+\]</span></p>
+<p>con <span class="math inline">\(C\)</span> una constante que depende de derivadas de hasta orden cuatro de <span class="math inline">\(u\)</span>. % y de los coeficientes <span class="math inline">\(p(x,y)\)</span>, <span class="math inline">\(q(x,y)\)</span> de la EDP.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Observación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para implementarlo debemos numerar los nodos e incógnitas con un solo índice, por ejemplo <span class="math inline">\(k = (i-1)(N+1) + j\)</span>. Al hacer esto, el sistema resulta con una matriz pentadiagonal en lugar de tridiagonal.</p>
+</div>
+</div>
+<p>A continuación mostramos un código ejemplo en Python:</p>
+<div id="5bb3a226" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissondirichletdf2d.py</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> spdiags</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse.linalg <span class="im">import</span> spsolve</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de diferencias finitas en 2D para resolver</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># el problema de Poisson en un cuadrado:</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># - k (u_xx + u_yy) = q(x,y),    (x,y) en Omega = (0,L) x (0,L)</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#            u(x,y) = alfa(x,y), (x,y) en la frontera de Omega</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros del problema</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># Longitud del dominio</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="kw">lambda</span> x, y: np.ones_like(x)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>alfa <span class="op">=</span> <span class="kw">lambda</span> x, y: np.zeros_like(x)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Parámetros de la resolución</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolución</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">1.0</span> <span class="op">/</span> N  <span class="co"># Tamaño del paso</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(<span class="dv">0</span>, L, N <span class="op">+</span> <span class="dv">1</span>)  <span class="co"># Puntos en x</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>yy <span class="op">=</span> xx  <span class="co"># Puntos en y (mismo espaciado)</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xx, yy)  <span class="co"># Crear malla 2D</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> x.T.flatten()  <span class="co"># Vectorizar x (transponer para orden correcto)</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> y.T.flatten()  <span class="co"># Vectorizar y</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>F <span class="op">=</span> q(x, y)</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>ALFA <span class="op">=</span> alfa(x, y)</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>diagonal_values <span class="op">=</span> k <span class="op">*</span> np.array([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]) <span class="op">/</span> h<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>diagonales <span class="op">=</span> np.tile(diagonal_values[:, np.newaxis], (<span class="dv">1</span>, (N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> spdiags(diagonales, [N <span class="op">+</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span>(N <span class="op">+</span> <span class="dv">1</span>)], (N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>, (N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> M.T</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>rhs <span class="op">=</span> F</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Corregir ecuaciones de los nodos del borde</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Índices de los nodos en el borde: piso, techo, pared izq, pared der</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> np.concatenate([</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    np.arange(<span class="dv">0</span>, N <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    np.arange((N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (N <span class="op">+</span> <span class="dv">1</span>), (N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span>),</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    np.arange(N <span class="op">+</span> <span class="dv">1</span>, (N <span class="op">+</span> <span class="dv">1</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> (N <span class="op">+</span> <span class="dv">1</span>), N <span class="op">+</span> <span class="dv">1</span>),</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    np.arange(<span class="dv">2</span> <span class="op">*</span> (N <span class="op">+</span> <span class="dv">1</span>), (N <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> N <span class="op">+</span> <span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.sparse <span class="im">import</span> lil_matrix</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> lil_matrix(M)  <span class="co"># Convertir a formato LIL para modificar filas</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>M[ind, :] <span class="op">=</span> <span class="dv">0</span>  <span class="co"># Poner ceros en filas de los nodos del borde</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> ind:</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    M[i, i] <span class="op">=</span> <span class="dv">1</span>  <span class="co"># Poner 1 en la diagonal para u = alfa</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>M <span class="op">=</span> M.tocsc()  <span class="co"># Convertir a CSC para spsolve</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>rhs[ind] <span class="op">=</span> ALFA[ind]  <span class="co"># Aplicar condición de contorno en el lado derecho</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolver el sistema</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> spsolve(M, rhs)</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformar a matriz para graficar</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>U <span class="op">=</span> U.reshape(N <span class="op">+</span> <span class="dv">1</span>, N <span class="op">+</span> <span class="dv">1</span>)  <span class="co"># Convertir vector a matriz (N+1 x N+1)</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Graficar la solución</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(<span class="dv">1</span>)</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>, projection<span class="op">=</span><span class="st">'3d'</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(xx, yy)</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>surf <span class="op">=</span> ax.plot_surface(X, Y, U, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>ax.set_zlabel(<span class="st">'u(x,y)'</span>)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'N = </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>plt.colorbar(surf)</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="06-diferencias-finitas_files/figure-html/cell-6-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="460" height="417"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="sec-dif.no.estac.en.2D" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="sec-dif.no.estac.en.2D"><span class="header-section-number">6.2.2</span> Difusión no estacionaria en 2D</h3>
+<p>En esta sección consideraremos el método implícito, análogo al visto en la <a href="#sec-dif.no.estac" class="quarto-xref"><span>Sección 6.1.3</span></a> para difusión en 1D. Pero lo haremos de otra forma. Consideremos la ecuación del calor con condiciones de borde de tipo Dirichlet, es decir, temperatura conocida, sobre el dominio <span class="math inline">\(\Omega = (0,1)\times(0,1) = \{ (x,y) \in \mathbb{R}^2:  0 \le x \le 1,0 \le y  \le 1\}\subset \mathbb{R}^2\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+u_t- k ( u_{xx} + u_{yy} ) &amp;= q, \qquad &amp; &amp;\text{en $\Omega$ para $t \ge 0$}, \\
+u &amp;= \alpha, \qquad &amp; &amp;\text{en $\partial\Omega$ para $t \ge 0$}, \\
+u &amp;= u_0, \qquad &amp; &amp;\text{en $\Omega$ para $t = 0$}.
+\end{aligned}
+\]</span></p>
+<p>Una discretización de la variable tiempo utilizando un método de Euler implícito consiste en aproximar <span class="math inline">\(u_t(x,y,t_{n})\)</span> por <span class="math inline">\(\frac{u(x,y_n, t) - u(x,y,t_{n-1})}{\Delta t}\)</span>, con algún <span class="math inline">\(\Delta t&gt;0\)</span> pequeño. Si ahora <span class="math inline">\(u^n\)</span> denota la aproximación de <span class="math inline">\(u\)</span> en <span class="math inline">\(t=t_n\)</span> que resulta de reemplazar <span class="math inline">\(u_t\)</span> por esta fórmula, obtenemos:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \frac{u^n - u^{n-1}}{\Delta t}- k ( u^n_{xx} + u^n_{yy} ) &amp;= q^n, \qquad &amp; &amp;\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &amp;= \alpha^n, \qquad &amp; &amp;\text{en $\partial\Omega$ para $n \ge 1$}, \\
+    u^0 &amp;= u_0, \qquad &amp; &amp;\text{en $\Omega$}.
+\end{aligned}
+\]</span></p>
+<p>Despejando <span class="math inline">\(u^n\)</span> en la primera ecuación, obtenemos que cada <span class="math inline">\(u^n\)</span> debe satisfacer</p>
+<p><span id="eq-6.11"><span class="math display">\[
+\begin{aligned}
+    u^n - \Delta t\, k ( u^n_{xx} + u^n_{yy} ) &amp;= u^{n-1} + \Delta t \, q^n, \qquad &amp; &amp;\text{en $\Omega$ para $n \ge 1$}, \\
+    u^n &amp;= \alpha^n, \qquad &amp; &amp;\text{en $\partial\Omega$ para $n \ge 1$},
+\end{aligned}
+\tag{6.10}\]</span></span></p>
+<p>De esta manera, dado <span class="math inline">\(u^0 = u_0\)</span>, resulta que <span class="math inline">\(u^1\)</span> es la solución de una ecuación en derivadas parciales con valores en el borde. Una vez hallado <span class="math inline">\(u^1\)</span>, <span class="math inline">\(u^2\)</span> es la solución de otro problema del mismo tipo, y así sucesivamente. Cada uno de estos problemas puede resolverse de manera similar a la ecuación de Poisson, discretizando en <span class="math inline">\(x\)</span> y en <span class="math inline">\(y\)</span> con un parámetro <span class="math inline">\(h = 1/N\)</span>. Más precisamente, aproximaremos <span class="math inline">\(u_{xx}^n(x_i,y_j) + u_{yy}^n(x_i,y_j)\)</span> por la fórmula</p>
+<p><span class="math display">\[
+\frac{ u^n_{i+1,j}  + u^n_{i,j+1} - 4 u^n_{i,j} + u^n_{i-1,j} + u^n_{i,j-1}}{h^2}
+\]</span></p>
+<p>Reemplazando esta fórmula en <a href="#eq-6.11" class="quarto-xref"><span>6.10</span></a> obtenemos el siguiente sistema de ecuaciones para <span class="math inline">\(U_{i,j}^n\)</span>, que son las aproximaciones de <span class="math inline">\(u_{i,j}^n\)</span>, para <span class="math inline">\(n=1,2,3,\dots\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    &amp;U_{i,j}^n - \frac{k\Delta t}{h^2} \left( U^n_{i+1,j}  + U^n_{i,j+1} - 4 U^n_{i,j} + U^n_{i-1,j} + U^n_{i,j-1}\right)
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad &amp; &amp; i,j=1,2,\dots,N-1, \\
+    &amp;U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), &amp; &amp;j=0,1,\dots,N,\\
+    &amp;U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), &amp; &amp;i=0,1,\dots,N.
+\end{aligned}
+\]</span></p>
+<p>Llamando <span class="math inline">\(\lambda = \frac{k\Delta t}{h^2}\)</span> obtenemos</p>
+<p><span class="math display">\[
+\begin{aligned}
+    &amp;- \lambda U^n_{i+1,j}  - \lambda U^n_{i,j+1} + (1 + 4 \lambda) 4 U^n_{i,j} -\lambda U^n_{i-1,j} -\lambda U^n_{i,j-1}
+    = U_{i,j}^{n-1} + \Delta t q^n_{i,j}, \quad &amp; &amp; i,j=1,2,\dots,N-1, \\
+    &amp;U_{0,j}^n = \alpha(0,y_j,t^n), \quad U_{N,j} = \alpha(1,y_j,t^n), &amp; &amp;j=0,1,\dots,N,\\
+    &amp;U_{i,0} = \alpha(x_i,0,t^n), \quad U_{i,N} = \alpha(x_i,1,t^n), &amp; &amp;i=0,1,\dots,N.
+\end{aligned}
+\]</span></p>
+<p>Esto resulta en un sistema de <span class="math inline">\((N+1)^2\)</span> ecuaciones con <span class="math inline">\((N+1)^2\)</span> incógnitas, que debe ser resuelto en cada paso de tiempo. Es decir, para <span class="math inline">\(n=1,2,\dots\)</span>.</p>
+<p>Sin decirlo explícitamente, hemos supuesto que la condición inicial viene dada por <span class="math inline">\(U^0_{i,j} = u_0(x_i,y_j)\)</span>.</p>
+</section>
+</section>
+<section id="ejercicios-adicionales" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="ejercicios-adicionales"><span class="header-section-number">6.3</span> Ejercicios Adicionales ✍</h2>
+<p>Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.</p>
+<p>Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.</p>
+<p>Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 1
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud <span class="math inline">\(L=1\)</span> cuya sección transversal tiene un área <span class="math inline">\(A=0.05\)</span>. Suponga que la temperatura en el extremo izquierdo está dada por <span class="math inline">\(u(0,t) = \frac12+\frac34 e^{-\frac{\pi}{2}t}\sin(\frac{5\pi}{4}t)\)</span> y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son <span class="math inline">\(c=1\)</span>, <span class="math inline">\(\rho =1\)</span> y <span class="math inline">\(K_0=\frac12\)</span>. Se sabe que inicialmente toda la barra se encuentra a una temperatura <span class="math inline">\(\frac12\)</span> y que no hay fuentes. Considere la resolución de este problema durante el primer segundo mediante el método de diferencias finitas implícito con <span class="math inline">\(N= 40\)</span> y <span class="math inline">\(\lambda = 4\)</span>.</p>
+<ol type="1">
+<li><p>Grafique la evolución del flujo en el extremo izquierdo de la barra <span class="math inline">\(A\phi(0,t)\)</span> durante el primer segundo y determinar los subintervalos de tiempo en donde el mismo es saliente y en donde es entrante.</p></li>
+<li><p>Calcule y grafique la energía térmica total de la barra <span class="math inline">\(E(t)\)</span> en cada uno de los instantes de tiempo <span class="math inline">\(t\)</span> que se usaron, utilizando la regla de Simpson compuesta. Calcule el polinomio <span class="math inline">\(p(t)\)</span> de grado <span class="math inline">\(8\)</span> que aproxima los puntos <span class="math inline">\((t,E(t))\)</span> en el sentido de cuadrados mínimos y reporte el error cuadrático correspondiente al ajuste.</p></li>
+<li><p>Utilice el ajuste realizado en el item anterior para calcular la máxima tasa de crecimiento de la energía total en la barra y diga aproximadamente en qué momento ocurre. Explique cómo obtuvo los resultados.</p></li>
+<li><p>¿Qué relación debería haber entre <span class="math inline">\(E'(t)\)</span> y <span class="math inline">\(A\phi(0,t)\)</span>? Justifique y verifique su respuesta.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-10" class="exercise-cell">
+
+</div>
+<script type="pyodide-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 2
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Una barra de cobre homogénea de <span class="math inline">\(5\)</span> cm de largo y <span class="math inline">\(0.1\)</span> cm<span class="math inline">\(^2\)</span> de sección transversal se somete a un estudio de difusión de calor. Se conocen las propiedades de dicho material: calor específico <span class="math inline">\(0.092\)</span> <span class="math inline">\(\mathrm{cal}/(\mathrm{g}\,^\circ \mathrm{C})\)</span>, densidad <span class="math inline">\(8.96\)</span> <span class="math inline">\(\mathrm{g}/\mathrm{cm}^3\)</span> y <span class="math inline">\(K_0=0.9\)</span> <span class="math inline">\(\mathrm{cal}/(\mathrm{s}\, \mathrm{cm} \,^\circ \mathrm{C})\)</span>. Inicialmente la barra se encuentra a una temperatura de <span class="math inline">\(6\,^\circ \mathrm{C}\)</span> y su superficie está aislada, salvo quizás en sus extremos. El extremo izquierdo de la barra se somete a una temperatura variable <span class="math inline">\(\displaystyle a(t)=\frac{6}{1+t^2}\)</span> y en el extremo derecho rige la ley de enfriamiento de Newton donde <span class="math inline">\(H=15\)</span> <span class="math inline">\(\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{2} \,^\circ \mathrm{C})\)</span> es el coeficiente transferencia de calor y <span class="math inline">\(u_E(t)=4\,^\circ \mathrm{C}\)</span> es la temperatura exterior. En la barra actúa una fuente de calor <span class="math inline">\(Q(x,t)=25e^{-15(x-0.5)^2}e^{-7.5t}\)</span> medida en <span class="math inline">\(\mathrm{cal}/(\mathrm{s}\, \mathrm{cm}^{3})\)</span>.</p>
+<ol type="1">
+<li><p>Plantee la ecuación diferencial que gobierna la distribución de temperatura de la barra de cobre, indicando tanto las condiciones de borde como la condición inicial.</p></li>
+<li><p>Determine el tiempo en el cual toda la barra se encuentra por debajo de los <span class="math inline">\(6\,^\circ \mathrm{C}\)</span>.</p></li>
+<li><p>Determinar la mínima energía térmica total del sistema y en qué momento ocurre.</p></li>
+<li><p>¿Existe un estado estacionario en este proceso? En caso afirmativo, encuéntrelo; y en caso negativo, explique por qué no existe. En cualquier caso relacione su resultado con el item anterior.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-11" class="exercise-cell">
+
+</div>
+<script type="pyodide-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 3
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Una barra de aluminio homogénea de <span class="math inline">\(2\, \textrm{cm}\)</span> de largo y <span class="math inline">\(0.01\, \textrm{cm}^2\)</span> de sección transversal se somete a un estudio de difusión de calor. Se conocen las propiedades de dicho material: calor específico <span class="math inline">\(0.217\,\textrm{cal}/(\textrm{g}\,^\circ \textrm{C})\)</span>, densidad <span class="math inline">\(2.7\,\textrm{g}/\textrm{cm}^3\)</span> y conductividad térmica <span class="math inline">\(0.57\,\textrm{cal}/(\textrm{s}\,\textrm{cm}\,^\circ\textrm{C})\)</span>. Inicialmente la barra se encuentra a una distribución de temperaturas dada por <span class="math inline">\(u_0(x)=4+0.6x(x-4)\)</span> medida en <span class="math inline">\(^\circ \textrm{C}\)</span> y su superficie está aislada, incluso en el borde derecho. El extremo izquierdo de la barra se somete a una temperatura variable <span class="math inline">\(a(t)=4-18.8t \, e^{-3.8t}\)</span>. En la barra actúa una fuente de calor <span class="math inline">\(Q(x,t)=225(t-0.1)e^{-125(x-1.1t)^2}e^{-25(t-0.1)^3}\)</span> medida en <span class="math inline">\(\textrm{cal}/(\textrm{s}\,\textrm{cm}^3)\)</span>.</p>
+<ol type="1">
+<li><p>Plantear la ecuación diferencial que gobierna la distribución de temperatura de la barra de aluminio, indicando tanto las condiciones de borde como la condición inicial.</p></li>
+<li><p>Graficar la evolución del flujo en el extremo izquierdo de la barra durante los primeros 2 segundos y determine los intervalos donde el flujo es entrante, y donde es saliente.</p></li>
+<li><p>Determinar la cantidad de energía que fluye por el extremo izquierdo durante los primeros 2 segundos (flujo neto).</p></li>
+<li><p>Determinar la cantidad de energía que se genera (o se pierde) en la barra a causa de la fuente <span class="math inline">\(Q\)</span> durante los primeros 2 segundos.</p></li>
+<li><p>Determinar el cambio de la energía térmica total en la barra a los 2 segundos, explicando si es energía que el sistema ganó o perdió. ¿Cómo se relaciona este resultado con los resultados de los dos ítems anteriores?</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-12" class="exercise-cell">
+
+</div>
+<script type="pyodide-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 4
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el proceso de difusión (unidimensional) en una barra de material homogéneo de longitud <span class="math inline">\(1\)</span> cuya sección transversal tiene un área de <span class="math inline">\(0.01\)</span>. Suponga que la temperatura en el extremo izquierdo es igual a cero durante todo el proceso y que el extremo derecho se encuentra aislado. Las constantes térmicas de la barra son <span class="math inline">\(c=1\)</span>, <span class="math inline">\(\rho =1\)</span> y <span class="math inline">\(K_0=\frac12\)</span>. Se sabe que la barra inicialmente está a cero grados (<span class="math inline">\(u_0(x)= 0\)</span>). Se activa la fuente interna <span class="math inline">\(Q(x,t)\)</span> cuyos valores están reportados en el archivo <code>energia_generada.txt</code> (ver <a href="https://servicios.unl.edu.ar/aulavirtual/fiq/mod/folder/view.php?id=13111" target="_blank">TP6</a> en el aula virtual) en 41 puntos equidistribuidos en la barra y medidos cada 0.005 segundos durante los primeros dos segundos.</p>
+<ol type="1">
+<li><p>Determinar la mayor temperatura que se alcanza en el proceso y decir en qué punto y en qué momento ocurre.</p></li>
+<li><p>Graficar como evoluciona la temperatura en el punto medio de la barra a medida que transcurre el tiempo. Determinar la máxima temperatura que se alcanza en este punto y decir en qué instante ocurre.</p></li>
+<li><p>Graficar la energía térmica total <span class="math inline">\(E(t)\)</span> en funcién del tiempo <span class="math inline">\(t\)</span>. Determinar cuál es la máxima energía del sistema y en qué momento se alcanza.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-13" class="exercise-cell">
+
+</div>
+<script type="pyodide-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 5 (Difusión Reacción)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere los siguientes problemas de difusión-reacción:</p>
+<p><span class="math display">\[
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + u &amp;= 0, \quad&amp; &amp; 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &amp;= 1, \quad &amp; &amp; t \ge 0,\\
+    u_x(1,t) &amp;= 0, \quad &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= (1-x)^2, \ &amp; &amp; 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p><span class="math display">\[
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} + 5\,u &amp;= 0, \quad&amp; &amp; 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &amp;= 1, \quad &amp; &amp; t \ge 0,\\
+    u_x(1,t) &amp;= 0, \quad &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= (1-x)^2, \quad&amp; &amp; 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>Determine, en ambos casos, en qué instante de tiempo la temperatura en el extremo derecho es por primera vez mayor a <span class="math inline">\(0.2\)</span>.</p>
+<p><em>Sugerencia:</em> Para resolver este ejercicio, modifique la implementación del método de diferencias finitas dado para la ecuación de difusión incorporando adecuadamente el término de reacción. Note que en general los problemas de difusión-reacción son de la forma:</p>
+<p><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    c \, \rho \, u_t - K_0 \, u_{xx} + c_R \, u &amp;= Q(x,t),
+    \quad&amp; &amp; 0 \le x \le L,\quad t \ge 0, \\
+    u(0,t) &amp;= a(t) &amp; &amp;t \ge 0,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &amp;= H_2 u_E(t), &amp; &amp;t \ge 0,\\
+    u(x,0) &amp;= u_0(x), \ &amp; &amp; 0 \le x \le L,
+\end{aligned}
+\end{cases}
+\]</span></p>
+</div>
+<div>
+<div id="pyodide-14" class="exercise-cell">
+
+</div>
+<script type="pyodide-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 6 (Difusión Reacción no estacionario)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el siguiente problema de difusión-reacción (no estacionario) en una barra de longitud <span class="math inline">\(L=1\)</span>:</p>
+<p><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    u_t - u_{xx} +  u &amp;= Q(x,t), \quad 0 \le x \le 1, \\
+    u(0,t) &amp;= 0, \\
+    u_x(1,t) &amp;= 0, \\
+    u(x,0) &amp;= -10x^2+20x,
+\end{aligned}
+\end{cases}
+\]</span></p>
+<p>donde <span class="math inline">\(Q(x,t) = \begin{cases} 100, &amp;\text{si } t &lt; 2, \\ 0, &amp;\text{si } t \ge 2. \end{cases}\)</span></p>
+<ol type="1">
+<li><p>Grafique la evolución de la temperatura durante el intervalo de tiempo entre <span class="math inline">\(t=0\)</span> y <span class="math inline">\(t=4\)</span>, y describa lo que observa.</p></li>
+<li><p>Determine el instante de tiempo en que la temperatura en el punto medio es menor a 7.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-15" class="exercise-cell">
+
+</div>
+<script type="pyodide-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only"></span>📝 Ejercicio Adicional 7 (Difusión Reacción)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div>
+<p>Considere el siguiente problema de difusión-reacción para una barra de longitud <span class="math inline">\(L=2\)</span>:</p>
+<p><span class="math display">\[
+\begin{cases}
+\begin{aligned}
+    u_t -  u_{xx} + 4 u &amp;= -(8x^{3}-16x^{2}+12x-8)e^{(x-1)^2}, \quad &amp; &amp; 0 \le x \le 2, \quad t \ge 0,\\
+    u(0,t)    &amp;= e^{-5t}, &amp; &amp; t \ge 0,\\
+    -u_x(2,t) &amp;= 0.5 (u(2,t) - 65.239) , &amp; &amp; t \ge 0,\\
+    u(x,0) &amp;= 2xe^{(x-1)^2} + 4x+1, &amp; &amp; 0 \le x \le 2 .
+\end{aligned}
+\end{cases}
+\]</span></p>
+<ol type="1">
+<li><p>Determine gráficamente la cantidad de puntos necesarios para hallar el estado estacionario utilizando el método de diferencias finitas. Justifique el resultado obtenido describiendo cómo hizo para obtenerlo.</p></li>
+<li><p>Determine el tiempo necesario para llegar al estado estacionario, considerando que este se alcanza cuando la temperatura en toda la barra difiere de la temperatura de equilibrio en no más de <span class="math inline">\(0.05\)</span> grados.</p></li>
+<li><p>Determine el tiempo para el cual la temperatura en todo punto de la barra es menor a 13 grados.</p></li>
+</ol>
+</div>
+<div>
+<div id="pyodide-16" class="exercise-cell">
+
+</div>
+<script type="pyodide-16-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
+</script>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="bibliografía" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="bibliografía"><span class="header-section-number">6.4</span> Bibliografía</h2>
+<p>Si le interesa leer un poco más sobre los temas de este capítulo, le recomendamos el siguiente libro:</p>
+<ul>
+<li>Larsson, S., Thomée, V., <em>Partial Differential Equations with Numerical Methods</em>, Springer, 2009.</li>
+</ul>
 
 
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W119
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTE2IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTYgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE2LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTYtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTUgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE1LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE0LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEzIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEzLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTExIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTExLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTAgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEwLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTAtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl85ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS05LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzkgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzksIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTgiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl84ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS04LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl83ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS03LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl82ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS02LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
@@ -412,6 +2321,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
