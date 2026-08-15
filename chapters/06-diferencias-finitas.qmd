@@ -379,7 +379,7 @@ Para estar seguros que el código está bien programado, debemos verificar que c
 
 ```
 
-### Pongámonos a prueba!!! 💪🏻
+#### Pongámonos a prueba!!! 💪🏻
 
 Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
 
@@ -599,7 +599,7 @@ donde $M_4 = \max_{[0,L]} |u^{IV}|$ y $C$ es una constante que depende de los pa
 :::
 ::::
 
-### Pongámonos a prueba!!! 💪🏻
+#### Pongámonos a prueba!!! 💪🏻
 
 Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
 
@@ -673,6 +673,514 @@ $$
 $$
 
 donde $c_R>0$ es la constante de reacción.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+
+### Difusión no estacionaria {#sec-dif.no.estac}
+
+Consideremos ahora el problema de difusión no estacionaria siguiente
+
+$$
+\begin{cases}
+\begin{aligned}
+    c \rho u_t(x,t) - K_0 u_{xx}(x,t) &= Q(x,t), \quad& & 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &= a(t), \qquad & &0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), \qquad & &0 \le t \le T,\\
+    u(x,0) &= u_0(x), \qquad& & 0 \le x \le L .
+\end{aligned}
+\end{cases}
+$$
+
+Aquí los datos del problema son: $c$, $\rho$, $K_0$, $L$, $T$, $Q(x,t)$, $a(t)$, $H_1$, $H_2$, $u_E(t)$ y $u_0(x)$. Definiendo  $k = \frac{K_0}{c\rho}$ y $q(x,t) = \frac{Q(x,t)}{c\rho}$ resulta
+
+$$
+\begin{cases}
+\begin{aligned}
+    u_t(x,t) - k u_{xx}(x,t) &= q(x,t), \quad& & 0 \le x \le L,\quad 0 \le t \le T, \\
+    u(0,t) &= a(t), \qquad & &0 \le t \le T,\\
+    K_0 u_x(L,t) + H_1 u(L,t) &= H_2 u_E(t), \qquad & &0 \le t \le T,\\
+    u(x,0) &= u_0(x), \qquad& & 0 \le x \le L .
+\end{aligned}
+\end{cases}
+$$ {#eq-difusion.no.estacionaria}
+
+Para resolver este problema consideramos la grilla de puntos
+$(x_i, t_j)$ con $x_i = (i-1)h$ como antes y $t_j = j \Delta t$, donde $\Delta t$ es el *parámetro de discretización temporal*.
+
+
+#### Método Explícito
+
+Si aproximamos $u_t$ con una diferencia *adelantada*
+
+$$
+    u_t(x,t) \approx \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t},
+$$
+
+y $u_{xx}$ como antes
+
+$$
+    u_{xx}(x,t) \approx \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2},
+$$
+
+obtenemos que en cada punto del dominio se cumple
+
+$$
+    \frac{u(x,t+\Delta t) - u(x,t)}{\Delta t}
+    - k \frac{u(x-h,t) - 2 u(x,t) + u(x+h,t)}{h^2} \approx q(x,t).
+$$
+
+Si nos centramos en $(x,t) = (x_i, t_j)$, observando que
+$x_i\pm h = x_{i\pm1}$, $t_j+\Delta t = t_{j+1}$, tenemos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_j) -2 u(x_i,t_j) + u(x_{i+1},t_j)}{h^2} \approx
+    q(x_i,t_j).
+$$
+
+Definimos las aproximaciones $U_i^j$ de $u(x_i,t_j)$ de la siguiente manera:
+
+$$
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^j - 2 U_i^j + U_{i+1}^j}{h^2} = q_i^j,
+$$
+
+donde denotamos $q_i^j = q(x_i,t_j)$.
+
+Observamos que solo hay un supra-índice $j+1$ en la fórmula anterior.
+
+Si despejamos el término $U_i^{j+1}$ que lo contiene obtenemos,
+llamando $\lambda = \frac{k\Delta t}{h^2}$, la siguiente fórmula:
+
+$$
+U_i^{j+1} = \Delta t q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right].
+$$
+
+Esta fórmula será útil para calcular $U$ en el interior de $[0,L]$, para $t > 0$.
+
+En $t=0$ ($j=0$) usaremos la condición inicial $u(x,0) = u_0(x)$, por lo que tomaremos $U_i^0 = u_0(x_i)$, $i=1,2,\dots,N+1$.
+
+En $x=0$ usaremos la condición de borde $u(0,t) = a(t)$ por lo que
+tomaremos $U_1^j = a(t_j)$.
+
+En $x=L$ tenemos la condición de borde $K_0 u_x(L,t) + H_1 u(L,t) = H_2 u_E(t)$. Aproximando $u_x(L,t) \approx \frac{u(L+h,t) - u(L-h,t)}h$ llegamos a la fórmula
+
+$$
+    K_0 \frac{U_{N+2}^j - U_N^j}{2h} + H_1 U_{N+1}^j = H_2 u_E(t_j)
+    \quad\leadsto\quad
+    U_{N+2}^j = \frac{2h}{K_0} (H_2 u_E(t_{j}) - H_1 U_{N+1}^j ) + U_N^j.
+$$
+
+A partir de estas fórmula, diseñamos el siguiente método numérico para la ecuación de difusión -@eq-difusion.no.estacionaria:
+
+Sean $N,M \in \mathbb{N}$ y definamos $h = L/N$, $\Delta t= T/M$, $\lambda = k \Delta t / h^2$
+
+*   ($j=0$) $U_i^0 = u_0(x_i)$, $i=1,2,\dots,N+1$;
+
+*   $U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0$;
+
+*   Para $j=0,1,2,\dots M-1$
+
+  *   $U_1^{j+1} = a(t_{j+1})$;
+
+  *   $U_i^{j+1} = \Delta t \, q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \lambda U_{i+1}^j \right]$, $i=2,\dots,N+1$;
+
+  *   $U_{N+2}^{j+1} =  \frac{2h}{K_0} (H_2 u_E(t_{j+1}) - H_1 U_{N+1}^{j+1} ) + U_N^{j+1}$;
+
+He aquí una implementación para Python de este método de resolución:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# difusionrobindf1dexpl.py
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+from IPython.display import display, clear_output #alternativa de graf. en Colab
+
+# Programa para resolver la ecuación de difusión 1D
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Método: Diferencias finitas en espacio y Euler explícito en tiempo.
+#
+#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 < x < L,  0 < t < T,
+#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 < t < T,
+#  u(x,0) = u0(x),    0 < x < L.
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+T = 0.5  # Tiempo final
+K0 = 1.0  # Coeficiente de difusión
+c = 1.0   # Capacidad calorífica
+rho = 1.0 # Densidad
+Q = lambda x, t: 10 * np.exp(-100 * (x - 0.5)**2) * (t < 0.25)  # Término fuente
+a = lambda t: 0.0  # Condición Dirichlet en x=0
+H1 = 3.0  # Parámetro de Robin
+H2 = 3.0  # Parámetro de Robin
+uE = lambda t: 0.0  # Valor externo para Robin
+u0 = lambda x: np.zeros_like(x)  # Condición inicial
+
+# Constantes y funciones útiles
+k = K0 / (c * rho)
+q = lambda x, t: Q(x, t) / (c * rho)
+
+# Parámetros del método numérico
+N = 10  # Número de intervalos
+h = L / N  # Tamaño del paso en espacio
+lambda_ = 0.25
+deltat = lambda_ * h**2 / k  # Tamaño del paso en tiempo
+
+# Condición inicial
+X = np.linspace(0, L, N + 1)
+U = u0(X)
+# le damos valor a la U en el nodo ficticio (t=0)
+U = np.append(U, (H2 * uE(0) - H1 * U[N]) * 2 * h / K0 + U[N-1])
+
+# Configurar la gráfica inicial
+#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB
+fig, ax = plt.subplots()
+line, = ax.plot(X, U[:N+1], '*-')
+ax.set_xlabel('x')
+ax.set_ylabel('u(x,t)')
+ax.set_title('t = 0')
+ax.set_xlim(0, L)
+ax.set_ylim(0, 1)
+ax.grid(True)
+plt.pause(3)  # Pausa inicial de 3 segundos
+
+# Resolución
+t = deltat
+while t < T:
+    # Calcular U en los nodos interiores
+    U[1:N+1] = (deltat * q(X[1:N+1], t) +
+                lambda_ * U[:N] +
+                (1 - 2 * lambda_) * U[1:N+1] +
+                lambda_ * U[2:N+2])
+    # Aplicar condición Dirichlet en x=0
+    U[0] = a(t)
+    # Calcular U en el nodo ficticio
+    U[N+1] = (H2 * uE(t) - H1 * U[N]) * 2 * h / K0 + U[N-1]
+
+    # Actualizar gráfica
+    line.set_ydata(U[:N+1])  # Actualizar datos de la solución
+    ax.set_title(f't = {t:.3f}')  # Actualizar título
+    #plt.draw()  # Redibujar NO FUNCIONA EL COLAB
+    clear_output(wait=True) #alternativa de graf. en Colab
+    display(fig) #alternativa de graf. en Colab
+    plt.pause(0.05)  # Pausa breve para animación
+
+    t += deltat
+
+#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EL COLAB
+plt.show()  # Mantener la gráfica final
+```
+
+Este método tiene una restricción para resultar \emph{estable}. Si observamos el término que multiplica $U_i^j$ en la fórmula para $U_i^{j+1}$ vemos que es $1-2\lambda$ con $\lambda = k \Delta t / h^2$. Resulta que si $\lambda \ge 1/2$, de manera que $1-2\lambda \le 0$ se observa un fenómeno de \emph{inestabilidad} (verificarlo con el código) que hace que las soluciones oscilen en cada paso de tiempo. Lo que ocurre es que pequeños errores de redondeo se magnifican exponencialmente.
+
+Se recomienda, una vez elegido $h$, elegir $\Delta t$ de manera que $\lambda \le 1/4$, para que el algoritmo funcione correctamente. Más aún, en el código que mostramos, elegimos $\lambda$ y luego $\Delta t$ se calcula para que $\lambda = \frac{k\Delta t}{h^2}$, es decir $\Delta t = \lambda\frac{h^2}k$.
+
+También hay estimaciones del error, que resumimos en el siguiente Teorema.
+
+:::: {.callout-warning icon="false"}
+## Error del método de difusión para condiciones de borde tipo Robin explícito
+
+::: {#thm-error.difusion.robin.exp}
+Si la solución exacta $u(x,t)$ de -@eq-difusion.no.estacionaria es $C^4[0,L]$ para la variable $x$ y $C^2[0,T]$ para la variable $t$, entonces, si $\lambda = k \Delta t / h^2 < 1/2$, resulta
+
+$$
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2} (h^2+\Delta t),
+$$
+
+donde $M_{4,2} = \max_{[0,L]\times[0,T]} |u_{xxxx}| + |u_{tt}| $ y $C$ es una constante que depende de los parámetros $c$, $\rho$, $K_0$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x,t)$, del dato inicial $u_0(x)$, de los datos de borde $a(t)$, $u_E(t)$ y de los parámetros de discretización $h$, $\Delta t$.
+:::
+::::
+
+
+#### Método Implícito
+
+Cuando los coeficientes son variables, o cuando queremos resolver problemas en dos o tres dimensiones espaciales, la condición de estabilidad puede ser más difícil de determinar. En esta sección veremos un método que es *incondicionalmente estable*, es decir, resulta estable sin importar la relación entre $\Delta t$ y $h$.
+
+La diferencia principal con el método obtenido anteriormente está en aproximar la derivada temporal $u_t$ por una diferencia *atrasada* en lugar de *adelantada*. Es decir, consideraremos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} \approx u_t(x_i, t_{j+1}).
+$$
+
+Por lo tanto, si nos centramos en $(x,t)=(x_i, t_{j+1})$, vemos que
+
+$$
+    \frac{u(x_i,t_{j+1}) - u(x_i,t_j)}{\Delta t} - k
+    \frac{u(x_{i-1},t_{j+1}) -2 u(x_i,t_{j+1}) + u(x_{i+1},t_{j+1})}{h^2} \approx
+    q(x_i,t_{j+1}).
+$$
+
+Luego, definimos entonces las aproximaciones $U_i^j$ de $u(x_i,t_j)$ de la siguiente manera:
+
+$$
+    \frac{U_i^{j+1} - U_i^j}{\Delta t}
+    - k \frac{U_{i-1}^{j+1} - 2 U_i^{j+1} + U_{i+1}^{j+1}}{h^2} = q_i^{j+1}.
+$$
+
+Si ahora *despejamos* las incógnitas con supra-índice $j+1$ a la izquierda, nos queda
+
+$$
+    -\lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    = \Delta t \, q_i^{j+1} + U_i^j.
+$$
+
+Vemos que no queda $U_i^{j+1}$ *despejada* sola a la izquierda, sino que queda relacionada con $U_{i-1}^{j+1}$ y con $U_{i+1}^{j+1}$. Por eso se dice que el método es *implícito*.
+
+Por lo tanto, en cada paso de tiempo deberemos resolver un *sistema de ecuaciones*. Esto es un poco más costoso computacionalmente que lo que se hace en el caso *explícito*, pero se gana en estabilidad.
+
+::: {.center .callout-note appearance="simple"}
+El método implícito resulta estable para cualquier $\Delta t > 0$.
+:::
+
+Si incorporamos las condiciones de borde, vemos que, conocido $U_i^j$, para un $j$ dado y para $i=1,2,\dots,N+2$, los valores $U_i^{j+1}$, $i=1,2,\dots,N+2$ deben satisfacer el siguiente sistema de $N+2$ ecuaciones
+
+$$
+\begin{cases}
+\begin{aligned}
+    U_1^{j+1} &= a(t_{j+1}), \\
+    - \lambda U_{i-1}^{j+1} + (1+2\lambda) U_i^{j+1} - \lambda U_{i+1}^{j+1}
+    &= \Delta t \, q_i^{j+1} + U_i^j , \qquad i=2,3,\dots,N+1,\\
+    -U_N^{j+1} + \frac{2hH_1}{K_0} U_{N+1}^{j+1} + U_{N+2}^{j+1}
+    &=  \frac{2hH_2}{K_0} u_E(t_{j+1}) .
+\end{aligned}
+\end{cases}
+$$ {#eq-sist.ecuaciones.robin.implicito}
+
+En forma matricial, el sistema a resolver en cada paso de tiempo resulta:
+
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & \dots & \dots & 0\\
+    -\lambda & 1+2\lambda & -\lambda & 0 & \dots  & 0 \\
+    0 & -\lambda & 1+2\lambda  & -\lambda & \ddots  & \vdots \\
+    \vdots & \ddots &  \ddots & \ddots & \ddots & 0 \\
+    0 & \dots & 0 & -\lambda & 1+2\lambda   & -\lambda \\
+    0 & \dots & 0 & -1 & \frac{2hH_1}{K_0} & 1
+\end{bmatrix}
+\begin{bmatrix}
+    U_1^{j+1} \\ U_2^{j+1} \\ U_3^{j+1} \\ \vdots \\ U_N^{j+1} \\ U_{N+1}^{j+1} \\ U_{N+2}^{j+1}
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a(t_{j+1}) \\ U_2^j \\ U_3^j \\ \vdots \\ U_N^j \\ U_{N+1}^j \\ \frac{2hH_2}{K_0} u_E(t_{j+1})
+\end{bmatrix}
++
+\Delta t
+\begin{bmatrix}
+    0 \\  q_2^{j+1} \\ q_3^{j+1} \\ \vdots \\ q_N^{j+1} \\ q_{N+1}^{j+1} \\ 0
+\end{bmatrix}
+.
+$$
+
+Esto debe repetirse para $j=0,1,2,\dots,M$ luego de haber definido
+
+$$
+U_i^0 = u_0(x_i), \quad i=1,2,\dots,N+1 \qquad\text{y}\qquad
+U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0.
+$$
+
+He aquí una implementación de este método de resolución para Python:
+```{python}
+#| fig-align: center
+#| code-fold: false
+
+# difusionrobindf1dimpl.py
+
+import numpy as np
+from scipy.sparse import spdiags
+import matplotlib.pyplot as plt
+
+from IPython.display import display, clear_output #alternativa de graf. en Colab
+
+# Programa para resolver la ecuación de difusión 1D
+# con condiciones de Dirichlet en x=0 y Robin en x=L.
+# Método: Diferencias finitas en espacio y Euler implícito en tiempo.
+#
+#  c rho u_t(x,t) - K0 u_xx(x,t) = Q(x,t),   0 < x < L,  0 < t < T,
+#  u(0,t) = a(t),    K0 u'(L,t) + H1 u(L,t) = H2 uE(t),  0 < t < T,
+#  u(x,0) = u0(x),   0 < x < L.
+
+# Parámetros del problema
+L = 1.0  # Longitud del dominio
+T = 0.5  # Tiempo final
+K0 = 1.0  # Coeficiente de difusión
+c = 1.0   # Capacidad calorífica
+rho = 1.0 # Densidad
+Q = lambda x, t: 10 * np.exp(-100 * (x - 0.5)**2) * (t < 0.25)  # Término fuente
+a = lambda t: 0.0  # Condición Dirichlet en x=0
+H1 = 3.0  # Parámetro de Robin
+H2 = 3.0  # Parámetro de Robin
+uE = lambda t: 0.0  # Valor externo para Robin
+u0 = lambda x: np.zeros_like(x)  # Condición inicial
+
+# Constantes y funciones útiles
+k = K0 / (c * rho)
+q = lambda x, t: Q(x, t) / (c * rho)
+
+# Parámetros del método numérico
+N = 30  # Número de intervalos
+h = L / N  # Tamaño del paso en espacio
+lambda_ = 4.0
+deltat = lambda_ * h**2 / k  # Tamaño del paso en tiempo
+
+# Condición inicial
+X = np.linspace(0, L, N + 1)
+U = u0(X)
+
+
+# Graficar la condición inicial
+#plt.ion()  # Modo interactivo para animación NO FUNCIONA EN COLAB
+fig, ax = plt.subplots()
+line, = ax.plot(X, U[:N+1], '*-')
+ax.set_xlabel('x')
+ax.set_ylabel('u(x,t)')
+ax.set_title('t = 0')
+ax.set_xlim(0, L)
+ax.set_ylim(0, 1)
+ax.grid(True)
+plt.pause(3)  # Pausa inicial de 3 segundos
+
+# Armado de la matriz
+unos = np.ones(N + 2)
+columnas = np.array([-lambda_ * unos, (1 + 2 * lambda_) * unos, -lambda_ * unos])
+matriz = spdiags(columnas, [-1, 0, 1], N + 2, N + 2)
+matriz = matriz.toarray()
+matriz[0, :2] = [1, 0]
+matriz[N + 1, N-1:N+2] = [-1, 2 * h * H1 / K0, 1]
+
+# Resolución
+t = deltat
+while t < T:
+    # Ensamblado del lado derecho
+    F = np.zeros(N + 2)
+    F[0] = a(t)  # Condición Dirichlet
+    F[1:N+1] = U[1:N+1] + deltat * q(X[1:N+1], t)  # Puntos interiores
+    F[N+1] = 2 * h * H2 / K0 * uE(t)  # Condición Robin
+
+    # Calcular la nueva U resolviendo el sistema
+    U = np.linalg.solve(matriz, F)
+
+    # Actualizar gráfica
+    line.set_ydata(U[:N+1])  # Actualizar datos de la solución
+    ax.set_title(f't = {t:.3f}')  # Actualizar título
+    #plt.draw()  # Redibujar NO FUNCIONA EN COLAB
+    clear_output(wait=True) #alternativa de graf. en Colab
+    display(fig) #alternativa de graf. en Colab
+    plt.pause(0.05)  # Pausa breve para animación
+
+    t += deltat
+
+#plt.ioff()  # Desactivar modo interactivo NO FUNCIONA EN COLAB
+plt.show()  # Mantener la gráfica final
+```
+
+También hay estimaciones del error, que resumimos en el siguiente Teorema.
+
+:::: {.callout-warning icon="false"}
+## Error del método de Difusión para condiciones de borde tipo Robin Implícito
+
+::: {#thm-error.difusion.robin.imp}
+Si la solución exacta $u(x,t)$ de $(6.7)$ es $C^4[0,L]$ para la variable $x$ y $C^2[0,T]$ para la variable $t$, entonces resulta
+
+$$
+    \max_{\substack{ i=1,2,\dots,N+1\\ j=1,2,\dots,M}} | u(x_i,t_j) - U_i^j | \le C  M_{4,2}(h^2+\Delta t),
+$$
+
+donde $M_{4,2} = \max_{[0,L]\times[0,T]} |u_{xxxx}| + |u_{tt}|$ y $C$ es una constante que depende de los parámetros $c$, $\rho$, $K_0$, $L$, $H_1$, $H_2$ de la ecuación, pero es independiente de la función $Q(x,t)$, del dato inicial $u_0(x)$, de los datos de borde $a(t)$, $u_E(t)$ y de los parámetros de discretización $h$, $\Delta t$.
+:::
+::::
+
+
+#### Pongámonos a prueba!!! 💪🏻
+
+Intentá hallar la solución a los siguientes problemas con los conocimientos adquiridos en esta sección.
+
+Recordá que si bien estás buscando un resultado en particular, herramientas como gráficas u otros cálculos auxiliares pueden ser de mucha ayuda para llegar a este.
+
+Podés resolver utilizando la celda de código dispuesta luego de los ejercicios en este mismo apunte, o corriendo python de manera local.
+
+:::: {.callout-tip icon="false" collapse="false"}
+## 📝 Ejercicio Difusión no estacionaria 1
+
+::: {}
+Considere la siguiente ecuación del calor en una barra de longitud $L=1$:
+
+$$
+(*)
+\begin{cases}
+\begin{aligned}
+	u_t - u_{xx} &= 100, \quad & & 0 \le x \le 1, \quad t \ge 0,\\
+	u(0,t)    &= 0, & & t \ge 0,\\
+	u_x(1,t)  &= -u(1,t), & & t \ge 0,\\
+	u(x,0) &= 10x(1-x)^2, & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+1. Determine el estado estacionario, al que llamaremos $u_\infty(x)$.
+
+2. Si $u(x,t)$ es la solución de $(*)$, determine el valor de $\lim_\limits{t \to \infty}u(\tfrac12,t)$.
+
+3. Determine el primer instante de tiempo $t$ en el que la temperatura en el punto medio de la barra supera el valor $23$.
+:::
+
+```{pyodide-python}
+# Use esta celda sólo en caso de no disponer de Spyder en este momento
+
+
+
+
+```
+::::
+
+:::: {.callout-tip icon="false" collapse="true"}
+## 📝 Ejercicio Difusión no estacionaria 2
+
+::: {}
+Considere los siguientes problemas:
+
+$$
+\textbf{(a)}
+\begin{cases}
+\begin{aligned}
+    u_t - 2 u_{xx} &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= e^{-10x},  & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+\quad
+\textbf{(b)}
+\begin{cases}
+\begin{aligned}
+    u_t - 6 u_{xx} &= 0, \quad& & 0 \le x \le 1, t \ge 0, \\
+    u(0,t) &= 1, \quad & & t \ge 0,\\
+    u_x(1,t) &= 0, \quad & & t \ge 0,\\
+    u(x,0) &= e^{-10x},  & & 0 \le x \le 1 .
+\end{aligned}
+\end{cases}
+$$
+
+Determine en cada caso la solución estacionaria $u_\infty(x)$ y el tiempo $t$ para el cual se cumple
+
+$$
+	\max_{0\le x \le 1} |u(x,t) - u_\infty(x)| \le 0.01.
+$$
+
+A partir de estos cálculos, deduzca qué efecto tiene sobre la solución el cambio en el coeficiente de difusión.
 :::
 
 ```{pyodide-python}
