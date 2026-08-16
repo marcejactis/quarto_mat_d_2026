@@ -145,6 +145,7 @@ Considere la función $u(x) = \frac{\text{sen}(x)}{x}$ y $x_0=1$. Complete la si
 
 
 
+
 ```
 ::::
 
@@ -165,6 +166,7 @@ Se tomaron mediciones de la posición de un automóvil en una ruta durante una h
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
 
 
 
@@ -379,6 +381,7 @@ Para estar seguros que el código está bien programado, debemos verificar que c
 
 
 
+
 ```
 
 #### Pongámonos a prueba!!! 💪🏻
@@ -412,6 +415,7 @@ Grafique la solución $u(x)$ y calcule $u(1/2)$ con un error absoluto menor a $1
 
 
 
+
 ```
 ::::
 
@@ -437,6 +441,7 @@ Aquí, el error con $N$ subintervalos es $E_N= \max\limits_{1\le i \le N+1} |u(x
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
 
 
 
