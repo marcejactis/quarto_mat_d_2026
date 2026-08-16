@@ -48,6 +48,8 @@ Yo ya dejé modificado los archivos pertinentes en `styles/` para que se vea bie
 
 # Capítulo 1: Intro Python
 
+Desde la perspectiva de un alumno, actualmente se siente algo caótico y sobrecargado de información.
+
 # Capítulo 2: No Lineales
 
 # Capítulo 3: Interpolación
