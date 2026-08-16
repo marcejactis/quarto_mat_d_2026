@@ -354,6 +354,7 @@ $$
 
 
 
+
 ```
 ::::
 
@@ -385,6 +386,7 @@ aproximación obtenida visualmente coincide con la solución del problema.
 
 
 
+
 ```
 ::::
 
@@ -412,6 +414,7 @@ Superponga todas las soluciones en un gráfico y explique el comportamiento cual
 
 
 
+
 ```
 ::::
 
@@ -430,6 +433,7 @@ La radiación y(t) de cierta partícula a tiempo $t$ está gobernada por la ecua
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
 
 
 
@@ -1085,63 +1089,80 @@ Procedemos con los siguientes pasos:
 
 1.   Definimos la función $f$:
 
-  ```python
-  import numpy as np
-  f = lambda t, y: -y + t + np.sin(t) + np.cos(t)
-  ```
+```{python}
+#| code-fold: false
+import numpy as np
+f = lambda t, y: -y + t + np.sin(t) + np.cos(t)
+```
+
 2.   Tomamos un valor de $L=20$ y resolvemos, por ejemplo con Euler:
 
-  ```python
-  L=20
-  t,Y = euler(f,[0,10],[2.5],L)
-  ```
+```{python}
+#| code-fold: false
+L=20
+t,Y = euler(f,[0,10],[2.5],L)
+```
+
 3.    Aquí viene un punto importante. Hemos resuelto el PVI en el intervalo $[0,10]$, luego, la aproximación de la solución $y$ a tiempo $t=10$ está en la última posición del vector $\texttt{Y}$. Como resolvimos con $L$ intervalos, esta posición es la $L+1$. Para ver la aproximación escribimos `print(Y[L])` o bien `print(Y[-1])` obteniendo el siguiente resultado:
 
-    `8.48878015`
+```{python}
+#| code-fold: false
+print(Y[L])
+```
 
 4.    Ahora comenzamos a mejorar la precisión, duplicando $L$:
 
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.47365301`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.46510056`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.46066162`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45840935`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45727587`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45670739`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45642273`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45628029`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
+```{python}
+#| code-fold: false
+L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])
+```
 
-    `8.45620905`
- 	  
-    `L = 2*L; t,Y = euler(f,[0,10],[2.5],L); print(Y[-1])`
- 	  
-    `8.45617342`
-
-    . . .
+. . .
 
 5.    Todavía no queda claro si la solución será $8.4561\dots$ o $8.4560\dots$. Deberíamos seguir probando, pero ya $L=20480$. Tal vez sea momento de reconsiderar, y utilizar el método de Runge-Kutta de orden 2 ó 4, que llegará a mejor precisión con menos sub-intervalos.
 

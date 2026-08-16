@@ -35,6 +35,10 @@ div.tippy-content mjx-label {
     display: block;
     text-align: center;
 }
+.center-output .cell-output-display {
+  display: flex;
+  justify-content: center;
+}
 
 // Achicar matemática en línea
 .math.inline .MathJax {

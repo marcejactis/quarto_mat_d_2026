@@ -131,7 +131,7 @@ Se implementó una clase estilada con CSS llamada `grid-2col` que debe utilizars
 ```
 
 ## Cómo centrar un div? La eterna pregunta
-Para facilitar esta tarea, se armó una clase "center" que se encarga de centrar el bloque. A continuación, un par de ejemplos de uso.
+Para facilitar esta tarea, se armó una clase `.center` que se encarga de centrar el bloque. A continuación, un par de ejemplos de uso.
 
 Con spans:
 ```
@@ -144,6 +144,32 @@ Con divs:
 **¿cómo podría esto ayudarnos a resolver una ecuación no lineal como $f(x)=0$?**
 :::
 ```
+
+### Centrar el output de un bloque de código
+
+En principio, el comando `#| fig-align: center` dentro del bloque debería funcionar.
+```python
+#| fig-align: center
+
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot([1,2,3], [4,5,6])
+plt.show()
+```
+
+Sin embargo, cuando el output no es una figura estática convencional (por ejemplo, una animación), este comando no funciona; en su lugar, se debe usar una clase creada de forma personalizada para este propósito: `.center-output`
+````quarto
+::: {.center-output}
+
+```{python}
+from matplotlib.animation import FuncAnimation
+
+# Animación con FuncAnimation
+```
+
+:::
+````
 
 
 # Referencias
