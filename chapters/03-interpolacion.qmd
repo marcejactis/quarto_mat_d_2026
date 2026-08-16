@@ -369,6 +369,7 @@ $$
 
 
 
+
 ```
 ::::
 
@@ -396,6 +397,7 @@ Un biólogo realiza un experimento de reproducción de mosquitos y toma las sigu
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
 
 
 
