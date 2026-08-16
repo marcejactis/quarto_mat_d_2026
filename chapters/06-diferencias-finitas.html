@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c518ba0b0af8cc7a6250b22ba0b466a2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-5062c8d47bb9b9969b5616627d58f860.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -574,22 +574,24 @@ window.Quarto = {
 \end{aligned}
 \]</span></p>
 <p>Para esta aproximación de la derivada segunda tenemos el siguiente resultado:</p>
-<div id="prop-6.1" class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Advertencia</span>Proposición 6.1
+<span class="screen-reader-only">Advertencia</span>Cota del error
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Si <span class="math inline">\(u \in C^4\)</span>, entonces <span class="math display">\[
+<div id="prp-6.1" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposición 6.1</strong></span> Si <span class="math inline">\(u \in C^4\)</span>, entonces <span class="math display">\[
     \frac{d^2 u}{dx^2}(x) = \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} + \mathcal{O}(h^2).
 \]</span></p>
 <p>Más precisamente, si <span class="math inline">\(M_4 = \max_{[x-h,x+h]} | u^{IV} |\)</span>, entonces <span id="eq-cota.error.dif.finitas"><span class="math display">\[
     \left| \frac{d^2 u}{dx^2}(x) - \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \right| \le \frac{M_4}{12} h^2.
 \tag{6.2}\]</span></span></p>
+</div>
 <p><strong>Demostración.</strong></p>
 <p>Observemos que por el teorema de Taylor, como <span class="math inline">\(u \in C^4\)</span>, resulta <span class="math display">\[
 \begin{aligned}
@@ -728,7 +730,7 @@ window.Quarto = {
 
 </div>
 <script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
@@ -760,13 +762,13 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 </div>
 <script type="pyodide-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
 </div>
 </div>
-<p>En vista de la <a href="#prop-6.1" class="xref-quarto">Proposición 6.1</a>, si <span class="math inline">\(u\)</span> es la solución de (<a href="#prop-6.1" class="xref-quarto">6.1</a>), resulta <span class="math display">\[
+<p>En vista de la <a href="#prp-6.1" class="quarto-xref">Proposición&nbsp;<span>6.1</span></a>, si <span class="math inline">\(u\)</span> es la solución de <a href="#eq-cond.borde.dirichlet" class="quarto-xref"><span>6.1</span></a>, resulta <span class="math display">\[
     - K_0 \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \approx Q(x),
 \]</span></p>
 <p>siempre que <span class="math inline">\(x-h, x, x+h \in [0,L]\)</span>, es decir, si <span class="math inline">\(h \le x \le L-h\)</span>. El error de aproximación en esta fórmula es <span class="math inline">\(\mathcal{O}(h^2)\)</span>.</p>
@@ -839,7 +841,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 .
 \tag{6.4}\]</span></span></p>
 <p>He aquí una implementación computacional en Python, que consiste en escribir un programa que ensamble el sistema y lo resuelva:</p>
-<div id="ed22932b" class="cell" data-execution_count="1">
+<div id="ab3a5dd1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissondirichletdf1d.py</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -946,7 +948,7 @@ u_{xx}(x) = 2 - 2[1-2(x-0.5)^2] e^{-(x-0.5)^2}
 
 </div>
 <script type="pyodide-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </section>
@@ -984,7 +986,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 </div>
 <script type="pyodide-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
@@ -1071,7 +1073,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 </div>
 <script type="pyodide-5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
@@ -1154,7 +1156,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 .
 \]</span></p>
 <p>La implementación computacional consiste en escribir un programa que ensamble el sistema y lo resuelva. A continuación mostramos un programa en Python:</p>
-<div id="7cf7d735" class="cell" data-execution_count="2">
+<div id="bcce0ebb" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissonrobindf1d.py</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1403,7 +1405,7 @@ U_i^{j+1} = \Delta t q_i^j + \left[ \lambda U_{i-1}^j + (1-2\lambda) U_i^j + \la
 <li><p><span class="math inline">\(U_{N+2}^{j+1} =  \frac{2h}{K_0} (H_2 u_E(t_{j+1}) - H_1 U_{N+1}^{j+1} ) + U_N^{j+1}\)</span>;</p></li>
 </ul>
 <p>He aquí una implementación para Python de este método de resolución:</p>
-<div id="3cf22327" class="cell" data-execution_count="3">
+<div id="59b378ab" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># difusionrobindf1dexpl.py</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1593,7 +1595,7 @@ U_i^0 = u_0(x_i), \quad i=1,2,\dots,N+1 \qquad\text{y}\qquad
 U_{N+2}^0 = (H_2 u_E(0) - H_1 U_{N+1}^0 ) \frac{2h}{K_0} + U_N^0.
 \]</span></p>
 <p>He aquí una implementación de este método de resolución para Python:</p>
-<div id="4647575a" class="cell" data-execution_count="4">
+<div id="10078977" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># difusionrobindf1dimpl.py</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1883,7 +1885,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 </div>
 </div>
 <p>A continuación mostramos un código ejemplo en Python:</p>
-<div id="5bb3a226" class="cell" data-execution_count="5">
+<div id="9c2bde65" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># poissondirichletdf2d.py</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>

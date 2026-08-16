@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c518ba0b0af8cc7a6250b22ba0b466a2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-5062c8d47bb9b9969b5616627d58f860.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -668,7 +668,7 @@ window.Quarto = {
 <h2 data-number="1.2" class="anchored" data-anchor-id="sec-modulos"><span class="header-section-number">1.2</span> Bibliotecas y módulos</h2>
 <p>Cuando trabajamos con algoritmos numéricos, necesitamos herramientas que no vamos a programar nosotros mismos. Los <strong>módulos</strong> son librerías que contienen funciones ya desarrolladas.</p>
 <p>Por ejemplo, la computadora por sí misma no puede calcular funciones trigonométricas. Para eso usamos módulos preexistentes:</p>
-<div id="b3126e6f" class="cell" data-execution_count="1">
+<div id="5818c08e" class="cell" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -720,7 +720,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Para ver la importancia de esto, intentemos usar <code>cos</code> sin importar NumPy:</p>
-<div id="303cdec3" class="cell" data-execution_count="2">
+<div id="5deed999" class="cell" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cos(<span class="dv">1</span>)  <span class="co"># Esto dará error</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -741,7 +741,7 @@ window.Quarto = {
 <section id="módulo-math-vs-numpy" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="módulo-math-vs-numpy"><span class="header-section-number">1.2.2</span> Módulo math vs NumPy</h3>
 <p>Python tiene un módulo básico de matemáticas llamado <code>math</code>:</p>
-<div id="652c6f71" class="cell" data-execution_count="3">
+<div id="c60c5794" class="cell" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
@@ -767,7 +767,7 @@ window.Quarto = {
 </ul>
 <p>Para cálculo numérico, <strong>siempre usaremos NumPy</strong> porque permite operar con arrays completos de forma eficiente.</p>
 <p>Ejemplo:</p>
-<div id="32fa5c97" class="cell" data-execution_count="4">
+<div id="956888ea" class="cell" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -794,7 +794,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <section id="otras-bibliotecas-útiles" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="otras-bibliotecas-útiles"><span class="header-section-number">1.2.3</span> Otras bibliotecas útiles</h3>
 <p>Además de NumPy, existen otras bibliotecas que usaremos ocasionalmente:</p>
-<div id="6d5e407e" class="cell" data-execution_count="5">
+<div id="09c4550e" class="cell" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matplotlib para gráficos</span></span>
@@ -810,7 +810,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <h2 data-number="1.3" class="anchored" data-anchor-id="sec-operaciones"><span class="header-section-number">1.3</span> Operaciones básicas</h2>
 <p>Python puede usarse como una calculadora avanzada. Las operaciones aritméticas básicas son:</p>
 <div class="grid-2col">
-<div id="c25015f4" class="cell" data-execution_count="6">
+<div id="9c18c04b" class="cell" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suma</span></span>
@@ -820,7 +820,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>5</code></pre>
 </div>
 </div>
-<div id="5c2dd915" class="cell" data-execution_count="7">
+<div id="cdc08fba" class="cell" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplicación</span></span>
@@ -830,7 +830,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>30</code></pre>
 </div>
 </div>
-<div id="35478c7c" class="cell" data-execution_count="8">
+<div id="36bae950" class="cell" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># División entera (cociente)</span></span>
@@ -840,7 +840,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>6</code></pre>
 </div>
 </div>
-<div id="e54093d2" class="cell" data-execution_count="9">
+<div id="3056b0f3" class="cell" data-execution_count="9">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resta</span></span>
@@ -850,7 +850,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>6</code></pre>
 </div>
 </div>
-<div id="39cb4e6c" class="cell" data-execution_count="10">
+<div id="0e6cdef6" class="cell" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># División</span></span>
@@ -860,7 +860,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>5.0</code></pre>
 </div>
 </div>
-<div id="b88dd808" class="cell" data-execution_count="11">
+<div id="22dd8bca" class="cell" data-execution_count="11">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Módulo (resto)</span></span>
@@ -870,7 +870,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>2</code></pre>
 </div>
 </div>
-<div id="b4844ab1" class="cell" data-execution_count="12">
+<div id="725dbfc3" class="cell" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Potencia</span></span>
@@ -899,7 +899,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <li>Suma/Resta <code>+</code>, <code>-</code></li>
 </ol>
 <div class="grid-2col">
-<div id="3476bcd4" class="cell" data-execution_count="13">
+<div id="2c6da298" class="cell" data-execution_count="13">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sin paréntesis</span></span>
@@ -909,7 +909,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <pre><code>14</code></pre>
 </div>
 </div>
-<div id="c4e7a10b" class="cell" data-execution_count="14">
+<div id="badcb796" class="cell" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Con paréntesis</span></span>
@@ -925,7 +925,7 @@ np.cos(array) = [ 1.00000000e+00  7.07106781e-01  6.12323400e-17 -1.00000000e+00
 <section id="funciones-matemáticas-con-numpy" class="level3" data-number="1.3.1">
 <h3 data-number="1.3.1" class="anchored" data-anchor-id="funciones-matemáticas-con-numpy"><span class="header-section-number">1.3.1</span> Funciones matemáticas con NumPy</h3>
 <p>NumPy proporciona funciones matemáticas comunes:</p>
-<div id="6587a0ed" class="cell" data-execution_count="15">
+<div id="6385d8fa" class="cell" data-execution_count="15">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -941,7 +941,7 @@ cos(π) = -1.0
 tan(π/4) = 0.9999999999999999</code></pre>
 </div>
 </div>
-<div id="bfe8a30e" class="cell" data-execution_count="16">
+<div id="d68dd4f7" class="cell" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exponencial y logaritmo</span></span>
@@ -955,7 +955,7 @@ ln(e) = 1.0
 log₁₀(100) = 2.0</code></pre>
 </div>
 </div>
-<div id="7715a5b8" class="cell" data-execution_count="17">
+<div id="02d62973" class="cell" data-execution_count="17">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Raíz cuadrada</span></span>
@@ -971,7 +971,7 @@ log₁₀(100) = 2.0</code></pre>
 <section id="constantes-matemáticas" class="level3" data-number="1.3.2">
 <h3 data-number="1.3.2" class="anchored" data-anchor-id="constantes-matemáticas"><span class="header-section-number">1.3.2</span> Constantes matemáticas</h3>
 <p>NumPy incluye constantes importantes:</p>
-<div id="0516cd55" class="cell" data-execution_count="18">
+<div id="53ffafa9" class="cell" data-execution_count="18">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Constante pi</span></span>
@@ -1011,7 +1011,7 @@ e = 2.718281828459045
 <summary>
 💡 Ver solución
 </summary>
-<div id="aa844cf3" class="cell" data-execution_count="19">
+<div id="314c757e" class="cell" data-execution_count="19">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1052,7 +1052,7 @@ e) 3.0</code></pre>
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="variables"><span class="header-section-number">1.3.3</span> Variables</h3>
 <p>Las variables nos permiten almacenar valores para usarlos más tarde:</p>
 <div class="grid-2col">
-<div id="e9f102e6" class="cell" data-execution_count="20">
+<div id="4282788c" class="cell" data-execution_count="20">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar un valor a una variable</span></span>
@@ -1063,7 +1063,7 @@ e) 3.0</code></pre>
 <pre><code>5</code></pre>
 </div>
 </div>
-<div id="d84a4640" class="cell" data-execution_count="21">
+<div id="187d6ad8" class="cell" data-execution_count="21">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar la variable en cálculos</span></span>
@@ -1074,7 +1074,7 @@ e) 3.0</code></pre>
 <pre><code>13</code></pre>
 </div>
 </div>
-<div id="6b86e583" class="cell" data-execution_count="22">
+<div id="fe757fad" class="cell" data-execution_count="22">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reasignar valores</span></span>
@@ -1124,7 +1124,7 @@ e) 3.0</code></pre>
 <section id="tipos-de-datos-básicos" class="level3" data-number="1.3.4">
 <h3 data-number="1.3.4" class="anchored" data-anchor-id="tipos-de-datos-básicos"><span class="header-section-number">1.3.4</span> Tipos de datos básicos</h3>
 <p>Python tiene varios tipos de datos básicos:</p>
-<div id="26e3dc6e" class="cell" data-execution_count="23">
+<div id="d3ac987d" class="cell" data-execution_count="23">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Entero (int)</span></span>
@@ -1161,7 +1161,7 @@ True es de tipo &lt;class 'bool'&gt;</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Python permite convertir entre tipos de datos:</p>
-<div id="4424a118" class="cell" data-execution_count="24">
+<div id="e95bd2cf" class="cell" data-execution_count="24">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convertir a entero</span></span>
@@ -1194,7 +1194,7 @@ str(123) = '123' (tipo: &lt;class 'str'&gt;)</code></pre>
 <section id="creación-directa-con-array" class="level4">
 <h4 class="anchored" data-anchor-id="creación-directa-con-array">Creación directa con <code>array()</code></h4>
 <div class="grid-2col">
-<div id="944dc53d" class="cell" data-execution_count="25">
+<div id="0008bbfb" class="cell" data-execution_count="25">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1209,7 +1209,7 @@ str(123) = '123' (tipo: &lt;class 'str'&gt;)</code></pre>
 Tipo: &lt;class 'numpy.ndarray'&gt;</code></pre>
 </div>
 </div>
-<div id="bc556314" class="cell" data-execution_count="26">
+<div id="bd23c6c4" class="cell" data-execution_count="26">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1236,7 +1236,7 @@ Dtype: float64</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Aunque Python tiene listas nativas, los arrays de NumPy tienen ventajas importantes:</p>
-<div id="dd78295b" class="cell" data-execution_count="27">
+<div id="3e2f9fab" class="cell" data-execution_count="27">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista de Python</span></span>
@@ -1257,7 +1257,7 @@ Array NumPy: [1 2 3 4 5]</code></pre>
 <li><strong>Listas</strong>: flexibles, pueden contener elementos de diferentes tipos</li>
 <li><strong>Arrays NumPy</strong>: todos los elementos del mismo tipo, operaciones vectorizadas eficientes</li>
 </ul>
-<div id="a9007f97" class="cell" data-execution_count="28">
+<div id="42fc6c81" class="cell" data-execution_count="28">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista puede mezclar tipos</span></span>
@@ -1279,7 +1279,7 @@ Array: [1.  2.5 3. ], dtype: float64</code></pre>
 <section id="operaciones-con-vectores" class="level4">
 <h4 class="anchored" data-anchor-id="operaciones-con-vectores">Operaciones con vectores</h4>
 <p>Las operaciones matemáticas con arrays de NumPy son <strong>vectorizadas</strong>, es decir, se aplican elemento por elemento:</p>
-<div id="bd3cc5ca" class="cell" data-execution_count="29">
+<div id="d51c5c52" class="cell" data-execution_count="29">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</span>
@@ -1299,7 +1299,7 @@ v + 10 = [11 12 13 14 15]
 v² = [ 1  4  9 16 25]</code></pre>
 </div>
 </div>
-<div id="766f7702" class="cell" data-execution_count="30">
+<div id="d9f2d214" class="cell" data-execution_count="30">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Operaciones entre vectores</span></span>
@@ -1325,7 +1325,7 @@ v1 * v2 = [ 4 10 18]</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>En NumPy, el operador <code>*</code> realiza multiplicación <strong>elemento a elemento</strong>, no el producto punto (escalar):</p>
-<div id="2e2cd818" class="cell" data-execution_count="31">
+<div id="1cf586be" class="cell" data-execution_count="31">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
@@ -1358,7 +1358,7 @@ v1 @ v2 (punto): 32</code></pre>
 <section id="range-y-arange" class="level4">
 <h4 class="anchored" data-anchor-id="range-y-arange"><code>range()</code> y <code>arange()</code></h4>
 <p>Estas funciones crean secuencias de números:</p>
-<div id="ef2fc3ee" class="cell" data-execution_count="32">
+<div id="68f109b6" class="cell" data-execution_count="32">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># range() - función de Python puro</span></span>
@@ -1369,7 +1369,7 @@ v1 @ v2 (punto): 32</code></pre>
 <pre><code>range(0, 10, 2): [0, 2, 4, 6, 8]</code></pre>
 </div>
 </div>
-<div id="ab7f0cae" class="cell" data-execution_count="33">
+<div id="47cda25f" class="cell" data-execution_count="33">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arange() - versión NumPy</span></span>
@@ -1399,7 +1399,7 @@ Tipo: &lt;class 'numpy.ndarray'&gt;</code></pre>
 <div class="grid-2col">
 <div>
 <p><strong>Sintaxis de <code>range(inicio, fin, paso)</code>:</strong> - <code>inicio</code>: primer valor (inclusivo) - <code>fin</code>: valor final (exclusivo) - <code>paso</code>: incremento (debe ser entero)</p>
-<div id="4e67c21a" class="cell" data-execution_count="34">
+<div id="975b4182" class="cell" data-execution_count="34">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># range solo acepta enteros</span></span>
@@ -1413,7 +1413,7 @@ Tipo: &lt;class 'numpy.ndarray'&gt;</code></pre>
 </div>
 <div>
 <p><strong>Sintaxis de <code>arange(inicio, fin, paso)</code>:</strong> - Similar a <code>range()</code> pero acepta flotantes</p>
-<div id="61210ea3" class="cell" data-execution_count="35">
+<div id="525d5c13" class="cell" data-execution_count="35">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arange acepta flotantes</span></span>
@@ -1428,7 +1428,7 @@ Tipo: &lt;class 'numpy.ndarray'&gt;</code></pre>
 </div>
 </div>
 </div>
-<div id="161330ee" class="cell" data-execution_count="36">
+<div id="2ae21742" class="cell" data-execution_count="36">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplos de arange</span></span>
@@ -1446,7 +1446,7 @@ arange(0, 1, 0.1): [0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</code></pre>
 <section id="linspace---espaciado-lineal" class="level4">
 <h4 class="anchored" data-anchor-id="linspace---espaciado-lineal"><code>linspace()</code> - espaciado lineal</h4>
 <p><code>linspace()</code> crea un vector con un número específico de elementos espaciados uniformemente:</p>
-<div id="fa8d5447" class="cell" data-execution_count="37">
+<div id="0e7ec51f" class="cell" data-execution_count="37">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># linspace(inicio, fin, cantidad)</span></span>
@@ -1457,7 +1457,7 @@ arange(0, 1, 0.1): [0.  0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]</code></pre>
 <pre><code>linspace(0, 10, 5): [ 0.   2.5  5.   7.5 10. ]</code></pre>
 </div>
 </div>
-<div id="076707ac" class="cell" data-execution_count="38">
+<div id="87be1d3f" class="cell" data-execution_count="38">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Diferencia con arange</span></span>
@@ -1505,7 +1505,7 @@ linspace(0, 10, 5): [ 0.   2.5  5.   7.5 10. ]</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="f71b4a04" class="cell" data-execution_count="39">
+<div id="aa03b867" class="cell" data-execution_count="39">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para graficar, linspace es más útil</span></span>
@@ -1524,7 +1524,7 @@ linspace(0, 10, 5): [ 0.   2.5  5.   7.5 10. ]</code></pre>
 <section id="indexación-y-slicing" class="level3" data-number="1.3.7">
 <h3 data-number="1.3.7" class="anchored" data-anchor-id="indexación-y-slicing"><span class="header-section-number">1.3.7</span> Indexación y slicing</h3>
 <p>Acceder a elementos de un vector:</p>
-<div id="881a6878" class="cell" data-execution_count="40">
+<div id="e321be46" class="cell" data-execution_count="40">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>])</span>
@@ -1547,7 +1547,7 @@ v[-2] = 40</code></pre>
 <section id="slicing-rebanadas" class="level4">
 <h4 class="anchored" data-anchor-id="slicing-rebanadas">Slicing (rebanadas)</h4>
 <p>El slicing permite extraer subvectores:</p>
-<div id="c1d010ac" class="cell" data-execution_count="41">
+<div id="808bd9a5" class="cell" data-execution_count="41">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>, <span class="dv">60</span>, <span class="dv">70</span>, <span class="dv">80</span>, <span class="dv">90</span>])</span>
@@ -1592,7 +1592,7 @@ v[::-1] = [90 80 70 60 50 40 30 20 10  0]</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="e0f379ca" class="cell" data-execution_count="42">
+<div id="3b22cfc6" class="cell" data-execution_count="42">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">15</span>, <span class="dv">20</span>, <span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">40</span>, <span class="dv">45</span>, <span class="dv">50</span>])</span>
@@ -1628,7 +1628,7 @@ e) Del 3 al 7: [15 20 25 30 35]</code></pre>
 <section id="vectores-como-matrices-vectores-fila-y-columna" class="level3" data-number="1.3.8">
 <h3 data-number="1.3.8" class="anchored" data-anchor-id="vectores-como-matrices-vectores-fila-y-columna"><span class="header-section-number">1.3.8</span> Vectores como matrices (vectores fila y columna)</h3>
 <p>En álgebra lineal, diferenciamos entre vectores fila y columna. NumPy maneja esto con arrays 2D:</p>
-<div id="f4598f42" class="cell" data-execution_count="43">
+<div id="caade331" class="cell" data-execution_count="43">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector 1D (ni fila ni columna explícita)</span></span>
@@ -1641,7 +1641,7 @@ e) Del 3 al 7: [15 20 25 30 35]</code></pre>
 Shape: (4,)</code></pre>
 </div>
 </div>
-<div id="39186c1e" class="cell" data-execution_count="44">
+<div id="53dfcf0c" class="cell" data-execution_count="44">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector fila (matriz 1×n)</span></span>
@@ -1655,7 +1655,7 @@ Shape: (4,)</code></pre>
 Shape: (1, 4)</code></pre>
 </div>
 </div>
-<div id="13eb798f" class="cell" data-execution_count="45">
+<div id="d54554ae" class="cell" data-execution_count="45">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector columna (matriz n×1)</span></span>
@@ -1674,7 +1674,7 @@ Shape: (4, 1)</code></pre>
 </div>
 <section id="conversión-entre-vectores-fila-y-columna" class="level4">
 <h4 class="anchored" data-anchor-id="conversión-entre-vectores-fila-y-columna">Conversión entre vectores fila y columna</h4>
-<div id="a19e49b5" class="cell" data-execution_count="46">
+<div id="500d12da" class="cell" data-execution_count="46">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># De 1D a columna</span></span>
@@ -1713,7 +1713,7 @@ Transpuesto:
 </div>
 <div class="callout-body-container callout-body">
 <p>El atributo <code>.T</code> transpone un array:</p>
-<div id="518250c0" class="cell" data-execution_count="47">
+<div id="259eb315" class="cell" data-execution_count="47">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>v_fila <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]])</span>
@@ -1756,7 +1756,7 @@ Transpuesto (columna): (3, 1)
 <summary>
 💡 Ver solución
 </summary>
-<div id="e900ca97" class="cell" data-execution_count="48">
+<div id="e0be4bea" class="cell" data-execution_count="48">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>])</span>
@@ -1842,7 +1842,7 @@ d) vᵀ · v (escalar):
 <section id="matrices-arrays-bidimensionales" class="level3" data-number="1.3.10">
 <h3 data-number="1.3.10" class="anchored" data-anchor-id="matrices-arrays-bidimensionales"><span class="header-section-number">1.3.10</span> Matrices (arrays bidimensionales)</h3>
 <p>Una matriz es un array 2D en NumPy:</p>
-<div id="6bffd695" class="cell" data-execution_count="49">
+<div id="50e2802e" class="cell" data-execution_count="49">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear matriz directamente</span></span>
@@ -1861,7 +1861,7 @@ d) vᵀ · v (escalar):
 Shape: (3, 3)</code></pre>
 </div>
 </div>
-<div id="61b2a4dc" class="cell" data-execution_count="50">
+<div id="a2fa9037" class="cell" data-execution_count="50">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Atributos útiles</span></span>
@@ -1877,7 +1877,7 @@ Tipo de datos: int64</code></pre>
 </div>
 <section id="funciones-para-crear-matrices-especiales" class="level4">
 <h4 class="anchored" data-anchor-id="funciones-para-crear-matrices-especiales">Funciones para crear matrices especiales</h4>
-<div id="43384baa" class="cell" data-execution_count="51">
+<div id="a0751dd8" class="cell" data-execution_count="51">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de ceros</span></span>
@@ -1892,7 +1892,7 @@ Tipo de datos: int64</code></pre>
  [0. 0. 0. 0.]]</code></pre>
 </div>
 </div>
-<div id="d29318f0" class="cell" data-execution_count="52">
+<div id="ef3ca16f" class="cell" data-execution_count="52">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de unos</span></span>
@@ -1906,7 +1906,7 @@ Tipo de datos: int64</code></pre>
  [1. 1. 1. 1. 1.]]</code></pre>
 </div>
 </div>
-<div id="ad80d0ed" class="cell" data-execution_count="53">
+<div id="39a09b1c" class="cell" data-execution_count="53">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz identidad</span></span>
@@ -1922,7 +1922,7 @@ Tipo de datos: int64</code></pre>
  [0. 0. 0. 1.]]</code></pre>
 </div>
 </div>
-<div id="fac301ad" class="cell" data-execution_count="54">
+<div id="3d495f1e" class="cell" data-execution_count="54">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz con un valor específico</span></span>
@@ -1937,7 +1937,7 @@ Tipo de datos: int64</code></pre>
  [7 7 7]]</code></pre>
 </div>
 </div>
-<div id="8d4e6d2c" class="cell" data-execution_count="55">
+<div id="bf9d4bfa" class="cell" data-execution_count="55">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz diagonal</span></span>
@@ -1953,7 +1953,7 @@ Tipo de datos: int64</code></pre>
  [0 0 0 4]]</code></pre>
 </div>
 </div>
-<div id="7da9ebd3" class="cell" data-execution_count="56">
+<div id="b2e03d63" class="cell" data-execution_count="56">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz aleatoria</span></span>
@@ -1963,12 +1963,12 @@ Tipo de datos: int64</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Matriz aleatoria:
-[[0.2756327  0.33178872 0.57773331]
- [0.61241583 0.12936388 0.16923343]
- [0.26258112 0.73575135 0.72323314]]</code></pre>
+[[1.75223417e-01 4.42399609e-04 7.54430080e-01]
+ [1.67023874e-01 4.39346396e-01 3.10148463e-01]
+ [6.04580133e-01 1.85009696e-01 7.18180572e-01]]</code></pre>
 </div>
 </div>
-<div id="e32caed8" class="cell" data-execution_count="57">
+<div id="c90144bd" class="cell" data-execution_count="57">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz aleatoria con enteros</span></span>
@@ -1978,15 +1978,15 @@ Tipo de datos: int64</code></pre>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Matriz de enteros aleatorios:
-[[7 5 7 8]
- [6 1 0 2]
- [9 7 1 3]]</code></pre>
+[[1 3 3 1]
+ [9 4 4 6]
+ [3 9 0 6]]</code></pre>
 </div>
 </div>
 </section>
 <section id="indexación-en-matrices" class="level4">
 <h4 class="anchored" data-anchor-id="indexación-en-matrices">Indexación en matrices</h4>
-<div id="bea8da46" class="cell" data-execution_count="58">
+<div id="85c8778b" class="cell" data-execution_count="58">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
@@ -2004,7 +2004,7 @@ A[1, 2] = 60
 A[-1, -1] = 90</code></pre>
 </div>
 </div>
-<div id="4e59eaef" class="cell" data-execution_count="59">
+<div id="7bf55d0b" class="cell" data-execution_count="59">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Acceso a filas completas</span></span>
@@ -2022,7 +2022,7 @@ Columna 0: [10 40 70]
 Columna 2: [30 60 90]</code></pre>
 </div>
 </div>
-<div id="89e71b2d" class="cell" data-execution_count="60">
+<div id="c75d11e6" class="cell" data-execution_count="60">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Submatrices</span></span>
@@ -2039,7 +2039,7 @@ Columna 2: [30 60 90]</code></pre>
 <section id="manipulando-matrices" class="level4">
 <h4 class="anchored" data-anchor-id="manipulando-matrices">Manipulando matrices</h4>
 <div class="grid-2col">
-<div id="ec1b9160" class="cell" data-execution_count="61">
+<div id="fba59f43" class="cell" data-execution_count="61">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modificar elementos</span></span>
@@ -2062,7 +2062,7 @@ Después de A[0,1] = 99:
  [ 4  5  6]]</code></pre>
 </div>
 </div>
-<div id="a977d4ae" class="cell" data-execution_count="62">
+<div id="7a24728c" class="cell" data-execution_count="62">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb126"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modificar filas completas</span></span>
@@ -2076,7 +2076,7 @@ Después de A[0,1] = 99:
  [ 7  8  9]]</code></pre>
 </div>
 </div>
-<div id="d747e23b" class="cell" data-execution_count="63">
+<div id="3769a25c" class="cell" data-execution_count="63">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modificar columnas</span></span>
@@ -2095,7 +2095,7 @@ Después de A[0,1] = 99:
 <section id="operaciones-con-matrices" class="level4">
 <h4 class="anchored" data-anchor-id="operaciones-con-matrices">Operaciones con matrices</h4>
 <div class="grid-2col">
-<div id="e237793d" class="cell" data-execution_count="64">
+<div id="15a3cd16" class="cell" data-execution_count="64">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>],</span>
@@ -2129,7 +2129,7 @@ A @ B (producto matricial):
  [43 50]]</code></pre>
 </div>
 </div>
-<div id="5e3d887e" class="cell" data-execution_count="65">
+<div id="55ee6d0d" class="cell" data-execution_count="65">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Operaciones con escalares</span></span>
@@ -2164,7 +2164,7 @@ A²:
 <li><code>A * B</code>: producto elemento a elemento (Hadamard)</li>
 <li><code>A @ B</code> o <code>np.dot(A, B)</code>: producto matricial</li>
 </ul>
-<div id="7d8c7a3f" class="cell" data-execution_count="66">
+<div id="92e0986e" class="cell" data-execution_count="66">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb134"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb134-1"><a href="#cb134-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
@@ -2191,7 +2191,7 @@ A @ B (matricial):
 </section>
 <section id="funciones-útiles-con-matrices" class="level4">
 <h4 class="anchored" data-anchor-id="funciones-útiles-con-matrices">Funciones útiles con matrices</h4>
-<div id="a5b8fad2" class="cell" data-execution_count="67">
+<div id="ab884b96" class="cell" data-execution_count="67">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb136"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb136-1"><a href="#cb136-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
@@ -2218,7 +2218,7 @@ Traza: 15
 Determinante: 0.00</code></pre>
 </div>
 </div>
-<div id="2205f22a" class="cell" data-execution_count="68">
+<div id="c0c553f2" class="cell" data-execution_count="68">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb138"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb138-1"><a href="#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inversa (si existe)</span></span>
@@ -2252,7 +2252,7 @@ Verificación B @ B⁻¹:
 <section id="indexación-booleana" class="level3" data-number="1.3.11">
 <h3 data-number="1.3.11" class="anchored" data-anchor-id="indexación-booleana"><span class="header-section-number">1.3.11</span> Indexación booleana</h3>
 <p>NumPy permite seleccionar elementos usando condiciones lógicas:</p>
-<div id="e577c847" class="cell" data-execution_count="69">
+<div id="4aea6bb3" class="cell" data-execution_count="69">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">2</span>, <span class="dv">7</span>])</span>
@@ -2269,7 +2269,7 @@ Máscara (v &gt; 5): [False False  True False  True False  True]
 Elementos &gt; 5: [ 8 10  7]</code></pre>
 </div>
 </div>
-<div id="48a1b94f" class="cell" data-execution_count="70">
+<div id="6d8a9861" class="cell" data-execution_count="70">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Directamente</span></span>
@@ -2281,7 +2281,7 @@ Elementos &gt; 5: [ 8 10  7]</code></pre>
 Elementos entre 3 y 8: [5 8 3 7]</code></pre>
 </div>
 </div>
-<div id="ff383294" class="cell" data-execution_count="71">
+<div id="86543667" class="cell" data-execution_count="71">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Con matrices</span></span>
@@ -2329,7 +2329,7 @@ Después de poner 0 a elementos &gt; 5:
 <summary>
 💡 Ver solución
 </summary>
-<div id="edd80d3f" class="cell" data-execution_count="72">
+<div id="2c837a3b" class="cell" data-execution_count="72">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a) Matriz de ceros</span></span>
@@ -2385,10 +2385,10 @@ d) Matriz diagonal:
  [0 0 0 8]]
 
 e) Matriz 4×4 aleatoria:
-[[0.31873297 0.29224404 0.24078399 0.38853875]
- [0.50709481 0.39238285 0.38278628 0.31380202]
- [0.68834256 0.2459768  0.78255584 0.52413056]
- [0.5950109  0.62918345 0.11032646 0.81746439]]</code></pre>
+[[0.19629674 0.10237024 0.53797047 0.57879648]
+ [0.43882968 0.22024118 0.85066783 0.02018455]
+ [0.66687038 0.76354364 0.9097087  0.45590373]
+ [0.41916847 0.67353199 0.75758414 0.00348505]]</code></pre>
 </div>
 </div>
 </details>
@@ -2419,7 +2419,7 @@ e) Matriz 4×4 aleatoria:
 <summary>
 💡 Ver solución
 </summary>
-<div id="2a9afb6a" class="cell" data-execution_count="73">
+<div id="680d2491" class="cell" data-execution_count="73">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb149-1"><a href="#cb149-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]])</span>
@@ -2489,7 +2489,7 @@ Verificación A · A⁻¹:
 <p>NumPy y SciPy proporcionan herramientas eficientes para resolver sistemas de ecuaciones lineales de la forma <span class="math inline">\(Ax = b\)</span>.</p>
 <section id="método-básico-np.linalg.solve" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="método-básico-np.linalg.solve"><span class="header-section-number">1.4.1</span> Método básico: <code>np.linalg.solve()</code></h3>
-<div id="284e01e1" class="cell" data-execution_count="74">
+<div id="723ffaee" class="cell" data-execution_count="74">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb151"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb151-1"><a href="#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -2519,7 +2519,7 @@ Debería ser b = [ 8 -1]</code></pre>
 </section>
 <section id="sistema-de-3-ecuaciones" class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="sistema-de-3-ecuaciones"><span class="header-section-number">1.4.2</span> Sistema de 3 ecuaciones</h3>
-<div id="92eb9bd3" class="cell" data-execution_count="75">
+<div id="cf7bd1e7" class="cell" data-execution_count="75">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb153"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb153-1"><a href="#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sistema: x + 2y + z = 6</span></span>
@@ -2548,7 +2548,7 @@ Debería ser b = [ 8 -1]</code></pre>
 <li>La matriz <span class="math inline">\(A\)</span> debe ser <strong>no singular</strong> (determinante <span class="math inline">\(\ne\)</span> 0)</li>
 <li>La matriz <span class="math inline">\(A\)</span> debe ser <strong>invertible</strong></li>
 </ol>
-<div id="f25d2c78" class="cell" data-execution_count="76">
+<div id="9832297a" class="cell" data-execution_count="76">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb154"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb154-1"><a href="#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar que A sea invertible</span></span>
@@ -2574,7 +2574,7 @@ A es singular (no invertible) ✗</code></pre>
 </section>
 <section id="sistemas-con-múltiples-vectores-de-términos-independientes" class="level3" data-number="1.4.3">
 <h3 data-number="1.4.3" class="anchored" data-anchor-id="sistemas-con-múltiples-vectores-de-términos-independientes"><span class="header-section-number">1.4.3</span> Sistemas con múltiples vectores de términos independientes</h3>
-<div id="00586088" class="cell" data-execution_count="77">
+<div id="adfc5fc6" class="cell" data-execution_count="77">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb156"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb156-1"><a href="#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Resolver varios sistemas con la misma matriz A</span></span>
@@ -2618,7 +2618,7 @@ A es singular (no invertible) ✗</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="0e96cf68" class="cell" data-execution_count="78">
+<div id="b7004626" class="cell" data-execution_count="78">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>],</span>
@@ -2658,7 +2658,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <p>Matplotlib es la biblioteca estándar para crear gráficos en Python.</p>
 <section id="gráfico-básico" class="level3" data-number="1.5.1">
 <h3 data-number="1.5.1" class="anchored" data-anchor-id="gráfico-básico"><span class="header-section-number">1.5.1</span> Gráfico básico</h3>
-<div id="75a73352" class="cell" data-execution_count="79">
+<div id="3c905f60" class="cell" data-execution_count="79">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -2687,7 +2687,7 @@ Norma del residuo: 1.79e-15</code></pre>
 </section>
 <section id="múltiples-curvas" class="level3" data-number="1.5.2">
 <h3 data-number="1.5.2" class="anchored" data-anchor-id="múltiples-curvas"><span class="header-section-number">1.5.2</span> Múltiples curvas</h3>
-<div id="529aac3e" class="cell" data-execution_count="80">
+<div id="aba27d16" class="cell" data-execution_count="80">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb161"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb161-1"><a href="#cb161-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span>np.pi, np.pi, <span class="dv">200</span>)</span>
@@ -2716,7 +2716,7 @@ Norma del residuo: 1.79e-15</code></pre>
 </section>
 <section id="personalización-de-gráficos" class="level3" data-number="1.5.3">
 <h3 data-number="1.5.3" class="anchored" data-anchor-id="personalización-de-gráficos"><span class="header-section-number">1.5.3</span> Personalización de gráficos</h3>
-<div id="33fef602" class="cell" data-execution_count="81">
+<div id="b72b2486" class="cell" data-execution_count="81">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">50</span>)</span>
@@ -2753,7 +2753,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <p><strong>Colores:</strong> - <code>'r'</code>: rojo - <code>'b'</code>: azul - <code>'g'</code>: verde - <code>'k'</code>: negro - <code>'c'</code>: cian - <code>'m'</code>: magenta - <code>'y'</code>: amarillo</p>
 <p><strong>Marcadores:</strong> - <code>'o'</code>: círculo - <code>'s'</code>: cuadrado - <code>'^'</code>: triángulo - <code>'*'</code>: estrella - <code>'+'</code>: cruz - <code>'.'</code>: punto</p>
 <p><strong>Líneas:</strong> - <code>'-'</code>: sólida - <code>'--'</code>: discontinua - <code>':'</code>: punteada - <code>'-.'</code>: punto-raya</p>
-<div id="8b869fac" class="cell" data-execution_count="82">
+<div id="ceb70dda" class="cell" data-execution_count="82">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">20</span>)</span>
@@ -2778,7 +2778,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <section id="funciones-lambda" class="level3" data-number="1.5.4">
 <h3 data-number="1.5.4" class="anchored" data-anchor-id="funciones-lambda"><span class="header-section-number">1.5.4</span> Funciones lambda</h3>
 <p>Las funciones lambda son funciones anónimas útiles para gráficos rápidos:</p>
-<div id="2e88537d" class="cell" data-execution_count="83">
+<div id="ce02396a" class="cell" data-execution_count="83">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función lambda</span></span>
@@ -2805,7 +2805,7 @@ Norma del residuo: 1.79e-15</code></pre>
 </div>
 </div>
 </div>
-<div id="86c55876" class="cell" data-execution_count="84">
+<div id="fade8a55" class="cell" data-execution_count="84">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Múltiples funciones</span></span>
@@ -2850,7 +2850,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="034b106b" class="cell" data-execution_count="85">
+<div id="ed4f30cc" class="cell" data-execution_count="85">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a) f(x) = x³ - 3x</span></span>
@@ -2909,7 +2909,7 @@ Norma del residuo: 1.79e-15</code></pre>
 </section>
 <section id="otros-comandos-útiles" class="level3" data-number="1.5.5">
 <h3 data-number="1.5.5" class="anchored" data-anchor-id="otros-comandos-útiles"><span class="header-section-number">1.5.5</span> Otros comandos útiles</h3>
-<div id="8d8d9f16" class="cell" data-execution_count="86">
+<div id="e02b2871" class="cell" data-execution_count="86">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subplots: múltiples gráficos en una figura</span></span>
@@ -2950,7 +2950,7 @@ Norma del residuo: 1.79e-15</code></pre>
 </div>
 </div>
 </div>
-<div id="9813226c" class="cell" data-execution_count="87">
+<div id="2f7760b2" class="cell" data-execution_count="87">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Scatter plot (diagrama de dispersión)</span></span>
@@ -2990,7 +2990,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="5b2bb3b0" class="cell" data-execution_count="88">
+<div id="eacd91c0" class="cell" data-execution_count="88">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
@@ -3082,7 +3082,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <section id="funciones" class="level3" data-number="1.6.2">
 <h3 data-number="1.6.2" class="anchored" data-anchor-id="funciones"><span class="header-section-number">1.6.2</span> Funciones</h3>
 <p>Las <strong>funciones</strong> nos permiten reutilizar código de forma eficiente.</p>
-<div id="7994da78" class="cell" data-execution_count="89">
+<div id="4434ebb4" class="cell" data-execution_count="89">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir una función</span></span>
@@ -3098,7 +3098,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <pre><code>Hola, María!</code></pre>
 </div>
 </div>
-<div id="1bb83f6d" class="cell" data-execution_count="90">
+<div id="07900b2c" class="cell" data-execution_count="90">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función con múltiples parámetros</span></span>
@@ -3113,7 +3113,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <pre><code>3² + 4² = 25</code></pre>
 </div>
 </div>
-<div id="01f21f60" class="cell" data-execution_count="91">
+<div id="098b0737" class="cell" data-execution_count="91">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb175"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb175-1"><a href="#cb175-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función con valores por defecto</span></span>
@@ -3144,7 +3144,7 @@ Norma del residuo: 1.79e-15</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="b500d81a" class="cell" data-execution_count="92">
+<div id="2bd53000" class="cell" data-execution_count="92">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb177"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb177-1"><a href="#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3191,7 +3191,7 @@ Desviación estándar: 29.97</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="5709e48f" class="cell" data-execution_count="93">
+<div id="6b99890d" class="cell" data-execution_count="93">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3254,7 +3254,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 <section id="archivos-de-texto-.txt" class="level3" data-number="1.6.3">
 <h3 data-number="1.6.3" class="anchored" data-anchor-id="archivos-de-texto-.txt"><span class="header-section-number">1.6.3</span> Archivos de texto (.txt)</h3>
 <p>NumPy puede leer archivos de texto con <code>loadtxt()</code>:</p>
-<div id="c777b4c3" class="cell" data-execution_count="94">
+<div id="e297605a" class="cell" data-execution_count="94">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb181"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb181-1"><a href="#cb181-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Supongamos que tenemos un archivo 'datos.txt' con:</span></span>
@@ -3270,7 +3270,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 <section id="archivos-csv-.csv" class="level3" data-number="1.6.4">
 <h3 data-number="1.6.4" class="anchored" data-anchor-id="archivos-csv-.csv"><span class="header-section-number">1.6.4</span> Archivos CSV (.csv)</h3>
 <p>Para archivos CSV (valores separados por comas), podemos usar NumPy o pandas:</p>
-<div id="a8313ffd" class="cell" data-execution_count="95">
+<div id="ba474822" class="cell" data-execution_count="95">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb182"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb182-1"><a href="#cb182-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Con NumPy</span></span>
@@ -3292,7 +3292,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="f153b1a3" class="cell" data-execution_count="96">
+<div id="b8ba9cc1" class="cell" data-execution_count="96">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb183"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb183-1"><a href="#cb183-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3322,7 +3322,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 </section>
 <section id="opciones-útiles-de-loadtxt" class="level3" data-number="1.6.5">
 <h3 data-number="1.6.5" class="anchored" data-anchor-id="opciones-útiles-de-loadtxt"><span class="header-section-number">1.6.5</span> Opciones útiles de <code>loadtxt()</code></h3>
-<div id="0f950a05" class="cell" data-execution_count="97">
+<div id="84d71846" class="cell" data-execution_count="97">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Saltar filas de encabezado</span></span>
@@ -3341,7 +3341,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 </section>
 <section id="guardar-datos" class="level3" data-number="1.6.6">
 <h3 data-number="1.6.6" class="anchored" data-anchor-id="guardar-datos"><span class="header-section-number">1.6.6</span> Guardar datos</h3>
-<div id="54b78d4b" class="cell" data-execution_count="98">
+<div id="b4540a17" class="cell" data-execution_count="98">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb186"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb186-1"><a href="#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3388,7 +3388,7 @@ x² + 2x + 5 = 0 (raíces complejas):
 <summary>
 💡 Ver solución
 </summary>
-<div id="d25dd813" class="cell" data-execution_count="99">
+<div id="d3dcad1d" class="cell" data-execution_count="99">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb188"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb188-1"><a href="#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3446,7 +3446,7 @@ Diferencia en z: 4.74e-07</code></pre>
 <p>Las sentencias de control permiten tomar decisiones y repetir acciones en nuestros programas.</p>
 <section id="condicional-if" class="level3" data-number="1.7.1">
 <h3 data-number="1.7.1" class="anchored" data-anchor-id="condicional-if"><span class="header-section-number">1.7.1</span> Condicional <code>if</code></h3>
-<div id="86172d75" class="cell" data-execution_count="100">
+<div id="500c4dd9" class="cell" data-execution_count="100">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb190"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb190-1"><a href="#cb190-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if simple</span></span>
@@ -3459,7 +3459,7 @@ Diferencia en z: 4.74e-07</code></pre>
 <pre><code>x es positivo</code></pre>
 </div>
 </div>
-<div id="eabe18cd" class="cell" data-execution_count="101">
+<div id="e2da6a8a" class="cell" data-execution_count="101">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb192"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb192-1"><a href="#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if-else</span></span>
@@ -3474,7 +3474,7 @@ Diferencia en z: 4.74e-07</code></pre>
 <pre><code>x es negativo o cero</code></pre>
 </div>
 </div>
-<div id="c7f4d1cd" class="cell" data-execution_count="102">
+<div id="8fc2d00d" class="cell" data-execution_count="102">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb194"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb194-1"><a href="#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if-elif-else</span></span>
@@ -3509,7 +3509,7 @@ Diferencia en z: 4.74e-07</code></pre>
 <li><code>&gt;=</code>: mayor o igual</li>
 <li><code>&lt;=</code>: menor o igual</li>
 </ul>
-<div id="74fc5c56" class="cell" data-execution_count="103">
+<div id="4ff264e5" class="cell" data-execution_count="103">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb196"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb196-1"><a href="#cb196-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">5</span></span>
@@ -3542,7 +3542,7 @@ Diferencia en z: 4.74e-07</code></pre>
 <li><code>or</code>: o lógico</li>
 <li><code>not</code>: negación</li>
 </ul>
-<div id="6ad230d4" class="cell" data-execution_count="104">
+<div id="8f0be81f" class="cell" data-execution_count="104">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb198"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb198-1"><a href="#cb198-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">15</span></span>
@@ -3567,7 +3567,7 @@ x no es negativo</code></pre>
 </section>
 <section id="ejemplo-uso-del-if" class="level3" data-number="1.7.2">
 <h3 data-number="1.7.2" class="anchored" data-anchor-id="ejemplo-uso-del-if"><span class="header-section-number">1.7.2</span> Ejemplo: uso del <code>if</code></h3>
-<div id="6cba943f" class="cell" data-execution_count="105">
+<div id="8c655db8" class="cell" data-execution_count="105">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb200"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb200-1"><a href="#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3594,7 +3594,7 @@ x no es negativo</code></pre>
 <section id="bucle-for" class="level3" data-number="1.7.3">
 <h3 data-number="1.7.3" class="anchored" data-anchor-id="bucle-for"><span class="header-section-number">1.7.3</span> Bucle <code>for</code></h3>
 <p>El bucle <code>for</code> repite un bloque de código un número determinado de veces:</p>
-<div id="00abdbdc" class="cell" data-execution_count="106">
+<div id="57e16c72" class="cell" data-execution_count="106">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb202"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb202-1"><a href="#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterar sobre una lista</span></span>
@@ -3609,7 +3609,7 @@ Número: 4
 Número: 5</code></pre>
 </div>
 </div>
-<div id="e273a4af" class="cell" data-execution_count="107">
+<div id="c1997284" class="cell" data-execution_count="107">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb204"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb204-1"><a href="#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Usar range()</span></span>
@@ -3624,7 +3624,7 @@ Iteración 3
 Iteración 4</code></pre>
 </div>
 </div>
-<div id="c243799d" class="cell" data-execution_count="108">
+<div id="8a6564c9" class="cell" data-execution_count="108">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb206"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb206-1"><a href="#cb206-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular suma de cuadrados</span></span>
@@ -3637,7 +3637,7 @@ Iteración 4</code></pre>
 <pre><code>Suma de cuadrados de 1 a 5: 55</code></pre>
 </div>
 </div>
-<div id="2b254adb" class="cell" data-execution_count="109">
+<div id="039c09a0" class="cell" data-execution_count="109">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb208"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb208-1"><a href="#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterar sobre un array</span></span>
@@ -3665,7 +3665,7 @@ Iteración 4</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Útil cuando necesitas el índice y el valor:</p>
-<div id="c4f75094" class="cell" data-execution_count="110">
+<div id="8b9c6984" class="cell" data-execution_count="110">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb210"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb210-1"><a href="#cb210-1" aria-hidden="true" tabindex="-1"></a>nombres <span class="op">=</span> [<span class="st">'Ana'</span>, <span class="st">'Juan'</span>, <span class="st">'María'</span>]</span>
@@ -3684,7 +3684,7 @@ Posición 2: María</code></pre>
 </section>
 <section id="ejemplo-uso-del-for" class="level3" data-number="1.7.4">
 <h3 data-number="1.7.4" class="anchored" data-anchor-id="ejemplo-uso-del-for"><span class="header-section-number">1.7.4</span> Ejemplo: uso del <code>for</code></h3>
-<div id="fb563851" class="cell" data-execution_count="111">
+<div id="9660f30f" class="cell" data-execution_count="111">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb212"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb212-1"><a href="#cb212-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3715,7 +3715,7 @@ Error: 0.001000</code></pre>
 <section id="bucle-while" class="level3" data-number="1.7.5">
 <h3 data-number="1.7.5" class="anchored" data-anchor-id="bucle-while"><span class="header-section-number">1.7.5</span> Bucle <code>while</code></h3>
 <p>El bucle <code>while</code> se ejecuta mientras una condición sea verdadera:</p>
-<div id="010a981f" class="cell" data-execution_count="112">
+<div id="f8f0d919" class="cell" data-execution_count="112">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb214"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb214-1"><a href="#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo básico</span></span>
@@ -3733,7 +3733,7 @@ Contador: 3
 Contador: 4</code></pre>
 </div>
 </div>
-<div id="9178b5f4" class="cell" data-execution_count="113">
+<div id="66d628cc" class="cell" data-execution_count="113">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb216"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb216-1"><a href="#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Encontrar primer número mayor que 1000 en la secuencia n²</span></span>
@@ -3760,7 +3760,7 @@ Verificación: 32² = 1024</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Asegúrate de que la condición del <code>while</code> eventualmente se vuelva falsa:</p>
-<div id="a8c1284a" class="cell" data-execution_count="114">
+<div id="57fb3a76" class="cell" data-execution_count="114">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb218"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb218-1"><a href="#cb218-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ¡ESTO ES UN BUCLE INFINITO! No ejecutar</span></span>
@@ -3769,7 +3769,7 @@ Verificación: 32² = 1024</code></pre>
 </details>
 </div>
 <p>Usa <code>break</code> para salir de un bucle:</p>
-<div id="321a1c38" class="cell" data-execution_count="115">
+<div id="b0ad1df6" class="cell" data-execution_count="115">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb219"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb219-1"><a href="#cb219-1" aria-hidden="true" tabindex="-1"></a>contador <span class="op">=</span> <span class="dv">0</span></span>
@@ -3792,7 +3792,7 @@ Contador: 4</code></pre>
 </section>
 <section id="ejemplo-uso-del-while" class="level3" data-number="1.7.6">
 <h3 data-number="1.7.6" class="anchored" data-anchor-id="ejemplo-uso-del-while"><span class="header-section-number">1.7.6</span> Ejemplo: uso del <code>while</code></h3>
-<div id="6df8d22d" class="cell" data-execution_count="116">
+<div id="69babc13" class="cell" data-execution_count="116">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb221"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb221-1"><a href="#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Método de bisección simple para encontrar raíz de f(x) = x² - 2</span></span>
@@ -3843,7 +3843,7 @@ Error: 9.50e-08</code></pre>
 <summary>
 💡 Ver solución
 </summary>
-<div id="4c5867ce" class="cell" data-execution_count="117">
+<div id="d195be65" class="cell" data-execution_count="117">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb223"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb223-1"><a href="#cb223-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3931,7 +3931,7 @@ Suma con n=7: 1.511797 &gt; 1.5</code></pre>
 <p>El error relativo da una medida del error como proporción del valor exacto.</p>
 </div>
 </div>
-<div id="7b75bdb0" class="cell" data-execution_count="118">
+<div id="f1c55747" class="cell" data-execution_count="118">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb225"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb225-1"><a href="#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -3962,7 +3962,7 @@ Error relativo: 8.45e-07 (0.0001%)</code></pre>
 <section id="sec-punto-flotante" class="level3" data-number="1.8.2">
 <h3 data-number="1.8.2" class="anchored" data-anchor-id="sec-punto-flotante"><span class="header-section-number">1.8.2</span> Representación de números en punto flotante</h3>
 <p>Las computadoras representan números reales usando <strong>punto flotante</strong>. En Python, los números flotantes siguen el estándar IEEE 754 (64 bits - doble precisión).</p>
-<div id="519178a1" class="cell" data-execution_count="119">
+<div id="e268625e" class="cell" data-execution_count="119">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb227"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb227-1"><a href="#cb227-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
@@ -3989,7 +3989,7 @@ Epsilon de máquina: 2.220446049250313e-16</code></pre>
 <div class="callout-body-container callout-body">
 <p>El <strong>epsilon de máquina</strong> es el número positivo más pequeño tal que: <span class="math display">\[1 + \epsilon_m &gt; 1\]</span></p>
 <p>en aritmética de punto flotante.</p>
-<div id="02bad7f6" class="cell" data-execution_count="120">
+<div id="9382d744" class="cell" data-execution_count="120">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb229"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb229-1"><a href="#cb229-1" aria-hidden="true" tabindex="-1"></a>eps <span class="op">=</span> np.finfo(<span class="bu">float</span>).eps</span>
@@ -4013,7 +4013,7 @@ Epsilon de máquina: 2.220446049250313e-16</code></pre>
 <section id="errores-de-redondeo" class="level3" data-number="1.8.3">
 <h3 data-number="1.8.3" class="anchored" data-anchor-id="errores-de-redondeo"><span class="header-section-number">1.8.3</span> Errores de redondeo</h3>
 <p>Los errores de redondeo ocurren cuando un número no puede representarse exactamente:</p>
-<div id="0127a917" class="cell" data-execution_count="121">
+<div id="2fe9fffe" class="cell" data-execution_count="121">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb231"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb231-1"><a href="#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo clásico</span></span>
@@ -4041,7 +4041,7 @@ Diferencia: 5.55e-17</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="f8e21fb8" class="cell" data-execution_count="122">
+<div id="2cda4238" class="cell" data-execution_count="122">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb233"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb233-1"><a href="#cb233-1" aria-hidden="true" tabindex="-1"></a><span class="co"># MAL</span></span>
@@ -4062,7 +4062,7 @@ Son aproximadamente iguales</code></pre>
 </div>
 </div>
 <p>NumPy proporciona <code>allclose()</code> y <code>isclose()</code>:</p>
-<div id="1d9987e9" class="cell" data-execution_count="123">
+<div id="6ea04f99" class="cell" data-execution_count="123">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb235"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb235-1"><a href="#cb235-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -4084,7 +4084,7 @@ np.allclose([x], [y]): True</code></pre>
 <section id="acumulación-de-errores" class="level3" data-number="1.8.4">
 <h3 data-number="1.8.4" class="anchored" data-anchor-id="acumulación-de-errores"><span class="header-section-number">1.8.4</span> Acumulación de errores</h3>
 <p>Los errores de redondeo pueden acumularse en cálculos largos:</p>
-<div id="f8abf658" class="cell" data-execution_count="124">
+<div id="a323c57c" class="cell" data-execution_count="124">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb237"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb237-1"><a href="#cb237-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sumar 0.1 muchas veces</span></span>
@@ -4102,7 +4102,7 @@ Debería ser 1.0
 Diferencia: 1.11e-16</code></pre>
 </div>
 </div>
-<div id="2a3319a9" class="cell" data-execution_count="125">
+<div id="0a811326" class="cell" data-execution_count="125">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb239"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb239-1"><a href="#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Versión más precisa</span></span>
@@ -4120,7 +4120,7 @@ Diferencia: 0.00e+00</code></pre>
 <section id="sec-perdida-significativas" class="level3" data-number="1.8.5">
 <h3 data-number="1.8.5" class="anchored" data-anchor-id="sec-perdida-significativas"><span class="header-section-number">1.8.5</span> Pérdida de cifras significativas</h3>
 <p>La <strong>cancelación catastrófica</strong> ocurre al restar números casi iguales:</p>
-<div id="8ae98a78" class="cell" data-execution_count="126">
+<div id="f2bf1ab2" class="cell" data-execution_count="126">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb241"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb241-1"><a href="#cb241-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejemplo: calcular (1 + x) - 1 para x pequeño</span></span>
@@ -4138,7 +4138,7 @@ Diferencia: 0.00e+00</code></pre>
 Error relativo: 11.02%</code></pre>
 </div>
 </div>
-<div id="7ef2e983" class="cell" data-execution_count="127">
+<div id="0963c269" class="cell" data-execution_count="127">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb243"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb243-1"><a href="#cb243-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mejor: usar expansión de Taylor o simplificar algebraicamente</span></span>
@@ -4162,7 +4162,7 @@ Error relativo: 11.02%</code></pre>
 <div class="callout-body-container callout-body">
 <p>Para <span class="math inline">\(ax^2 + bx + c = 0\)</span>, la fórmula estándar: <span class="math display">\[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]</span></p>
 <p>puede sufrir cancelación cuando <span class="math inline">\(b^2 \gg |4ac|\)</span>.</p>
-<div id="99247005" class="cell" data-execution_count="128">
+<div id="742a43c8" class="cell" data-execution_count="128">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb245"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb245-1"><a href="#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -4233,7 +4233,7 @@ Método estable:
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li><p><strong>Evita restar números casi iguales</strong></p>
-<div id="3ade3521" class="cell" data-execution_count="129">
+<div id="7a4c7ca8" class="cell" data-execution_count="129">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb247"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb247-1"><a href="#cb247-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Malo</span></span>
@@ -4245,7 +4245,7 @@ Método estable:
 </details>
 </div></li>
 <li><p><strong>Usa funciones estables cuando estén disponibles</strong></p>
-<div id="8d1e73b5" class="cell" data-execution_count="130">
+<div id="e019585c" class="cell" data-execution_count="130">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb248"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb248-1"><a href="#cb248-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Malo: calcular log(1 + x) para x pequeño</span></span>
@@ -4266,7 +4266,7 @@ Diferencia: 1.10e-16</code></pre>
 </div>
 </div></li>
 <li><p><strong>Acumula en orden creciente</strong></p>
-<div id="246b7dea" class="cell" data-execution_count="131">
+<div id="40a0d68e" class="cell" data-execution_count="131">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb250"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb250-1"><a href="#cb250-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Para sumar muchos números pequeños</span></span>
@@ -4278,7 +4278,7 @@ Diferencia: 1.10e-16</code></pre>
 </details>
 </div></li>
 <li><p><strong>Usa tipos de mayor precisión cuando sea necesario</strong></p>
-<div id="2ae3987a" class="cell" data-execution_count="132">
+<div id="d1ded75a" class="cell" data-execution_count="132">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb251"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb251-1"><a href="#cb251-1" aria-hidden="true" tabindex="-1"></a><span class="co"># float64 (estándar)</span></span>

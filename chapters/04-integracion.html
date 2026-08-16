@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c518ba0b0af8cc7a6250b22ba0b466a2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-5062c8d47bb9b9969b5616627d58f860.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -584,7 +584,7 @@ w_1 \\ w_2 \\ \vdots \\ w_n
 <p>Por lo tanto, los pesos de la fórmula de Newton-Côtes se encuentran resolviendo ese sistema.</p>
 <p>Existen otras maneras de hallar los pesos que son más precisas si <span class="math inline">\(n\)</span> es grande, pero para <span class="math inline">\(n\le 10\)</span> (que es lo que utilizaremos nosotros), esta manera es práctica.</p>
 <p>El siguiente código calcula, dado un entero positivo <span class="math inline">\(n\)</span>, los pesos <span class="math inline">\(w_i\)</span> tomando las abscisas <span class="math inline">\(x_i\)</span> equiespaciadas en el intervalo <span class="math inline">\([0,1]\)</span>.</p>
-<div id="3a4ab295" class="cell" data-execution_count="1">
+<div id="236a444e" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pesosNC(n):</span>
@@ -598,7 +598,7 @@ w_1 \\ w_2 \\ \vdots \\ w_n
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> w</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>El siguiente código calcula la integral aproximada de una función <span class="math inline">\(f\)</span> utilizando la fórmula de Newton-Côtes de <span class="math inline">\(n\)</span> puntos. Las abscisas se calculan tomando <span class="math inline">\(n\)</span> puntos equiespaciados en el intervalo <span class="math inline">\([a,b]\)</span> (usando <code>np.linspace</code>).</p>
-<div id="0cf5e96e" class="cell" data-execution_count="2">
+<div id="b8288f56" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> integralNC(f,a,b,n):</span>
@@ -819,7 +819,7 @@ z_L = a+(L-1)h = b-h, \quad z_{L+1} = a+Lh = b,
 \approx \sum_{i=1}^L Q_n(f,z_i,z_{i+1})=:Q_n^L(f;a,b).
 \]</span></p>
 <p>Para calcular una integral con este método, podemos usar el siguiente código:</p>
-<div id="7d248e73" class="cell" data-execution_count="3">
+<div id="1fcb4f18" class="cell" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> NCcompuesta(f,a,b,L,n):</span>
@@ -835,7 +835,7 @@ z_L = a+(L-1)h = b-h, \quad z_{L+1} = a+Lh = b,
 </details>
 </div>
 <p>Esta implementación es muy ineficiente, pues cada vez que se llama a <code>integralNC</code> se calculan los pesos de Newton-Côtes, y estos son los mismos en todos los sub-intervalos. La siguiente, es una implementación un poco más eficiente:</p>
-<div id="fb9dd75d" class="cell" data-execution_count="4">
+<div id="34484b94" class="cell" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> intNCcompuesta(f, a, b, L, n):</span>
@@ -1399,7 +1399,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <p>En ocaciones podemos tener una serie de datos discretos en lugar de una función contínua para integrar. En estos casos, no podremos realizar el procedimiento anterior de aumentar la cantidad de subintervalos para relizar la integración compuesta.</p>
 <p>Sin embargo, podemos usar los datos para realizar una estimación de la integral definida. Más precisamente, si tenemos una serie de datos <span class="math inline">\((x_1,y_1) , (x_2,y_2,),...,(x_N,y_N)\)</span>, con <span class="math inline">\(x_1&lt;x_2&lt;...&lt;x_N\)</span>, podemos usar estos puntos para realizar una interpolación a trozos e integrar de forma compuesta.</p>
 <p>A continuación, se presenta el código que realiza el método de trapecios para una serie de datos:</p>
-<div id="9c0cefa5" class="cell" data-execution_count="5">
+<div id="de01e361" class="cell" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> trapcomp(x,y):</span>
@@ -1413,7 +1413,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 </div>
 <p>Podemos observar que el lazo recorre de a pares de datos para realizar un trapecio entre cada par. Por este motivo, los datos no tienen que estar necesariamente igualmente espaciados.</p>
 <p>Se presenta ahora el código para el método de Simpson. En este caso, es necesario que la cantidad de datos sea <strong>impar</strong> (¿por qué?). El código se realiza de manera básica, usando la fórmula de Simpson vista anteriormente. Por lo tanto también hay que tener en cuenta que los datos deben estar igualmente espaciados (<span class="math inline">\(x_{i+1}-x_i=h\)</span> fijo).</p>
-<div id="0ef9b35a" class="cell" data-execution_count="6">
+<div id="2a08853b" class="cell" data-execution_count="6">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simpsoncomp(x,y):</span>
@@ -1617,19 +1617,19 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <ol type="1">
 <li>Definimos la función a integrar</li>
 </ol>
-<div id="dfba531d" class="cell" data-execution_count="7">
+<div id="c6a317e5" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="kw">lambda</span> x: np.sqrt(<span class="dv">1</span><span class="op">+</span>(<span class="dv">1</span><span class="op">-</span>np.sin(x))<span class="op">**</span><span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="2" type="1">
 <li>Elegimos un <span class="math inline">\(n\)</span> bajo, (probamos primero con 2 o 3) y un <span class="math inline">\(L\)</span> no muy grande, por ejemplo 10</li>
 </ol>
-<div id="bec62c98" class="cell" data-execution_count="8">
+<div id="7997bef6" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> L <span class="op">=</span> <span class="dv">10</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="3" type="1">
 <li>Calculamos la integral con el método compuesto:</li>
 </ol>
-<div id="f057db52" class="cell" data-execution_count="9">
+<div id="e6b9c6ec" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> intNCcompuesta(g, <span class="dv">0</span>, <span class="dv">4</span>, L, n)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(I)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1639,7 +1639,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <ol start="4" type="1">
 <li>A partir de ahí vamos duplicando <span class="math inline">\(L\)</span> y volviendo a calcular hasta que veamos que se tiene repetición de los dígitos que queremos tener:</li>
 </ol>
-<div id="df24909f" class="cell" data-execution_count="10">
+<div id="69d5dd70" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ListaI <span class="op">=</span> np.array([[I]])</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>):</span>
@@ -1661,7 +1661,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <ol start="5" type="1">
 <li>Si notamos que tarda mucho en converger, entonces aumentamos <span class="math inline">\(n\)</span> y comenzamos de nuevo con L bajo:</li>
 </ol>
-<div id="5c5aaa89" class="cell" data-execution_count="11">
+<div id="bc5af709" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> L <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ListaI <span class="op">=</span> np.array([[<span class="dv">0</span>]])</span>

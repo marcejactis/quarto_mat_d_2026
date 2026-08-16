@@ -79,9 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-c518ba0b0af8cc7a6250b22ba0b466a2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-8daba497d91e08c71aabf90d2cbaa1de.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-5062c8d47bb9b9969b5616627d58f860.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-dbe75824002ebcf72f38002946ab73bb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="../site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -491,7 +491,7 @@ window.Quarto = {
 
 
 <p>Antes de comenzar importemos las librerias que necesitaremos para este capítulo.</p>
-<div id="ea8cb184" class="cell" data-execution_count="1">
+<div id="46116b0f" class="cell" data-execution_count="1">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -515,7 +515,7 @@ p(x) = \texttt{p}_1 x^{n-1} + \texttt{p}_2 x^{n-2} + \dots + \texttt{p}_{n-1} x 
 p(x) = 6 x^3 - 3 x^2 + 0 x + 1 = 6 x^3 - 3 x^2 + 1.
 \]</span></p>
 <p>Para evaluar un polinomio en un cierto <span class="math inline">\(x\)</span> se utiliza la función <code>polyval</code>. Así, para graficar el polinomio dado en Python, sobre el intervalo <span class="math inline">\([-3,3]\)</span>, hacemos:</p>
-<div id="38958ff5" class="cell" data-execution_count="2">
+<div id="9e9c6d5c" class="cell" data-execution_count="2">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir el polinomio</span></span>
@@ -619,7 +619,7 @@ a \\ b \\ c
 \end{bmatrix}
 \]</span></p>
 <p>Notamos que el lado derecho de la ecuación es el vector de ordenadas de los puntos (coordenadas <span class="math inline">\(y\)</span>) y las columnas de la matriz son potencias de las abscisas de los puntos (coordenadas <span class="math inline">\(x\)</span>). Para resolverlo en Python hacemos así:</p>
-<div id="92a1b094" class="cell" data-execution_count="3">
+<div id="cff704b0" class="cell" data-execution_count="3">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir los datos</span></span>
@@ -649,7 +649,7 @@ Coeficientes del polinomio:
 </div>
 <p>Así, <span class="math inline">\(a=2.5\)</span>, <span class="math inline">\(b = -0.5\)</span> y <span class="math inline">\(c = 6\)</span>.</p>
 <p>Para graficar el polinomio en el intervalo <span class="math inline">\([-2,3]\)</span> y los puntos dados hacemos lo siguiente:</p>
-<div id="65150ad4" class="cell" data-execution_count="4">
+<div id="0e7142ff" class="cell" data-execution_count="4">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un rango de valores</span></span>
@@ -780,7 +780,7 @@ p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
 (1,2)\quad (2,-1) \quad (4.5,3) \quad (5.5,0) \quad (10,3.3)
 \]</span></p>
 <p>hacemos lo siguiente:</p>
-<div id="0f9e1584" class="cell" data-execution_count="5">
+<div id="0241a564" class="cell" data-execution_count="5">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definir los datos</span></span>
@@ -797,7 +797,7 @@ p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
 </div>
 </div>
 <p>Ahora grafiquemos el polinomio en el intervalo <span class="math inline">\([0,11]\)</span> y veamos si realmente <em>interpola</em> los datos.</p>
-<div id="4f515fa5" class="cell" data-execution_count="6">
+<div id="be8e3616" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un rango de valores para xx</span></span>
@@ -858,7 +858,7 @@ p_1 \\ p_2 \\ \vdots \\ p_{n-1} \\ p_n
 
 </div>
 <script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
@@ -926,7 +926,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 </div>
 <script type="pyodide-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBzw7NsbyBlbiBjYXNvIGRlIG5vIGRpc3BvbmVyIGRlIFNweWRlciBlbiBlc3RlIG1vbWVudG9cblxuXG4ifQ==
 </script>
 </div>
 </div>
@@ -1027,7 +1027,7 @@ M^T M \boldsymbol{p} = M^T \boldsymbol{y}.
 \big( M^T M\big) \boldsymbol{p} = M^T \boldsymbol{y}.
 \]</span></p>
 <p>En Python, si <code>X</code>, <code>Y</code> son vectores que tienen las abscisas y las ordenadas de los puntos, el cálculo del polinomio <span class="math inline">\(p\)</span> se haría de la siguiente manera</p>
-<div id="cab30110" class="cell" data-execution_count="7">
+<div id="3f9e64cc" class="cell" data-execution_count="7">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos (puntos dados)</span></span>
@@ -1267,7 +1267,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <p>Volvemos ahora a la idea del polinomio interpolador, es decir, el polinomio cuya gráfica pasa exactamente por una lista de puntos.</p>
 <p>Pero consideramos ahora que esos puntos coinciden con puntos de la gráfica <span class="math inline">\(y=f(x)\)</span> de una función <span class="math inline">\(f\)</span> dada.</p>
 <p>Hagamos un poco de matemática experimental. Para ello, a continuación incluimos una función de Python <code>pruebapolyfit</code> que dada una función <span class="math inline">\(f\)</span>, un intervalo <span class="math inline">\([a,b]\)</span> y un número <span class="math inline">\(n\)</span> de puntos calcula el polinomio interpolante en <span class="math inline">\(n\)</span> puntos <strong>equidistantes</strong>. La idea es tratar de <em>medir el error</em> entre la función y el polinomio hallado.</p>
-<div id="58a24af9" class="cell" data-execution_count="8">
+<div id="924ff0d5" class="cell" data-execution_count="8">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pruebapolyfit(f, a, b, n, graf):</span>
@@ -1336,7 +1336,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>graf <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Llamada a la función</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>p,max_error<span class="op">=</span>pruebapolyfit(f,a,b,n,graf)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div id="dc532f8d" class="cell quarto-layout-panel" data-execution_count="9" data-layout-ncol="2">
+<div id="eb969f4f" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="9">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <div class="quarto-figure quarto-figure-center">
@@ -1355,7 +1355,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 </div>
 </div>
 <p>Ahora hagamos diferentes pruebas a la medida que incrementamos la cantidad de puntos, es decir <span class="math inline">\(n\)</span>, y veamos cómo se comporta el error. Variemos <span class="math inline">\(n\)</span> entre 2 y 10:</p>
-<div id="31911e45" class="cell" data-execution_count="10">
+<div id="33bbae2c" class="cell" data-execution_count="10">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de puntos</span></span>
@@ -1374,54 +1374,54 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
 <p>Asegurese de obtener los siguientes resultados:</p>
-<div id="4e9729d4" class="cell" data-execution_count="11">
+<div id="a731897a" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<table id="T_32821" class="caption-top table table-sm table-striped small">
+<table id="T_57c2d" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_32821_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_32821_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
+<th id="T_57c2d_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_57c2d_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_32821_row0_col0" class="data row0 col0">2</td>
-<td id="T_32821_row0_col1" class="data row0 col1">1.44660957e+00</td>
+<td id="T_57c2d_row0_col0" class="data row0 col0">2</td>
+<td id="T_57c2d_row0_col1" class="data row0 col1">1.44660957e+00</td>
 </tr>
 <tr class="even">
-<td id="T_32821_row1_col0" class="data row1 col0">3</td>
-<td id="T_32821_row1_col1" class="data row1 col1">1.33191877e+00</td>
+<td id="T_57c2d_row1_col0" class="data row1 col0">3</td>
+<td id="T_57c2d_row1_col1" class="data row1 col1">1.33191877e+00</td>
 </tr>
 <tr class="odd">
-<td id="T_32821_row2_col0" class="data row2 col0">4</td>
-<td id="T_32821_row2_col1" class="data row2 col1">5.72191304e-01</td>
+<td id="T_57c2d_row2_col0" class="data row2 col0">4</td>
+<td id="T_57c2d_row2_col1" class="data row2 col1">5.72191304e-01</td>
 </tr>
 <tr class="even">
-<td id="T_32821_row3_col0" class="data row3 col0">5</td>
-<td id="T_32821_row3_col1" class="data row3 col1">3.11311304e-01</td>
+<td id="T_57c2d_row3_col0" class="data row3 col0">5</td>
+<td id="T_57c2d_row3_col1" class="data row3 col1">3.11311304e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_32821_row4_col0" class="data row4 col0">6</td>
-<td id="T_32821_row4_col1" class="data row4 col1">8.74212989e-02</td>
+<td id="T_57c2d_row4_col0" class="data row4 col0">6</td>
+<td id="T_57c2d_row4_col1" class="data row4 col1">8.74212989e-02</td>
 </tr>
 <tr class="even">
-<td id="T_32821_row5_col0" class="data row5 col0">7</td>
-<td id="T_32821_row5_col1" class="data row5 col1">4.02631509e-02</td>
+<td id="T_57c2d_row5_col0" class="data row5 col0">7</td>
+<td id="T_57c2d_row5_col1" class="data row5 col1">4.02631509e-02</td>
 </tr>
 <tr class="odd">
-<td id="T_32821_row6_col0" class="data row6 col0">8</td>
-<td id="T_32821_row6_col1" class="data row6 col1">7.86685727e-03</td>
+<td id="T_57c2d_row6_col0" class="data row6 col0">8</td>
+<td id="T_57c2d_row6_col1" class="data row6 col1">7.86685727e-03</td>
 </tr>
 <tr class="even">
-<td id="T_32821_row7_col0" class="data row7 col0">9</td>
-<td id="T_32821_row7_col1" class="data row7 col1">3.16013241e-03</td>
+<td id="T_57c2d_row7_col0" class="data row7 col0">9</td>
+<td id="T_57c2d_row7_col1" class="data row7 col1">3.16013241e-03</td>
 </tr>
 <tr class="odd">
-<td id="T_32821_row8_col0" class="data row8 col0">10</td>
-<td id="T_32821_row8_col1" class="data row8 col1">4.66733914e-04</td>
+<td id="T_57c2d_row8_col0" class="data row8 col0">10</td>
+<td id="T_57c2d_row8_col1" class="data row8 col1">4.66733914e-04</td>
 </tr>
 </tbody>
 </table>
@@ -1432,7 +1432,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <section id="ejemplo-2.3" class="level3 page-columns page-full" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="ejemplo-2.3"><span class="header-section-number">3.4.2</span> Ejemplo 2.3</h3>
 <p>Consideremos ahora <span class="math inline">\(f = e^{-x^2}\)</span> y veamos qué ocurre cuando realizamos el mismo experimento en el intervalo <span class="math inline">\([-1,3]\)</span> con <span class="math inline">\(n\)</span> variando nuevamente entre <span class="math inline">\(2\)</span> y <span class="math inline">\(10\)</span>:</p>
-<div id="ded9b400" class="cell" data-execution_count="12">
+<div id="2aa9ff0d" class="cell" data-execution_count="12">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos la función a interpolar</span></span>
@@ -1455,54 +1455,54 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
 <p>Nuevamente, variando <span class="math inline">\(n\)</span> entre <span class="math inline">\(2\)</span> y <span class="math inline">\(10\)</span>, asegúrese de obtener los siguientes resultados:</p>
-<div id="25a12d2c" class="cell" data-execution_count="13">
+<div id="505d343b" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<table id="T_7d4a9" class="caption-top table table-sm table-striped small">
+<table id="T_ec84a" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_7d4a9_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_7d4a9_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
+<th id="T_ec84a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_ec84a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_7d4a9_row0_col0" class="data row0 col0">2</td>
-<td id="T_7d4a9_row0_col1" class="data row0 col1">7.26174300e-01</td>
+<td id="T_ec84a_row0_col0" class="data row0 col0">2</td>
+<td id="T_ec84a_row0_col1" class="data row0 col1">7.26174300e-01</td>
 </tr>
 <tr class="even">
-<td id="T_7d4a9_row1_col0" class="data row1 col0">3</td>
-<td id="T_7d4a9_row1_col1" class="data row1 col1">5.86126964e-01</td>
+<td id="T_ec84a_row1_col0" class="data row1 col0">3</td>
+<td id="T_ec84a_row1_col1" class="data row1 col1">5.86126964e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_7d4a9_row2_col0" class="data row2 col0">4</td>
-<td id="T_7d4a9_row2_col1" class="data row2 col1">2.06981565e-01</td>
+<td id="T_ec84a_row2_col0" class="data row2 col0">4</td>
+<td id="T_ec84a_row2_col1" class="data row2 col1">2.06981565e-01</td>
 </tr>
 <tr class="even">
-<td id="T_7d4a9_row3_col0" class="data row3 col0">5</td>
-<td id="T_7d4a9_row3_col1" class="data row3 col1">2.36921234e-01</td>
+<td id="T_ec84a_row3_col0" class="data row3 col0">5</td>
+<td id="T_ec84a_row3_col1" class="data row3 col1">2.36921234e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_7d4a9_row4_col0" class="data row4 col0">6</td>
-<td id="T_7d4a9_row4_col1" class="data row4 col1">8.43537280e-02</td>
+<td id="T_ec84a_row4_col0" class="data row4 col0">6</td>
+<td id="T_ec84a_row4_col1" class="data row4 col1">8.43537280e-02</td>
 </tr>
 <tr class="even">
-<td id="T_7d4a9_row5_col0" class="data row5 col0">7</td>
-<td id="T_7d4a9_row5_col1" class="data row5 col1">6.56210558e-02</td>
+<td id="T_ec84a_row5_col0" class="data row5 col0">7</td>
+<td id="T_ec84a_row5_col1" class="data row5 col1">6.56210558e-02</td>
 </tr>
 <tr class="odd">
-<td id="T_7d4a9_row6_col0" class="data row6 col0">8</td>
-<td id="T_7d4a9_row6_col1" class="data row6 col1">5.20115150e-02</td>
+<td id="T_ec84a_row6_col0" class="data row6 col0">8</td>
+<td id="T_ec84a_row6_col1" class="data row6 col1">5.20115150e-02</td>
 </tr>
 <tr class="even">
-<td id="T_7d4a9_row7_col0" class="data row7 col0">9</td>
-<td id="T_7d4a9_row7_col1" class="data row7 col1">2.36662973e-02</td>
+<td id="T_ec84a_row7_col0" class="data row7 col0">9</td>
+<td id="T_ec84a_row7_col1" class="data row7 col1">2.36662973e-02</td>
 </tr>
 <tr class="odd">
-<td id="T_7d4a9_row8_col0" class="data row8 col0">10</td>
-<td id="T_7d4a9_row8_col1" class="data row8 col1">1.94718910e-02</td>
+<td id="T_ec84a_row8_col0" class="data row8 col0">10</td>
+<td id="T_ec84a_row8_col1" class="data row8 col1">1.94718910e-02</td>
 </tr>
 </tbody>
 </table>
@@ -1514,7 +1514,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 <section id="ejemplo-2.4" class="level3 page-columns page-full" data-number="3.4.3">
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="ejemplo-2.4"><span class="header-section-number">3.4.3</span> Ejemplo 2.4</h3>
 <p>Consideremos la función <span class="math inline">\(f(x) = \frac{1}{1+x^2}\)</span> sobre el intervalo <span class="math inline">\([-5,5]\)</span>.</p>
-<div id="34f3d2ca" class="cell" data-execution_count="14">
+<div id="7fe837cb" class="cell" data-execution_count="14">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Definimos la función a interpolar</span></span>
@@ -1538,61 +1538,61 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
 <p>Deberíamos obtener los siguientes resultados:</p>
-<div id="0cacb5c1" class="cell" data-execution_count="15">
+<div id="d4ddf8c0" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<table id="T_30a91" class="caption-top table table-sm table-striped small">
+<table id="T_35b7a" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_30a91_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_30a91_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
+<th id="T_35b7a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_35b7a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_30a91_row0_col0" class="data row0 col0">2</td>
-<td id="T_30a91_row0_col1" class="data row0 col1">9.60907563e-01</td>
+<td id="T_35b7a_row0_col0" class="data row0 col0">2</td>
+<td id="T_35b7a_row0_col1" class="data row0 col1">9.60907563e-01</td>
 </tr>
 <tr class="even">
-<td id="T_30a91_row1_col0" class="data row1 col0">3</td>
-<td id="T_30a91_row1_col1" class="data row1 col1">6.46215488e-01</td>
+<td id="T_35b7a_row1_col0" class="data row1 col0">3</td>
+<td id="T_35b7a_row1_col1" class="data row1 col1">6.46215488e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_30a91_row2_col0" class="data row2 col0">4</td>
-<td id="T_30a91_row2_col1" class="data row2 col1">7.06389103e-01</td>
+<td id="T_35b7a_row2_col0" class="data row2 col0">4</td>
+<td id="T_35b7a_row2_col1" class="data row2 col1">7.06389103e-01</td>
 </tr>
 <tr class="even">
-<td id="T_30a91_row3_col0" class="data row3 col0">5</td>
-<td id="T_30a91_row3_col1" class="data row3 col1">4.38211374e-01</td>
+<td id="T_35b7a_row3_col0" class="data row3 col0">5</td>
+<td id="T_35b7a_row3_col1" class="data row3 col1">4.38211374e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_30a91_row4_col0" class="data row4 col0">6</td>
-<td id="T_30a91_row4_col1" class="data row4 col1">4.32105113e-01</td>
+<td id="T_35b7a_row4_col0" class="data row4 col0">6</td>
+<td id="T_35b7a_row4_col1" class="data row4 col1">4.32105113e-01</td>
 </tr>
 <tr class="even">
-<td id="T_30a91_row5_col0" class="data row5 col0">7</td>
-<td id="T_30a91_row5_col1" class="data row5 col1">6.16546098e-01</td>
+<td id="T_35b7a_row5_col0" class="data row5 col0">7</td>
+<td id="T_35b7a_row5_col1" class="data row5 col1">6.16546098e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_30a91_row6_col0" class="data row6 col0">8</td>
-<td id="T_30a91_row6_col1" class="data row6 col1">2.46844279e-01</td>
+<td id="T_35b7a_row6_col0" class="data row6 col0">8</td>
+<td id="T_35b7a_row6_col1" class="data row6 col1">2.46844279e-01</td>
 </tr>
 <tr class="even">
-<td id="T_30a91_row7_col0" class="data row7 col0">9</td>
-<td id="T_30a91_row7_col1" class="data row7 col1">1.04514332e+00</td>
+<td id="T_35b7a_row7_col0" class="data row7 col0">9</td>
+<td id="T_35b7a_row7_col1" class="data row7 col1">1.04514332e+00</td>
 </tr>
 <tr class="odd">
-<td id="T_30a91_row8_col0" class="data row8 col0">10</td>
-<td id="T_30a91_row8_col1" class="data row8 col1">3.00095887e-01</td>
+<td id="T_35b7a_row8_col0" class="data row8 col0">10</td>
+<td id="T_35b7a_row8_col1" class="data row8 col1">3.00095887e-01</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div></div><p>Aquí hay algo raro. Veamos qué ocurre si seguimos con <span class="math inline">\(n\)</span> entre 11 y 17:</p>
-<div id="78941b26" class="cell" data-execution_count="16">
+<div id="b6f3ee5f" class="cell" data-execution_count="16">
 <details open="" class="code-fold">
 <summary>Mostrar código</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de puntos</span></span>
@@ -1608,46 +1608,46 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBVc2UgZXN0YSBjZWxkYSBz
 </div>
 
 <div class="no-row-height column-margin column-container"><div class="margin-aside">
-<div id="49054ad6" class="cell" data-execution_count="17">
+<div id="b75f5d18" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-display">
 <style type="text/css">
 </style>
 
-<table id="T_0a0be" class="caption-top table table-sm table-striped small">
+<table id="T_95156" class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th id="T_0a0be_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
-<th id="T_0a0be_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
+<th id="T_95156_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">n</th>
+<th id="T_95156_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Máximo error</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_0a0be_row0_col0" class="data row0 col0">11</td>
-<td id="T_0a0be_row0_col1" class="data row0 col1">1.91556933e+00</td>
+<td id="T_95156_row0_col0" class="data row0 col0">11</td>
+<td id="T_95156_row0_col1" class="data row0 col1">1.91556933e+00</td>
 </tr>
 <tr class="even">
-<td id="T_0a0be_row1_col0" class="data row1 col0">12</td>
-<td id="T_0a0be_row1_col1" class="data row1 col1">5.54178816e-01</td>
+<td id="T_95156_row1_col0" class="data row1 col0">12</td>
+<td id="T_95156_row1_col1" class="data row1 col1">5.54178816e-01</td>
 </tr>
 <tr class="odd">
-<td id="T_0a0be_row2_col0" class="data row2 col0">13</td>
-<td id="T_0a0be_row2_col1" class="data row2 col1">3.65539721e+00</td>
+<td id="T_95156_row2_col0" class="data row2 col0">13</td>
+<td id="T_95156_row2_col1" class="data row2 col1">3.65539721e+00</td>
 </tr>
 <tr class="even">
-<td id="T_0a0be_row3_col0" class="data row3 col0">14</td>
-<td id="T_0a0be_row3_col1" class="data row3 col1">1.06386411e+00</td>
+<td id="T_95156_row3_col0" class="data row3 col0">14</td>
+<td id="T_95156_row3_col1" class="data row3 col1">1.06386411e+00</td>
 </tr>
 <tr class="odd">
-<td id="T_0a0be_row4_col0" class="data row4 col0">15</td>
-<td id="T_0a0be_row4_col1" class="data row4 col1">7.19076961e+00</td>
+<td id="T_95156_row4_col0" class="data row4 col0">15</td>
+<td id="T_95156_row4_col1" class="data row4 col1">7.19076961e+00</td>
 </tr>
 <tr class="even">
-<td id="T_0a0be_row5_col0" class="data row5 col0">16</td>
-<td id="T_0a0be_row5_col1" class="data row5 col1">2.09791474e+00</td>
+<td id="T_95156_row5_col0" class="data row5 col0">16</td>
+<td id="T_95156_row5_col1" class="data row5 col1">2.09791474e+00</td>
 </tr>
 <tr class="odd">
-<td id="T_0a0be_row6_col0" class="data row6 col0">17</td>
-<td id="T_0a0be_row6_col1" class="data row6 col1">1.43286158e+01</td>
+<td id="T_95156_row6_col0" class="data row6 col0">17</td>
+<td id="T_95156_row6_col1" class="data row6 col1">1.43286158e+01</td>
 </tr>
 </tbody>
 </table>
