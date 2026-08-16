@@ -74,9 +74,10 @@ $$
 
 Para esta aproximación de la derivada segunda tenemos el siguiente resultado:
 
-::: {.callout-warning #prop-6.1 icon="false"}
-## Proposición 6.1
+:::: {.callout-warning icon="false"}
+## Cota del error
 
+::: {#prp-6.1}
 Si $u \in C^4$, entonces
 $$
     \frac{d^2 u}{dx^2}(x) = \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} + \bigO(h^2).
@@ -86,6 +87,7 @@ Más precisamente, si $M_4 = \max_{[x-h,x+h]} | u^{IV} |$, entonces
 $$
     \left| \frac{d^2 u}{dx^2}(x) - \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \right| \le \frac{M_4}{12} h^2.
 $$ {#eq-cota.error.dif.finitas}
+:::
 
 **Demostración.**
 
@@ -107,7 +109,7 @@ $$
     \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} = u''(x) + \frac{h^2}{12} u^{IV}(\eta),
 $$
 que implica la afirmación de la proposición.
-:::
+::::
 
 Proponemos los siguientes ejercicios para comprender estos conceptos relacionados al error de aproximación en las derivadas.
 
@@ -170,7 +172,7 @@ Se tomaron mediciones de la posición de un automóvil en una ruta durante una h
 ::::
 
 
-En vista de la [Proposición 6.1](#prop-6.1){.xref-quarto}, si $u$ es la solución de ([6.1](#prop-6.1){.xref-quarto}), resulta
+En vista de la @prp-6.1, si $u$ es la solución de -@eq-cond.borde.dirichlet, resulta
 $$
     - K_0 \frac{u(x+h) - 2 u(x) + u(x-h)}{h^2} \approx Q(x),
 $$
