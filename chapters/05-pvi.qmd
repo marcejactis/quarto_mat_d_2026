@@ -354,6 +354,7 @@ $$
 
 
 
+
 ```
 ::::
 
@@ -385,6 +386,7 @@ aproximación obtenida visualmente coincide con la solución del problema.
 
 
 
+
 ```
 ::::
 
@@ -412,6 +414,7 @@ Superponga todas las soluciones en un gráfico y explique el comportamiento cual
 
 
 
+
 ```
 ::::
 
@@ -430,6 +433,7 @@ La radiación y(t) de cierta partícula a tiempo $t$ está gobernada por la ecua
 
 ```{pyodide-python}
 # Use esta celda sólo en caso de no disponer de Spyder en este momento
+
 
 
 
